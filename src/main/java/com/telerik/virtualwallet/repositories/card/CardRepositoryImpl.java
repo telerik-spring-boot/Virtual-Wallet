@@ -1,4 +1,4 @@
-package com.telerik.virtualwallet.repositories;
+package com.telerik.virtualwallet.repositories.card;
 
 import com.telerik.virtualwallet.models.Card;
 import org.hibernate.Session;
@@ -21,30 +21,37 @@ public class CardRepositoryImpl implements CardRepository {
 
     @Override
     public List<Card> getAllCards() {
+
         try (Session session = sessionFactory.openSession()) {
             Query<Card> query = session.createQuery("from Card", Card.class);
             return query.list();
         }
+
     }
 
     @Override
     public List<Card> getCardsByUserId(int userId) {
+
         try (Session session = sessionFactory.openSession()) {
             Query<Card> query = session.createQuery("from Card where user.id = :userId", Card.class);
             query.setParameter("userId", userId);
             return query.list();
         }
+
     }
 
     @Override
     public Card getCardById(int id) {
+
         try (Session session = sessionFactory.openSession()) {
             return session.get(Card.class, id);
         }
+
     }
 
     @Override
     public void addCard(Card card) {
+
         try(Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(card);
@@ -55,6 +62,7 @@ public class CardRepositoryImpl implements CardRepository {
 
     @Override
     public void updateCard(Card card) {
+
         try(Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.merge(card);
@@ -65,6 +73,7 @@ public class CardRepositoryImpl implements CardRepository {
 
     @Override
     public void deleteCard(int cardId) {
+
         try(Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 

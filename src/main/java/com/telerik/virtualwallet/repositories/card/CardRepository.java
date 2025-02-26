@@ -1,4 +1,4 @@
-package com.telerik.virtualwallet.repositories;
+package com.telerik.virtualwallet.repositories.card;
 
 import com.telerik.virtualwallet.models.Card;
 
