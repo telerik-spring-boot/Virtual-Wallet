@@ -4,6 +4,8 @@ import com.telerik.virtualwallet.models.enums.Currency;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "wallets")
@@ -21,13 +23,22 @@ public class Wallet {
     @Column(name = "currency")
     private Currency currency;
 
+    @ManyToMany
+    @JoinTable(
+            name = "users_wallets",
+            joinColumns = @JoinColumn(name = "wallet_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> users = new HashSet<>();
+
     public Wallet() {
     }
 
-    public Wallet(int id, BigDecimal balance, Currency currency) {
+    public Wallet(int id, BigDecimal balance, Currency currency, Set<User> users) {
         this.id = id;
         this.balance = balance;
         this.currency = currency;
+        this.users = users;
     }
 
     public int getId() {
@@ -52,5 +63,13 @@ public class Wallet {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }
