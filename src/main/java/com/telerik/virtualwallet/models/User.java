@@ -28,6 +28,9 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name="is_blocked")
+    private boolean isBlocked;
+
     @ManyToMany
     @JoinTable(
             name = "users_wallets",
@@ -47,10 +50,12 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Verification verification;
 
+
+
     public User() {
     }
 
-    public User(int id, String username, String email, String password, String phoneNumber, Set<Wallet> wallets, List<Role> roles, Verification verification) {
+    public User(int id, String username, String email, String password, String phoneNumber, Set<Wallet> wallets, List<Role> roles, Verification verification, boolean isBlocked) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -59,6 +64,7 @@ public class User {
         this.wallets = wallets;
         this.roles = roles;
         this.verification = verification;
+        this.isBlocked = isBlocked;
     }
 
     public int getId() {
@@ -123,5 +129,13 @@ public class User {
 
     public void setVerification(Verification verification) {
         this.verification = verification;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
     }
 }

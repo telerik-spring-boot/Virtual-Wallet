@@ -19,7 +19,8 @@ CREATE TABLE virtual_wallet.users
     username     VARCHAR(20) NOT NULL UNIQUE,
     password     VARCHAR(70) NOT NULL,
     email        VARCHAR(50) NOT NULL UNIQUE,
-    phone_number VARCHAR(20) NOT NULL
+    phone_number VARCHAR(20) NOT NULL UNIQUE,
+    is_blocked       TINYINT(1) DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE virtual_wallet.roles (
