@@ -12,9 +12,11 @@ VALUES ('alice', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa',
        ('jack444', '$2a$12$id0a4ReIhm/E4VTspyGDuu/3VEcPVZJOBkOirknGWaDhCfjvdjBvu', 'jack@example.com', '+1234567899');
 
 -- Insert Admins (Making first two users admins)
-INSERT INTO virtual_wallet.admins (user_id)
-VALUES (1),
-       (10);
+
+INSERT INTO virtual_wallet.roles(role_name) VALUES ('ROLE_ADMIN');
+
+INSERT INTO virtual_wallet.user_roles(user_id, role_id) VALUES (1, 1),
+                                                               (10, 1);
 
 -- Insert Wallets
 INSERT INTO virtual_wallet.wallets (balance, currency)

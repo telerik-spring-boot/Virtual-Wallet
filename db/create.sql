@@ -2,15 +2,16 @@ CREATE SCHEMA virtual_wallet;
 
 
 DROP TABLE IF EXISTS virtual_wallet.users CASCADE;
-DROP TABLE IF EXISTS virtual_wallet.admins CASCADE;
+DROP TABLE IF EXISTS virtual_wallet.roles CASCADE;
+DROP TABLE IF EXISTS virtual_wallet.user_roles CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.users_wallets CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.cards CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.wallets CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.referrals CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.transactions CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.transaction_categories CASCADE;
-DROP TABLE IF EXISTS virtual_wallet.porfolios CASCADE;
-DROP TABLE IF EXISTS virtual_wallet.verfications CASCADE;
+DROP TABLE IF EXISTS virtual_wallet.portfolios CASCADE;
+DROP TABLE IF EXISTS virtual_wallet.verifications CASCADE;
 
 CREATE TABLE virtual_wallet.users
 (
@@ -21,11 +22,20 @@ CREATE TABLE virtual_wallet.users
     phone_number VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE virtual_wallet.admins
-(
-    user_id INT NOT NULL PRIMARY KEY,
-    FOREIGN KEY (user_id) REFERENCES virtual_wallet.users (user_id) ON DELETE CASCADE
+CREATE TABLE virtual_wallet.roles (
+     role_id INT AUTO_INCREMENT PRIMARY KEY,
+     role_name VARCHAR(30) UNIQUE NOT NULL
 );
+
+
+CREATE TABLE virtual_wallet.user_roles (
+    user_id INT NOT NULL,
+    role_Id INT NOT NULL,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES virtual_wallet.users(user_id),
+    FOREIGN KEY (role_id) REFERENCES virtual_wallet.roles(role_id)
+);
+
 
 CREATE TABLE virtual_wallet.cards
 (
