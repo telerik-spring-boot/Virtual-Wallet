@@ -30,7 +30,7 @@ public class WalletRepositoryImpl implements WalletRepository {
     }
 
     @Override
-    public Wallet getWalletbyId(String id) {
+    public Wallet getWalletById(String id) {
 
         try (Session session = sessionFactory.openSession()) {
             return session.get(Wallet.class, id);
