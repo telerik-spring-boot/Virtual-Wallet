@@ -10,7 +10,7 @@ public interface UserRepository {
 
     User getById(int id);
 
-    User getByIdWithRoles(int id);
+    User getByUsernameWithRoles(String username);
 
     List<User> getByAnyUniqueField(String username, String email, String phone);
 
