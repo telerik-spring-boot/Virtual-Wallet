@@ -2,8 +2,8 @@ package com.telerik.virtualwallet.services.user;
 
 import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
+import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
 import com.telerik.virtualwallet.models.User;
-import com.telerik.virtualwallet.repositories.role.RoleRepository;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -51,10 +51,12 @@ public class UserServiceImpl implements UserService{
         List<User> dbUsers = userRepository.getByAnyUniqueField(user.getUsername(), user.getEmail(), user.getPhoneNumber());
 
         if(!dbUsers.isEmpty()){
-            dbUsers.stream()
-                    .filter(dbUser -> user.getId() != dbUser.getId())
-                    .findFirst()
-                    .ifPresent(dbUser -> appropriateThrow(user, dbUser));
+            for(User dbUser : dbUsers){
+                if(dbUser.getId() == user.getId()){
+                    if(!user.getUsername().equals(dbUser.getUsername()))
+                        throw new UnauthorizedOperationException("Username modification is not allowed.");
+                }else appropriateThrow(user, dbUser);
+            }
         }
 
 
