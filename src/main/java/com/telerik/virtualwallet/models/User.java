@@ -44,10 +44,13 @@ public class User {
     )
     private List<Role> roles = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Verification verification;
+
     public User() {
     }
 
-    public User(int id, String username, String email, String password, String phoneNumber, Set<Wallet> wallets, List<Role> roles) {
+    public User(int id, String username, String email, String password, String phoneNumber, Set<Wallet> wallets, List<Role> roles, Verification verification) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -55,6 +58,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.wallets = wallets;
         this.roles = roles;
+        this.verification = verification;
     }
 
     public int getId() {
@@ -111,5 +115,13 @@ public class User {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public Verification getVerification() {
+        return verification;
+    }
+
+    public void setVerification(Verification verification) {
+        this.verification = verification;
     }
 }

@@ -65,6 +65,20 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void verifyEmail(int id) {
+
+        User user = userRepository.getById(id);
+
+        if(user == null){
+            throw new EntityNotFoundException("User", "id", id);
+        }
+
+        user.getVerification().setEmailVerified(true);
+
+        userRepository.update(user);
+    }
+
+    @Override
     public void create(User user) {
         List<User> dbUsers = userRepository.getByAnyUniqueField(user.getUsername(), user.getEmail(), user.getPhoneNumber());
 
