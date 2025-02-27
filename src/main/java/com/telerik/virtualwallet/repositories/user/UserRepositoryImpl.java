@@ -42,6 +42,18 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
+    public User getByIdWithRoles(int id) {
+        try(Session session = sessionFactory.openSession()){
+
+            Query<User> query = session.createQuery("from User u LEFT JOIN FETCH u.roles WHERE u.id = :id", User.class);
+
+            query.setParameter("id", id);
+
+            return query.getSingleResult();
+        }
+    }
+
+    @Override
     public List<User> getByAnyUniqueField(String username, String email, String phone) {
         try(Session session = sessionFactory.openSession()){
 

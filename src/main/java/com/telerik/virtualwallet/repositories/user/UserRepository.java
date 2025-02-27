@@ -10,6 +10,8 @@ public interface UserRepository {
 
     User getById(int id);
 
+    User getByIdWithRoles(int id);
+
     List<User> getByAnyUniqueField(String username, String email, String phone);
 
     void create(User user);
