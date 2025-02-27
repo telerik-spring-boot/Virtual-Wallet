@@ -42,7 +42,7 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public User getByAnyUniqueField(String username, String email, String phone) {
+    public List<User> getByAnyUniqueField(String username, String email, String phone) {
         try(Session session = sessionFactory.openSession()){
 
             Query<User> query = session.createQuery("from User where username = :username or email = :email or phoneNumber = :phone", User.class);
@@ -51,7 +51,7 @@ public class UserRepositoryImpl implements UserRepository{
             query.setParameter("email", email);
             query.setParameter("phone", phone);
 
-            return query.uniqueResult();
+            return query.list();
         }
     }
 

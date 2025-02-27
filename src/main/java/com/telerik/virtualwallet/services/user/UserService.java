@@ -1,20 +1,20 @@
-package com.telerik.virtualwallet.repositories.user;
+package com.telerik.virtualwallet.services.user;
 
 import com.telerik.virtualwallet.models.User;
 
 import java.util.List;
 
-public interface UserRepository {
+public interface UserService {
 
     List<User> getAll();
 
     User getById(int id);
-
-    List<User> getByAnyUniqueField(String username, String email, String phone);
 
     void create(User user);
 
     void update(User user);
 
     void delete(int id);
+
+
 }
