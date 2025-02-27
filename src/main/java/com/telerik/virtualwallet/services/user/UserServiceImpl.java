@@ -4,6 +4,7 @@ import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
 import com.telerik.virtualwallet.models.User;
+import com.telerik.virtualwallet.models.Verification;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -82,6 +83,8 @@ public class UserServiceImpl implements UserService{
     public void create(User user) {
         List<User> dbUsers = userRepository.getByAnyUniqueField(user.getUsername(), user.getEmail(), user.getPhoneNumber());
 
+        setDefaultVerification(user);
+
         if(!dbUsers.isEmpty()){
             appropriateThrow(user, dbUsers.get(0));
         }
@@ -132,5 +135,15 @@ public class UserServiceImpl implements UserService{
             throw new DuplicateEntityException("User", "Phone Number", user.getPhoneNumber());
         }
 
+    }
+
+    private void setDefaultVerification(User user) {
+        Verification verification = new Verification();
+
+        verification.setUser(user);
+        verification.setPicturesVerified(false);
+        verification.setEmailVerified(false);
+
+        user.setVerification(verification);
     }
 }
