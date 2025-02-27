@@ -10,6 +10,8 @@ public interface UserRepository {
 
     User getById(int id);
 
+    User getByIdWithRoles(int id);
+
     User getByEmail(String email);
 
     User getByPhoneNumber(String phoneNumber);
