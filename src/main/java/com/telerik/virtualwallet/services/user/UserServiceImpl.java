@@ -13,15 +13,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+
     public UserServiceImpl(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
-
-    @Override
-    public List<User> getAll() {
-        return userRepository.getAll();
-    }
 
     @Override
     public User getById(int id) {
@@ -30,6 +26,39 @@ public class UserServiceImpl implements UserService{
 
         if (user == null) {
             throw new EntityNotFoundException("User", "id", id);
+        }
+
+        return user;
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        User user = userRepository.getByEmail(email);
+
+        if (user == null) {
+            throw new EntityNotFoundException("User", "email", email);
+        }
+
+        return user;
+    }
+
+    @Override
+    public User getByPhoneNumber(String phoneNumber) {
+        User user = userRepository.getByPhoneNumber(phoneNumber);
+
+        if (user == null) {
+            throw new EntityNotFoundException("User", "phoneNumber", phoneNumber);
+        }
+
+        return user;
+    }
+
+    @Override
+    public User getByUsername(String username) {
+        User user = userRepository.getByUsername(username);
+
+        if (user == null) {
+            throw new EntityNotFoundException("User", "username", username);
         }
 
         return user;

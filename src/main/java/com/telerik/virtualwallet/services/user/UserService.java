@@ -2,13 +2,17 @@ package com.telerik.virtualwallet.services.user;
 
 import com.telerik.virtualwallet.models.User;
 
-import java.util.List;
 
 public interface UserService {
 
-    List<User> getAll();
 
     User getById(int id);
+
+    User getByEmail(String email);
+
+    User getByPhoneNumber(String phoneNumber);
+
+    User getByUsername(String username);
 
     void create(User user);
 
