@@ -1,5 +1,6 @@
 package com.telerik.virtualwallet.repositories.user;
 
+import com.telerik.virtualwallet.models.Role;
 import com.telerik.virtualwallet.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -37,6 +38,20 @@ public class UserRepositoryImpl implements UserRepository{
 
             return session.get(User.class, id);
 
+        }
+    }
+
+    @Override
+    public User getByAnyUniqueField(String username, String email, String phone) {
+        try(Session session = sessionFactory.openSession()){
+
+            Query<User> query = session.createQuery("from User where username = :username or email = :email or phoneNumber = :phone", User.class);
+
+            query.setParameter("username", username);
+            query.setParameter("email", email);
+            query.setParameter("phone", phone);
+
+            return query.uniqueResult();
         }
     }
 

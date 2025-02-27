@@ -10,6 +10,8 @@ public interface UserRepository {
 
     User getById(int id);
 
+    User getByAnyUniqueField(String username, String email, String phone);
+
     void create(User user);
 
     void update(User user);
