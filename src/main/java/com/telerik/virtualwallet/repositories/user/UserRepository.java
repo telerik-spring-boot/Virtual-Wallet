@@ -10,6 +10,12 @@ public interface UserRepository {
 
     User getById(int id);
 
+    User getByEmail(String email);
+
+    User getByPhoneNumber(String phoneNumber);
+
+    User getByUsername(String username);
+
     User getByUsernameWithRoles(String username);
 
     List<User> getByAnyUniqueField(String username, String email, String phone);

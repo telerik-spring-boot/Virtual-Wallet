@@ -1,6 +1,5 @@
 package com.telerik.virtualwallet.repositories.user;
 
-import com.telerik.virtualwallet.models.Role;
 import com.telerik.virtualwallet.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -42,6 +41,42 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
+    public User getByEmail(String email) {
+        try(Session session = sessionFactory.openSession()){
+
+            Query<User> query = session.createQuery("from User WHERE email = :email", User.class);
+
+            query.setParameter("email", email);
+
+            return query.uniqueResult();
+        }
+    }
+
+    @Override
+    public User getByPhoneNumber(String phoneNumber) {
+        try(Session session = sessionFactory.openSession()){
+
+            Query<User> query = session.createQuery("from User WHERE phoneNumber = :phone", User.class);
+
+            query.setParameter("phone", phoneNumber);
+
+            return query.uniqueResult();
+        }
+    }
+
+    @Override
+    public User getByUsername(String username) {
+        try(Session session = sessionFactory.openSession()){
+
+            Query<User> query = session.createQuery("from User WHERE username = :username", User.class);
+
+            query.setParameter("username", username);
+
+            return query.uniqueResult();
+        }
+    }
+
+    @Override
     public User getByUsernameWithRoles(String username) {
         try(Session session = sessionFactory.openSession()){
 
@@ -49,7 +84,7 @@ public class UserRepositoryImpl implements UserRepository{
 
             query.setParameter("username", username);
 
-            return query.getSingleResult();
+            return query.uniqueResult();
         }
     }
 
