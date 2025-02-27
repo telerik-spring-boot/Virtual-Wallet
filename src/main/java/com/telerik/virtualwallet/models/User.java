@@ -2,7 +2,9 @@ package com.telerik.virtualwallet.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,18 +34,27 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "wallet_id")
     )
-    private Set<User> wallets = new HashSet<>();
+    private Set<Wallet> wallets = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name="user_roles",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id")
+    )
+    private List<Role> roles = new ArrayList<>();
 
     public User() {
     }
 
-    public User(int id, String username, String email, String password, String phoneNumber, Set<User> wallets) {
+    public User(int id, String username, String email, String password, String phoneNumber, Set<Wallet> wallets, List<Role> roles) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.wallets = wallets;
+        this.roles = roles;
     }
 
     public int getId() {
@@ -86,11 +97,19 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public Set<User> getWallets() {
+    public Set<Wallet> getWallets() {
         return wallets;
     }
 
-    public void setWallets(Set<User> wallets) {
+    public void setWallets(Set<Wallet> wallets) {
         this.wallets = wallets;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
