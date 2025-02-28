@@ -94,7 +94,8 @@ VALUES ('Shopping'),
        ('Food'),
        ('Bills'),
        ('Entertainment'),
-       ('Investment');
+       ('Investment'),
+       ('Other');
 
 -- Insert Transactions (Transferring between wallets)
 INSERT INTO virtual_wallet.transactions (amount, wallet_sender_id, wallet_receiver_id, category_id)
