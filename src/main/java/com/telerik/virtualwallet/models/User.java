@@ -1,5 +1,6 @@
 package com.telerik.virtualwallet.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class User {
     @Column(name="is_blocked")
     private boolean isBlocked;
 
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "users_wallets",
@@ -39,6 +41,7 @@ public class User {
     )
     private Set<Wallet> wallets = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name="user_roles",
@@ -47,9 +50,11 @@ public class User {
     )
     private List<Role> roles = new ArrayList<>();
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Verification verification;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade= CascadeType.ALL)
     private List<Stock> stocks = new ArrayList<>();
 
