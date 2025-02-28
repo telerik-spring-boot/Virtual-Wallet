@@ -63,7 +63,7 @@ VALUES (1, 2),
        (1, 3);
 
 -- Insert Portfolios (Users purchasing stocks)
-INSERT INTO virtual_wallet.portfolios (buyer_id, stock_index, value, amount)
+INSERT INTO virtual_wallet.stocks (buyer_id, stock_index, value, amount)
 VALUES (1, 'AAPL', 150.00, 0.3),
        (2, 'GOOGL', 2800.00, 1),
        (3, 'MSFT', 300.00, 5),
