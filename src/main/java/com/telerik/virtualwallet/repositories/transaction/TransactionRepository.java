@@ -10,6 +10,8 @@ public interface TransactionRepository {
 
     Transaction getTransactionById(int id);
 
+    List<Transaction> getAllTransactionsByWalletId(int walletId);
+
     List<Transaction> getAllIncomingTransactionsByWalletId(int walletReceiverId);
 
     List<Transaction> getAllOutgoingTransactionsByWalletId(int walletSenderId);

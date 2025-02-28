@@ -39,6 +39,20 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     @Override
+    public List<Transaction> getAllTransactionsByWalletId(int walletId) {
+
+        try (Session session = sessionFactory.openSession()) {
+            Query<Transaction> query = session.createQuery(
+                    "FROM Transaction t WHERE t.receiverWallet.id = :walletId OR t.senderWallet.id = :walletId",
+                    Transaction.class
+            );
+            query.setParameter("walletId", walletId);
+            return query.list();
+        }
+
+    }
+
+    @Override
     public List<Transaction> getAllIncomingTransactionsByWalletId(int walletReceiverId) {
 
         try (Session session = sessionFactory.openSession()) {

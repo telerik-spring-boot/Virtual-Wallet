@@ -14,7 +14,7 @@ public interface WalletService {
 
     Wallet getWalletById(User user, int walletId);
 
-    void addWallet(User user, Wallet wallet);
+    void createWallet(User user, Wallet wallet);
 
     void addFundsToWallet(User user, int walletId, int cardId, BigDecimal amount);
 

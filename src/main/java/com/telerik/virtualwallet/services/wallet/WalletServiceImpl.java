@@ -84,7 +84,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public void addWallet(User user, Wallet wallet) {
+    public void createWallet(User user, Wallet wallet) {
 
         if (isUserNotWalletHolder(user, wallet)) {
             throw new UnauthorizedOperationException(UNAUTHORIZED_MESSAGE);
