@@ -20,10 +20,10 @@ public class Stock {
     private String stockSymbol;
 
     @Column(name="amount")
-    private int amount;
+    private int quantity;
 
     @Column(name="value")
-    private double value;
+    private double price;
 
     @ManyToOne
     @JoinColumn(name = "buyer_id")
@@ -32,11 +32,11 @@ public class Stock {
     public Stock() {
     }
 
-    public Stock(LocalDateTime purchasedAt, int amount, String stockSymbol, double value, User user) {
+    public Stock(LocalDateTime purchasedAt, int quantity, String stockSymbol, double price, User user) {
         this.purchasedAt = purchasedAt;
-        this.amount = amount;
+        this.quantity = quantity;
         this.stockSymbol = stockSymbol;
-        this.value = value;
+        this.price = price;
         this.user = user;
     }
 
@@ -64,12 +64,12 @@ public class Stock {
         this.stockSymbol = stockSymbol;
     }
 
-    public int getAmount() {
-        return amount;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public User getUser() {
@@ -80,11 +80,11 @@ public class Stock {
         this.user = user;
     }
 
-    public double getValue() {
-        return value;
+    public double getPrice() {
+        return price;
     }
 
-    public void setValue(double value) {
-        this.value = value;
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

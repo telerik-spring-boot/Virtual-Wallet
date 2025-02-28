@@ -31,7 +31,7 @@ public class User {
     @Column(name="is_blocked")
     private boolean isBlocked;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "users_wallets",
             joinColumns = @JoinColumn(name = "user_id"),

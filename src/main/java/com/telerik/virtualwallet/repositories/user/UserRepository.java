@@ -20,6 +20,10 @@ public interface UserRepository {
 
     User getByUsernameWithRoles(String username);
 
+    User getUserWithStocks(int id);
+
+    User getUserWithStocksAndWallets(int userId);
+
     List<User> getByAnyUniqueField(String username, String email, String phone);
 
     void create(User user);

@@ -1,6 +1,9 @@
 package com.telerik.virtualwallet.services.user;
 
+import com.telerik.virtualwallet.models.Stock;
 import com.telerik.virtualwallet.models.User;
+
+import java.util.List;
 
 
 public interface UserService {
@@ -13,6 +16,12 @@ public interface UserService {
     User getByPhoneNumber(String phoneNumber);
 
     User getByUsername(String username);
+
+    User getUserWithStocks(int id);
+
+    void purchaseStocks(int userId, int walletId, List<String> symbols, List<Integer> quantities);
+
+    void sellStocks(int userId, int walletId, List<String> symbols, List<Integer> quantities);
 
     void verifyEmail(int id);
 
