@@ -16,6 +16,7 @@ public class CardServiceImpl implements CardService {
     private static final String UNAUTHORIZED_MESSAGE = "This card is not associated with your account.";
     private static final String NO_CARDS_FOUND_MESSAGE = "No cards associated with user with id %d found.";
     private static final String NO_CARDS_MESSAGE = "No cards are found.";
+
     private final CardRepository cardRepository;
 
     @Autowired
@@ -60,7 +61,7 @@ public class CardServiceImpl implements CardService {
             throw new EntityNotFoundException("Card", "id", id);
         }
 
-        if (isUserCardHolder(user, card)) {
+        if (isUserNotCardHolder(user, card)) {
             throw new UnauthorizedOperationException(UNAUTHORIZED_MESSAGE);
         }
 
@@ -71,7 +72,7 @@ public class CardServiceImpl implements CardService {
     @Override
     public void addCard(User user, Card card) {
 
-        if (isUserCardHolder(user, card)) {
+        if (isUserNotCardHolder(user, card)) {
             throw new UnauthorizedOperationException(UNAUTHORIZED_MESSAGE);
         }
 
@@ -82,7 +83,7 @@ public class CardServiceImpl implements CardService {
     @Override
     public void updateCard(User user, Card card) {
 
-        if (isUserCardHolder(user, card)) {
+        if (isUserNotCardHolder(user, card)) {
             throw new UnauthorizedOperationException(UNAUTHORIZED_MESSAGE);
         }
 
@@ -100,7 +101,7 @@ public class CardServiceImpl implements CardService {
             throw new EntityNotFoundException("Card", "id", id);
         }
 
-        if (!isUserCardHolder(user, cardToDelete)) {
+        if (isUserNotCardHolder(user, cardToDelete)) {
             throw new UnauthorizedOperationException(UNAUTHORIZED_MESSAGE);
         }
 
@@ -108,8 +109,10 @@ public class CardServiceImpl implements CardService {
 
     }
 
-    private static boolean isUserCardHolder(User user, Card card) {
+    private static boolean isUserNotCardHolder(User user, Card card) {
 
-        return card.getUser().getId() == user.getId();
+        return card.getUser().getId() != user.getId();
+
     }
+
 }

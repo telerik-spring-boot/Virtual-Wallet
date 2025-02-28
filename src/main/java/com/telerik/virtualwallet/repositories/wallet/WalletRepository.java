@@ -8,7 +8,7 @@ public interface WalletRepository {
 
     List<Wallet> getAllWallets();
 
-    Wallet getWalletById(String id);
+    Wallet getWalletById(int id);
 
     List<Wallet> getWalletsByUserId(int userId);
 
