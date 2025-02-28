@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS virtual_wallet.wallets CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.referrals CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.transactions CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.transaction_categories CASCADE;
-DROP TABLE IF EXISTS virtual_wallet.portfolios CASCADE;
+DROP TABLE IF EXISTS virtual_wallet.stocks CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.verifications CASCADE;
 
 CREATE TABLE virtual_wallet.users
@@ -73,12 +73,12 @@ CREATE TABLE virtual_wallet.referrals
     FOREIGN KEY (referee_id) REFERENCES virtual_wallet.users (user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE virtual_wallet.portfolios
+CREATE TABLE virtual_wallet.stocks
 (
     id           INT AUTO_INCREMENT                  NOT NULL PRIMARY KEY,
     buyer_id     INT                                 NOT NULL,
     purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    stock_index  VARCHAR(30)                         NOT NULL,
+    stock_symbol  VARCHAR(30)                         NOT NULL,
     value        DECIMAL(15,2)                             NOT NULL,
     amount       DECIMAL(15,5)                             NOT NULL,
     FOREIGN KEY (buyer_id) REFERENCES virtual_wallet.users (user_id) ON DELETE CASCADE

@@ -50,6 +50,9 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Verification verification;
 
+    @OneToMany(mappedBy = "user", cascade= CascadeType.ALL)
+    private List<Stock> stocks = new ArrayList<>();
+
 
 
     public User() {
@@ -145,5 +148,21 @@ public class User {
 
     public void removeRole(Role role) {
         this.roles.remove(role);
+    }
+
+    public List<Stock> getStocks() {
+        return stocks;
+    }
+
+    public void setStocks(List<Stock> stocks) {
+        this.stocks = stocks;
+    }
+
+    public void addStock(Stock stock){
+        this.stocks.add(stock);
+    }
+
+    public void sellStock(Stock stock){
+        this.stocks.remove(stock);
     }
 }
