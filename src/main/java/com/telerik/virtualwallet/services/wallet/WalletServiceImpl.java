@@ -2,10 +2,9 @@ package com.telerik.virtualwallet.services.wallet;
 
 import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
-import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
-import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
+import com.telerik.virtualwallet.repositories.user.UserRepository;
 import com.telerik.virtualwallet.repositories.wallet.WalletRepository;
 import com.telerik.virtualwallet.services.card.CardService;
 import com.telerik.virtualwallet.services.user.UserService;
@@ -20,20 +19,19 @@ import java.util.List;
 public class WalletServiceImpl implements WalletService {
 
     private static final String NO_WALLETS_MESSAGE = "No wallets are found.";
-    private static final String UNAUTHORIZED_MESSAGE = "This wallet is not associated with your account.";
     private static final String NO_WALLETS_FOUND_MESSAGE = "No wallets associated with user with id %d found.";
     private static final String USER_ALREADY_WALLET_HOLDER_MESSAGE = "Wallet with id %d is already managed by a user with id %d";
     private static final String USER_NOT_WALLET_HOLDER_MESSAGE = "Wallet with id %d is not managed by user with id %d.";
 
     private final WalletRepository walletRepository;
     private final CardService cardService;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public WalletServiceImpl(WalletRepository walletRepository, CardService cardService, UserService userService) {
+    public WalletServiceImpl(WalletRepository walletRepository, CardService cardService, UserRepository userRepository) {
         this.walletRepository = walletRepository;
         this.cardService = cardService;
-        this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -50,11 +48,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public List<Wallet> getWalletsByUserId(User user, int userId) {
-
-        if (user.getId() != userId) {
-            throw new UnauthorizedOperationException(UNAUTHORIZED_MESSAGE);
-        }
+    public List<Wallet> getWalletsByUserId(int userId) {
 
         List<Wallet> wallets = walletRepository.getWalletsByUserId(userId);
 
@@ -67,7 +61,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Wallet getWalletById(User user, int walletId) {
+    public Wallet getWalletById(int walletId) {
 
         Wallet wallet = walletRepository.getWalletById(walletId);
 
@@ -75,45 +69,39 @@ public class WalletServiceImpl implements WalletService {
             throw new EntityNotFoundException("Wallet", "id", walletId);
         }
 
-        if (isUserNotWalletHolder(user, wallet)) {
-            throw new UnauthorizedOperationException(UNAUTHORIZED_MESSAGE);
-        }
-
         return wallet;
 
     }
 
     @Override
-    public void createWallet(User user, Wallet wallet) {
+    public void createWallet(int userRequestId, Wallet wallet) {
 
-        if (isUserNotWalletHolder(user, wallet)) {
-            throw new UnauthorizedOperationException(UNAUTHORIZED_MESSAGE);
-        }
-
+        User user = userRepository.getById(userRequestId);
+        wallet.getUsers().add(user);
         walletRepository.addWallet(wallet);
 
     }
 
     @Transactional
     @Override
-    public void addFundsToWallet(User user, int walletId, int cardId, BigDecimal amount) {
+    public void addFundsToWallet(int userRequestId, int walletId, int cardId, BigDecimal amount) {
 
-        Card card = cardService.getCardById(user, cardId);
-        // TODO: Add dummy card transfer check to this
+        //Card card = cardService.getCardById(user, cardId);
+        // TODO: Add dummy card transfer check to this. Do we need userRequestId here?
 
-        Wallet wallet = getWalletById(user, walletId);
+        Wallet wallet = getWalletById(walletId);
 
         wallet.setBalance(wallet.getBalance().add(amount));
 
     }
 
     @Override
-    public void addUserToWallet(User user, int walletId, int userIdToAdd) {
+    public void addUserToWallet(int walletId, int userIdToAdd) {
 
-        Wallet wallet = getWalletById(user, walletId);
-        User userToAdd = userService.getById(userIdToAdd);
+        Wallet wallet = walletRepository.getWalletWithUsersById(walletId);
+        User userToAdd = userRepository.getById(userIdToAdd);
 
-        if(wallet.getUsers().contains(userToAdd)) {
+        if (wallet.getUsers().contains(userToAdd)) {
             throw new DuplicateEntityException(String.format(USER_ALREADY_WALLET_HOLDER_MESSAGE, walletId, userIdToAdd));
         }
 
@@ -124,24 +112,18 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public void removeUserFromWallet(User user, int walletId, int userIdToRemove) {
+    public void removeUserFromWallet(int walletId, int userIdToRemove) {
 
-        Wallet wallet = getWalletById(user, walletId);
-        User userToRemove = userService.getById(userIdToRemove);
+        Wallet wallet = walletRepository.getWalletWithUsersById(walletId);
+        User userToRemove = userRepository.getById(userIdToRemove);
 
-        if(!wallet.getUsers().contains(userToRemove)) {
+        if (!wallet.getUsers().contains(userToRemove)) {
             throw new DuplicateEntityException(String.format(USER_NOT_WALLET_HOLDER_MESSAGE, walletId, userIdToRemove));
         }
 
         wallet.getUsers().remove(userToRemove);
 
         walletRepository.updateWallet(wallet);
-
-    }
-
-    private static boolean isUserNotWalletHolder(User user, Wallet wallet) {
-
-        return !wallet.getUsers().contains(user);
 
     }
 

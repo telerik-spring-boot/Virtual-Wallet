@@ -10,17 +10,17 @@ public interface WalletService {
 
     List<Wallet> getAllWallets();
 
-    List<Wallet> getWalletsByUserId(User user, int userId);
+    List<Wallet> getWalletsByUserId(int userId);
 
-    Wallet getWalletById(User user, int walletId);
+    Wallet getWalletById(int walletId);
 
-    void createWallet(User user, Wallet wallet);
+    void createWallet(int userRequestId, Wallet wallet);
 
-    void addFundsToWallet(User user, int walletId, int cardId, BigDecimal amount);
+    void addFundsToWallet(int userRequestId,int walletId, int cardId, BigDecimal amount);
 
-    void addUserToWallet(User user, int walletId, int userIdToAdd);
+    void addUserToWallet(int walletId, int userIdToAdd);
 
-    void removeUserFromWallet(User user, int walletId, int userIdToRemove);
+    void removeUserFromWallet(int walletId, int userIdToRemove);
 
 
 }

@@ -1,10 +1,10 @@
 package com.telerik.virtualwallet.services.card;
 
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
-import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
 import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.repositories.card.CardRepository;
+import com.telerik.virtualwallet.repositories.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +13,16 @@ import java.util.List;
 @Service
 public class CardServiceImpl implements CardService {
 
-    private static final String UNAUTHORIZED_MESSAGE = "This card is not associated with your account.";
     private static final String NO_CARDS_FOUND_MESSAGE = "No cards associated with user with id %d found.";
     private static final String NO_CARDS_MESSAGE = "No cards are found.";
 
     private final CardRepository cardRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CardServiceImpl(CardRepository cardRepository) {
+    public CardServiceImpl(CardRepository cardRepository, UserRepository userRepository) {
         this.cardRepository = cardRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -37,11 +38,7 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public List<Card> getCardsByUserId(User user, int userId) {
-
-        if (user.getId() != userId) {
-            throw new UnauthorizedOperationException(UNAUTHORIZED_MESSAGE);
-        }
+    public List<Card> getCardsByUserId(int userId) {
 
         List<Card> cards = cardRepository.getCardsByUserId(userId);
 
@@ -53,7 +50,7 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public Card getCardById(User user, int id) {
+    public Card getCardById(int id) {
 
         Card card = cardRepository.getCardById(id);
 
@@ -61,38 +58,30 @@ public class CardServiceImpl implements CardService {
             throw new EntityNotFoundException("Card", "id", id);
         }
 
-        if (isUserNotCardHolder(user, card)) {
-            throw new UnauthorizedOperationException(UNAUTHORIZED_MESSAGE);
-        }
-
         return card;
 
     }
 
     @Override
-    public void addCard(User user, Card card) {
+    public void addCard(int userRequestId, Card card) {
 
-        if (isUserNotCardHolder(user, card)) {
-            throw new UnauthorizedOperationException(UNAUTHORIZED_MESSAGE);
-        }
+        User user = userRepository.getById(userRequestId);
+
+        card.setUser(user);
 
         cardRepository.addCard(card);
 
     }
 
     @Override
-    public void updateCard(User user, Card card) {
-
-        if (isUserNotCardHolder(user, card)) {
-            throw new UnauthorizedOperationException(UNAUTHORIZED_MESSAGE);
-        }
+    public void updateCard(Card card) {
 
         cardRepository.updateCard(card);
 
     }
 
     @Override
-    public void deleteCard(User user, int id) {
+    public void deleteCard(int id) {
 
 
         Card cardToDelete = cardRepository.getCardById(id);
@@ -101,17 +90,7 @@ public class CardServiceImpl implements CardService {
             throw new EntityNotFoundException("Card", "id", id);
         }
 
-        if (isUserNotCardHolder(user, cardToDelete)) {
-            throw new UnauthorizedOperationException(UNAUTHORIZED_MESSAGE);
-        }
-
         cardRepository.deleteCard(id);
-
-    }
-
-    private static boolean isUserNotCardHolder(User user, Card card) {
-
-        return card.getUser().getId() != user.getId();
 
     }
 

@@ -38,6 +38,18 @@ public class WalletRepositoryImpl implements WalletRepository {
     }
 
     @Override
+    public Wallet getWalletWithUsersById(int id) {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Wallet> query = session.createQuery(
+                    "SELECT w FROM Wallet w LEFT JOIN FETCH w.users WHERE w.id = :id", Wallet.class);
+            query.setParameter("id", id);
+            return query.uniqueResult();
+
+        }
+    }
+
+    @Override
     public List<Wallet> getWalletsByUserId(int userId) {
 
         try (Session session = sessionFactory.openSession()) {
