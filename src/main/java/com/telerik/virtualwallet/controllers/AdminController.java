@@ -1,5 +1,6 @@
 package com.telerik.virtualwallet.controllers;
 
+import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admins")
@@ -52,4 +55,11 @@ public class AdminController {
 
         return ResponseEntity.ok(userToBlock);
     }
+
+    @GetMapping("/transactions")
+    public ResponseEntity<List<Transaction>> getAllTransactions() {
+        // to do pagination / filter once done
+        return ResponseEntity.ok(adminService.getAllTransactions());
+    }
+
 }
