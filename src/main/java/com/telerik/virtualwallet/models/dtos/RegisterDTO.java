@@ -20,7 +20,7 @@ public class RegisterDTO {
     private String emailAddress;
 
     @NotBlank(message = "Phone number is required.")
-    @Pattern(regexp = "^\\d{10}$", message = "Phone number must be exactly 10 digits")
+    @Pattern(regexp = "^\\+\\d{10}$", message = "Phone number must start with '+' followed by exactly 10 digits.")
     private String phoneNumber;
 
     public RegisterDTO(){}
