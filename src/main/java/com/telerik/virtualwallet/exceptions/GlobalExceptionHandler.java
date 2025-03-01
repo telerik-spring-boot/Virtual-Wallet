@@ -12,4 +12,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler(InvalidSortParameterException.class)
+    public ResponseEntity<?> handleInvalidSortParameterException(InvalidSortParameterException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
 }
