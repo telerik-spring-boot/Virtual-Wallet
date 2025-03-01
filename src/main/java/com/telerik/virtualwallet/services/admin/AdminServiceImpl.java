@@ -3,15 +3,19 @@ package com.telerik.virtualwallet.services.admin;
 import com.telerik.virtualwallet.exceptions.AdminRoleManagementException;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.exceptions.InvalidSortParameterException;
+import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.repositories.role.RoleRepository;
+import com.telerik.virtualwallet.repositories.transaction.TransactionRepository;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
 import com.telerik.virtualwallet.services.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -22,11 +26,13 @@ public class AdminServiceImpl implements AdminService{
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserService userService;
+    private final TransactionRepository transactionRepository;
 
-    public AdminServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserService userService){
+    public AdminServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserService userService, TransactionRepository transactionRepository){
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userService = userService;
+        this.transactionRepository = transactionRepository;
     }
 
 
@@ -39,6 +45,11 @@ public class AdminServiceImpl implements AdminService{
         validateSortOrderField(sortOrder.getDirection().name());
 
         return userRepository.getAll(options, pageable);
+    }
+
+    @Override
+    public List<Transaction> getAllTransactions() {
+        return transactionRepository.getAllTransactions();
     }
 
     @Override

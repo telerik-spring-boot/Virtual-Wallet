@@ -1,5 +1,6 @@
 package com.telerik.virtualwallet.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.telerik.virtualwallet.models.enums.Currency;
 import jakarta.persistence.*;
 
@@ -23,6 +24,7 @@ public class Wallet {
     @Column(name = "currency")
     private Currency currency;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "users_wallets",
