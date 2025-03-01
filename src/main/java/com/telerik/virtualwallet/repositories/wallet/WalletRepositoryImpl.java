@@ -33,8 +33,10 @@ public class WalletRepositoryImpl implements WalletRepository {
     public Wallet getWalletById(int id) {
 
         try (Session session = sessionFactory.openSession()) {
+            System.out.println("test");
             return session.get(Wallet.class, id);
         }
+
     }
 
     @Override
@@ -95,5 +97,23 @@ public class WalletRepositoryImpl implements WalletRepository {
             session.getTransaction().commit();
         }
 
+    }
+
+    @Override
+    public boolean isUserWalletHolder(int userId, int walletId) {
+
+        try (Session session = sessionFactory.openSession()) {
+            Query<Long> query = session.createQuery
+                    ("SELECT COUNT(w) FROM Wallet w JOIN w.users u WHERE w.id=:walletId AND u.id = :userId ",
+                            Long.class);
+
+            query.setParameter("walletId", walletId);
+            query.setParameter("userId", userId);
+
+            Long count = query.uniqueResult();
+            System.out.println("Repo count: "+ count );
+            return count > 0;
+
+        }
     }
 }

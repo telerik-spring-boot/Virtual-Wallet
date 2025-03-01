@@ -19,4 +19,6 @@ public interface WalletRepository {
     void updateWallet(Wallet wallet);
 
     void deleteWallet(String id);
+
+    boolean isUserWalletHolder(int userId, int walletId);
 }
