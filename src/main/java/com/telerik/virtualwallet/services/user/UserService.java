@@ -23,7 +23,7 @@ public interface UserService {
 
     void sellStocks(int userId, int walletId, List<String> symbols, List<Integer> quantities);
 
-    void verifyEmail(int id);
+    void verifyEmail(String email);
 
     void create(User user);
 

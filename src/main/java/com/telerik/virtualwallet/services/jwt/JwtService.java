@@ -55,7 +55,7 @@ public class JwtService {
                 .compact();
     }
 
-    public String extractUsername(String token) {
+    public String extractSubject(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -66,6 +66,7 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
@@ -85,6 +86,6 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        return (userDetails.getUsername().equals(extractUsername(token))) && !isTokenExpired(token);
+        return (userDetails.getUsername().equals(extractSubject(token))) && !isTokenExpired(token);
     }
 }

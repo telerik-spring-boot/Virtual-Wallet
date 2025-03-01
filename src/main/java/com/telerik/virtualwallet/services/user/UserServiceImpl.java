@@ -190,12 +190,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void verifyEmail(int id) {
+    public void verifyEmail(String email) {
 
-        User user = userRepository.getById(id);
+        User user = userRepository.getByEmail(email);
 
         if(user == null){
-            throw new EntityNotFoundException("User", "id", id);
+            throw new EntityNotFoundException("User", "email", email);
         }
 
         user.getVerification().setEmailVerified(true);
