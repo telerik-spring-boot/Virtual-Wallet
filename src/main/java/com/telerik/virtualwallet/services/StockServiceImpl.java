@@ -3,7 +3,7 @@ package com.telerik.virtualwallet.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.telerik.virtualwallet.models.StockData;
-import com.telerik.virtualwallet.models.StockPriceResponse;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,16 +14,20 @@ import java.util.Map;
 @Service
 public class StockServiceImpl implements StockService{
 
-    private final String TWELVE_DATA_API_KEY = "5616a3a84fbe41c4b6daab6e5d61c00a";
-    private final String BASE_URL = "https://api.twelvedata.com/price";
+    private static final int SINGLE_SYMBOL = 1;
+
+    private final String apiKey;
+    private final String baseUrl;
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
 
-    public StockServiceImpl(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public StockServiceImpl(RestTemplate restTemplate, ObjectMapper objectMapper, Environment env) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
+        this.apiKey = env.getProperty("twelve.data.api.key");
+        this.baseUrl = env.getProperty("twelve.data.base.url");
     }
 
     @Override
@@ -32,12 +36,12 @@ public class StockServiceImpl implements StockService{
 
         String symbolsStr = String.join(",", symbols);
 
-        String url = String.format("%s?symbol=%s&apikey=%s", BASE_URL, symbolsStr, TWELVE_DATA_API_KEY);
+        String url = String.format("%s?symbol=%s&apikey=%s", baseUrl, symbolsStr, apiKey);
 
         String jsonResponse = restTemplate.getForObject(url, String.class);
 
         try {
-            if(symbols.size() == 1){
+            if(symbols.size() == SINGLE_SYMBOL){
 
                 Map<String, String> singleStockData = objectMapper.readValue(jsonResponse, new TypeReference<>() {});
 
