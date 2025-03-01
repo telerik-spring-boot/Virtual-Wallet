@@ -33,7 +33,7 @@ public class WalletRepositoryImpl implements WalletRepository {
     public Wallet getWalletById(int id) {
 
         try (Session session = sessionFactory.openSession()) {
-            System.out.println("test");
+
             return session.get(Wallet.class, id);
         }
 
@@ -111,7 +111,7 @@ public class WalletRepositoryImpl implements WalletRepository {
             query.setParameter("userId", userId);
 
             Long count = query.uniqueResult();
-            System.out.println("Repo count: "+ count );
+
             return count > 0;
 
         }

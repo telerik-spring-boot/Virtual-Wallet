@@ -27,7 +27,8 @@ public class WalletController {
 
     }
 
-    @PreAuthorize("@walletSecurityServiceImpl.isUserWalletHolder(#walletId)")
+
+    @PreAuthorize("hasRole('ADMIN') OR @walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
     @GetMapping("/{walletId}")
     public WalletDisplayDTO getUserById(@PathVariable int walletId) {
         Wallet wallet = walletService.getWalletById(walletId);
