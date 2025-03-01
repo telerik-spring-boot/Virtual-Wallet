@@ -3,8 +3,8 @@ package com.telerik.virtualwallet.helpers;
 
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.RegisterDTO;
-import com.telerik.virtualwallet.models.dtos.UserDisplayAdminDTO;
-import com.telerik.virtualwallet.models.dtos.UserDisplayUserDTO;
+import com.telerik.virtualwallet.models.dtos.UserDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.UserDisplayForTransactionsDTO;
 import com.telerik.virtualwallet.models.dtos.UserUpdateDTO;
 import com.telerik.virtualwallet.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,20 +51,22 @@ public class UserMapper {
         return user;
     }
 
-    public UserDisplayUserDTO userToUserDisplayDTO(User user){
-        UserDisplayUserDTO dto = new UserDisplayUserDTO();
+    public UserDisplayForTransactionsDTO userToUserDisplayForTransactionsDTO(User user){
+        UserDisplayForTransactionsDTO dto = new UserDisplayForTransactionsDTO();
 
         dto.setUsername(user.getUsername());
 
         return dto;
     }
 
-    public UserDisplayAdminDTO userToAdminDisplayDTO(User user){
-        UserDisplayAdminDTO dto = new UserDisplayAdminDTO();
+    public UserDisplayDTO userToUserDisplayDTO(User user){
+        UserDisplayDTO dto = new UserDisplayDTO();
 
         dto.setEmailAddress(user.getEmail());
 
         dto.setUsername(user.getUsername());
+
+        dto.setBlocked(user.isBlocked());
 
         dto.setPhoneNumber(user.getPhoneNumber());
 

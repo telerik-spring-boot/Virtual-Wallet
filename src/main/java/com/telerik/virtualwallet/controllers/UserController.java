@@ -3,7 +3,8 @@ package com.telerik.virtualwallet.controllers;
 
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.User;
-import com.telerik.virtualwallet.models.dtos.UserDisplayUserDTO;
+import com.telerik.virtualwallet.models.dtos.UserDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.UserDisplayForTransactionsDTO;
 import com.telerik.virtualwallet.models.dtos.UserUpdateDTO;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
@@ -38,7 +39,7 @@ public class UserController {
 
     @PutMapping("/{username}")
     @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
-    public ResponseEntity<User> updateUser(
+    public ResponseEntity<UserDisplayDTO> updateUser(
             @PathVariable String username,
             @RequestBody UserUpdateDTO userUpdateDTO) {
 
@@ -46,16 +47,16 @@ public class UserController {
 
         userService.update(userToBeUpdated);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(userMapper.userToUserDisplayDTO(userToBeUpdated));
     }
 
 
     @GetMapping("/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+    public ResponseEntity<UserDisplayDTO> getUserByUsername(@PathVariable String username) {
 
         User user = userService.getByUsername(username);
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userMapper.userToUserDisplayDTO(user));
     }
 
 
@@ -69,14 +70,14 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserDisplayUserDTO>> getAllUsers(FilterUserOptions filterOptions,
-                                                                @PageableDefault(sort="username", direction = Sort.Direction.ASC) Pageable pageable) {
+    public ResponseEntity<Page<UserDisplayForTransactionsDTO>> getAllUsers(FilterUserOptions filterOptions,
+                                                                           @PageableDefault(sort="username", direction = Sort.Direction.ASC) Pageable pageable) {
 
 
         Page<User> res = adminService.getAllUsers(filterOptions, pageable);
 
-        List<UserDisplayUserDTO> userDisplayDTOs = res.getContent().stream()
-                .map(userMapper::userToUserDisplayDTO)
+        List<UserDisplayForTransactionsDTO> userDisplayDTOs = res.getContent().stream()
+                .map(userMapper::userToUserDisplayForTransactionsDTO)
                 .toList();
 
         return ResponseEntity.ok(new PageImpl<>(userDisplayDTOs, pageable, res.getTotalElements()));

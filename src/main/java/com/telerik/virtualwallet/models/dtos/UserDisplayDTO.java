@@ -1,6 +1,6 @@
 package com.telerik.virtualwallet.models.dtos;
 
-public class UserDisplayAdminDTO {
+public class UserDisplayDTO {
 
     private String username;
 
@@ -8,13 +8,24 @@ public class UserDisplayAdminDTO {
 
     private String phoneNumber;
 
-    public UserDisplayAdminDTO() {
+    private boolean blocked;
+
+    public UserDisplayDTO() {
     }
 
-    public UserDisplayAdminDTO(String username, String emailAddress, String phoneNumber) {
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+
+    public UserDisplayDTO(String username, String emailAddress, String phoneNumber, boolean blocked) {
         this.username = username;
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
+        this.blocked = blocked;
     }
 
     public String getUsername() {

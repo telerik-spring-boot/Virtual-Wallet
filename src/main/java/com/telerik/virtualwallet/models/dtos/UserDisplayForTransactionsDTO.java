@@ -1,14 +1,14 @@
 package com.telerik.virtualwallet.models.dtos;
 
-public class UserDisplayUserDTO {
+public class UserDisplayForTransactionsDTO {
 
     private String username;
 
-    public UserDisplayUserDTO(String username) {
+    public UserDisplayForTransactionsDTO(String username) {
         this.username = username;
     }
 
-    public UserDisplayUserDTO() {
+    public UserDisplayForTransactionsDTO() {
     }
 
     public String getUsername() {
