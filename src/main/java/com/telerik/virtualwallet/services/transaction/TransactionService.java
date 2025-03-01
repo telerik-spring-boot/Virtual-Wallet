@@ -9,15 +9,15 @@ public interface TransactionService {
 
     List<Transaction> getAllTransactions();
 
-    Transaction getTransactionById(User user, int id);
+    Transaction getTransactionById(int id);
 
-    List<Transaction> getAllTransactionsByWalletId(User user, int walletId);
+    List<Transaction> getAllTransactionsByWalletId(int walletId);
 
-    List<Transaction> getAllOutgoingTransactionsByWalletId(User user, int walletId);
+    List<Transaction> getAllOutgoingTransactionsByWalletId(int walletId);
 
-    List<Transaction> getAllIncomingTransactionsByWalletId(User user, int walletId);
+    List<Transaction> getAllIncomingTransactionsByWalletId(int walletId);
 
-    void makeTransaction(User user, Transaction transaction);
+    void makeTransaction(int userRequestId, Transaction transaction);
 
 
 }

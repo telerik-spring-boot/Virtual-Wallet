@@ -10,6 +10,8 @@ public interface WalletRepository {
 
     Wallet getWalletById(int id);
 
+    Wallet getWalletWithUsersById(int id);
+
     List<Wallet> getWalletsByUserId(int userId);
 
     void addWallet(Wallet wallet);

@@ -9,13 +9,13 @@ public interface CardService {
 
     List<Card> getAllCards();
 
-    List<Card> getCardsByUserId(User user, int userId);
+    List<Card> getCardsByUserId(int userId);
 
-    Card getCardById(User user, int id);
+    Card getCardById(int id);
 
-    void addCard(User user, Card card);
+    void addCard(int userRequestId, Card card);
 
-    void updateCard(User user, Card card);
+    void updateCard(Card card);
 
-    void deleteCard(User user, int id);
+    void deleteCard(int cardId);
 }

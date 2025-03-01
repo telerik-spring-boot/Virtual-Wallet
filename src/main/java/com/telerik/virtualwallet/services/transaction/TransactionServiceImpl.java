@@ -1,7 +1,6 @@
 package com.telerik.virtualwallet.services.transaction;
 
 import com.telerik.virtualwallet.models.Transaction;
-import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.repositories.transaction.TransactionRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,27 +22,29 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction getTransactionById(User user, int id) {
+    public Transaction getTransactionById(int id) {
         return null;
     }
 
     @Override
-    public List<Transaction> getAllTransactionsByWalletId(User user, int walletId) {
+    public List<Transaction> getAllTransactionsByWalletId(int walletId) {
         return List.of();
     }
 
     @Override
-    public List<Transaction> getAllOutgoingTransactionsByWalletId(User user, int walletId) {
+    public List<Transaction> getAllOutgoingTransactionsByWalletId(int walletId) {
         return List.of();
     }
 
     @Override
-    public List<Transaction> getAllIncomingTransactionsByWalletId(User user, int walletId) {
+    public List<Transaction> getAllIncomingTransactionsByWalletId(int walletId) {
         return List.of();
     }
 
     @Override
-    public void makeTransaction(User user, Transaction transaction) {
+    public void makeTransaction(int userRequestId, Transaction transaction) {
 
     }
+
+
 }
