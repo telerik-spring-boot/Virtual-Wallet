@@ -22,4 +22,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleAdminRoleManagementException(AdminRoleManagementException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
     }
+
+    @ExceptionHandler(DuplicateEntityException.class)
+    public ResponseEntity<?> handleDuplicateEntityException(DuplicateEntityException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
 }
