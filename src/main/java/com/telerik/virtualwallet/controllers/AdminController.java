@@ -1,12 +1,16 @@
 package com.telerik.virtualwallet.controllers;
 
+import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.User;
+import com.telerik.virtualwallet.models.dtos.UserDisplayAdminDTO;
+import com.telerik.virtualwallet.models.dtos.UserDisplayUserDTO;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
 import com.telerik.virtualwallet.services.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -22,19 +26,27 @@ public class AdminController {
 
     private final AdminService adminService;
     private final UserService userService;
+    private final UserMapper userMapper;
 
 
-    public AdminController(AdminService adminService, UserService userService){
+    public AdminController(AdminService adminService, UserService userService, UserMapper userMapper){
         this.adminService = adminService;
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @GetMapping("/users")
-    public ResponseEntity<Page<User>> getAllUsers(FilterUserOptions filterOptions,
-                                                  @PageableDefault(sort="username", direction = Sort.Direction.ASC) Pageable pageable) {
+    public ResponseEntity<Page<UserDisplayAdminDTO>> getAllUsers(FilterUserOptions filterOptions,
+                                                                 @PageableDefault(sort="username", direction = Sort.Direction.ASC) Pageable pageable) {
 
 
-        return ResponseEntity.ok(adminService.getAllUsers(filterOptions, pageable));
+        Page<User> res = adminService.getAllUsers(filterOptions, pageable);
+
+        List<UserDisplayAdminDTO> userDisplayDTOs = res.getContent().stream()
+                .map(userMapper::userToAdminDisplayDTO)
+                .toList();
+
+        return ResponseEntity.ok(new PageImpl<>(userDisplayDTOs, pageable, res.getTotalElements()));
     }
 
 

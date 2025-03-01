@@ -29,7 +29,7 @@ public interface UserService {
 
     void update(User user);
 
-    void delete(int id);
+    void delete(String username);
 
 
 }
