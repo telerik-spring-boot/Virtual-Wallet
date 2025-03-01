@@ -5,10 +5,12 @@ import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
 import com.telerik.virtualwallet.services.user.UserService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,6 +62,25 @@ public class AdminController {
     public ResponseEntity<List<Transaction>> getAllTransactions() {
         // to do pagination / filter once done
         return ResponseEntity.ok(adminService.getAllTransactions());
+    }
+
+
+    @PostMapping("/users/rights/{userId}")
+    public ResponseEntity<Void> giveAdminRights(@PathVariable int userId) {
+
+        adminService.giveAdminRights(userId);
+
+        return ResponseEntity.ok().build();
+
+    }
+
+    @DeleteMapping("/users/rights/{userId}")
+    public ResponseEntity<Void> revokeAdminRights (@PathVariable int userId) {
+
+        adminService.revokeAdminRights(userId);
+
+        return ResponseEntity.ok().build();
+
     }
 
 }
