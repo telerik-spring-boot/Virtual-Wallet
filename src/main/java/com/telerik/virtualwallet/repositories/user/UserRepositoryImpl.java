@@ -1,13 +1,21 @@
 package com.telerik.virtualwallet.repositories.user;
 
 import com.telerik.virtualwallet.models.User;
+import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository{
@@ -23,11 +31,52 @@ public class UserRepositoryImpl implements UserRepository{
 
 
     @Override
-    public List<User> getAll() {
+    public Page<User> getAll(FilterUserOptions options, Pageable pageable) {
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session.createQuery("from User", User.class);
+            StringBuilder queryString = new StringBuilder("FROM User");
+            List<String> filters = new ArrayList<>();
+            Map<String, Object> params = new HashMap<>();
 
-            return query.list();
+            options.getUsername().ifPresent(value ->{
+                filters.add("username LIKE :username");
+                params.put("username", "%" + value + "%");
+            });
+
+            options.getEmailAddress().ifPresent(value ->{
+                filters.add("email LIKE :email");
+                params.put("email", "%" + value + "%");
+            });
+
+            options.getPhoneNumber().ifPresent(value ->{
+                filters.add("phoneNumber LIKE :phoneNumber");
+                params.put("phoneNumber", "%" + value + "%");
+            });
+
+            if(!filters.isEmpty()){
+                queryString.append(" WHERE ").append(String.join(" AND ", filters));
+            }
+
+            if(pageable.getSort().isSorted()){
+                Sort.Order order = pageable.getSort().iterator().next();
+                queryString.append((" ORDER BY ")).append(order.getProperty()).append(" ").append(order.getDirection().name());
+            }
+
+            Query<User> query = session.createQuery(queryString.toString(), User.class);
+            query.setProperties(params);
+
+            query.setFirstResult((int) pageable.getOffset());
+            query.setMaxResults(pageable.getPageSize());
+
+            List<User> users = query.getResultList();
+
+            String countQueryStr = queryString.toString().replaceFirst("FROM User", "SELECT COUNT(*) FROM User");
+            Query<Long> countQuery = session.createQuery(countQueryStr, Long.class);
+
+            countQuery.setProperties(params);
+
+            long total = countQuery.getSingleResult();
+
+            return new PageImpl<>(users, pageable, total);
         }
     }
 

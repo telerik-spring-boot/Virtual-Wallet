@@ -1,12 +1,14 @@
 package com.telerik.virtualwallet.controllers;
 
 import com.telerik.virtualwallet.models.User;
+import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
-import com.telerik.virtualwallet.services.jwt.JwtService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/admins")
@@ -20,10 +22,10 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getUserById() {
+    public ResponseEntity<Page<User>> getAllUsers(FilterUserOptions filterOptions,
+                                                  @PageableDefault(sort="username", direction = Sort.Direction.ASC) Pageable pageable) {
 
-        List<User> users = adminService.getAllUsers();
 
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(adminService.getAllUsers(filterOptions, pageable));
     }
 }

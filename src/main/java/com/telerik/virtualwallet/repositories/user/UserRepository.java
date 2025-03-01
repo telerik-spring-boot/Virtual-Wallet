@@ -1,12 +1,14 @@
 package com.telerik.virtualwallet.repositories.user;
 
 import com.telerik.virtualwallet.models.User;
-
+import com.telerik.virtualwallet.models.filters.FilterUserOptions;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface UserRepository {
 
-    List<User> getAll();
+    Page<User> getAll(FilterUserOptions options, Pageable pageable);
 
     User getById(int id);
 

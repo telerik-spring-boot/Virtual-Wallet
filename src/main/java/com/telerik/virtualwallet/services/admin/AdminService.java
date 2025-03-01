@@ -1,12 +1,13 @@
 package com.telerik.virtualwallet.services.admin;
 
 import com.telerik.virtualwallet.models.User;
-
-import java.util.List;
+import com.telerik.virtualwallet.models.filters.FilterUserOptions;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface AdminService {
 
-    List<User> getAllUsers();
+    Page<User> getAllUsers(FilterUserOptions options, Pageable pageable);
 
     // List Of Transactions
 
