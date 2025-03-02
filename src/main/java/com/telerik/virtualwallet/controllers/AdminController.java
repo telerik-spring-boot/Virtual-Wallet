@@ -92,4 +92,20 @@ public class AdminController {
 
     }
 
+    @PutMapping("/users/{username}/verify")
+    public ResponseEntity<String> verifyUserPictures(@PathVariable String username){
+
+        adminService.approveUserPictureVerification(username);
+
+        return ResponseEntity.ok("Successfully verified the pictures of user with username: " + username);
+    }
+
+    @DeleteMapping("/users/{username}/verify")
+    public ResponseEntity<String> rejectUserPictures(@PathVariable String username){
+
+        adminService.rejectUserPictureVerification(username);
+
+        return ResponseEntity.ok("Successfully rejected the pictures of user with username: " + username);
+    }
+
 }

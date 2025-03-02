@@ -43,6 +43,7 @@ public class PictureController {
 
     @ResponseBody
     @GetMapping("/pictures/{filename}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Resource> retrieveSpecificPicture(@PathVariable String filename) {
 
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(pictureService.retrieveSingle(filename));

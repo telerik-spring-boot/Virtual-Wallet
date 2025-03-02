@@ -18,9 +18,9 @@ public interface AdminService {
 
     void unblockUser(User user);
 
-    void approveUserPictureVerification(int userId);
+    void approveUserPictureVerification(String username);
 
-    void rejectUserPictureVerification(int userId);
+    void rejectUserPictureVerification(String username);
 
     void revokeAdminRights(int userId);
 
