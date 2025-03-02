@@ -7,8 +7,10 @@ import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
 import com.telerik.virtualwallet.models.*;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
 import com.telerik.virtualwallet.services.StockService;
+import com.telerik.virtualwallet.services.picture.PictureService;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,10 +21,13 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final StockService stockService;
+    private final PictureService pictureService;
 
-    public UserServiceImpl(UserRepository userRepository, StockService stockService){
+
+    public UserServiceImpl(UserRepository userRepository, StockService stockService, PictureService pictureService){
         this.userRepository = userRepository;
         this.stockService = stockService;
+        this.pictureService = pictureService;
     }
 
 
@@ -243,6 +248,7 @@ public class UserServiceImpl implements UserService{
             throw new EntityNotFoundException("User", "username", username);
         }
 
+        pictureService.delete(username);
         userRepository.delete(userToDelete.getId());
 
     }

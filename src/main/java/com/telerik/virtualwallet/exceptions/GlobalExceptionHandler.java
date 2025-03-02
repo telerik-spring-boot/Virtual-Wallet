@@ -18,6 +18,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
+    @ExceptionHandler(PictureOperationException.class)
+    public ResponseEntity<?> handlePictureOperationExceptionException(InvalidSortParameterException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
     @ExceptionHandler(AdminRoleManagementException.class)
     public ResponseEntity<?> handleAdminRoleManagementException(AdminRoleManagementException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());

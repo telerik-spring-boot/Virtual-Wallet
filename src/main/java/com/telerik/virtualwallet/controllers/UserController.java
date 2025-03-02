@@ -17,7 +17,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -66,6 +65,7 @@ public class UserController {
 
         userService.delete(username);
 
+
         return ResponseEntity.noContent().build();
     }
 
@@ -82,4 +82,5 @@ public class UserController {
 
         return ResponseEntity.ok(new PageImpl<>(userDisplayDTOs, pageable, res.getTotalElements()));
     }
+
 }
