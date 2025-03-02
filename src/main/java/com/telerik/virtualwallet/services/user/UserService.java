@@ -1,7 +1,7 @@
 package com.telerik.virtualwallet.services.user;
 
-import com.telerik.virtualwallet.models.Stock;
 import com.telerik.virtualwallet.models.User;
+import com.telerik.virtualwallet.models.dtos.StockOrderDTO;
 
 import java.util.List;
 
@@ -17,11 +17,11 @@ public interface UserService {
 
     User getByUsername(String username);
 
-    User getUserWithStocks(int id);
+    User getUserWithStocks(String username);
 
-    void purchaseStocks(int userId, int walletId, List<String> symbols, List<Integer> quantities);
+    void purchaseStocks(String username, int walletId, List<StockOrderDTO> orderList);
 
-    void sellStocks(int userId, int walletId, List<String> symbols, List<Integer> quantities);
+    void sellStocks(String username, int walletId, List<StockOrderDTO> orderList);
 
     void verifyEmail(String email);
 

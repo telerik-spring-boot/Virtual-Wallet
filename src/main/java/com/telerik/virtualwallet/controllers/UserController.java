@@ -2,7 +2,10 @@ package com.telerik.virtualwallet.controllers;
 
 
 import com.telerik.virtualwallet.helpers.UserMapper;
+import com.telerik.virtualwallet.models.Stock;
+import com.telerik.virtualwallet.models.StockData;
 import com.telerik.virtualwallet.models.User;
+import com.telerik.virtualwallet.models.dtos.StockOrderDTO;
 import com.telerik.virtualwallet.models.dtos.UserDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.UserDisplayForTransactionsDTO;
 import com.telerik.virtualwallet.models.dtos.UserUpdateDTO;
@@ -65,7 +68,6 @@ public class UserController {
 
         userService.delete(username);
 
-
         return ResponseEntity.noContent().build();
     }
 
@@ -81,6 +83,32 @@ public class UserController {
                 .toList();
 
         return ResponseEntity.ok(new PageImpl<>(userDisplayDTOs, pageable, res.getTotalElements()));
+    }
+
+    @PutMapping("/{username}/wallets/{walletId}/stocks")
+    @PreAuthorize("#username == authentication.name")
+    public ResponseEntity<String> purchaseStocks(@RequestBody List<StockOrderDTO> purchaseList, @PathVariable int walletId, @PathVariable String username){
+
+        userService.purchaseStocks(username, walletId, purchaseList);
+
+        return ResponseEntity.ok("Stocks purchased successfully.");
+    }
+
+
+    @DeleteMapping("/{username}/wallets/{walletId}/stocks")
+    @PreAuthorize("#username == authentication.name")
+    public ResponseEntity<String> sellStocks(@RequestBody List<StockOrderDTO> purchaseList, @PathVariable int walletId, @PathVariable String username){
+
+        userService.sellStocks(username, walletId, purchaseList);
+
+        return ResponseEntity.ok("Stocks sold successfully.");
+    }
+
+    @GetMapping("/{username}/stocks")
+    @PreAuthorize("#username == authentication.name")
+    public ResponseEntity<List<Stock>> getUserPortfolio(@PathVariable String username){
+
+        return ResponseEntity.ok().body(userService.getUserWithStocks(username).getStocks());
     }
 
 }

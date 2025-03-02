@@ -4,6 +4,7 @@ package com.telerik.virtualwallet.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name="stocks")
@@ -20,7 +21,7 @@ public class Stock {
     private String stockSymbol;
 
     @Column(name="amount")
-    private int quantity;
+    private double quantity;
 
     @Column(name="value")
     private double price;
@@ -32,7 +33,7 @@ public class Stock {
     public Stock() {
     }
 
-    public Stock(LocalDateTime purchasedAt, int quantity, String stockSymbol, double price, User user) {
+    public Stock(String stockSymbol, double quantity,  double price, LocalDateTime purchasedAt, User user) {
         this.purchasedAt = purchasedAt;
         this.quantity = quantity;
         this.stockSymbol = stockSymbol;
@@ -64,11 +65,11 @@ public class Stock {
         this.stockSymbol = stockSymbol;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 

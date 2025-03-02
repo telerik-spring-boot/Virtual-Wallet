@@ -149,24 +149,24 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public User getUserWithStocks(int id) {
+    public User getUserWithStocks(String username) {
         try(Session session = sessionFactory.openSession()){
 
-            Query<User> query = session.createQuery("from User u LEFT JOIN FETCH u.stocks WHERE u.id = :id", User.class);
+            Query<User> query = session.createQuery("from User u LEFT JOIN FETCH u.stocks WHERE u.username = :username", User.class);
 
-            query.setParameter("id", id);
+            query.setParameter("username", username);
 
             return query.uniqueResult();
         }
     }
 
     @Override
-    public User getUserWithStocksAndWallets(int userId) {
+    public User getUserWithStocksAndWallets(String username) {
         try(Session session = sessionFactory.openSession()){
 
-            Query<User> query = session.createQuery("from User u LEFT JOIN FETCH u.stocks LEFT JOIN FETCH u.wallets WHERE u.id = :userId", User.class);
+            Query<User> query = session.createQuery("from User u LEFT JOIN FETCH u.stocks LEFT JOIN FETCH u.wallets WHERE u.username = :username", User.class);
 
-            query.setParameter("userId", userId);
+            query.setParameter("username", username);
 
             return query.uniqueResult();
         }

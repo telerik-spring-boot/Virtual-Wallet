@@ -5,9 +5,9 @@ public class StockOrderDTO {
 
     private String symbol;
 
-    private int quantity;
+    private double quantity;
 
-    public StockOrderDTO(String symbol, int quantity) {
+    public StockOrderDTO(String symbol, double quantity) {
         this.symbol = symbol;
         this.quantity = quantity;
     }
@@ -23,11 +23,11 @@ public class StockOrderDTO {
         this.symbol = symbol;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 }

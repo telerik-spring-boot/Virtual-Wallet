@@ -55,7 +55,7 @@ public class User {
     private Verification verification;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade= CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade= CascadeType.ALL, orphanRemoval = true)
     private List<Stock> stocks = new ArrayList<>();
 
 
