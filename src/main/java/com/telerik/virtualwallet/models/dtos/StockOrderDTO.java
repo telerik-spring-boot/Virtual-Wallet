@@ -1,13 +1,20 @@
 package com.telerik.virtualwallet.models.dtos;
 
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class StockOrderDTO {
 
+    @NotBlank
     private String symbol;
 
-    private double quantity;
+    @NotNull
+    @Min(0)
+    private Double quantity;
 
-    public StockOrderDTO(String symbol, double quantity) {
+    public StockOrderDTO(String symbol, Double quantity) {
         this.symbol = symbol;
         this.quantity = quantity;
     }
@@ -23,11 +30,11 @@ public class StockOrderDTO {
         this.symbol = symbol;
     }
 
-    public double getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 }

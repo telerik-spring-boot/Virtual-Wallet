@@ -183,9 +183,12 @@ public class UserServiceImpl implements UserService{
 
     private void processStockTransaction(String username, int walletId, List<StockOrderDTO> orderList, boolean isPurchase) {
         User user = userRepository.getUserWithStocksAndWallets(username);
+
         if (user == null) {
             throw new EntityNotFoundException("User", "username", username);
         }
+
+        checkIfVerifiedAndNotBlocked(user);
 
         Wallet walletToUse = walletRequirementsVerification(user, walletId);
 
@@ -291,5 +294,15 @@ public class UserServiceImpl implements UserService{
         }
 
         return walletToUse;
+    }
+
+    private void checkIfVerifiedAndNotBlocked(User user){
+        if(user.isBlocked()){
+            throw new UnauthorizedOperationException("You are unable to make transactions due to being blocked.");
+        }
+
+        if(!(user.getVerification().isEmailVerified() && user.getVerification().isPicturesVerified())){
+            throw new UnauthorizedOperationException("You are unable to make transactions due to being not verified.");
+        }
     }
 }

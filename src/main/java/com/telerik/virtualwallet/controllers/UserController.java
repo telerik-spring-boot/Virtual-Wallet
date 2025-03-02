@@ -9,6 +9,7 @@ import com.telerik.virtualwallet.models.dtos.*;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
 import com.telerik.virtualwallet.services.user.UserService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -86,7 +87,7 @@ public class UserController {
 
     @PutMapping("/{username}/wallets/{walletId}/stocks")
     @PreAuthorize("#username == authentication.name")
-    public ResponseEntity<String> purchaseStocks(@RequestBody List<StockOrderDTO> purchaseList, @PathVariable int walletId, @PathVariable String username){
+    public ResponseEntity<String> purchaseStocks(@Valid @RequestBody List<StockOrderDTO> purchaseList, @PathVariable int walletId, @PathVariable String username){
 
         userService.purchaseStocks(username, walletId, purchaseList);
 
@@ -96,7 +97,7 @@ public class UserController {
 
     @DeleteMapping("/{username}/wallets/{walletId}/stocks")
     @PreAuthorize("#username == authentication.name")
-    public ResponseEntity<String> sellStocks(@RequestBody List<StockOrderDTO> purchaseList, @PathVariable int walletId, @PathVariable String username){
+    public ResponseEntity<String> sellStocks(@Valid @RequestBody List<StockOrderDTO> purchaseList, @PathVariable int walletId, @PathVariable String username){
 
         userService.sellStocks(username, walletId, purchaseList);
 
