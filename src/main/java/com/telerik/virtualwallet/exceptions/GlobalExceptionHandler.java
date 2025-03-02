@@ -37,4 +37,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleDuplicateEntityException(DuplicateEntityException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
+
+    @ExceptionHandler(UnauthorizedOperationException.class)
+    public ResponseEntity<?> handleUnauthorizedOperationException(UnauthorizedOperationException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
 }
