@@ -1,14 +1,11 @@
 package com.telerik.virtualwallet.controllers;
 
 
+import com.telerik.virtualwallet.helpers.StockMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.Stock;
-import com.telerik.virtualwallet.models.StockData;
 import com.telerik.virtualwallet.models.User;
-import com.telerik.virtualwallet.models.dtos.StockOrderDTO;
-import com.telerik.virtualwallet.models.dtos.UserDisplayDTO;
-import com.telerik.virtualwallet.models.dtos.UserDisplayForTransactionsDTO;
-import com.telerik.virtualwallet.models.dtos.UserUpdateDTO;
+import com.telerik.virtualwallet.models.dtos.*;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
 import com.telerik.virtualwallet.services.user.UserService;
@@ -29,12 +26,14 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final AdminService adminService;
+    private final StockMapper stockMapper;
 
 
-    public UserController(UserService userService, UserMapper userMapper, AdminService adminService){
+    public UserController(UserService userService, UserMapper userMapper, AdminService adminService, StockMapper stockMapper){
         this.userService = userService;
         this.userMapper = userMapper;
         this.adminService = adminService;
+        this.stockMapper = stockMapper;
     }
 
 
@@ -106,9 +105,14 @@ public class UserController {
 
     @GetMapping("/{username}/stocks")
     @PreAuthorize("#username == authentication.name")
-    public ResponseEntity<List<Stock>> getUserPortfolio(@PathVariable String username){
+    public ResponseEntity<List<StockDisplayDTO>> getUserPortfolio(@PathVariable String username){
 
-        return ResponseEntity.ok().body(userService.getUserWithStocks(username).getStocks());
+        List<StockDisplayDTO> result = userService.getUserWithStocks(username).getStocks()
+                .stream()
+                .map(stockMapper::stockToDto)
+                .toList();
+
+        return ResponseEntity.ok().body(result);
     }
 
 }
