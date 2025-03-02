@@ -9,6 +9,7 @@ import com.telerik.virtualwallet.models.dtos.StockOrderDTO;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
 import com.telerik.virtualwallet.services.StockService;
 import com.telerik.virtualwallet.services.picture.PictureService;
+import com.telerik.virtualwallet.models.enums.Currency;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -117,6 +118,7 @@ public class UserServiceImpl implements UserService{
         List<User> dbUsers = userRepository.getByAnyUniqueField(user.getUsername(), user.getEmail(), user.getPhoneNumber());
 
         setDefaultVerification(user);
+        setDefaultWallet(user);
 
         if(!dbUsers.isEmpty()){
             appropriateThrow(user, dbUsers.get(0));
@@ -124,6 +126,7 @@ public class UserServiceImpl implements UserService{
 
         userRepository.create(user);
     }
+
 
     @Override
     public void update(User user) {
@@ -179,6 +182,16 @@ public class UserServiceImpl implements UserService{
         verification.setEmailVerified(false);
 
         user.setVerification(verification);
+    }
+
+    private void setDefaultWallet(User user) {
+        Wallet wallet = new Wallet();
+
+        wallet.setBalance(BigDecimal.ZERO);
+        wallet.getUsers().add(user);
+        wallet.setCurrency(Currency.USD);
+
+        user.getWallets().add(wallet);
     }
 
     private void processStockTransaction(String username, int walletId, List<StockOrderDTO> orderList, boolean isPurchase) {
@@ -305,4 +318,6 @@ public class UserServiceImpl implements UserService{
             throw new UnauthorizedOperationException("You are unable to make transactions due to being not verified.");
         }
     }
+
+
 }

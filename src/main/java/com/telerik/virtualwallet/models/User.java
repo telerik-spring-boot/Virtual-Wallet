@@ -33,7 +33,7 @@ public class User {
     private boolean isBlocked;
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "users_wallets",
             joinColumns = @JoinColumn(name = "user_id"),

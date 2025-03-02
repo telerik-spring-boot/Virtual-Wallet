@@ -3,7 +3,6 @@ package com.telerik.virtualwallet.controllers;
 
 import com.telerik.virtualwallet.helpers.StockMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
-import com.telerik.virtualwallet.models.Stock;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.*;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
