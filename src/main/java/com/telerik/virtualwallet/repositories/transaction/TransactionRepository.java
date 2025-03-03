@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface TransactionRepository {
 
-    List<Transaction> getAllTransactions();
+    List<Transaction> getAllTransactionsWithWallets();
 
-    Transaction getTransactionById(int id);
+    Transaction getTransactionWithWalletsById(int id);
 
-    List<Transaction> getAllTransactionsByWalletId(int walletId);
+    List<Transaction> getAllTransactionsWithWalletsByWalletId(int walletId);
 
-    List<Transaction> getAllIncomingTransactionsByWalletId(int walletReceiverId);
+    List<Transaction> getAllIncomingTransactionsWithWalletsByWalletId(int walletReceiverId);
 
-    List<Transaction> getAllOutgoingTransactionsByWalletId(int walletSenderId);
+    List<Transaction> getAllOutgoingTransactionsWithWalletsByWalletId(int walletSenderId);
 
     void createTransaction(Transaction transaction);
 }

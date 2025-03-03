@@ -20,32 +20,45 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     @Override
-    public List<Transaction> getAllTransactions() {
+    public List<Transaction> getAllTransactionsWithWallets() {
 
         try (Session session = sessionFactory.openSession()) {
-            Query<Transaction> query = session.createQuery("from Transaction", Transaction.class);
+            Query<Transaction> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transaction t " +
+                                    "JOIN FETCH t.senderWallet " +
+                                    "JOIN FETCH t.receiverWallet",
+                            Transaction.class);
             return query.list();
         }
 
     }
 
     @Override
-    public Transaction getTransactionById(int id) {
+    public Transaction getTransactionWithWalletsById(int id) {
 
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Transaction.class, id);
+            Query<Transaction> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transaction t " +
+                                    "JOIN FETCH t.senderWallet " +
+                                    "JOIN FETCH t.receiverWallet " +
+                                    "WHERE t.id=:id",
+                            Transaction.class);
+            query.setParameter("id", id);
+            return query.uniqueResult();
         }
 
     }
 
     @Override
-    public List<Transaction> getAllTransactionsByWalletId(int walletId) {
+    public List<Transaction> getAllTransactionsWithWalletsByWalletId(int walletId) {
 
         try (Session session = sessionFactory.openSession()) {
             Query<Transaction> query = session.createQuery(
-                    "FROM Transaction t WHERE t.receiverWallet.id = :walletId OR t.senderWallet.id = :walletId",
-                    Transaction.class
-            );
+                    "SELECT DISTINCT t FROM Transaction t " +
+                            "JOIN FETCH t.senderWallet " +
+                            "JOIN FETCH t.receiverWallet " +
+                            "WHERE t.receiverWallet.id = :walletId OR t.senderWallet.id = :walletId",
+                    Transaction.class);
             query.setParameter("walletId", walletId);
             return query.list();
         }
@@ -53,28 +66,32 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     @Override
-    public List<Transaction> getAllIncomingTransactionsByWalletId(int walletReceiverId) {
+    public List<Transaction> getAllIncomingTransactionsWithWalletsByWalletId(int walletReceiverId) {
 
         try (Session session = sessionFactory.openSession()) {
             Query<Transaction> query = session.createQuery(
-                    "FROM Transaction t WHERE t.receiverWallet.id = :walletReceiverId",
-                    Transaction.class
-            );
-            query.setParameter("walletReceiverId", walletReceiverId);
+                    "SELECT DISTINCT t FROM Transaction t " +
+                            "JOIN FETCH t.senderWallet " +
+                            "JOIN FETCH t.receiverWallet " +
+                            "WHERE t.receiverWallet.id = :walletId",
+                    Transaction.class);
+            query.setParameter("walletId", walletReceiverId);
             return query.list();
         }
 
     }
 
     @Override
-    public List<Transaction> getAllOutgoingTransactionsByWalletId(int walletSenderId) {
+    public List<Transaction> getAllOutgoingTransactionsWithWalletsByWalletId(int walletSenderId) {
 
         try (Session session = sessionFactory.openSession()) {
             Query<Transaction> query = session.createQuery(
-                    "FROM Transaction t WHERE t.senderWallet.id = :walletSenderId",
-                    Transaction.class
-            );
-            query.setParameter("walletSenderId", walletSenderId);
+                    "SELECT DISTINCT t FROM Transaction t " +
+                            "JOIN FETCH t.senderWallet " +
+                            "JOIN FETCH t.receiverWallet " +
+                            "WHERE t.senderWallet.id = :walletId",
+                    Transaction.class);
+            query.setParameter("walletId", walletSenderId);
             return query.list();
         }
 

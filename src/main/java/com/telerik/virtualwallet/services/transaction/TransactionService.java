@@ -1,7 +1,6 @@
 package com.telerik.virtualwallet.services.transaction;
 
 import com.telerik.virtualwallet.models.Transaction;
-import com.telerik.virtualwallet.models.User;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public interface TransactionService {
 
     List<Transaction> getAllIncomingTransactionsByWalletId(int walletId);
 
-    void makeTransaction(int userRequestId, Transaction transaction);
+    void makeTransaction(int senderId, Transaction transaction);
 
 
 }

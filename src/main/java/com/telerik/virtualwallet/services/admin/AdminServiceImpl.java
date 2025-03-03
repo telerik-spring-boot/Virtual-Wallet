@@ -49,7 +49,7 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public List<Transaction> getAllTransactions() {
-        return transactionRepository.getAllTransactions();
+        return transactionRepository.getAllTransactionsWithWallets();
     }
 
     @Override
