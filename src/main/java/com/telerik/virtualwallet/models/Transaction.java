@@ -26,6 +26,10 @@ public class Transaction {
     private Wallet receiverWallet;
 
     @ManyToOne
+    @JoinColumn(name="user_sender_id", nullable=false)
+    private User userSender;
+
+    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private TransactionCategory transactionCategory;
 
@@ -90,5 +94,13 @@ public class Transaction {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public User getUserSender() {
+        return userSender;
+    }
+
+    public void setUserSender(User userSender) {
+        this.userSender = userSender;
     }
 }

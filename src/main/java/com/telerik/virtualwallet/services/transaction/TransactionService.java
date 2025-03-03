@@ -16,7 +16,7 @@ public interface TransactionService {
 
     List<Transaction> getAllIncomingTransactionsByWalletId(int walletId);
 
-    void makeTransaction(int senderId, Transaction transaction);
+    void makeTransaction(Transaction transaction);
 
 
 }

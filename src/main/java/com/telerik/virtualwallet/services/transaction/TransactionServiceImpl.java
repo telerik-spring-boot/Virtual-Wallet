@@ -1,10 +1,13 @@
 package com.telerik.virtualwallet.services.transaction;
 
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
+import com.telerik.virtualwallet.exceptions.InsufficientFundsException;
 import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.repositories.transaction.TransactionRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -13,6 +16,7 @@ public class TransactionServiceImpl implements TransactionService {
     private static final String NO_TRANSACTIONS_MESSAGE = "No transactions are found.";
     private static final String NO_TRANSACTIONS_FOUND_MESSAGE = "No transactions associated with wallet with id %d found.";
     private static final String NO_TRANSACTIONS_TYPE_FOUND_MESSAGE = "No %s transactions associated with wallet with id %d found.";
+    private static final String INSUFFICIENT_BALANCE_MESSAGE = "Your balance is not sufficient to send this transaction.";
 
     private final TransactionRepository transactionRepository;
 
@@ -66,7 +70,7 @@ public class TransactionServiceImpl implements TransactionService {
         List<Transaction> transactions = transactionRepository.getAllOutgoingTransactionsWithWalletsByWalletId(walletId);
 
         if (transactions.isEmpty()) {
-            throw new EntityNotFoundException(String.format(NO_TRANSACTIONS_TYPE_FOUND_MESSAGE,"outgoing", walletId));
+            throw new EntityNotFoundException(String.format(NO_TRANSACTIONS_TYPE_FOUND_MESSAGE, "outgoing", walletId));
         }
 
         return transactions;
@@ -79,15 +83,28 @@ public class TransactionServiceImpl implements TransactionService {
         List<Transaction> transactions = transactionRepository.getAllIncomingTransactionsWithWalletsByWalletId(walletId);
 
         if (transactions.isEmpty()) {
-            throw new EntityNotFoundException(String.format(NO_TRANSACTIONS_TYPE_FOUND_MESSAGE,"incoming", walletId));
+            throw new EntityNotFoundException(String.format(NO_TRANSACTIONS_TYPE_FOUND_MESSAGE, "incoming", walletId));
         }
 
         return transactions;
 
     }
 
+    @Transactional
     @Override
-    public void makeTransaction(int userRequestId, Transaction transaction) {
+    public void makeTransaction(Transaction transaction) {
+
+        BigDecimal senderBalanceBefore = transaction.getSenderWallet().getBalance();
+        BigDecimal receiverBalanceBefore = transaction.getReceiverWallet().getBalance();
+
+        if (transaction.getAmount().compareTo(senderBalanceBefore) > 0) {
+            throw new InsufficientFundsException(INSUFFICIENT_BALANCE_MESSAGE);
+        }
+
+        transaction.getSenderWallet().setBalance(senderBalanceBefore.subtract(transaction.getAmount()));
+        transaction.getReceiverWallet().setBalance(receiverBalanceBefore.add(transaction.getAmount()));
+
+        transactionRepository.createTransaction(transaction);
 
     }
 }
