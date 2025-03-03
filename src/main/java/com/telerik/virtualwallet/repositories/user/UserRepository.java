@@ -22,9 +22,9 @@ public interface UserRepository {
 
     User getByUsernameWithRoles(String username);
 
-    User getUserWithStocks(int id);
+    User getUserWithStocks(String username);
 
-    User getUserWithStocksAndWallets(int userId);
+    User getUserWithStocksAndWallets(String username);
 
     List<User> getByAnyUniqueField(String username, String email, String phone);
 

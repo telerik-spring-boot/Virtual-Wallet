@@ -17,4 +17,29 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleInvalidSortParameterException(InvalidSortParameterException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+
+    @ExceptionHandler(PictureOperationException.class)
+    public ResponseEntity<?> handlePictureOperationExceptionException(InvalidSortParameterException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(InsufficientFundsException.class)
+    public ResponseEntity<?> handleInsufficientFundsException(InsufficientFundsException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(AdminRoleManagementException.class)
+    public ResponseEntity<?> handleAdminRoleManagementException(AdminRoleManagementException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(DuplicateEntityException.class)
+    public ResponseEntity<?> handleDuplicateEntityException(DuplicateEntityException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UnauthorizedOperationException.class)
+    public ResponseEntity<?> handleUnauthorizedOperationException(UnauthorizedOperationException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
 }

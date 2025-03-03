@@ -33,7 +33,7 @@ public class User {
     private boolean isBlocked;
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "users_wallets",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -55,7 +55,7 @@ public class User {
     private Verification verification;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade= CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade= CascadeType.ALL, orphanRemoval = true)
     private List<Stock> stocks = new ArrayList<>();
 
 

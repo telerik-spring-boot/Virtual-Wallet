@@ -9,6 +9,7 @@ import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.repositories.role.RoleRepository;
 import com.telerik.virtualwallet.repositories.transaction.TransactionRepository;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
+import com.telerik.virtualwallet.services.picture.PictureService;
 import com.telerik.virtualwallet.services.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,12 +28,14 @@ public class AdminServiceImpl implements AdminService{
     private final RoleRepository roleRepository;
     private final UserService userService;
     private final TransactionRepository transactionRepository;
+    private final PictureService pictureService;
 
-    public AdminServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserService userService, TransactionRepository transactionRepository){
+    public AdminServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserService userService, TransactionRepository transactionRepository, PictureService pictureService){
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userService = userService;
         this.transactionRepository = transactionRepository;
+        this.pictureService = pictureService;
     }
 
 
@@ -70,12 +73,12 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public void approveUserPictureVerification(int userId) {
+    public void approveUserPictureVerification(String username) {
 
-        User userToBeVerified = userRepository.getById(userId);
+        User userToBeVerified = userRepository.getByUsername(username);
 
         if(userToBeVerified  == null){
-            throw new EntityNotFoundException("User", "id", userId);
+            throw new EntityNotFoundException("User", "username", username);
         }
 
         userToBeVerified.getVerification().setPicturesVerified(true);
@@ -85,15 +88,17 @@ public class AdminServiceImpl implements AdminService{
 
 
     @Override
-    public void rejectUserPictureVerification(int userId) {
+    public void rejectUserPictureVerification(String username) {
 
-        User userToBeVerified = userRepository.getById(userId);
+        User userToBeVerified = userRepository.getByUsername(username);
 
         if(userToBeVerified  == null){
-            throw new EntityNotFoundException("User", "id", userId);
+            throw new EntityNotFoundException("User", "username", username);
         }
 
         userToBeVerified.getVerification().setPicturesVerified(false);
+
+        pictureService.delete(username);
 
         userRepository.update(userToBeVerified);
     }

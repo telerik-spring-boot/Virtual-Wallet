@@ -5,12 +5,16 @@ import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.exceptions.InsufficientFundsException;
 import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
 import com.telerik.virtualwallet.models.*;
+import com.telerik.virtualwallet.models.dtos.StockOrderDTO;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
 import com.telerik.virtualwallet.services.StockService;
+import com.telerik.virtualwallet.services.picture.PictureService;
+import com.telerik.virtualwallet.models.enums.Currency;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -19,10 +23,13 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final StockService stockService;
+    private final PictureService pictureService;
 
-    public UserServiceImpl(UserRepository userRepository, StockService stockService){
+
+    public UserServiceImpl(UserRepository userRepository, StockService stockService, PictureService pictureService){
         this.userRepository = userRepository;
         this.stockService = stockService;
+        this.pictureService = pictureService;
     }
 
 
@@ -72,130 +79,33 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUserWithStocks(int id) {
-        User user = userRepository.getUserWithStocks(id);
+    public User getUserWithStocks(String username) {
+        User user = userRepository.getUserWithStocks(username);
 
         if (user == null) {
-            throw new EntityNotFoundException("User", "id", id);
+            throw new EntityNotFoundException("User", "username", username);
         }
 
         return user;
     }
 
     @Override
-    public void purchaseStocks(int userId, int walletId, List<String> symbols, List<Integer> quantities) {
-        User user = userRepository.getUserWithStocksAndWallets(userId);
-
-        if (user == null) {
-            throw new EntityNotFoundException("User", "id", userId);
-        }
-
-        Wallet walletToUse = walletRequirementsVerification(user, walletId);
-
-        List<StockData> stocks = stockService.getStockPrices(symbols);
-
-        double totalStockValue = IntStream.range(0, stocks.size())
-                .mapToDouble(i -> stocks.get(i).getPrice() * quantities.get(i))
-                .sum();
-
-        if(walletToUse.getBalance().doubleValue() < totalStockValue){
-            throw new InsufficientFundsException("Your balance is not sufficient to finish the transaction.");
-        }
-
-        int indexOfQuantities = 0;
-
-        walletToUse.setBalance(walletToUse.getBalance().subtract(BigDecimal.valueOf(totalStockValue)));
-
-        for(StockData stock : stocks){
-            String symbol = stock.getSymbol();
-            double price = stock.getPrice();
-            int quantity = quantities.get(indexOfQuantities++);
-
-            Stock existingStock = user.getStocks().stream()
-                    .filter(userStock -> userStock.getStockSymbol().equals(symbol))
-                    .findFirst()
-                    .orElse(null);
-
-            if (existingStock != null) {
-
-                int newTotalQuantity = quantity + existingStock.getQuantity();
-                double newPrice = (existingStock.getPrice() * existingStock.getQuantity() + price * quantity) / newTotalQuantity;
-
-                existingStock.setQuantity(newTotalQuantity);
-                existingStock.setPrice(newPrice);
-
-            } else {
-                Stock newStock = new Stock();
-
-                newStock.setStockSymbol(symbol);
-                newStock.setPrice(price);
-                newStock.setQuantity(quantity);
-                newStock.setPurchasedAt(LocalDateTime.now());
-                newStock.setUser(user);
-
-                user.addStock(newStock);
-            }
-        }
-
-        userRepository.update(user);
-
+    public void purchaseStocks(String username, int walletId, List<StockOrderDTO> orderList) {
+        processStockTransaction(username, walletId, orderList, true);
     }
 
     @Override
-    public void sellStocks(int userId, int walletId, List<String> symbols, List<Integer> quantities) {
-
-        User user = userRepository.getUserWithStocksAndWallets(userId);
-
-        if (user == null) {
-            throw new EntityNotFoundException("User", "id", userId);
-        }
-
-        Wallet walletToUse = walletRequirementsVerification(user, walletId);
-
-        List<StockData> stocks = stockService.getStockPrices(symbols);
-
-        int indexOfQuantities = 0;
-        double totalBalanceToReceive = 0;
-
-        for(StockData stock : stocks){
-            String symbol = stock.getSymbol();
-            double price = stock.getPrice();
-            int quantity = quantities.get(indexOfQuantities++);
-
-            Stock existingStock = user.getStocks().stream()
-                    .filter(userStock -> userStock.getStockSymbol().equals(symbol))
-                    .findFirst()
-                    .orElse(null);
-
-            if (existingStock != null) {
-
-                int newTotalQuantity = existingStock.getQuantity() - quantity;
-
-                if(newTotalQuantity <= 0){
-
-                    totalBalanceToReceive += price * existingStock.getQuantity();
-                    user.sellStock(existingStock);
-
-                }else{
-
-                    existingStock.setQuantity(newTotalQuantity);
-                    totalBalanceToReceive += price * (quantity - newTotalQuantity);
-
-                }
-            }
-        }
-        walletToUse.setBalance(walletToUse.getBalance().add(BigDecimal.valueOf(totalBalanceToReceive)));
-
-        userRepository.update(user);
+    public void sellStocks(String username, int walletId, List<StockOrderDTO> orderList) {
+        processStockTransaction(username, walletId, orderList, false);
     }
 
     @Override
-    public void verifyEmail(int id) {
+    public void verifyEmail(String email) {
 
-        User user = userRepository.getById(id);
+        User user = userRepository.getByEmail(email);
 
         if(user == null){
-            throw new EntityNotFoundException("User", "id", id);
+            throw new EntityNotFoundException("User", "email", email);
         }
 
         user.getVerification().setEmailVerified(true);
@@ -208,6 +118,7 @@ public class UserServiceImpl implements UserService{
         List<User> dbUsers = userRepository.getByAnyUniqueField(user.getUsername(), user.getEmail(), user.getPhoneNumber());
 
         setDefaultVerification(user);
+        setDefaultWallet(user);
 
         if(!dbUsers.isEmpty()){
             appropriateThrow(user, dbUsers.get(0));
@@ -215,6 +126,7 @@ public class UserServiceImpl implements UserService{
 
         userRepository.create(user);
     }
+
 
     @Override
     public void update(User user) {
@@ -235,15 +147,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(String username) {
 
-        User userToDelete = userRepository.getById(id);
+        User userToDelete = userRepository.getByUsername(username);
 
         if (userToDelete == null) {
-            throw new EntityNotFoundException("User", "id", id);
+            throw new EntityNotFoundException("User", "username", username);
         }
 
-        userRepository.delete(id);
+        pictureService.delete(username);
+        userRepository.delete(userToDelete.getId());
 
     }
 
@@ -271,6 +184,113 @@ public class UserServiceImpl implements UserService{
         user.setVerification(verification);
     }
 
+    private void setDefaultWallet(User user) {
+        Wallet wallet = new Wallet();
+
+        wallet.setBalance(BigDecimal.ZERO);
+        wallet.getUsers().add(user);
+        wallet.setCurrency(Currency.USD);
+
+        user.getWallets().add(wallet);
+    }
+
+    private void processStockTransaction(String username, int walletId, List<StockOrderDTO> orderList, boolean isPurchase) {
+        User user = userRepository.getUserWithStocksAndWallets(username);
+
+        if (user == null) {
+            throw new EntityNotFoundException("User", "username", username);
+        }
+
+        checkIfVerifiedAndNotBlocked(user);
+
+        Wallet walletToUse = walletRequirementsVerification(user, walletId);
+
+        List<String> symbols = new ArrayList<>();
+        List<Double> quantities = new ArrayList<>();
+
+        for(StockOrderDTO order : orderList){
+            symbols.add(order.getSymbol());
+            quantities.add(order.getQuantity());
+        }
+
+        // Uncomment for production
+        // List<StockData> stocks = stockService.getStockPrices(symbols);
+
+        // dummy data for testing
+        List<StockData> stocks = new ArrayList<>();
+        for(StockOrderDTO order : orderList){
+            stocks.add(new StockData(order.getSymbol(), 100));
+        }
+
+        if (isPurchase) {
+            handleStockPurchase(user, walletToUse, stocks, quantities);
+        } else {
+            handleStockSale(user, walletToUse, stocks, quantities);
+        }
+
+        userRepository.update(user);
+    }
+
+    private void handleStockPurchase(User user, Wallet wallet, List<StockData> stocks, List<Double> quantities) {
+        double totalStockValue = IntStream.range(0, stocks.size())
+                .mapToDouble(i -> stocks.get(i).getPrice() * quantities.get(i))
+                .sum();
+
+        if (wallet.getBalance().doubleValue() < totalStockValue) {
+            throw new InsufficientFundsException("Your balance is not sufficient to finish the transaction.");
+        }
+
+        wallet.setBalance(wallet.getBalance().subtract(BigDecimal.valueOf(totalStockValue)));
+
+        for (int i = 0; i < stocks.size(); i++) {
+            StockData stockData = stocks.get(i);
+            double quantity = quantities.get(i);
+
+            Stock existingStock = user.getStocks().stream()
+                    .filter(s -> s.getStockSymbol().equals(stockData.getSymbol()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (existingStock != null) {
+                double newTotalQuantity = existingStock.getQuantity() + quantity;
+                double newPrice = (existingStock.getPrice() * existingStock.getQuantity() + stockData.getPrice() * quantity) / newTotalQuantity;
+
+                existingStock.setQuantity(newTotalQuantity);
+                existingStock.setPrice(newPrice);
+            } else {
+                user.addStock(new Stock(stockData.getSymbol(), quantity, stockData.getPrice(), LocalDateTime.now(), user));
+            }
+        }
+    }
+
+    private void handleStockSale(User user, Wallet wallet, List<StockData> stocks, List<Double> quantities) {
+        double totalBalanceToReceive = 0;
+
+        for (int i = 0; i < stocks.size(); i++) {
+            StockData stockData = stocks.get(i);
+            double quantity = quantities.get(i);
+
+            Stock existingStock = user.getStocks().stream()
+                    .filter(s -> s.getStockSymbol().equals(stockData.getSymbol()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (existingStock != null) {
+                double newTotalQuantity = existingStock.getQuantity() - quantity;
+
+                if (newTotalQuantity <= 0) {
+                    totalBalanceToReceive += stockData.getPrice() * existingStock.getQuantity();
+                    user.sellStock(existingStock);
+                } else {
+                    existingStock.setQuantity(newTotalQuantity);
+                    totalBalanceToReceive += stockData.getPrice() * quantity;
+                }
+            }
+        }
+
+        wallet.setBalance(wallet.getBalance().add(BigDecimal.valueOf(totalBalanceToReceive)));
+    }
+
     private Wallet walletRequirementsVerification(User user, int walletId){
 
         Wallet walletToUse = user.getWallets().stream()
@@ -282,10 +302,22 @@ public class UserServiceImpl implements UserService{
             throw new EntityNotFoundException("Wallet", "walletId", walletId);
         }
 
-        if(!walletToUse.getCurrency().getDescription().equalsIgnoreCase("USD")){
+        if(!walletToUse.getCurrency().toString().equalsIgnoreCase("USD")){
             throw new UnauthorizedOperationException("You can only use USD account for stock operations.");
         }
 
         return walletToUse;
     }
+
+    private void checkIfVerifiedAndNotBlocked(User user){
+        if(user.isBlocked()){
+            throw new UnauthorizedOperationException("You are unable to make transactions due to being blocked.");
+        }
+
+        if(!(user.getVerification().isEmailVerified() && user.getVerification().isPicturesVerified())){
+            throw new UnauthorizedOperationException("You are unable to make transactions due to being not verified.");
+        }
+    }
+
+
 }

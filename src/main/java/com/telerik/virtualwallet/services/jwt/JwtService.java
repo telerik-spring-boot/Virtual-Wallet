@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -22,15 +24,15 @@ import java.util.stream.Collectors;
 @Service
 public class JwtService {
 
-    private static String SECRET_KEY;
+    private static String secretKey;
 
     @Autowired
     public JwtService(Environment env) {
-        SECRET_KEY = Base64.getEncoder().encodeToString(Objects.requireNonNull(env.getProperty("ENCRYPTION_SECRET_KEY")).getBytes(StandardCharsets.UTF_8));
+        secretKey = Base64.getEncoder().encodeToString(Objects.requireNonNull(env.getProperty("ENCRYPTION_SECRET_KEY")).getBytes(StandardCharsets.UTF_8));
     }
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
     }
 
     public String generateToken(String username, Collection<? extends GrantedAuthority> authorities) {
@@ -45,7 +47,15 @@ public class JwtService {
                 .compact();
     }
 
-    public String extractUsername(String token) {
+    public String generateEmailVerificationToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)
+                .setExpiration(Date.from(Instant.now().plus(24, ChronoUnit.HOURS)))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String extractSubject(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -56,6 +66,7 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
@@ -75,6 +86,6 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        return (userDetails.getUsername().equals(extractUsername(token))) && !isTokenExpired(token);
+        return (userDetails.getUsername().equals(extractSubject(token))) && !isTokenExpired(token);
     }
 }
