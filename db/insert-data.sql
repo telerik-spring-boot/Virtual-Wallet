@@ -98,14 +98,14 @@ VALUES ('Shopping'),
        ('Other');
 
 -- Insert Transactions (Transferring between wallets)
-INSERT INTO virtual_wallet.transactions (amount, wallet_sender_id, wallet_receiver_id, category_id)
-VALUES (50.00, 1, 2, 1),
-       (200.00, 2, 3, 2),
-       (30.00, 3, 4, 3),
-       (500.00, 4, 5, 4),
-       (15.75, 5, 6, 1),
-       (90.00, 6, 7, 2),
-       (120.50, 7, 8, 3),
-       (300.00, 8, 9, 4),
-       (75.25, 9, 10, 5),
-       (25.00, 10, 1, 1);
+INSERT INTO virtual_wallet.transactions (amount,user_sender_id, wallet_sender_id, wallet_receiver_id, category_id)
+VALUES (50.00, 1,1, 2, 1),
+       (200.00, 2,2, 3, 2),
+       (30.00, 3,3, 4, 3),
+       (500.00, 4,4, 5, 4),
+       (15.75, 5,5, 6, 1),
+       (90.00, 6,6, 7, 2),
+       (120.50, 7,7, 8, 3),
+       (300.00, 8,8, 9, 4),
+       (75.25, 9,9, 10, 5),
+       (25.00, 10,10, 1, 1);

@@ -105,9 +105,11 @@ CREATE TABLE virtual_wallet.transactions
     id                 INT AUTO_INCREMENT                  NOT NULL PRIMARY KEY,
     transaction_time   TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     amount             DECIMAL(15,2)                             NOT NULL,
+    user_sender_id     INT                                 NOT NULL,
     wallet_sender_id   INT                                 NOT NULL,
     wallet_receiver_id INT                                 NOT NULL,
     category_id        INT                                 NOT NULL,
+    FOREIGN KEY (user_sender_id) REFERENCES virtual_wallet.users (user_id) ON DELETE CASCADE,
     FOREIGN KEY (wallet_sender_id) REFERENCES virtual_wallet.wallets (wallet_id) ON DELETE CASCADE,
     FOREIGN KEY (wallet_receiver_id) REFERENCES virtual_wallet.wallets (wallet_id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES virtual_wallet.transaction_categories (id) ON DELETE CASCADE
