@@ -2,7 +2,7 @@ package com.telerik.virtualwallet.controllers;
 
 import com.telerik.virtualwallet.helpers.WalletMapper;
 import com.telerik.virtualwallet.models.Wallet;
-import com.telerik.virtualwallet.models.dtos.WalletDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.wallet.WalletDisplayDTO;
 import com.telerik.virtualwallet.services.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

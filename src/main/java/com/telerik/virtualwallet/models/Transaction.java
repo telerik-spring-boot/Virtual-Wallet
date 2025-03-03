@@ -17,11 +17,11 @@ public class Transaction {
     @Column(name = "amount", precision = 15, scale = 2)
     private BigDecimal amount;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name="wallet_sender_id", nullable=false)
     private Wallet senderWallet;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name="wallet_receiver_id", nullable=false)
     private Wallet receiverWallet;
 

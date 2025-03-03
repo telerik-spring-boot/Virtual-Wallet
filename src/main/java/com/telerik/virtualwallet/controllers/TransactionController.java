@@ -2,8 +2,8 @@ package com.telerik.virtualwallet.controllers;
 
 import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.models.Transaction;
-import com.telerik.virtualwallet.models.dtos.TransactionCreateDTO;
-import com.telerik.virtualwallet.models.dtos.TransactionDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransactionCreateDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
 import com.telerik.virtualwallet.services.transaction.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +49,7 @@ public class TransactionController {
     }
 
     @PreAuthorize("@walletSecurityService.isUserWalletHolder(#dto.walletSenderId, authentication.name)")
-    @PostMapping("/new")
+    @PostMapping()
     public ResponseEntity<TransactionDisplayDTO> createTransaction(@RequestBody TransactionCreateDTO dto) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -60,7 +60,7 @@ public class TransactionController {
         return ResponseEntity.ok(transactionMapper.transactionToTransactionDisplayDTO(transactionService.getTransactionById(transaction.getId())));
     }
 
-    @GetMapping("/all/{walletId}")
+    @GetMapping("/{walletId}/all")
     @PreAuthorize("hasRole('ADMIN') OR @walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
     public ResponseEntity<List<TransactionDisplayDTO>> getAllTransactionsByWalletId(@PathVariable int walletId) {
 
@@ -71,7 +71,7 @@ public class TransactionController {
                 .toList());
     }
 
-    @GetMapping("/incoming/{walletId}")
+    @GetMapping("/{walletId}/incoming")
     @PreAuthorize("hasRole('ADMIN') OR @walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
     public ResponseEntity<List<TransactionDisplayDTO>> getIncomingTransactionsByWalletId(@PathVariable int walletId) {
 
@@ -82,7 +82,7 @@ public class TransactionController {
                 .toList());
     }
 
-    @GetMapping("/outgoing/{walletId}")
+    @GetMapping("/{walletId}/outgoing")
     @PreAuthorize("hasRole('ADMIN') OR @walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
     public ResponseEntity<List<TransactionDisplayDTO>> getOutgoingTransactionsByWalletId(@PathVariable int walletId) {
 

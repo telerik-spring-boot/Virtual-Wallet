@@ -4,8 +4,8 @@ import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.TransactionCategory;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
-import com.telerik.virtualwallet.models.dtos.TransactionCreateDTO;
-import com.telerik.virtualwallet.models.dtos.TransactionDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransactionCreateDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
 import com.telerik.virtualwallet.services.transactionCategory.TransactionCategoryService;
 import com.telerik.virtualwallet.services.user.UserService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
@@ -34,6 +34,7 @@ public class TransactionMapper {
         transactionDisplayDTO.setAmount(transaction.getAmount());
         transactionDisplayDTO.setSenderUsername(transaction.getUserSender().getUsername());
         transactionDisplayDTO.setTransactionCategory(transaction.getTransactionCategory().getName());
+        transactionDisplayDTO.setCurrency(transaction.getSenderWallet().getCurrency());
 
         List<String> receiverUsernames = transaction.getReceiverWallet().getUsers().stream()
                 .map(User::getUsername)

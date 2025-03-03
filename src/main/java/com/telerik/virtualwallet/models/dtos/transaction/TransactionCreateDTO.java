@@ -1,4 +1,4 @@
-package com.telerik.virtualwallet.models.dtos;
+package com.telerik.virtualwallet.models.dtos.transaction;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

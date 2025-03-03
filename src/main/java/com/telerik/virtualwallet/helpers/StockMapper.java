@@ -1,7 +1,7 @@
 package com.telerik.virtualwallet.helpers;
 
 import com.telerik.virtualwallet.models.Stock;
-import com.telerik.virtualwallet.models.dtos.StockDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.stock.StockDisplayDTO;
 import org.springframework.stereotype.Component;
 
 @Component

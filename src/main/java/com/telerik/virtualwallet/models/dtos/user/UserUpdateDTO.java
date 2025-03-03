@@ -1,4 +1,4 @@
-package com.telerik.virtualwallet.models.dtos;
+package com.telerik.virtualwallet.models.dtos.user;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

@@ -1,7 +1,7 @@
 package com.telerik.virtualwallet.services.user;
 
 import com.telerik.virtualwallet.models.User;
-import com.telerik.virtualwallet.models.dtos.StockOrderDTO;
+import com.telerik.virtualwallet.models.dtos.stock.StockOrderDTO;
 
 import java.util.List;
 

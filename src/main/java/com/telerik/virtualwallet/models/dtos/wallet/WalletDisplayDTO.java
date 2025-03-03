@@ -1,4 +1,4 @@
-package com.telerik.virtualwallet.models.dtos;
+package com.telerik.virtualwallet.models.dtos.wallet;
 
 import com.telerik.virtualwallet.models.enums.Currency;
 

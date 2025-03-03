@@ -1,6 +1,7 @@
-package com.telerik.virtualwallet.models.dtos;
+package com.telerik.virtualwallet.models.dtos.transaction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.telerik.virtualwallet.models.enums.Currency;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,17 +17,20 @@ public class TransactionDisplayDTO {
 
     public BigDecimal amount;
 
+    public Currency currency;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm '['dd-MM-yyyy']'")
     public LocalDateTime transactionTime;
 
     public TransactionDisplayDTO() {
     }
 
-    public TransactionDisplayDTO(String senderUsername, List<String> receiverUsername, String transactionCategory, BigDecimal amount, LocalDateTime transactionTime) {
+    public TransactionDisplayDTO(String senderUsername, List<String> receiverUsername, String transactionCategory, BigDecimal amount, Currency currency, LocalDateTime transactionTime) {
         this.senderUsername = senderUsername;
         this.receiverUsername = receiverUsername;
         this.transactionCategory = transactionCategory;
         this.amount = amount;
+        this.currency = currency;
         this.transactionTime = transactionTime;
     }
 
@@ -68,5 +72,13 @@ public class TransactionDisplayDTO {
 
     public void setTransactionCategory(String transactionCategory) {
         this.transactionCategory = transactionCategory;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 }

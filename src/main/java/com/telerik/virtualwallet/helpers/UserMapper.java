@@ -3,9 +3,9 @@ package com.telerik.virtualwallet.helpers;
 
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.RegisterDTO;
-import com.telerik.virtualwallet.models.dtos.UserDisplayDTO;
-import com.telerik.virtualwallet.models.dtos.UserDisplayForTransactionsDTO;
-import com.telerik.virtualwallet.models.dtos.UserUpdateDTO;
+import com.telerik.virtualwallet.models.dtos.user.UserDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.user.UserDisplayForTransactionsDTO;
+import com.telerik.virtualwallet.models.dtos.user.UserUpdateDTO;
 import com.telerik.virtualwallet.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

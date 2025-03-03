@@ -3,7 +3,7 @@ package com.telerik.virtualwallet.controllers;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.User;
-import com.telerik.virtualwallet.models.dtos.UserDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.user.UserDisplayDTO;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
 import com.telerik.virtualwallet.services.user.UserService;

@@ -1,4 +1,4 @@
-package com.telerik.virtualwallet.models.dtos;
+package com.telerik.virtualwallet.models.dtos.user;
 
 public class UserDisplayDTO {
 
