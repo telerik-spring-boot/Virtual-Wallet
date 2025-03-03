@@ -141,7 +141,6 @@ public class UserServiceImpl implements UserService{
             }
         }
 
-
         userRepository.update(user);
 
     }
@@ -156,6 +155,7 @@ public class UserServiceImpl implements UserService{
         }
 
         pictureService.delete(username);
+
         userRepository.delete(userToDelete.getId());
 
     }

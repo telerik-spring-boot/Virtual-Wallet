@@ -26,14 +26,12 @@ public class AdminServiceImpl implements AdminService{
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final UserService userService;
     private final TransactionRepository transactionRepository;
     private final PictureService pictureService;
 
-    public AdminServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserService userService, TransactionRepository transactionRepository, PictureService pictureService){
+    public AdminServiceImpl(UserRepository userRepository, RoleRepository roleRepository, TransactionRepository transactionRepository, PictureService pictureService){
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.userService = userService;
         this.transactionRepository = transactionRepository;
         this.pictureService = pictureService;
     }
@@ -60,7 +58,7 @@ public class AdminServiceImpl implements AdminService{
 
         user.setBlocked(true);
 
-        userService.update(user);
+        userRepository.update(user);
 
     }
 
@@ -69,7 +67,7 @@ public class AdminServiceImpl implements AdminService{
 
         user.setBlocked(false);
 
-        userService.update(user);
+        userRepository.update(user);
     }
 
     @Override
@@ -117,7 +115,7 @@ public class AdminServiceImpl implements AdminService{
 
         user.removeRole(roleRepository.getRoleByName("ROLE_ADMIN"));
 
-        userService.update(user);
+        userRepository.update(user);
 
     }
 
@@ -136,7 +134,7 @@ public class AdminServiceImpl implements AdminService{
 
         user.addRole(roleRepository.getRoleByName("ROLE_ADMIN"));
 
-        userService.update(user);
+        userRepository.update(user);
 
     }
 
