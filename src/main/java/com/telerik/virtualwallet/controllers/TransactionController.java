@@ -38,6 +38,16 @@ public class TransactionController {
                 .toList());
     }
 
+    @GetMapping("/{transactionId}")
+    @PreAuthorize("hasRole('ADMIN') OR " +
+            "@transactionSecurityService.isUserTransactionParticipant(#transactionId, authentication.name)")
+    public ResponseEntity<TransactionDisplayDTO> getTransactionsById(@PathVariable int transactionId) {
+
+        Transaction transaction = transactionService.getTransactionById(transactionId);
+
+        return ResponseEntity.ok(transactionMapper.transactionToTransactionDisplayDTO(transaction));
+    }
+
     @PreAuthorize("@walletSecurityService.isUserWalletHolder(#dto.walletSenderId, authentication.name)")
     @PostMapping("/new")
     public ResponseEntity<TransactionDisplayDTO> createTransaction(@RequestBody TransactionCreateDTO dto) {

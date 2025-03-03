@@ -17,4 +17,6 @@ public interface TransactionRepository {
     List<Transaction> getAllOutgoingTransactionsWithWalletsByWalletId(int walletSenderId);
 
     void createTransaction(Transaction transaction);
+
+    boolean isUserTransactionParticipant(String username, int transactionId);
 }

@@ -122,4 +122,29 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         }
 
     }
+
+    @Override
+    public boolean isUserTransactionParticipant(String username, int transactionId) {
+
+        try (Session session = sessionFactory.openSession()) {
+            Query<Long> query = session.createQuery
+                    ("SELECT COUNT(t) FROM Transaction t " +
+                                    "JOIN t.senderWallet s " +
+                                    "JOIN t.receiverWallet r " +
+                                    "LEFT JOIN s.users u1 " +
+                                    "LEFT JOIN r.users u2 " +
+                                    "WHERE t.id=:transactionId " +
+                                    "AND (u1.username = :username OR u2.username = :username)",
+                            Long.class);
+
+            query.setParameter("transactionId", transactionId);
+            query.setParameter("username", username);
+
+            Long count = query.uniqueResult();
+
+            return count > 0;
+
+        }
+    }
+
 }
