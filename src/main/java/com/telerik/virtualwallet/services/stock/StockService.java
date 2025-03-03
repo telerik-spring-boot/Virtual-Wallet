@@ -1,4 +1,4 @@
-package com.telerik.virtualwallet.services;
+package com.telerik.virtualwallet.services.stock;
 
 import com.telerik.virtualwallet.models.StockData;
 

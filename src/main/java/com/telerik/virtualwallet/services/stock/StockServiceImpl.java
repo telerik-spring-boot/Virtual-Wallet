@@ -1,4 +1,4 @@
-package com.telerik.virtualwallet.services;
+package com.telerik.virtualwallet.services.stock;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
