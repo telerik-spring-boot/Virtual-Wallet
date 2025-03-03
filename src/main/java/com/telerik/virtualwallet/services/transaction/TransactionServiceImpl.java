@@ -3,11 +3,16 @@ package com.telerik.virtualwallet.services.transaction;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.exceptions.IncompatibleCurrenciesException;
 import com.telerik.virtualwallet.exceptions.InsufficientFundsException;
+import com.telerik.virtualwallet.exceptions.InvalidSortParameterException;
 import com.telerik.virtualwallet.models.Transaction;
+import com.telerik.virtualwallet.models.filters.FilterTransactionsOptions;
 import com.telerik.virtualwallet.repositories.transaction.TransactionRepository;
 import com.telerik.virtualwallet.repositories.wallet.WalletRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -34,15 +39,14 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
-    public List<Transaction> getAllTransactions() {
+    public Page<Transaction> getAllTransactions(FilterTransactionsOptions options, Pageable pageable) {
 
-        List<Transaction> allTransactions = transactionRepository.getAllTransactionsWithWallets();
+        Sort.Order sortOrder = pageable.getSort().iterator().next();
 
-        if (allTransactions.isEmpty()) {
-            throw new EntityNotFoundException(NO_TRANSACTIONS_MESSAGE);
-        }
+        validateSortByFieldTransaction(sortOrder.getProperty());
+        validateSortOrderField(sortOrder.getDirection().name());
 
-        return allTransactions;
+        return transactionRepository.getAllTransactionsWithWallets(options,pageable);
 
     }
 
@@ -121,6 +125,19 @@ public class TransactionServiceImpl implements TransactionService {
 
         transactionRepository.createTransaction(transaction);
 
+    }
+
+    private void validateSortByFieldTransaction(String type) {
+        if (!type.equalsIgnoreCase("createdAt") &&
+                !type.equalsIgnoreCase("amount")) {
+            throw new InvalidSortParameterException(type);
+        }
+    }
+
+    public void validateSortOrderField(String type) {
+        if (!type.equalsIgnoreCase("asc") && !type.equalsIgnoreCase("desc")) {
+            throw new InvalidSortParameterException(type);
+        }
     }
 
 

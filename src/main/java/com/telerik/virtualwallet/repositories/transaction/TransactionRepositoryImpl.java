@@ -1,14 +1,23 @@
 package com.telerik.virtualwallet.repositories.transaction;
 
 import com.telerik.virtualwallet.models.Transaction;
+import com.telerik.virtualwallet.models.enums.TransactionStatus;
+import com.telerik.virtualwallet.models.filters.FilterTransactionsOptions;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class TransactionRepositoryImpl implements TransactionRepository {
@@ -32,6 +41,103 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             return transactions;
         }
 
+    }
+
+    @Override
+    public Page<Transaction> getAllTransactionsWithWallets(FilterTransactionsOptions options, Pageable pageable) {
+
+        return getTransactionsWithFiltersHelper(options, pageable,-1);
+
+    }
+
+    private PageImpl<Transaction> getTransactionsWithFiltersHelper(FilterTransactionsOptions options, Pageable pageable, int walletId) {
+        try (Session session = sessionFactory.openSession()) {
+            StringBuilder queryString = new StringBuilder("SELECT DISTINCT t FROM Transaction t " +
+                    "JOIN t.senderWallet.users s " +
+                    "JOIN t.receiverWallet.users r ");
+            List<String> filters = new ArrayList<>();
+            Map<String, Object> params = new HashMap<>();
+
+            options.getSenderUsername().ifPresent(value -> {
+                filters.add("s.username LIKE :senderUsername");
+                params.put("senderUsername", "%" + value + "%");
+            });
+
+            options.getReceiverUsername().ifPresent(value -> {
+                filters.add("r.username LIKE :receiverUsername");
+                params.put("receiverUsername", "%" + value + "%");
+            });
+
+            options.getCurrency().ifPresent(value -> {
+                filters.add("t.senderWallet.currency = :currency");
+                params.put("currency", value);
+            });
+
+            options.getStartTime().ifPresent(value -> {
+                filters.add("t.createdAt >= :startTime");
+                params.put("startTime", value);
+            });
+
+            options.getEndTime().ifPresent(value -> {
+                filters.add("t.createdAt <= :endTime");
+                params.put("endTime", value);
+            });
+
+            if(walletId!=-1) {
+
+                options.getTransactionStatus().ifPresent(value -> {
+                    if(value== TransactionStatus.INCOMING){
+                        filters.add("t.receiverWallet.id = :walletId");
+                        params.put("walletId", walletId);
+                    }
+                    else if(value== TransactionStatus.OUTGOING){
+                        filters.add("t.senderWallet.id = :walletId");
+                        params.put("walletId", walletId);
+                    }
+                    else{
+                        filters.add("(t.senderWallet.id = :walletId OR t.receiverWallet.id = :walletId)");
+                        params.put("walletId", walletId);
+                    }
+                });
+
+            }
+
+
+            if (!filters.isEmpty()) {
+                queryString.append(" WHERE ").append(String.join(" AND ", filters));
+            }
+
+            if (pageable.getSort().isSorted()) {
+                Sort.Order order = pageable.getSort().iterator().next();
+                queryString.append((" ORDER BY ")).append(order.getProperty()).append(" ").append(order.getDirection().name());
+            }
+
+            Query<Transaction> query = session.createQuery(queryString.toString(), Transaction.class);
+            query.setProperties(params);
+
+            query.setFirstResult((int) pageable.getOffset());
+            query.setMaxResults(pageable.getPageSize());
+
+            List<Transaction> transactions = query.getResultList();
+
+            transactions.forEach(transaction -> Hibernate.initialize(transaction.getReceiverWallet().getUsers()));
+
+            String countQueryStr = queryString.toString().replaceFirst("SELECT DISTINCT t", "SELECT COUNT(t)");
+            Query<Long> countQuery = session.createQuery(countQueryStr, Long.class);
+
+            countQuery.setProperties(params);
+
+            long total = countQuery.getSingleResult();
+
+            return new PageImpl<>(transactions, pageable, total);
+
+//            Query<Transaction> query = session.createQuery
+//                    ("SELECT DISTINCT t FROM Transaction t",
+//                            Transaction.class);
+//            List<Transaction> transactions = query.list();
+//            transactions.forEach(transaction -> Hibernate.initialize(transaction.getReceiverWallet().getUsers()));
+//            return transactions;
+        }
     }
 
     @Override
