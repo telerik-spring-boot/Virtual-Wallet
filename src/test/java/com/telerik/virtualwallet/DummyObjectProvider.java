@@ -30,7 +30,9 @@ public class DummyObjectProvider {
         user.setPassword("Password123!");
         user.setBlocked(false);
         user.setPhoneNumber("+0123456785");
-        user.getRoles().add(new Role("ADMIN"));
+        Role role = new Role("ROLE_ADMIN");
+        role.setId(1);
+        user.getRoles().add(role);
 
         return user;
     }
