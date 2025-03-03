@@ -139,7 +139,7 @@ public void makeTransaction(Transaction transaction) {
     receiverWallet.setBalance(receiverWallet.getBalance().add(transaction.getAmount()));
 
     // Persist the transaction
-    entityManager.persist(transaction);
+    transactionRepository.createTransaction(transaction);
 }
 
 

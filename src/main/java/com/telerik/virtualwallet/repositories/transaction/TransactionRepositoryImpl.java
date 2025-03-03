@@ -26,7 +26,8 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             Query<Transaction> query = session.createQuery
                     ("SELECT DISTINCT t FROM Transaction t " +
                                     "JOIN FETCH t.senderWallet " +
-                                    "JOIN FETCH t.receiverWallet " +
+                                    "JOIN FETCH t.receiverWallet r " +
+                                    "LEFT JOIN FETCH r.users " +
                                     "JOIN FETCH t.transactionCategory " +
                                     "JOIN FETCH t.userSender",
                             Transaction.class);
@@ -61,7 +62,8 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             Query<Transaction> query = session.createQuery(
                     "SELECT DISTINCT t FROM Transaction t " +
                             "JOIN FETCH t.senderWallet " +
-                            "JOIN FETCH t.receiverWallet " +
+                            "JOIN FETCH t.receiverWallet r " +
+                            "LEFT JOIN FETCH r.users " +
                             "JOIN FETCH t.transactionCategory " +
                             "JOIN FETCH t.userSender " +
                             "WHERE t.receiverWallet.id = :walletId OR t.senderWallet.id = :walletId",
@@ -79,7 +81,8 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             Query<Transaction> query = session.createQuery(
                     "SELECT DISTINCT t FROM Transaction t " +
                             "JOIN FETCH t.senderWallet " +
-                            "JOIN FETCH t.receiverWallet " +
+                            "JOIN FETCH t.receiverWallet r " +
+                            "LEFT JOIN FETCH r.users " +
                             "JOIN FETCH t.transactionCategory " +
                             "JOIN FETCH t.userSender " +
                             "WHERE t.receiverWallet.id = :walletId",
@@ -97,7 +100,8 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             Query<Transaction> query = session.createQuery(
                     "SELECT DISTINCT t FROM Transaction t " +
                             "JOIN FETCH t.senderWallet " +
-                            "JOIN FETCH t.receiverWallet " +
+                            "JOIN FETCH t.receiverWallet r " +
+                            "LEFT JOIN FETCH r.users " +
                             "JOIN FETCH t.transactionCategory " +
                             "JOIN FETCH t.userSender " +
                             "WHERE t.senderWallet.id = :walletId",

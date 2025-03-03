@@ -29,9 +29,13 @@ public class TransactionController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Transaction>> getAllTransactions() {
+    public ResponseEntity<List<TransactionDisplayDTO>> getAllTransactions() {
 
-        return ResponseEntity.ok(transactionService.getAllTransactions());
+        List<Transaction> transactions = transactionService.getAllTransactions();
+
+        return ResponseEntity.ok(transactions.stream()
+                .map(transactionMapper::transactionToTransactionDisplayDTO)
+                .toList());
     }
 
     @PreAuthorize("@walletSecurityService.isUserWalletHolder(#dto.walletSenderId, authentication.name)")
@@ -44,6 +48,39 @@ public class TransactionController {
         transactionService.makeTransaction(transaction);
 
         return ResponseEntity.ok(transactionMapper.transactionToTransactionDisplayDTO(transactionService.getTransactionById(transaction.getId())));
+    }
+
+    @GetMapping("/all/{walletId}")
+    @PreAuthorize("hasRole('ADMIN') OR @walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    public ResponseEntity<List<TransactionDisplayDTO>> getAllTransactionsByWalletId(@PathVariable int walletId) {
+
+        List<Transaction> transactions = transactionService.getAllTransactionsByWalletId(walletId);
+
+        return ResponseEntity.ok(transactions.stream()
+                .map(transactionMapper::transactionToTransactionDisplayDTO)
+                .toList());
+    }
+
+    @GetMapping("/incoming/{walletId}")
+    @PreAuthorize("hasRole('ADMIN') OR @walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    public ResponseEntity<List<TransactionDisplayDTO>> getIncomingTransactionsByWalletId(@PathVariable int walletId) {
+
+        List<Transaction> transactions = transactionService.getAllIncomingTransactionsByWalletId(walletId);
+
+        return ResponseEntity.ok(transactions.stream()
+                .map(transactionMapper::transactionToTransactionDisplayDTO)
+                .toList());
+    }
+
+    @GetMapping("/outgoing/{walletId}")
+    @PreAuthorize("hasRole('ADMIN') OR @walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    public ResponseEntity<List<TransactionDisplayDTO>> getOutgoingTransactionsByWalletId(@PathVariable int walletId) {
+
+        List<Transaction> transactions = transactionService.getAllOutgoingTransactionsByWalletId(walletId);
+
+        return ResponseEntity.ok(transactions.stream()
+                .map(transactionMapper::transactionToTransactionDisplayDTO)
+                .toList());
     }
 
 }
