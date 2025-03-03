@@ -63,7 +63,7 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public Wallet getWalletById(int walletId) {
 
-        Wallet wallet = walletRepository.getWalletById(walletId);
+        Wallet wallet = walletRepository.getWalletWithUsersById(walletId);
 
         if (wallet == null) {
             throw new EntityNotFoundException("Wallet", "id", walletId);

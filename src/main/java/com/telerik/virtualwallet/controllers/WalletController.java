@@ -5,6 +5,7 @@ import com.telerik.virtualwallet.models.Wallet;
 import com.telerik.virtualwallet.models.dtos.WalletDisplayDTO;
 import com.telerik.virtualwallet.services.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +31,9 @@ public class WalletController {
 
     @PreAuthorize("hasRole('ADMIN') OR @walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
     @GetMapping("/{walletId}")
-    public WalletDisplayDTO getUserById(@PathVariable int walletId) {
+    public ResponseEntity<WalletDisplayDTO> getUserById(@PathVariable int walletId) {
         Wallet wallet = walletService.getWalletById(walletId);
-        return walletMapper.walletToDto(wallet);
+        return ResponseEntity.ok(walletMapper.walletToDto(wallet));
     }
 
 }

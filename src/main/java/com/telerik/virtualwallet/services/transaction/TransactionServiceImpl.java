@@ -3,8 +3,13 @@ package com.telerik.virtualwallet.services.transaction;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.exceptions.InsufficientFundsException;
 import com.telerik.virtualwallet.models.Transaction;
+import com.telerik.virtualwallet.models.Wallet;
 import com.telerik.virtualwallet.repositories.transaction.TransactionRepository;
+import com.telerik.virtualwallet.repositories.wallet.WalletRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,9 +24,15 @@ public class TransactionServiceImpl implements TransactionService {
     private static final String INSUFFICIENT_BALANCE_MESSAGE = "Your balance is not sufficient to send this transaction.";
 
     private final TransactionRepository transactionRepository;
+    private final WalletRepository walletRepository;
 
-    public TransactionServiceImpl(TransactionRepository transactionRepository) {
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Autowired
+    public TransactionServiceImpl(TransactionRepository transactionRepository, WalletRepository walletRepository) {
         this.transactionRepository = transactionRepository;
+        this.walletRepository = walletRepository;
     }
 
 
@@ -90,21 +101,46 @@ public class TransactionServiceImpl implements TransactionService {
 
     }
 
-    @Transactional
-    @Override
-    public void makeTransaction(Transaction transaction) {
+//    @Transactional
+//    @Override
+//    public void makeTransaction(Transaction transaction) {
+//
+//        BigDecimal senderBalanceBefore = transaction.getSenderWallet().getBalance();
+//        BigDecimal receiverBalanceBefore = transaction.getReceiverWallet().getBalance();
+//
+//        if (transaction.getAmount().compareTo(senderBalanceBefore) > 0) {
+//            throw new InsufficientFundsException(INSUFFICIENT_BALANCE_MESSAGE);
+//        }
+//
+//        transaction.getSenderWallet().setBalance(senderBalanceBefore.subtract(transaction.getAmount()));
+//        transaction.getReceiverWallet().setBalance(receiverBalanceBefore.add(transaction.getAmount()));
+//
+////        walletRepository.updateWallet(transaction.getSenderWallet());
+////        walletRepository.updateWallet(transaction.getReceiverWallet());
+//
+//        transactionRepository.createTransaction(transaction);
+//
+//    }
 
-        BigDecimal senderBalanceBefore = transaction.getSenderWallet().getBalance();
-        BigDecimal receiverBalanceBefore = transaction.getReceiverWallet().getBalance();
+@Transactional
+@Override
+public void makeTransaction(Transaction transaction) {
+    // Ensure that the sender and receiver wallets are merged into the persistence context
+    Wallet senderWallet = entityManager.merge(transaction.getSenderWallet());
+    Wallet receiverWallet = entityManager.merge(transaction.getReceiverWallet());
 
-        if (transaction.getAmount().compareTo(senderBalanceBefore) > 0) {
-            throw new InsufficientFundsException(INSUFFICIENT_BALANCE_MESSAGE);
-        }
-
-        transaction.getSenderWallet().setBalance(senderBalanceBefore.subtract(transaction.getAmount()));
-        transaction.getReceiverWallet().setBalance(receiverBalanceBefore.add(transaction.getAmount()));
-
-        transactionRepository.createTransaction(transaction);
-
+    // Ensure sufficient funds for the transaction
+    if (transaction.getAmount().compareTo(senderWallet.getBalance()) > 0) {
+        throw new InsufficientFundsException(INSUFFICIENT_BALANCE_MESSAGE);
     }
+
+    // Update the balances
+    senderWallet.setBalance(senderWallet.getBalance().subtract(transaction.getAmount()));
+    receiverWallet.setBalance(receiverWallet.getBalance().add(transaction.getAmount()));
+
+    // Persist the transaction
+    entityManager.persist(transaction);
+}
+
+
 }
