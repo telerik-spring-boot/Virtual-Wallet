@@ -16,14 +16,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
-    private static final String NO_TRANSACTIONS_MESSAGE = "No transactions are found.";
-    private static final String NO_TRANSACTIONS_FOUND_MESSAGE = "No transactions associated with wallet with id %d found.";
-    private static final String NO_TRANSACTIONS_TYPE_FOUND_MESSAGE = "No %s transactions associated with wallet with id %d found.";
     private static final String INSUFFICIENT_BALANCE_MESSAGE = "Your balance is not sufficient to send this transaction.";
     private static final String CURRENCIES_DO_NOT_MATCH = "Currencies do not match";
 
@@ -41,12 +37,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Page<Transaction> getAllTransactions(FilterTransactionsOptions options, Pageable pageable) {
 
-        Sort.Order sortOrder = pageable.getSort().iterator().next();
+        pageableHelper(pageable);
 
-        validateSortByFieldTransaction(sortOrder.getProperty());
-        validateSortOrderField(sortOrder.getDirection().name());
-
-        return transactionRepository.getAllTransactionsWithWallets(options,pageable);
+        return transactionRepository.getAllTransactionsWithWallets(options, pageable);
 
     }
 
@@ -64,49 +57,20 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getAllTransactionsByWalletId(int walletId) {
+    public Page<Transaction> getTransactionsByWalletId(FilterTransactionsOptions options, Pageable pageable, int walletId) {
 
-        List<Transaction> transactions = transactionRepository.getAllTransactionsWithWalletsByWalletId(walletId);
+        pageableHelper(pageable);
 
-        if (transactions.isEmpty()) {
-            throw new EntityNotFoundException(String.format(NO_TRANSACTIONS_FOUND_MESSAGE, walletId));
-        }
-
-        return transactions;
+        return transactionRepository.getAllTransactionsWithWalletsByWalletId(options, pageable, walletId);
 
     }
 
-    @Override
-    public List<Transaction> getAllOutgoingTransactionsByWalletId(int walletId) {
-
-        List<Transaction> transactions = transactionRepository.getAllOutgoingTransactionsWithWalletsByWalletId(walletId);
-
-        if (transactions.isEmpty()) {
-            throw new EntityNotFoundException(String.format(NO_TRANSACTIONS_TYPE_FOUND_MESSAGE, "outgoing", walletId));
-        }
-
-        return transactions;
-
-    }
-
-    @Override
-    public List<Transaction> getAllIncomingTransactionsByWalletId(int walletId) {
-
-        List<Transaction> transactions = transactionRepository.getAllIncomingTransactionsWithWalletsByWalletId(walletId);
-
-        if (transactions.isEmpty()) {
-            throw new EntityNotFoundException(String.format(NO_TRANSACTIONS_TYPE_FOUND_MESSAGE, "incoming", walletId));
-        }
-
-        return transactions;
-
-    }
 
     @Transactional
     @Override
     public void makeTransaction(Transaction transaction) {
 
-        if(!transaction.getSenderWallet().getCurrency().equals(transaction.getReceiverWallet().getCurrency())) {
+        if (!transaction.getSenderWallet().getCurrency().equals(transaction.getReceiverWallet().getCurrency())) {
             throw new IncompatibleCurrenciesException(CURRENCIES_DO_NOT_MATCH);
         }
 
@@ -127,6 +91,13 @@ public class TransactionServiceImpl implements TransactionService {
 
     }
 
+    private void pageableHelper(Pageable pageable) {
+        Sort.Order sortOrder = pageable.getSort().iterator().next();
+
+        validateSortByFieldTransaction(sortOrder.getProperty());
+        validateSortOrderField(sortOrder.getDirection().name());
+    }
+
     private void validateSortByFieldTransaction(String type) {
         if (!type.equalsIgnoreCase("createdAt") &&
                 !type.equalsIgnoreCase("amount")) {
@@ -139,7 +110,6 @@ public class TransactionServiceImpl implements TransactionService {
             throw new InvalidSortParameterException(type);
         }
     }
-
 
 
 }

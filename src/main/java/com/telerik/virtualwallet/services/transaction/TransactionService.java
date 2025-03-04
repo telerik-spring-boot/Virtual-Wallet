@@ -13,11 +13,7 @@ public interface TransactionService {
 
     Transaction getTransactionById(int id);
 
-    List<Transaction> getAllTransactionsByWalletId(int walletId);
-
-    List<Transaction> getAllOutgoingTransactionsByWalletId(int walletId);
-
-    List<Transaction> getAllIncomingTransactionsByWalletId(int walletId);
+    Page<Transaction> getTransactionsByWalletId(FilterTransactionsOptions options, Pageable pageable, int walletId);
 
     void makeTransaction(Transaction transaction);
 

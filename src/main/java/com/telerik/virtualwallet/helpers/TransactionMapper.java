@@ -36,11 +36,17 @@ public class TransactionMapper {
         transactionDisplayDTO.setTransactionCategory(transaction.getTransactionCategory().getName());
         transactionDisplayDTO.setCurrency(transaction.getSenderWallet().getCurrency());
 
+        List<String> senderUsernames = transaction.getSenderWallet().getUsers().stream()
+                .map(User::getUsername)
+                .toList();
+
+        transactionDisplayDTO.setSenderWalletHolders(senderUsernames);
+
         List<String> receiverUsernames = transaction.getReceiverWallet().getUsers().stream()
                 .map(User::getUsername)
                 .toList();
 
-        transactionDisplayDTO.setReceiverUsername(receiverUsernames);
+        transactionDisplayDTO.setReceiverWalletHolders(receiverUsernames);
 
         return transactionDisplayDTO;
     }

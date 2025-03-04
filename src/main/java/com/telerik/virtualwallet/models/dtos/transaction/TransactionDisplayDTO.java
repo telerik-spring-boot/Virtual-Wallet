@@ -11,7 +11,9 @@ public class TransactionDisplayDTO {
 
     public String senderUsername;
 
-    public List<String> receiverUsername;
+    public List<String> senderWalletHolders;
+
+    public List<String> receiverWalletHolders;
 
     public String transactionCategory;
 
@@ -25,9 +27,10 @@ public class TransactionDisplayDTO {
     public TransactionDisplayDTO() {
     }
 
-    public TransactionDisplayDTO(String senderUsername, List<String> receiverUsername, String transactionCategory, BigDecimal amount, Currency currency, LocalDateTime transactionTime) {
+    public TransactionDisplayDTO(String senderUsername, List<String> senderWalletHolders, List<String> receiverWalletHolders, String transactionCategory, BigDecimal amount, Currency currency, LocalDateTime transactionTime) {
         this.senderUsername = senderUsername;
-        this.receiverUsername = receiverUsername;
+        this.senderWalletHolders = senderWalletHolders;
+        this.receiverWalletHolders = receiverWalletHolders;
         this.transactionCategory = transactionCategory;
         this.amount = amount;
         this.currency = currency;
@@ -42,12 +45,12 @@ public class TransactionDisplayDTO {
         this.senderUsername = senderUsername;
     }
 
-    public List<String> getReceiverUsername() {
-        return receiverUsername;
+    public List<String> getReceiverWalletHolders() {
+        return receiverWalletHolders;
     }
 
-    public void setReceiverUsername(List<String> receiverUsername) {
-        this.receiverUsername = receiverUsername;
+    public void setReceiverWalletHolders(List<String> receiverWalletHolders) {
+        this.receiverWalletHolders = receiverWalletHolders;
     }
 
     public BigDecimal getAmount() {
@@ -80,5 +83,13 @@ public class TransactionDisplayDTO {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    public List<String> getSenderWalletHolders() {
+        return senderWalletHolders;
+    }
+
+    public void setSenderWalletHolders(List<String> senderWalletHolders) {
+        this.senderWalletHolders = senderWalletHolders;
     }
 }

@@ -15,11 +15,7 @@ public interface TransactionRepository {
 
     Transaction getTransactionWithWalletsById(int id);
 
-    List<Transaction> getAllTransactionsWithWalletsByWalletId(int walletId);
-
-    List<Transaction> getAllIncomingTransactionsWithWalletsByWalletId(int walletReceiverId);
-
-    List<Transaction> getAllOutgoingTransactionsWithWalletsByWalletId(int walletSenderId);
+    Page<Transaction> getAllTransactionsWithWalletsByWalletId(FilterTransactionsOptions options, Pageable pageable, int walletId);
 
     void createTransaction(Transaction transaction);
 

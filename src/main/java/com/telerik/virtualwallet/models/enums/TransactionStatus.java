@@ -2,8 +2,7 @@ package com.telerik.virtualwallet.models.enums;
 
 public enum TransactionStatus {
     INCOMING("Incoming"),
-    OUTGOING("Outgoing"),
-    ALL("all");
+    OUTGOING("Outgoing");
 
     private final String description;
 
