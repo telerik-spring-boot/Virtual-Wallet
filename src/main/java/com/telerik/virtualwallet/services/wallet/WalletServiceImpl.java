@@ -53,7 +53,7 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public List<Wallet> getWalletsByUsername(String username) {
 
-        List<Wallet> wallets = walletRepository.getWalletsByUsername(username);
+        List<Wallet> wallets = walletRepository.getWalletsWithUsersByUsername(username);
 
         if (wallets.isEmpty()) {
             throw new EntityNotFoundException(String.format(NO_WALLETS_FOUND_MESSAGE, username));

@@ -49,7 +49,7 @@ public class WalletController {
     @GetMapping("/{walletId}")
     public ResponseEntity<WalletDisplayDTO> getUserById(@PathVariable int walletId) {
         Wallet wallet = walletService.getWalletById(walletId);
-        return ResponseEntity.ok(walletMapper.walletToDto(wallet));
+        return ResponseEntity.ok(walletMapper.walletToPrivateDto(wallet));
     }
 
     @GetMapping("/{walletId}/transactions")

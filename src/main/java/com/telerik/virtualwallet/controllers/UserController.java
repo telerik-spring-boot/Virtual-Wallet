@@ -11,7 +11,6 @@ import com.telerik.virtualwallet.models.dtos.stock.StockOrderDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayForTransactionsDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateDTO;
-import com.telerik.virtualwallet.models.dtos.wallet.WalletDisplayDTO;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
 import com.telerik.virtualwallet.services.user.UserService;
@@ -24,6 +23,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -96,15 +97,32 @@ public class UserController {
         return ResponseEntity.ok(new PageImpl<>(userDisplayDTOs, pageable, res.getTotalElements()));
     }
 
-    @GetMapping("/username/wallets")
-    @PreAuthorize("hasRole('ADMIN') OR #username == authentication.name")
-    public ResponseEntity<List<WalletDisplayDTO>> getWalletsByUsername(@RequestParam String username) {
+    @GetMapping("/{username}/wallets")
+    //@PreAuthorize("hasRole('ADMIN') OR #username == authentication.name")
+    public ResponseEntity<List<?>> getWalletsByUsername(@PathVariable String username) {
 
         List<Wallet> wallets = walletService.getWalletsByUsername(username);
 
-        return ResponseEntity.ok(wallets.stream()
-                .map(walletMapper::walletToDto)
-                .toList());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        boolean isOwner = auth.getName().equals(username);
+
+        if (isAdmin || isOwner) {
+
+            return ResponseEntity.ok(wallets.stream()
+                    .map(walletMapper::walletToPrivateDto)
+                    .toList());
+
+        }else{
+
+            return ResponseEntity.ok(wallets.stream()
+                    .map(walletMapper::walletToPublicDto)
+                    .toList());
+
+        }
 
     }
 
