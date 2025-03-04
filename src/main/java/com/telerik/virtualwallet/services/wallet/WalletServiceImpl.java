@@ -3,6 +3,7 @@ package com.telerik.virtualwallet.services.wallet;
 import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.exceptions.InsufficientFundsException;
+import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
 import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
@@ -23,6 +24,7 @@ public class WalletServiceImpl implements WalletService {
     private static final String NO_WALLETS_FOUND_MESSAGE = "No wallets associated with %s found.";
     private static final String USER_ALREADY_WALLET_HOLDER_MESSAGE = "Wallet with id %d is already managed by a user with id %d.";
     private static final String USER_NOT_WALLET_HOLDER_MESSAGE = "Wallet with id %d is not managed by user with id %d.";
+    private static final String WALLET_WITH_NO_USERS_EXCEPTION = "A wallet has to be managed by at least 1 user.";
 
     private final WalletRepository walletRepository;
     private final CardService cardService;
@@ -128,6 +130,11 @@ public class WalletServiceImpl implements WalletService {
     public void removeUserFromWallet(int walletId, int userIdToRemove) {
 
         Wallet wallet = walletRepository.getWalletWithUsersById(walletId);
+
+        if (wallet.getUsers().size() == 1) {
+            throw new UnauthorizedOperationException(WALLET_WITH_NO_USERS_EXCEPTION);
+        }
+
         User userToRemove = userRepository.getById(userIdToRemove);
 
         User existingUser = wallet.getUsers().stream()
