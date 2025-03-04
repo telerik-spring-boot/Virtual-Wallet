@@ -1,9 +1,6 @@
 package com.telerik.virtualwallet.services.wallet;
 
-import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
-import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
-import com.telerik.virtualwallet.exceptions.InsufficientFundsException;
-import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
+import com.telerik.virtualwallet.exceptions.*;
 import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
@@ -132,7 +129,7 @@ public class WalletServiceImpl implements WalletService {
         Wallet wallet = walletRepository.getWalletWithUsersById(walletId);
 
         if (wallet.getUsers().size() == 1) {
-            throw new UnauthorizedOperationException(WALLET_WITH_NO_USERS_EXCEPTION);
+            throw new InconsistentOperationException(WALLET_WITH_NO_USERS_EXCEPTION);
         }
 
         User userToRemove = userRepository.getById(userIdToRemove);

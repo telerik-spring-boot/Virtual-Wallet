@@ -47,4 +47,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleUnauthorizedOperationException(UnauthorizedOperationException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
+
+    @ExceptionHandler(InconsistentOperationException.class)
+    public ResponseEntity<?> handleInconsistentOperationException(InconsistentOperationException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
 }
