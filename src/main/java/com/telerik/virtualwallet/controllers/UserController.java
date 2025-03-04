@@ -98,7 +98,6 @@ public class UserController {
     }
 
     @GetMapping("/{username}/wallets")
-    //@PreAuthorize("hasRole('ADMIN') OR #username == authentication.name")
     public ResponseEntity<List<?>> getWalletsByUsername(@PathVariable String username) {
 
         List<Wallet> wallets = walletService.getWalletsByUsername(username);
