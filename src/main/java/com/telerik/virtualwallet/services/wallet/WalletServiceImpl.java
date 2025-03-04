@@ -21,7 +21,7 @@ public class WalletServiceImpl implements WalletService {
 
     private static final String NO_WALLETS_MESSAGE = "No wallets are found.";
     private static final String NO_WALLETS_FOUND_MESSAGE = "No wallets associated with %s found.";
-    private static final String USER_ALREADY_WALLET_HOLDER_MESSAGE = "Wallet with id %d is already managed by a user with id %d";
+    private static final String USER_ALREADY_WALLET_HOLDER_MESSAGE = "Wallet with id %d is already managed by a user with id %d.";
     private static final String USER_NOT_WALLET_HOLDER_MESSAGE = "Wallet with id %d is not managed by user with id %d.";
 
     private final WalletRepository walletRepository;
@@ -111,7 +111,10 @@ public class WalletServiceImpl implements WalletService {
         Wallet wallet = walletRepository.getWalletWithUsersById(walletId);
         User userToAdd = userRepository.getById(userIdToAdd);
 
-        if (wallet.getUsers().contains(userToAdd)) {
+        boolean userExists = wallet.getUsers().stream()
+                .anyMatch(user -> user.getId() == userToAdd.getId());
+
+        if (userExists) {
             throw new DuplicateEntityException(String.format(USER_ALREADY_WALLET_HOLDER_MESSAGE, walletId, userIdToAdd));
         }
 
@@ -127,11 +130,13 @@ public class WalletServiceImpl implements WalletService {
         Wallet wallet = walletRepository.getWalletWithUsersById(walletId);
         User userToRemove = userRepository.getById(userIdToRemove);
 
-        if (!wallet.getUsers().contains(userToRemove)) {
-            throw new DuplicateEntityException(String.format(USER_NOT_WALLET_HOLDER_MESSAGE, walletId, userIdToRemove));
-        }
+        User existingUser = wallet.getUsers().stream()
+                .filter(user -> user.getId() == userToRemove.getId())
+                .findFirst()
+                .orElseThrow(() ->
+                        new DuplicateEntityException(String.format(USER_NOT_WALLET_HOLDER_MESSAGE, walletId, userIdToRemove)));
 
-        wallet.getUsers().remove(userToRemove);
+        wallet.getUsers().remove(existingUser);
 
         walletRepository.updateWallet(wallet);
 
