@@ -14,6 +14,11 @@ public class DummyCardWithdrawDTO {
     public DummyCardWithdrawDTO() {
     }
 
+    public DummyCardWithdrawDTO(String cardNumber, BigDecimal amount) {
+        this.cardNumber = cardNumber;
+        this.amount = amount;
+    }
+
     public String getCardNumber() {
         return cardNumber;
     }
