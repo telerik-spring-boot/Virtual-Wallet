@@ -52,12 +52,12 @@ public class WalletRepositoryImpl implements WalletRepository {
     }
 
     @Override
-    public List<Wallet> getWalletsByUserId(int userId) {
+    public List<Wallet> getWalletsByUsername(String username) {
 
         try (Session session = sessionFactory.openSession()) {
             Query<Wallet> query = session.createQuery(
-                    "from Wallet w join w.users u where u.id = :userId", Wallet.class);
-            query.setParameter("userId", userId);
+                    "from Wallet w join w.users u where u.username = :username", Wallet.class);
+            query.setParameter("username", username);
             return query.list();
         }
 

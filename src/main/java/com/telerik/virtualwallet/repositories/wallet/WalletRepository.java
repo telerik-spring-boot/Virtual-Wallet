@@ -12,7 +12,7 @@ public interface WalletRepository {
 
     Wallet getWalletWithUsersById(int id);
 
-    List<Wallet> getWalletsByUserId(int userId);
+    List<Wallet> getWalletsByUsername(String username);
 
     void addWallet(Wallet wallet);
 
