@@ -5,7 +5,7 @@ import com.telerik.virtualwallet.models.enums.Currency;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class WalletDisplayDTO {
+public class WalletPrivateDisplayDTO {
 
     public List<String> walletHolders;
 
@@ -13,13 +13,13 @@ public class WalletDisplayDTO {
 
     public Currency currency;
 
-    public WalletDisplayDTO(List<String> walletHolders, BigDecimal balance, Currency currency) {
+    public WalletPrivateDisplayDTO(List<String> walletHolders, BigDecimal balance, Currency currency) {
         this.walletHolders = walletHolders;
         this.balance = balance;
         this.currency = currency;
     }
 
-    public WalletDisplayDTO() {
+    public WalletPrivateDisplayDTO() {
     }
 
     public List<String> getWalletHolders() {

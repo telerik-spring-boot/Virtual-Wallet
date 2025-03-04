@@ -5,6 +5,7 @@ import com.telerik.virtualwallet.helpers.WalletMapper;
 import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.Wallet;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.wallet.WalletPrivateDisplayDTO;
 import com.telerik.virtualwallet.models.filters.FilterTransactionsOptions;
 import com.telerik.virtualwallet.services.security.WalletSecurityService;
 import com.telerik.virtualwallet.services.transaction.TransactionService;
@@ -19,10 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -79,6 +77,25 @@ public class WalletController {
         return ResponseEntity.ok(new PageImpl<>(transactionDisplayDTOs, pageable, transactions.getTotalElements()));
 
     }
+
+    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    @PostMapping("/{walletId}/users/{userId}")
+    public ResponseEntity<WalletPrivateDisplayDTO> addUserToWallet(@PathVariable int walletId, @PathVariable int userId) {
+
+        walletService.addUserToWallet(walletId, userId);
+        return ResponseEntity.ok(walletMapper.walletToPrivateDto(walletService.getWalletById(walletId)));
+
+    }
+
+    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    @DeleteMapping("/{walletId}/users/{userId}")
+    public ResponseEntity<WalletPrivateDisplayDTO> removeUserFromWallet(@PathVariable int walletId, @PathVariable int userId) {
+
+        walletService.removeUserFromWallet(walletId, userId);
+        return ResponseEntity.ok(walletMapper.walletToPrivateDto(walletService.getWalletById(walletId)));
+
+    }
+
 
 
 }

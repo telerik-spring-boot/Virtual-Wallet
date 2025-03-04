@@ -2,7 +2,7 @@ package com.telerik.virtualwallet.helpers;
 
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
-import com.telerik.virtualwallet.models.dtos.wallet.WalletDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.wallet.WalletPrivateDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletPublicDisplayDTO;
 import com.telerik.virtualwallet.services.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,8 @@ public class WalletMapper {
         this.walletService = walletService;
     }
 
-    public WalletDisplayDTO walletToPrivateDto(Wallet wallet) {
-        WalletDisplayDTO dto = new WalletDisplayDTO();
+    public WalletPrivateDisplayDTO walletToPrivateDto(Wallet wallet) {
+        WalletPrivateDisplayDTO dto = new WalletPrivateDisplayDTO();
 
         List<String> walletHoldersUsernames = wallet.getUsers().stream()
                 .map(User::getUsername)
