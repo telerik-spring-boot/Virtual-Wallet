@@ -33,19 +33,6 @@ public class TransactionController {
         this.transactionMapper = transactionMapper;
     }
 
-    @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Page<TransactionDisplayDTO>> getAllTransactions(FilterTransactionsOptions filterOptions,
-                                                                          @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-
-        Page<Transaction> transactions = transactionService.getAllTransactions(filterOptions, pageable);
-
-        List<TransactionDisplayDTO> transactionDisplayDTOs = transactions.getContent().stream()
-                .map(transactionMapper::transactionToTransactionDisplayDTO)
-                .toList();
-        return ResponseEntity.ok(new PageImpl<>(transactionDisplayDTOs, pageable, transactions.getTotalElements()));
-    }
-
     @GetMapping("/{transactionId}")
     @PreAuthorize("hasRole('ADMIN') OR " +
             "@transactionSecurityService.isUserTransactionParticipant(#transactionId, authentication.name)")

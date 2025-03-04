@@ -1,11 +1,15 @@
 package com.telerik.virtualwallet.controllers;
 
+import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.User;
+import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayDTO;
+import com.telerik.virtualwallet.models.filters.FilterTransactionsOptions;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
+import com.telerik.virtualwallet.services.transaction.TransactionService;
 import com.telerik.virtualwallet.services.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,12 +29,16 @@ public class AdminController {
     private final AdminService adminService;
     private final UserService userService;
     private final UserMapper userMapper;
+    private final TransactionService transactionService;
+    private final TransactionMapper transactionMapper;
 
 
-    public AdminController(AdminService adminService, UserService userService, UserMapper userMapper){
+    public AdminController(AdminService adminService, UserService userService, UserMapper userMapper, TransactionService transactionService, TransactionMapper transactionMapper){
         this.adminService = adminService;
         this.userService = userService;
         this.userMapper = userMapper;
+        this.transactionService = transactionService;
+        this.transactionMapper = transactionMapper;
     }
 
     @GetMapping("/users")
@@ -68,11 +77,16 @@ public class AdminController {
     }
 
     @GetMapping("/transactions")
-    public ResponseEntity<List<Transaction>> getAllTransactions() {
-        // to do pagination / filter once done
-        return ResponseEntity.ok(adminService.getAllTransactions());
-    }
+    public ResponseEntity<Page<TransactionDisplayDTO>> getAllTransactions(FilterTransactionsOptions filterOptions,
+                                                                          @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
+        Page<Transaction> transactions = transactionService.getAllTransactions(filterOptions, pageable);
+
+        List<TransactionDisplayDTO> transactionDisplayDTOs = transactions.getContent().stream()
+                .map(transactionMapper::transactionToTransactionDisplayDTO)
+                .toList();
+        return ResponseEntity.ok(new PageImpl<>(transactionDisplayDTOs, pageable, transactions.getTotalElements()));
+    }
 
     @PostMapping("/users/rights/{userId}")
     public ResponseEntity<Void> giveAdminRights(@PathVariable int userId) {

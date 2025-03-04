@@ -18,6 +18,12 @@ public class Card {
     @Column(name="card_holder")
     private String holder;
 
+    @Column(name="expiry_month")
+    private String expiryMonth;
+
+    @Column(name="expiry_year")
+    private String expiryYear;
+
     @Column(name="card_cvv")
     private String cvv;
 
