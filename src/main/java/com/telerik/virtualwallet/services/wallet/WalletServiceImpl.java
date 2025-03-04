@@ -2,6 +2,8 @@ package com.telerik.virtualwallet.services.wallet;
 
 import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
+import com.telerik.virtualwallet.exceptions.InsufficientFundsException;
+import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
@@ -26,12 +28,14 @@ public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
     private final CardService cardService;
     private final UserRepository userRepository;
+    private final DummyCardTransferService dummyCardTransferService;
 
     @Autowired
-    public WalletServiceImpl(WalletRepository walletRepository, CardService cardService, UserRepository userRepository) {
+    public WalletServiceImpl(WalletRepository walletRepository, CardService cardService, UserRepository userRepository, DummyCardTransferService dummyCardTransferService) {
         this.walletRepository = walletRepository;
         this.cardService = cardService;
         this.userRepository = userRepository;
+        this.dummyCardTransferService = dummyCardTransferService;
     }
 
     @Override
@@ -86,8 +90,13 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public void addFundsToWallet(int userRequestId, int walletId, int cardId, BigDecimal amount) {
 
-        //Card card = cardService.getCardById(user, cardId);
-        // TODO: Add dummy card transfer check to this. Do we need userRequestId here?
+        Card card = cardService.getCardById(cardId);
+
+        boolean hasFunds = dummyCardTransferService.successfulCardTransfer(card, amount);
+
+        if (!hasFunds) {
+            throw new InsufficientFundsException("Card transfer unsuccessful.");
+        }
 
         Wallet wallet = getWalletById(walletId);
 

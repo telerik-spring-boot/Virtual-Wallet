@@ -127,12 +127,6 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             List<String> filters = new ArrayList<>();
             Map<String, Object> params = new HashMap<>();
 
-            options.getUsername().ifPresent(value -> {
-                filters.add("(s.username LIKE :senderUsername OR r.username LIKE :receiverUsername)");
-                params.put("senderUsername", "%" + value + "%");
-                params.put("receiverUsername", "%" + value + "%");
-            });
-
             options.getCurrency().ifPresent(value -> {
                 filters.add("t.senderWallet.currency = :currency");
                 params.put("currency", value);
@@ -167,6 +161,28 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                         () -> {
                             filters.add("(t.senderWallet.id = :walletId OR t.receiverWallet.id = :walletId)");
                             params.put("walletId", walletId);
+                        });
+
+            } else {
+                options.getTransactionStatus().ifPresentOrElse(status -> {
+                            if (status == TransactionStatus.INCOMING) {
+                                options.getUsername().ifPresent(value -> {
+                                    filters.add("r.username LIKE :receiverUsername");
+                                    params.put("receiverUsername", "%" + value + "%");
+                                });
+                            } else if (status == TransactionStatus.OUTGOING) {
+                                options.getUsername().ifPresent(value -> {
+                                    filters.add("s.username LIKE :senderUsername");
+                                    params.put("senderUsername", "%" + value + "%");
+                                });
+                            }
+                        },
+                        () -> {
+                            options.getUsername().ifPresent(value -> {
+                                filters.add("(s.username LIKE :senderUsername OR r.username LIKE :receiverUsername)");
+                                params.put("senderUsername", "%" + value + "%");
+                                params.put("receiverUsername", "%" + value + "%");
+                            });
                         });
 
             }
