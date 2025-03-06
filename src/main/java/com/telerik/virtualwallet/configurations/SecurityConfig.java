@@ -44,7 +44,9 @@ public class SecurityConfig{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/**").denyAll()
                         .requestMatchers("/api/auth/login", "/api/auth/register", "api/auth/verify-email").permitAll()
                         .requestMatchers("/api/admins/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
@@ -53,6 +55,25 @@ public class SecurityConfig{
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(withDefaults());
+
+        return http.build();
+    }
+
+    @Bean
+    public SecurityFilterChain mvcSecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .securityMatcher("/**")
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/register", "/verify-email").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
+                .formLogin(withDefaults())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
