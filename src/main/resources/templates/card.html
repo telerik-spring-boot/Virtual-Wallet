@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/general-fragments :: head('YNPay :: Card')}"></head>
+
+<body data-theme="theme-AppleGreen" class="svgstroke-a">
+     <main class="container-fluid px-0">
+          <!-- start: page menu link -->
+          <div th:replace="~{fragments/general-fragments :: sidebar}"> </div>
+          <div class="content">
+               <!-- start: page header -->
+               <div th:replace="~{fragments/general-fragments :: main-header('Card')}"></div>
+               <!-- start: page header area -->
+               <div class="px-xl-5 px-lg-4 px-3 py-2 page-header">
+                    <ol class="breadcrumb mb-0 bg-transparent">
+                         <li class="breadcrumb-item"><a class="text-muted" href="index.html" title="home">Home</a></li>
+                         <li class="breadcrumb-item active" aria-current="page" title="Card">Card</li>
+                    </ol>
+                    <ul class="list-unstyled action d-flex align-items-center mb-0">
+                         <li>
+                              <a href="card-add.html" class="btn btn-dark">Add Card</a>
+                         </li>
+                    </ul>
+               </div>
+               <!-- start: page body area -->
+               <div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
+                    <div class="row g-3 mb-3">
+                         <div class="col-md-6 col-xl-4 col-lg-6">
+                              <div class="card">
+                                   <div class="card-header">
+                                        <h6 class="card-title mb-0">Virtual Card</h6>
+                                   </div>
+                                   <div class="card-body">
+                                        <div class=" d-flex justify-content-center flex-column align-items-center">
+                                             <div class="card-wrapper">
+                                                  <div class=" cc visa ">
+                                                       <div class="card-data">
+                                                            <div class="type">Debit</div>
+                                                            <div class="circuit">
+                                                                 <i class="fa fa-cc-visa fa-2x"></i>
+                                                            </div>
+                                                       </div>
+                                                       <div class="holder">
+                                                            <span class="name">Theodore Webber</span>
+                                                            <span class="number">**** - **** - **** - 8485</span>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <ul class="list-unstyled mt-3 mb-0">
+                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                                  <a href="#" class="text-reverse">Status</a>
+                                                  <span class="badge bg-success rounded">Active</span>
+                                             </li>
+                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                                  <a href="#" class="text-reverse">Card Number</a>
+                                                  <span class="text-muted">*********8485</span>
+                                             </li>
+                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                                  <a href="#" class="text-reverse">Expiry date</a>
+                                                  <span class="text-muted">04/24</span>
+                                             </li>
+                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                                  <a href="#" class="text-reverse">CVC</a>
+                                                  <span class="text-muted">***</span>
+                                             </li>
+                                        </ul>
+                                        <div class="mt-3">
+                                             <div class="d-flex justify-content-between mb-2">
+                                                  <span>Spending Limit</span>
+                                                  <span>2190.56</span>
+                                             </div>
+                                             <div class="progress" role="progressbar" aria-label="Example 1px high"
+                                                  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+                                                  style="height: 4px">
+                                                  <div class="progress-bar" style="width: 25%"></div>
+                                             </div>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex">
+                                             <a data-bs-toggle="collapse" href="#collapseshowpin1" role="button"
+                                                  aria-expanded="false" aria-controls="collapseshowpin1"
+                                                  class="btn me-1 btn-grey-outline flex-grow-1">Show Pin</a>
+                                             <a href="#viewcard" data-bs-toggle="offcanvas" aria-expanded="false"
+                                                  title="exchange"
+                                                  class="btn mx-1 btn-grey-outline flex-grow-1">Details</a>
+                                             <a data-bs-toggle="collapse" href="#collapsesfreez1" role="button"
+                                                  aria-expanded="false" aria-controls="collapsesfreez1"
+                                                  class="btn ms-1 btn-grey-outline flex-grow-1">Freeze</a>
+                                        </div>
+                                        <div class="collapse mt-2" id="collapseshowpin1">
+                                             <div class="card card-body border-0 alert alert-secondary">
+                                                  <h6 class="mb-0">1503</h6>
+                                             </div>
+                                        </div>
+                                        <div class="collapse mt-2" id="collapsesfreez1">
+                                             <div class="card card-body border-0 alert alert-danger">
+                                                  <p class="mb-0">Your Account has been frozen</p>
+                                             </div>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="col-md-6 col-xl-4 col-lg-6">
+                              <div class="card">
+                                   <div class="card-header">
+                                        <h6 class="card-title mb-0">Physical Card</h6>
+                                   </div>
+                                   <div class="card-body">
+                                        <div class="d-flex justify-content-center flex-column align-items-center">
+                                             <div class="card-wrapper light-card">
+                                                  <div class=" cc visa ">
+
+                                                       <div class="card-data">
+                                                            <div class="type">Debit</div>
+                                                            <div class="circuit">
+                                                                 <i class="fa fa-cc-visa fa-2x"></i>
+                                                            </div>
+                                                       </div>
+                                                       <div class="holder">
+                                                            <span class="name">Jone Doe</span>
+                                                            <span class="number">**** - **** - **** - 3456</span>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <ul class="list-unstyled mt-3 mb-0">
+                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                                  <a href="#" class="text-reverse">Status</a>
+                                                  <span class="badge bg-success rounded">Active</span>
+                                             </li>
+                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                                  <a href="#" class="text-reverse">Card Number</a>
+                                                  <span class="text-muted">*********3456</span>
+                                             </li>
+                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                                  <a href="#" class="text-reverse">Expiry date</a>
+                                                  <span class="text-muted">03/26</span>
+                                             </li>
+                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                                  <a href="#" class="text-reverse">CVC</a>
+                                                  <span class="text-muted">***</span>
+                                             </li>
+                                        </ul>
+                                        <div class="mt-3">
+                                             <div class="d-flex justify-content-between mb-2">
+                                                  <span>Spending Limit</span>
+                                                  <span>1190.16</span>
+                                             </div>
+                                             <div class="progress" role="progressbar" aria-label="Example 1px high"
+                                                  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+                                                  style="height: 4px">
+                                                  <div class="progress-bar" style="width: 15%"></div>
+                                             </div>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex">
+                                             <a data-bs-toggle="collapse" href="#collapseshowpin" role="button"
+                                                  aria-expanded="false" aria-controls="collapseshowpin"
+                                                  class="btn me-1 btn-grey-outline flex-grow-1">Show Pin</a>
+                                             <a href="#viewcard" data-bs-toggle="offcanvas" aria-expanded="false"
+                                                  title="exchange"
+                                                  class="btn mx-1 btn-grey-outline flex-grow-1">Details</a>
+                                             <a data-bs-toggle="collapse" href="#collapsesfreez" role="button"
+                                                  aria-expanded="false" aria-controls="collapsesfreez"
+                                                  class="btn ms-1 btn-grey-outline flex-grow-1">Freeze</a>
+                                        </div>
+                                        <div class="collapse mt-2" id="collapseshowpin">
+                                             <div class="card card-body border-0 alert alert-secondary">
+                                                  <h6 class="mb-0">5689</h6>
+                                             </div>
+                                        </div>
+                                        <div class="collapse mt-2" id="collapsesdetails">
+                                             <div class="card card-body border-0 alert alert-secondary">
+                                                  <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and
+                                                       typesetting industry. Lorem Ipsum has been the industry's
+                                                       standard dummy text ever since the 1500s</p>
+                                             </div>
+                                        </div>
+                                        <div class="collapse mt-2" id="collapsesfreez">
+                                             <div class="card card-body border-0 alert alert-danger">
+                                                  <p class="mb-0">Your Account as been freezed</p>
+                                             </div>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="col-md-6 col-xl-4 col-lg-6">
+                              <div class="card">
+                                   <div class="card-header">
+                                        <h6 class="card-title mb-0">Physical Card 1</h6>
+                                   </div>
+                                   <div class="card-body">
+                                        <div class="d-flex justify-content-center flex-column align-items-center">
+                                             <div class="card-wrapper light-card">
+                                                  <div class=" cc visa ">
+
+                                                       <div class="card-data">
+                                                            <div class="type">Debit</div>
+                                                            <div class="circuit">
+                                                                 <i class="fa fa-cc-visa fa-2x"></i>
+                                                            </div>
+                                                       </div>
+                                                       <div class="holder">
+                                                            <span class="name">Eddy Cusuma</span>
+                                                            <span class="number">**** - **** - **** - 4562</span>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <ul class="list-unstyled mt-3 mb-0">
+                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                                  <a href="#" class="text-reverse">Status</a>
+                                                  <span class="badge bg-danger rounded">In Active</span>
+                                             </li>
+                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                                  <a href="#" class="text-reverse">Card Number</a>
+                                                  <span class="text-muted">*********4562</span>
+                                             </li>
+                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                                  <a href="#" class="text-reverse">Expiry date</a>
+                                                  <span class="text-muted">01/25</span>
+                                             </li>
+                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                                  <a href="#" class="text-reverse">CVC</a>
+                                                  <span class="text-muted">***</span>
+                                             </li>
+                                        </ul>
+                                        <div class="mt-3">
+                                             <div class="d-flex justify-content-between mb-2">
+                                                  <span>Spending Limit</span>
+                                                  <span>7456.16</span>
+                                             </div>
+                                             <div class="progress progress-bar-warning" role="progressbar"
+                                                  aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0"
+                                                  aria-valuemax="100" style="height: 4px">
+                                                  <div class="progress-bar bg-danger" style="width: 75%"></div>
+                                             </div>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex">
+                                             <a data-bs-toggle="collapse" href="#collapseshowpin2" role="button"
+                                                  aria-expanded="false" aria-controls="collapseshowpin"
+                                                  class="btn me-1 btn-grey-outline flex-grow-1">Show Pin</a>
+                                             <a href="#viewcard" data-bs-toggle="offcanvas" aria-expanded="false"
+                                                  title="exchange"
+                                                  class="btn mx-1 btn-grey-outline flex-grow-1">Details</a>
+                                             <a data-bs-toggle="collapse" href="#collapsesfreez2" role="button"
+                                                  aria-expanded="false" aria-controls="collapsesfreez"
+                                                  class="btn ms-1 btn-grey-outline flex-grow-1">Freeze</a>
+                                        </div>
+                                        <div class="collapse mt-2" id="collapseshowpin2">
+                                             <div class="card card-body border-0 alert alert-secondary">
+                                                  <h6 class="mb-0">1478</h6>
+                                             </div>
+                                        </div>
+                                        <div class="collapse mt-2" id="collapsesdetails">
+                                             <div class="card card-body border-0 alert alert-secondary">
+                                                  <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and
+                                                       typesetting industry. Lorem Ipsum has been the industry's
+                                                       standard dummy text ever since the 1500s</p>
+                                             </div>
+                                        </div>
+                                        <div class="collapse mt-2" id="collapsesfreez2">
+                                             <div class="card card-body border-0 alert alert-danger">
+                                                  <p class="mb-0">Your Account as been freezed</p>
+                                             </div>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </main>
+     <!-- start: Virtual Card -->
+     <div class="offcanvas offcanvas-end" tabindex="-1" id="viewcard" aria-labelledby="viewcard">
+          <div class="offcanvas-header">
+               <h5 class="offcanvas-title">Virtual Card</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body px-0">
+               <div class="card-body">
+                    <div class="d-flex justify-content-center flex-column align-items-center mx-3 mb-3">
+                         <div class="card-wrapper w-100 light-card">
+                              <div class=" cc visa ">
+                                   <div class="card-data">
+                                        <div class="type">Debit</div>
+                                        <div class="circuit">
+                                             <i class="fa fa-cc-visa fa-2x"></i>
+                                        </div>
+                                   </div>
+                                   <div class="holder">
+                                        <span class="name">Jone Doe</span>
+                                        <span class="number">**** - **** - **** - 8485</span>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="mb-4 p-3 bg-light">
+                         <h6 class="text-muted mb-0">Details</h6>
+                    </div>
+                    <div class="mb-4 px-3">
+                         <h3>$855001.00</h3>
+                    </div>
+                    <div class="mb-4 px-3">
+                         <ul class="nav nav-tabs tab-page-toolbar bg-body rounded text-center row" role="tablist"
+                              style="--dynamic-color: var(--theme-color2);">
+                              <li class="nav-item col-6 px-0"><a class="nav-link active" data-bs-toggle="tab"
+                                        href="#tab_details" role="tab">Details</a></li>
+                              <li class="nav-item col-6 px-0"><a class="nav-link" data-bs-toggle="tab"
+                                        href="#tab_hostory" role="tab">History</a></li>
+                         </ul>
+                         <div class="tab-content">
+                              <div class="tab-pane fade active show" id="tab_details" role="tabpanel">
+                                   <ul class="list-unstyled mt-3 mb-0 mx-3">
+                                        <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                             <a href="#" class="text-reverse">Holder Name</a>
+                                             <span class="text-muted">Jone Doe</span>
+                                        </li>
+                                        <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                             <a href="#" class="text-reverse">Status</a>
+                                             <span class="badge bg-success rounded">Active</span>
+                                        </li>
+                                        <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                             <a href="#" class="text-reverse">Card Number</a>
+                                             <span class="text-muted">*********8485</span>
+                                        </li>
+                                        <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                             <a href="#" class="text-reverse">Expiry date</a>
+                                             <span class="text-muted">04/24</span>
+                                        </li>
+                                        <li class="d-flex justify-content-between align-items-center py-1 mt-2">
+                                             <a href="#" class="text-reverse">CVC</a>
+                                             <span class="text-muted">***</span>
+                                        </li>
+                                   </ul>
+                                   <div class="mt-3">
+                                        <div class="d-flex justify-content-between mb-2">
+                                             <span>Spending Limit</span>
+                                             <span>2190.56</span>
+                                        </div>
+                                        <div class="progress" role="progressbar" aria-label="Example 1px high"
+                                             aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+                                             style="height: 4px">
+                                             <div class="progress-bar" style="width: 25%"></div>
+                                        </div>
+                                   </div>
+                                   <div class="mt-3 d-flex">
+                                        <a data-bs-toggle="collapse" href="#collapseshowpinside" role="button"
+                                             aria-expanded="false" aria-controls="collapseshowpinside"
+                                             class="btn me-1 btn-grey-outline flex-grow-1 collapsed">Show Pin</a>
+                                        <a data-bs-toggle="collapse" href="#collapsesfreezo" role="button"
+                                             aria-expanded="false" aria-controls="collapsesfreezo"
+                                             class="btn me-1 btn-grey-outline flex-grow-1">Freeze</a>
+                                        <a href="#" class="btn btn-grey-outline flex-grow-1">More</a>
+                                   </div>
+                                   <div class="mt-2">
+                                        <div class="collapse" id="collapseshowpinside">
+                                             <div class="card card-body border-0 alert alert-secondary">
+                                                  <h6 class="mb-0">1503</h6>
+                                             </div>
+                                        </div>
+                                        <div class="collapse" id="collapsesfreezo">
+                                             <div class="card card-body border-0 alert alert-danger">
+                                                  <p class="mb-0">Your Account as been freezed</p>
+                                             </div>
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="tab-pane fade" id="tab_hostory" role="tabpanel">
+                                   <div class="card-body mx-3 mt-3">
+                                        <div class="d-flex align-items-center mb-3">
+                                             <img class="avatar rounded" th:src="@{/images/payment/netflix.svg}" src="../static/images/payment/netflix.svg" alt="">
+                                             <div class="flex-fill ms-3">
+                                                  <div class="h6 mb-0">Nextflix Monthly</div>
+                                                  <small class="text-muted">Monthly Netflix Subscription</small>
+                                             </div>
+                                             <div class="flex-end flex-column d-flex">
+                                                  <small class="fw-medium">$7400</small>
+                                                  <small class="text-muted">08/27</small>
+                                             </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-3">
+                                             <img class="avatar rounded" th:src="@{/images/payment/youtube.svg}" src="../static/images/payment/youtube.svg" alt="">
+                                             <div class="flex-fill ms-3">
+                                                  <div class="h6 mb-0">Youtube Monthly</div>
+                                                  <small class="text-muted">Monthly Youtube Subscription</small>
+                                             </div>
+                                             <div class="flex-end flex-column d-flex">
+                                                  <small class="fw-medium">$1400</small>
+                                                  <small class="text-muted">08/27</small>
+                                             </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-3">
+                                             <img class="avatar rounded" th:src="@{/images/payment/amazon.svg}" src="../static/images/payment/amazon.svg" alt="">
+                                             <div class="flex-fill ms-3">
+                                                  <div class="h6 mb-0">Amazon Monthly</div>
+                                                  <small class="text-muted">Monthly Amazon Subscription</small>
+                                             </div>
+                                             <div class="flex-end flex-column d-flex">
+                                                  <small class="fw-medium">$2400</small>
+                                                  <small class="text-muted">08/27</small>
+                                             </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-3">
+                                             <img class="avatar rounded" th:src="@{/images/payment/bookmyshow.svg}" src="../static/images/payment/bookmyshow.svg"
+                                                  alt="">
+                                             <div class="flex-fill ms-3">
+                                                  <div class="h6 mb-0">Bookmyshow Monthly</div>
+                                                  <small class="text-muted">Monthly Bookmyshow Subscription</small>
+                                             </div>
+                                             <div class="flex-end flex-column d-flex">
+                                                  <small class="fw-medium">$4400</small>
+                                                  <small class="text-muted">08/27</small>
+                                             </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-3">
+                                             <img class="avatar rounded" th:src="@{/images/payment/mastercard.svg}" src="../static/images/payment/mastercard.svg"
+                                                  alt="">
+                                             <div class="flex-fill ms-3">
+                                                  <div class="h6 mb-0">Mastercard Monthly</div>
+                                                  <small class="text-muted">Monthly Mastercard Charge</small>
+                                             </div>
+                                             <div class="flex-end flex-column d-flex">
+                                                  <small class="fw-medium">$200</small>
+                                                  <small class="text-muted">08/27</small>
+                                             </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-3">
+                                             <img class="avatar rounded" th:src="@{/images/payment/visa-card.svg}" src="../static/images/payment/visa-card.svg"
+                                                  alt="">
+                                             <div class="flex-fill ms-3">
+                                                  <div class="h6 mb-0">Visa Monthly</div>
+                                                  <small class="text-muted">Monthly Visa Charge</small>
+                                             </div>
+                                             <div class="flex-end flex-column d-flex">
+                                                  <small class="fw-medium">$200</small>
+                                                  <small class="text-muted">08/27</small>
+                                             </div>
+                                        </div>
+                                        <a href="#" class="mt-3 btn btn-grey-outline w-100 fw-medium">Show All</a>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+     <!-- start: exchange rate -->
+     <div th:replace="~{fragments/general-fragments :: exchange-rate}"> </div>
+
+     <th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+     <script src="../static/bundles/dataTables.bundle.js" th:src="@{/bundles/dataTables.bundle.js}"></script>
+     <script>
+          $(document).ready(function () {
+               $('.dataTable')
+                    .addClass('nowrap')
+                    .dataTable({
+                         responsive: true,
+                         columnDefs: [
+                              {
+                                   target: 4,
+                                   render: DataTable.render.date(),
+                              }, {
+                                   target: 5,
+                                   render: DataTable.render.number(null, null, 0, '$'),
+                              },
+                         ]
+                    });
+          });
+          $(document).ready(function () {
+               // Stacked Area
+               var options = {
+                    chart: {
+                         height: 200,
+                         type: 'area',
+                         stacked: true,
+                         toolbar: {
+                              show: false,
+                         },
+                         events: {
+                              selection: function (chart, e) {
+                                   console.log(new Date(e.xaxis.min))
+                              }
+                         },
+                    },
+                    colors: ['#e4bd51'],
+                    dataLabels: {
+                         enabled: false
+                    },
+                    series: [
+                         {
+                              name: 'Central',
+                              data: generateDayWiseTimeSeries(new Date('14 Aug 2024 GMT').getTime(), 10, {
+                                   min: 20,
+                                   max: 48
+                              })
+                         }
+                    ],
+
+                    fill: {
+                         type: 'gradient',
+                         gradient: {
+                              opacityFrom: 0.6,
+                              opacityTo: 0.8,
+                         }
+                    },
+
+                    legend: {
+                         position: 'top',
+                         horizontalAlign: 'right',
+                         show: true,
+                    },
+                    xaxis: {
+                         type: 'datetime',
+                    },
+                    grid: {
+                         yaxis: {
+                              lines: {
+                                   show: false,
+                              }
+                         },
+                         padding: {
+                              top: 0,
+                              right: 0,
+                              bottom: 0,
+                              left: 0
+                         },
+                    },
+                    stroke: {
+                         show: true,
+                         curve: 'smooth',
+                         width: 2,
+                    },
+               }
+               var chart = new ApexCharts(document.querySelector("#movement-apex"), options);
+               chart.render();
+               function generateDayWiseTimeSeries(baseval, count, yrange) {
+                    var i = 0;
+                    var series = [];
+                    while (i < count) {
+                         var x = baseval;
+                         var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+
+                         series.push([x, y]);
+                         baseval += 86400000;
+                         i++;
+                    }
+                    return series;
+               }
+          });
+     </script>
+</body>
+
+</html>
