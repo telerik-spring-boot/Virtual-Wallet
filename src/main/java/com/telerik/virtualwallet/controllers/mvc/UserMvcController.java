@@ -31,8 +31,24 @@ public class UserMvcController {
     public String getSettings(){
         return "settings";
     }
+
     @GetMapping("/transactions")
     public String getTransactions(){
         return "transaction";
+    }
+
+    @GetMapping("/profile")
+    public String getProfile(){
+        return "profile";
+    }
+
+    @GetMapping("/login")
+    public String getLogin(){
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public String getRegister(){
+        return "register";
     }
 }
