@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/general-fragments :: head('YNPay :: Settings')}"></head>
+
+<body data-theme="theme-AppleGreen" class="svgstroke-a">
+     <main class="container-fluid px-0">
+          <!-- start: page menu link -->
+          <div th:replace="~{fragments/general-fragments :: sidebar}"> </div>
+          <div class="content">
+               <!-- start: page header -->
+               <header class="px-xl-5 px-lg-4 px-3 sticky-top" data-bs-theme="none">
+                    <div class="d-flex flex-wrap justify-content-sm-between align-items-center py-2 w-100">
+                         <div>
+                              <a href="index.html" title="logo" class="brand-icon d-sm-none">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="44" viewBox="0 0 24 24"
+                                        fill="none" stroke="var(--brand-color)" stroke-width="1" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path
+                                             d="M19.875 6.27a2.225 2.225 0 0 1 1.125 1.948v7.284c0 .809 -.443 1.555 -1.158 1.948l-6.75 4.27a2.269 2.269 0 0 1 -2.184 0l-6.75 -4.27a2.225 2.225 0 0 1 -1.158 -1.948v-7.285c0 -.809 .443 -1.554 1.158 -1.947l6.75 -3.98a2.33 2.33 0 0 1 2.25 0l6.75 3.98h-.033z">
+                                        </path>
+                                        <path
+                                             d="M15.5 9.422c.312 .18 .503 .515 .5 .876v3.277c0 .364 -.197 .7 -.515 .877l-3 1.922a1 1 0 0 1 -.97 0l-3 -1.922a1 1 0 0 1 -.515 -.876v-3.278c0 -.364 .197 -.7 .514 -.877l3 -1.79c.311 -.174 .69 -.174 1 0l3 1.79h-.014z">
+                                        </path>
+                                   </svg>
+                                   <div class="ms-3  logo-name">
+                                        <h6 class="mb-0 title-font dark-rever-color">FintechWeb</h6>
+                                   </div>
+                              </a>
+                              <h5 class="mb-0 d-none d-sm-block">Settings</h5>
+                              <span class="text-muted d-none d-sm-block">Lorem ipsum dolor sit amet consectetur
+                                   adipisicing elit.</span>
+                         </div>
+                         <ul class="header-menu flex-grow-1 justify-content-between justify-content-sm-end">
+                              <li class="nav-item dropdown px-md-1">
+                                   <a class="dropdown-toggle gray-6" href="#" id="bd-theme" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                             stroke-linecap="round" stroke-linejoin="round">
+                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                             <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                             <path d="M21 21l-6 -6"></path>
+                                        </svg>
+                                   </a>
+                                   <div class="dropdown-menu shadow dropdown-menu-end" style="width: 200px;">
+                                        <form class="px-2">
+                                             <input type="text" class="form-control">
+                                        </form>
+                                   </div>
+                              </li>
+                              <li class="nav-item py-2 py-md-1 col-auto d-none d-sm-flex">
+                                   <div class="vr d-none d-sm-flex h-100 mx-sm-2"></div>
+                              </li>
+                              <!--[ Start:: notification ]-->
+                              <li class="nav-item dropdown px-md-1 d-none d-md-inline-flex">
+                                   <a class="dropdown-toggle gray-6" href="#" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false" title="notification">
+                                        <span class="bullet-dot bg-primary animation-blink"></span>
+                                        <svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg" width="22"
+                                             height="22" viewBox="0 0 24 24" stroke="currentColor" fill="none"
+                                             stroke-linecap="round" stroke-linejoin="round">
+                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                             <path
+                                                  d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6">
+                                             </path>
+                                             <path d="M9 17v1a3 3 0 0 0 6 0v-1"></path>
+                                             <path d="M21 6.727a11.05 11.05 0 0 0 -2.794 -3.727"></path>
+                                             <path d="M3 6.727a11.05 11.05 0 0 1 2.792 -3.727"></path>
+                                        </svg>
+                                   </a>
+                                   <div class="dropdown-menu shadow rounded-4 notification" id="NotificationsDiv">
+                                        <div class="card border-0">
+                                             <div
+                                                  class="card-header d-flex justify-content-between align-items-center py-3">
+                                                  <h4 class="mb-0 text-gradient title-font">Notifications</h4>
+                                                  <a href="#" class="btn btn-link" title="view all">View all</a>
+                                             </div>
+                                             <ul class="card-body p-0 list-unstyled mb-0 custom_scroll ps-2"
+                                                  style="height: 400px;">
+                                                  <li class="pe-2">
+                                                       <a class="d-flex p-lg-3 p-2 rounded-3"
+                                                            href="javascript:void(0);">
+                                                            <div class="avatar sm">
+                                                                 <svg class="svg-stroke"
+                                                                      xmlns="http://www.w3.org/2000/svg"
+                                                                      viewBox="0 0 24 24" stroke="currentColor"
+                                                                      fill="none" stroke-linecap="round"
+                                                                      stroke-linejoin="round">
+                                                                      <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                      </path>
+                                                                      <path
+                                                                           d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3">
+                                                                      </path>
+                                                                 </svg>
+                                                            </div>
+                                                            <div class="flex-fill ms-3">
+                                                                 <span class="d-flex justify-content-between">
+                                                                      <small class="text-primary">Holiday Sale</small>
+                                                                      <small class="text-muted">11:30 AM Today</small>
+                                                                 </span>
+                                                                 <p class="mb-0 mt-1">Your New Campaign sale live on
+                                                                      themeforest and our store is approved.</p>
+                                                            </div>
+                                                       </a>
+                                                  </li>
+                                                  <li class="pe-2">
+                                                       <a class="d-flex p-lg-3 p-2 rounded-3"
+                                                            href="javascript:void(0);">
+                                                            <div class="avatar sm">
+                                                                 <svg class="svg-stroke"
+                                                                      xmlns="http://www.w3.org/2000/svg"
+                                                                      viewBox="0 0 24 24" stroke="currentColor"
+                                                                      fill="none" stroke-linecap="round"
+                                                                      stroke-linejoin="round">
+                                                                      <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                      </path>
+                                                                      <path
+                                                                           d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.697">
+                                                                      </path>
+                                                                      <path d="M18 14v4h4"></path>
+                                                                      <path d="M18 11v-4a2 2 0 0 0 -2 -2h-2"></path>
+                                                                      <path
+                                                                           d="M8 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z">
+                                                                      </path>
+                                                                      <path
+                                                                           d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0">
+                                                                      </path>
+                                                                      <path d="M8 11h4"></path>
+                                                                      <path d="M8 15h3"></path>
+                                                                 </svg>
+                                                            </div>
+                                                            <div class="flex-fill ms-3">
+                                                                 <span class="d-flex justify-content-between">
+                                                                      <small class="text-info">Reports</small>
+                                                                      <small class="text-muted">04:00 PM Today</small>
+                                                                 </span>
+                                                                 <p class="mb-0 mt-1">Website visits from Twitter is 27%
+                                                                      higher than last week.</p>
+                                                            </div>
+                                                       </a>
+                                                  </li>
+                                                  <li class="pe-2">
+                                                       <a class="d-flex p-lg-3 p-2 rounded-3 align-items-start"
+                                                            href="javascript:void(0);">
+                                                            <img class="avatar sm rounded-circle"
+                                                                 th:src="@{/images/xs/avatar4.jpg}" src="../static/images/xs/avatar4.jpg" alt="avatar">
+                                                            <div class="flex-fill ms-3">
+                                                                 <span class="d-flex justify-content-between">
+                                                                      <small class="text-warning">HTML Code</small>
+                                                                      <small class="text-muted">1day</small>
+                                                                 </span>
+                                                                 <p class="mb-0 mt-1">Update new code in github and
+                                                                      share deteail</p>
+                                                            </div>
+                                                       </a>
+                                                  </li>
+                                                  <li class="pe-2">
+                                                       <div class="d-flex p-lg-3 p-2 rounded-3">
+                                                            <img class="avatar sm rounded-circle"
+                                                                 th:src="@{/images/xs/avatar1.jpg}" src="../static/images/xs/avatar1.jpg" alt="avatar">
+                                                            <div class="flex-fill ms-3">
+                                                                 <span class="d-flex justify-content-between">
+                                                                      <small class="text-success">New Request</small>
+                                                                      <small class="text-muted">1day</small>
+                                                                 </span>
+                                                                 <p class="mb-0 mt-1">
+                                                                      <strong>Tina Harris</strong>
+                                                                      is requesting to upgrade Plan
+                                                                 </p>
+                                                                 <div class="mt-2">
+                                                                      <a href="#"
+                                                                           class="btn btn-sm bg-accent text-white">Accept</a>
+                                                                      <a href="#"
+                                                                           class="btn btn-sm btn-dark text-white">Decline</a>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                  </li>
+                                                  <li class="pe-2">
+                                                       <a class="d-flex p-lg-3 p-2 rounded-3"
+                                                            href="javascript:void(0);">
+                                                            <div class="avatar sm">
+                                                                 <svg class="svg-stroke"
+                                                                      xmlns="http://www.w3.org/2000/svg"
+                                                                      viewBox="0 0 24 24" stroke="currentColor"
+                                                                      fill="none" stroke-linecap="round"
+                                                                      stroke-linejoin="round">
+                                                                      <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                      </path>
+                                                                      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0">
+                                                                      </path>
+                                                                      <path d="M12 8v4"></path>
+                                                                      <path d="M12 16h.01"></path>
+                                                                 </svg>
+                                                            </div>
+                                                            <div class="flex-fill ms-3">
+                                                                 <span class="d-flex justify-content-between">
+                                                                      <small class="text-danger">Error 404</small>
+                                                                      <small class="text-muted">Yesterday</small>
+                                                                 </span>
+                                                                 <p class="mb-0 mt-1">FintechWeb admin template on
+                                                                      website analytics configurations</p>
+                                                            </div>
+                                                       </a>
+                                                  </li>
+                                             </ul>
+                                        </div>
+                                   </div>
+                              </li>
+                              <!--[ Start:: theme light/dark ]-->
+                              <li class="nav-item dropdown px-md-1">
+                                   <a class="dropdown-toggle gray-6" href="#" id="bd-theme-one"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"
+                                             class="theme-icon-active">
+                                             <use href="#sun-fill"></use>
+                                        </svg>
+                                   </a>
+                                   <ul class="dropdown-menu dropdown-menu-end p-2 p-xl-3 shadow rounded-4"
+                                        aria-labelledby="bd-theme-one">
+                                        <li class="mb-1">
+                                             <a class="dropdown-item rounded-pill" href="#" data-bs-theme-value="light">
+                                                  <svg class="avatar xs me-2 opacity-50 theme-icon" fill="currentColor">
+                                                       <use href="#sun-fill"></use>
+                                                  </svg>
+                                                  Light
+                                             </a>
+                                        </li>
+                                        <li class="mb-1">
+                                             <a class="dropdown-item rounded-pill active" href="#"
+                                                  data-bs-theme-value="dark">
+                                                  <svg class="avatar xs me-2 opacity-50 theme-icon" fill="currentColor">
+                                                       <use href="#moon-stars-fill"></use>
+                                                  </svg>
+                                                  Dark
+                                             </a>
+                                        </li>
+                                        <li class="mb-1">
+                                             <a class="dropdown-item rounded-pill" href="#" data-bs-theme-value="auto">
+                                                  <svg class="avatar xs me-2 opacity-50 theme-icon" fill="currentColor">
+                                                       <use href="#circle-half"></use>
+                                                  </svg>
+                                                  Auto
+                                             </a>
+                                        </li>
+                                   </ul>
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        viewBox="0 0 16 16" style="display: none;">
+                                        <symbol id="sun-fill" viewBox="0 0 16 16">
+                                             <path
+                                                  d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z">
+                                             </path>
+                                        </symbol>
+                                        <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+                                             <path
+                                                  d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z">
+                                             </path>
+                                             <path
+                                                  d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z">
+                                             </path>
+                                        </symbol>
+                                        <symbol id="circle-half" viewBox="0 0 16 16">
+                                             <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path>
+                                        </symbol>
+                                   </svg>
+                              </li>
+                              <!--[ Start:: theme setting ]-->
+                              <li class="nav-item dropdown px-md-1">
+                                   <a class="dropdown-toggle gray-6" href="#offcanvas_setting"
+                                        data-bs-toggle="offcanvas" aria-expanded="false" title="template setting">
+                                        <svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg" width="22"
+                                             height="22" viewBox="0 0 24 24" stroke="currentColor" fill="none"
+                                             stroke-linecap="round" stroke-linejoin="round">
+                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                             <path
+                                                  d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+                                             </path>
+                                             <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                                        </svg>
+                                   </a>
+                              </li>
+                              <li class="nav-item py-2 py-md-1 col-auto d-none d-sm-flex">
+                                   <div class="vr d-none d-sm-flex h-100 mx-sm-2"></div>
+                              </li>
+                              <li>
+                                   <a href="#" data-bs-toggle="modal" data-bs-target="#exportModal"
+                                        class="btn btn-grey-outline fw-medium text-nowrap">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 24 24"
+                                             fill="none" stroke="currentColor" stroke-linecap="round"
+                                             stroke-linejoin="round" class="svg-stroke me-1">
+                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                             <path d="M15 14l4 -4l-4 -4"></path>
+                                             <path d="M19 10h-11a4 4 0 1 0 0 8h1"></path>
+                                        </svg>
+                                        Export
+                                   </a>
+                              </li>
+                              <li class="dropdown d-block d-lg-none">
+                                   <button class="btn btn-sm sidebar-toggle ms-3 border" type="button"><i
+                                             class="fa fa-bars"></i></button>
+                              </li>
+                         </ul>
+                    </div>
+               </header>
+               <!-- start: page header area -->
+               <div class="px-xl-5 px-lg-4 px-3 py-2 page-header">
+                    <div class="col-sm-6 ">
+                         <ol class="breadcrumb mb-0 bg-transparent ">
+                              <li class="breadcrumb-item"><a class="text-muted" href="index.html" title="home">Home</a>
+                              </li>
+                              <li class="breadcrumb-item active" aria-current="page" title="Dashboard">setting</li>
+                         </ol>
+                    </div>
+               </div>
+               <!-- start: page body area -->
+               <div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
+                    <div class="row">
+                         <div class="col-sm-12">
+                              <div class="card ">
+                                   <div class="card-header border-bottom pb-0 ">
+                                        <!--=== tab buttons ===-->
+                                        <ul class="nav nav-pills nav-pills-underline d-none d-sm-flex" id="pills-tab"
+                                             role="tablist">
+                                             <li class="nav-item" role="presentation">
+                                                  <button class="nav-link active ps-0 pb-0" id="pills-home-tab"
+                                                       data-bs-toggle="pill" data-bs-target="#pills-home" type="button"
+                                                       role="tab" aria-controls="pills-home"
+                                                       aria-selected="true">Account</button>
+                                             </li>
+                                             <li class="nav-item" role="presentation">
+                                                  <button class="nav-link pb-0" id="pills-profile-tab"
+                                                       data-bs-toggle="pill" data-bs-target="#pills-profile"
+                                                       type="button" role="tab" aria-controls="pills-profile"
+                                                       aria-selected="false">Settings</button>
+                                             </li>
+                                             <li class="nav-item" role="presentation">
+                                                  <button class="nav-link pb-0" id="pills-contact-tab"
+                                                       data-bs-toggle="pill" data-bs-target="#pills-contact"
+                                                       type="button" role="tab" aria-controls="pills-contact"
+                                                       aria-selected="false">Notifications</button>
+                                             </li>
+                                             <li class="nav-item" role="presentation">
+                                                  <button class="nav-link pb-0 ps-0 ps-sm-3 " id="pills-disabled-tab"
+                                                       data-bs-toggle="pill" data-bs-target="#pills-disabled"
+                                                       type="button" role="tab" aria-controls="pills-disabled"
+                                                       aria-selected="false">Privacy &amp; Security</button>
+                                             </li>
+                                             <li class="nav-item" role="presentation">
+                                                  <button class="nav-link pb-0" id="pills-disabled-tab-one"
+                                                       data-bs-toggle="pill" data-bs-target="#pills-Localization"
+                                                       type="button" role="tab" aria-controls="pills-disabled"
+                                                       aria-selected="false">Localization</button>
+                                             </li>
+                                        </ul>
+                                        <!--=== dropdown tabs button ===-->
+                                        <div class="dropdown w-100 d-sm-none mb-3">
+                                             <button class="btn btn-secondary dropdown-toggle w-100"
+                                                  id="dropdown-value-set" type="button" data-bs-toggle="dropdown"
+                                                  aria-expanded="false">Accounts</button>
+                                             <ul class="dropdown-menu w-100 " id="pills-tab-page" role="tablist">
+                                                  <li class="dropdown-item ">
+                                                       <button class="nav-link active ps-0 pb-0 w-100 "
+                                                            id="pills-home-tab-one" data-bs-toggle="pill"
+                                                            data-bs-target="#pills-home" type="button" role="tab"
+                                                            aria-controls="pills-home"
+                                                            aria-selected="true">Account</button>
+                                                  </li>
+                                                  <li class="dropdown-item">
+                                                       <button class="nav-link pb-0 w-100" id="pills-profile-tab-two"
+                                                            data-bs-toggle="pill" data-bs-target="#pills-profile"
+                                                            type="button" role="tab" aria-controls="pills-profile"
+                                                            aria-selected="false">Settings</button>
+                                                  </li>
+                                                  <li class="dropdown-item">
+                                                       <button class="nav-link pb-0 w-100" id="pills-contact-tabthree"
+                                                            data-bs-toggle="pill" data-bs-target="#pills-contact"
+                                                            type="button" role="tab" aria-controls="pills-contact"
+                                                            aria-selected="false">Notifications</button>
+                                                  </li>
+                                                  <li class="dropdown-item">
+                                                       <button class="nav-link pb-0  w-100" id="pills-disabled-tab-two"
+                                                            data-bs-toggle="pill" data-bs-target="#pills-disabled"
+                                                            type="button" role="tab" aria-controls="pills-disabled"
+                                                            aria-selected="false">Privacy &amp; Security</button>
+                                                  </li>
+                                                  <li class="dropdown-item">
+                                                       <button class="nav-link pb-0 w-100" id="pills-disabled-tab-three"
+                                                            data-bs-toggle="pill" data-bs-target="#pills-Localization"
+                                                            type="button" role="tab" aria-controls="pills-disabled"
+                                                            aria-selected="false">Localization</button>
+                                                  </li>
+                                             </ul>
+                                        </div>
+                                   </div>
+                                   <div class="card-body ">
+                                        <div class="tab-content" id="pills-tabContent">
+                                             <!--=== Account ===-->
+                                             <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                                                  aria-labelledby="pills-home-tab" tabindex="0">
+                                                  <div
+                                                       class="row row-cols-sm-3 row-cols-1 justify-content-between border-bottom pb-3">
+                                                       <div class="col">Logo ID</div>
+                                                       <div class="col">y-12345678</div>
+                                                       <div class="col text-end">
+                                                            <button class="btn btn-grey-outline" data-bs-toggle="modal"
+                                                                 data-bs-target="#editModal">
+                                                                 <svg class="w-6 h-6" aria-hidden="true"
+                                                                      xmlns="http://www.w3.org/2000/svg" width="18"
+                                                                      fill="none" viewBox="0 0 24 24">
+                                                                      <path stroke="currentColor" stroke-linecap="round"
+                                                                           stroke-linejoin="round" stroke-width="2"
+                                                                           d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28">
+                                                                      </path>
+                                                                 </svg>
+                                                                 Edit
+                                                            </button>
+                                                       </div>
+                                                  </div>
+                                                  <div class="table-responsive custom_scroll">
+                                                       <!-- Table -->
+                                                       <table class="table table-hover">
+                                                            <tbody>
+                                                                 <tr>
+                                                                      <th>Profile Photo</th>
+                                                                      <td colspan="2">
+                                                                           <img th:src="@{/images/profile_av.png}" src="../static/images/profile_av.png"
+                                                                                alt="avatar"
+                                                                                class="avatar md rounded-circle">
+                                                                      </td>
+                                                                 </tr>
+                                                                 <tr>
+                                                                      <th>Full Name</th>
+                                                                      <td colspan="2">Liza</td>
+                                                                 </tr>
+                                                                 <tr>
+                                                                      <th>Email Address</th>
+                                                                      <td colspan="2">doeliza@gmail.com</td>
+                                                                 </tr>
+                                                                 <tr>
+                                                                      <th>Phone Number</th>
+                                                                      <td colspan="2">12345678</td>
+                                                                 </tr>
+                                                                 <tr>
+                                                                      <th>Address</th>
+                                                                      <td colspan="2">Lorem ipsum dolor sit amet
+                                                                           consectetur adipisicing elit. Porro.</td>
+                                                                 </tr>
+                                                            </tbody>
+                                                       </table>
+                                                  </div>
+                                             </div>
+                                             <!--=== settings ===-->
+                                             <div class="tab-pane fade " id="pills-profile" role="tabpanel"
+                                                  aria-labelledby="pills-profile-tab" tabindex="0">
+                                                  <table class="table table-hover table-border-custom">
+                                                       <tbody>
+                                                            <tr class="row">
+                                                                 <td class="col-sm-6 ">
+                                                                      <span class=" fw-semibold">Languange
+                                                                           settings</span>
+                                                                      <span class="d-block text-muted">Lorem ipsum,
+                                                                           dolor sit amet consectetur adipisicing elit.
+                                                                           Numquam, provident!</span>
+                                                                 </td>
+                                                                 <td class="col-sm-6">
+                                                                      <div class="row justify-content-end">
+                                                                           <div class="col-md-6">
+                                                                                <select id="country" name="country"
+                                                                                     data-placeholder="Select a country"
+                                                                                     data-dynamic-select=""
+                                                                                     class="form-select ">
+                                                                                     <option
+                                                                                          value="United States Dollar"
+                                                                                          th:data-img="@{/images/flags/1x1/um.svg}" data-img="../static/images/flags/1x1/um.svg">
+                                                                                          United States Dollar</option>
+                                                                                     <option value="Afghan Afghani"
+                                                                                          th:data-img="@{/images/flags/1x1/af.svg}" data-img="../static/images/flags/1x1/af.svg">
+                                                                                          Afghan Afghani</option>
+                                                                                     <option value="Albanian Lek"
+                                                                                          th:data-img="@{/images/flags/1x1/al.svg}" data-img="../static/images/flags/1x1/al.svg">
+                                                                                          Albanian Lek</option>
+                                                                                     <option value="Algerian Dinar"
+                                                                                          th:data-img="@{/images/flags/1x1/ad.svg}" data-img="../static/images/flags/1x1/ad.svg">
+                                                                                          Algerian Dinar</option>
+                                                                                     <option value="Argentine Peso"
+                                                                                          th:data-img="@{/images/flags/1x1/ar.svg}" data-img="../static/images/flags/1x1/ar.svg">
+                                                                                          Argentine Peso</option>
+                                                                                     <option value="Argentine Peso"
+                                                                                          th:data-img="@{/images/flags/1x1/ad.svg}" data-img="../static/images/flags/1x1/ad.svg">
+                                                                                          Armenian Dram</option>
+                                                                                     <option value="Armenian Dram"
+                                                                                          th:data-img="@{/images/flags/1x1/ad.svg}" data-img="../static/images/flags/1x1/ad.svg">
+                                                                                          Armenian Dram</option>
+                                                                                     <option value="Aruban Florin"
+                                                                                          th:data-img="@{/images/flags/1x1/af.svg}" data-img="../static/images/flags/1x1/af.svg">
+                                                                                          Aruban Florin</option>
+                                                                                     <option value="Australian Dollar"
+                                                                                          th:data-img="@{/images/flags/1x1/au.svg}" data-img="../static/images/flags/1x1/au.svg">
+                                                                                          Australian Dollar</option>
+                                                                                     <option value="Azerbaijani Manat"
+                                                                                          th:data-img="@{/images/flags/1x1/az.svg}" data-img="../static/images/flags/1x1/az.svg">
+                                                                                          Azerbaijani Manat</option>
+                                                                                     <option value="Bahamian Dollar"
+                                                                                          th:data-img="@{/images/flags/1x1/bd.svg}" data-img="../static/images/flags/1x1/bd.svg">
+                                                                                          Bahamian Dollar</option>
+                                                                                     <option value="Indian Rupis"
+                                                                                          th:data-img="@{/images/flags/1x1/in.svg}" data-img="../static/images/flags/1x1/in.svg">
+                                                                                          Indian Rupis</option>
+                                                                                     <option value="Singapore Dollar"
+                                                                                          th:data-img="@{/images/flags/1x1/si.svg}" data-img="../static/images/flags/1x1/si.svg">
+                                                                                          Singapore Dollar</option>
+                                                                                     <option
+                                                                                          value="United States Dollar"
+                                                                                          th:data-img="@{/images/flags/1x1/un.svg}" data-img="../static/images/flags/1x1/un.svg">
+                                                                                          United States Dollar</option>
+                                                                                </select>
+                                                                           </div>
+                                                                      </div>
+                                                                 </td>
+                                                            </tr>
+                                                            <tr class="row">
+                                                                 <td class="col-sm-6">
+                                                                      <span class=" fw-semibold">theme</span>
+                                                                      <span class="d-block text-muted">Lorem ipsum,
+                                                                           dolor sit amet consectetur adipisicing elit.
+                                                                           Numquam, provident!</span>
+                                                                 </td>
+                                                                 <td class="col-sm-6">
+                                                                      <div class="row justify-content-end">
+                                                                           <div class="col-md-6">
+                                                                                <div class="dropdown">
+                                                                                     <button
+                                                                                          class="btn  border dropdown-toggle w-100 "
+                                                                                          type="button"
+                                                                                          id="themeDropdown"
+                                                                                          data-bs-toggle="dropdown"
+                                                                                          aria-expanded="false">
+                                                                                          Choose Theme
+                                                                                     </button>
+                                                                                     <ul class="dropdown-menu themeSetting"
+                                                                                          aria-labelledby="themeDropdown">
+                                                                                          <li data-theme="Greylight"
+                                                                                               class="active">
+                                                                                               <a class="dropdown-item"
+                                                                                                    href="#">
+                                                                                                    <div
+                                                                                                         style="--fintech-theme-color: #2e0ff8; background-color: #2e0ff8; width: 20px; height: 20px; display: inline-block; border-radius: 3px;">
+                                                                                                    </div>
+                                                                                                    Greylight
+                                                                                               </a>
+                                                                                          </li>
+                                                                                          <li data-theme="SunOrange">
+                                                                                               <a class="dropdown-item"
+                                                                                                    href="#">
+                                                                                                    <div
+                                                                                                         style="--fintech-theme-color: #F7A614; background-color: #F7A614; width: 20px; height: 20px; display: inline-block; border-radius: 3px;">
+                                                                                                    </div>
+                                                                                                    SunOrange
+                                                                                               </a>
+                                                                                          </li>
+                                                                                          <li data-theme="AppleGreen">
+                                                                                               <a class="dropdown-item"
+                                                                                                    href="#">
+                                                                                                    <div
+                                                                                                         style="--fintech-theme-color: #5BC43A; background-color: #5BC43A; width: 20px; height: 20px; display: inline-block; border-radius: 3px;">
+                                                                                                    </div>
+                                                                                                    AppleGreen
+                                                                                               </a>
+                                                                                          </li>
+                                                                                          <li data-theme="CeruleanBlue">
+                                                                                               <a class="dropdown-item"
+                                                                                                    href="#">
+                                                                                                    <div
+                                                                                                         style="--fintech-theme-color: #00B8D6; background-color: #00B8D6; width: 20px; height: 20px; display: inline-block; border-radius: 3px;">
+                                                                                                    </div>
+                                                                                                    CeruleanBlue
+                                                                                               </a>
+                                                                                          </li>
+                                                                                          <li data-theme="Mariner">
+                                                                                               <a class="dropdown-item"
+                                                                                                    href="#">
+                                                                                                    <div
+                                                                                                         style="--fintech-theme-color: #0066FE; background-color: #0066FE; width: 20px; height: 20px; display: inline-block; border-radius: 3px;">
+                                                                                                    </div>
+                                                                                                    Mariner
+                                                                                               </a>
+                                                                                          </li>
+                                                                                          <li data-theme="PurpleHeart">
+                                                                                               <a class="dropdown-item"
+                                                                                                    href="#">
+                                                                                                    <div
+                                                                                                         style="--fintech-theme-color: #6238B3; background-color: #6238B3; width: 20px; height: 20px; display: inline-block; border-radius: 3px;">
+                                                                                                    </div>
+                                                                                                    PurpleHeart
+                                                                                               </a>
+                                                                                          </li>
+                                                                                          <li data-theme="FrenchRose">
+                                                                                               <a class="dropdown-item"
+                                                                                                    href="#">
+                                                                                                    <div
+                                                                                                         style="--fintech-theme-color: #EB5393; background-color: #EB5393; width: 20px; height: 20px; display: inline-block; border-radius: 3px;">
+                                                                                                    </div>
+                                                                                                    FrenchRose
+                                                                                               </a>
+                                                                                          </li>
+                                                                                     </ul>
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                 </td>
+                                                            </tr>
+                                                            <tr class="row">
+                                                                 <td class="col-sm-6">
+                                                                      <span class=" fw-semibold">Web contact</span>
+                                                                      <span class="d-block text-muted">Lorem ipsum,
+                                                                           dolor sit amet consectetur adipisicing elit.
+                                                                           Numquam, provident!</span>
+                                                                 </td>
+                                                                 <td class="col-sm-6">
+                                                                      <div class="row justify-content-end">
+                                                                           <div class="col-md-6">
+                                                                                <a href="#"
+                                                                                     class="nav-link btn py-2 border fw-semibold ">open
+                                                                                     web contact</a>
+                                                                           </div>
+                                                                      </div>
+                                                                 </td>
+                                                            </tr>
+                                                            <tr class="row">
+                                                                 <td class="col-sm-6">
+                                                                      <span class=" fw-semibold">Api Token</span>
+                                                                      <span class="d-block text-muted">Lorem ipsum,
+                                                                           dolor sit amet consectetur adipisicing elit.
+                                                                           Numquam, provident!</span>
+                                                                 </td>
+                                                                 <td class="col-sm-6">
+                                                                      <div class="row justify-content-end">
+                                                                           <div class="col-md-6">
+                                                                                <a href="#"
+                                                                                     class="nav-link btn py-2 border fw-semibold ">open
+                                                                                     Api Token</a>
+                                                                           </div>
+                                                                      </div>
+                                                                 </td>
+                                                            </tr>
+                                                            <tr class="row">
+                                                                 <td class="col-sm-6">
+                                                                      <span class=" fw-semibold text-capitalize">Secure
+                                                                           communication code</span>
+                                                                      <span class="d-block text-muted">Lorem ipsum,
+                                                                           dolor sit amet consectetur adipisicing elit.
+                                                                           Numquam, provident!</span>
+                                                                 </td>
+                                                                 <td class="col-sm-6">
+                                                                      <div class="row justify-content-end">
+                                                                           <div class="col-md-6">
+                                                                                <a href="#"
+                                                                                     class="nav-link btn py-2 border fw-semibold text-capitalize">create
+                                                                                     communication code</a>
+                                                                           </div>
+                                                                      </div>
+                                                                 </td>
+                                                            </tr>
+                                                            <tr class="row">
+                                                                 <td class="col-6">
+                                                                      <span class=" fw-semibold text-capitalize">close
+                                                                           your account</span>
+                                                                 </td>
+                                                                 <td class="col-6">
+                                                                      <div class="row justify-content-end">
+                                                                           <div class="col-md-6">
+                                                                                <a href="#"
+                                                                                     class=" bg-danger  btn btn-danger py-2  fw-semibold text-capitalize w-100">close</a>
+                                                                           </div>
+                                                                      </div>
+                                                                 </td>
+                                                            </tr>
+                                                       </tbody>
+                                                  </table>
+                                             </div>
+                                             <!--=== notification ===-->
+                                             <div class="tab-pane fade" id="pills-contact" role="tabpanel"
+                                                  aria-labelledby="pills-contact-tab" tabindex="0">
+                                                  <table class="table  table-border-custom">
+                                                       <tbody>
+                                                            <tr class="row">
+                                                                 <td class="col-sm-6 ">
+                                                                      <span class=" fw-semibold">General
+                                                                           Notifications</span>
+                                                                      <span class="d-block text-muted">Lorem ipsum,
+                                                                           dolor sit amet consectetur adipisicing elit.
+                                                                           Numquam, provident!</span>
+                                                                 </td>
+                                                                 <td class="col-sm-6">
+                                                                      <div
+                                                                           class="form-check form-switch-dark form-switch mb-4 ">
+                                                                           <input class="form-check-input"
+                                                                                type="checkbox" role="switch"
+                                                                                id="flexSwitchCheckChecked" checked="">
+                                                                           <div class="ms-3">
+                                                                                <label
+                                                                                     class="form-check-label fw-semibold mt-1 text-capitalize"
+                                                                                     for="flexSwitchCheckChecked">transaction
+                                                                                     alert</label>
+                                                                                <span class="text-muted d-block">Lorem
+                                                                                     ipsum dolor sit amet consectetur
+                                                                                     adipisicing elit. Ratione!</span>
+                                                                           </div>
+                                                                      </div>
+                                                                      <div
+                                                                           class="form-check form-switch-dark form-switch mb-4 ">
+                                                                           <input class="form-check-input"
+                                                                                type="checkbox" role="switch"
+                                                                                id="flexSwitchCheckChecked-one">
+                                                                           <div class="ms-3">
+                                                                                <label
+                                                                                     class="form-check-label fw-semibold mt-1 text-capitalize"
+                                                                                     for="flexSwitchCheckChecked-one">low
+                                                                                     balnce alert</label>
+                                                                                <span class="text-muted d-block">Lorem
+                                                                                     ipsum dolor sit amet consectetur
+                                                                                     adipisicing elit. Ratione!</span>
+                                                                           </div>
+                                                                      </div>
+                                                                      <div
+                                                                           class="form-check form-switch-dark form-switch mb-4 ">
+                                                                           <input class="form-check-input"
+                                                                                type="checkbox" role="switch"
+                                                                                id="flexSwitchCheckChecked-two"
+                                                                                checked="">
+                                                                           <div class="ms-3">
+                                                                                <label
+                                                                                     class="form-check-label fw-semibold mt-1"
+                                                                                     for="flexSwitchCheckChecked-two">exclusive
+                                                                                     offers</label>
+                                                                                <span class="text-muted d-block">Lorem
+                                                                                     ipsum dolor sit amet consectetur
+                                                                                     adipisicing elit. Ratione!</span>
+                                                                           </div>
+                                                                      </div>
+                                                                 </td>
+                                                            </tr>
+                                                            <tr class="row">
+                                                                 <td class="col-sm-6 ">
+                                                                      <span class=" fw-semibold">Notification
+                                                                           Method</span>
+                                                                      <span class="d-block text-muted">Lorem ipsum,
+                                                                           dolor sit amet consectetur adipisicing elit.
+                                                                           Numquam, provident!</span>
+                                                                 </td>
+                                                                 <td class="col-sm-6">
+                                                                      <div class="form-check   mb-4 ">
+                                                                           <input
+                                                                                class="form-check-input form-check-dark"
+                                                                                type="checkbox" value=""
+                                                                                id="flexCheckChecked" checked="">
+                                                                           <div class="ms-3">
+                                                                                <label
+                                                                                     class="form-check-label fw-semibold "
+                                                                                     for="flexCheckChecked">Email
+                                                                                     Notification</label>
+                                                                                <span class="text-muted d-block">Lorem
+                                                                                     ipsum dolor sit amet consectetur
+                                                                                     adipisicing elit. Ratione!</span>
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="form-check   mb-4 ">
+                                                                           <input
+                                                                                class="form-check-input form-check-dark"
+                                                                                type="checkbox" value=""
+                                                                                id="Notification" checked="">
+                                                                           <div class="ms-3">
+                                                                                <label
+                                                                                     class="form-check-label fw-semibold "
+                                                                                     for="Notification">Push
+                                                                                     Notification</label>
+                                                                                <span class="text-muted d-block">Lorem
+                                                                                     ipsum dolor sit amet consectetur
+                                                                                     adipisicing elit. Ratione!</span>
+                                                                           </div>
+                                                                      </div>
+                                                                      <div class="form-check   mb-4 ">
+                                                                           <input
+                                                                                class="form-check-input form-check-dark"
+                                                                                type="checkbox" value="" id="SMS"
+                                                                                checked="">
+                                                                           <div class="ms-3">
+                                                                                <label
+                                                                                     class="form-check-label fw-semibold "
+                                                                                     for="SMS">SMS Notification</label>
+                                                                                <span class="text-muted d-block">Lorem
+                                                                                     ipsum dolor sit amet consectetur
+                                                                                     adipisicing elit. Ratione!</span>
+                                                                           </div>
+                                                                      </div>
+                                                                 </td>
+                                                            </tr>
+                                                       </tbody>
+                                                  </table>
+                                             </div>
+                                             <!--=== privacy & security ===-->
+                                             <div class="tab-pane fade" id="pills-disabled" role="tabpanel"
+                                                  aria-labelledby="pills-disabled-tab" tabindex="0">
+                                                  <div class="py-4">
+                                                       <div class="row align-items-center border-bottom py-3">
+                                                            <div class="col-md-6">
+                                                                 <h6 class="fw-semibold mb-1">Change Password</h6>
+                                                                 <p class="text-muted mb-0">Change your password if you
+                                                                      think your password needs to be changed.</p>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                 <div class="input-group">
+                                                                      <span class="input-group-text bg-transparent"
+                                                                           id="basic-addon1">
+                                                                           <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="24" height="24"
+                                                                                viewBox="0 0 24 24" fill="none"
+                                                                                stroke="currentColor" stroke-width="1"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                class="svg-stroke">
+                                                                                <path stroke="none" d="M0 0h24v24H0z"
+                                                                                     fill="none">
+                                                                                </path>
+                                                                                <path
+                                                                                     d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z">
+                                                                                </path>
+                                                                                <path
+                                                                                     d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0">
+                                                                                </path>
+                                                                                <path d="M8 11v-4a4 4 0 1 1 8 0v4">
+                                                                                </path>
+                                                                           </svg>
+                                                                      </span>
+                                                                      <input type="password"
+                                                                           class="form-control border-start-0"
+                                                                           placeholder="********">
+                                                                 </div>
+                                                            </div>
+                                                            <div class="col-md-2 text-md-end mt-3 mt-md-0">
+                                                                 <button
+                                                                      class="btn btn-outline-secondary w-100">Change</button>
+                                                            </div>
+                                                       </div>
+
+                                                       <div class="row align-items-center border-bottom py-3">
+                                                            <div class="col-md-6">
+                                                                 <h6 class="fw-semibold mb-1">Backup Codes</h6>
+                                                                 <p class="text-muted mb-0">Create and store new backup
+                                                                      codes for use in the event of losing access to
+                                                                      your authentication app.</p>
+                                                            </div>
+                                                            <div class="col-md-6 col-12 text-md-end mt-3 mt-md-0">
+                                                                 <button
+                                                                      class="btn btn-outline-secondary col-12 col-sm-auto">Generate
+                                                                      Code</button>
+                                                            </div>
+                                                       </div>
+
+                                                       <div class="row align-items-center py-3">
+                                                            <div class="col-md-6">
+                                                                 <h6 class="fw-semibold mb-1">Two Step Verification</h6>
+                                                                 <p class="text-muted mb-0">We use two-step verification
+                                                                      when we need to check it's really you using your
+                                                                      account.</p>
+                                                            </div>
+                                                            <div class="col-md-4 d-flex align-items-center gap-3">
+                                                                 <div
+                                                                      class="no-thumbnail p-2 bg-light rounded-circle border">
+                                                                      <div
+                                                                           class="no-thumbnail bg-white rounded-circle border">
+                                                                           <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="24" height="24"
+                                                                                viewBox="0 0 24 24" fill="none"
+                                                                                stroke="currentColor"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                class="svg-stroke">
+                                                                                <path stroke="none" d="M0 0h24v24H0z"
+                                                                                     fill="none">
+                                                                                </path>
+                                                                                <path
+                                                                                     d="M12 2c0 4.308 -7 6 -7 12a7 7 0 0 0 14 0c0 -6 -7 -7.697 -7 -12z">
+                                                                                </path>
+                                                                                <path
+                                                                                     d="M12 11.33a65.753 65.753 0 0 1 -2.012 2.023c-1 .957 -1.988 1.967 -1.988 3.647c0 2.17 1.79 4 4 4s4 -1.827 4 -4c0 -1.676 -.989 -2.685 -1.983 -3.642c-.42 -.404 -2.259 -2.357 -5.517 -5.858l3.5 3.83z">
+                                                                                </path>
+                                                                           </svg>
+                                                                      </div>
+                                                                 </div>
+                                                                 <span class="fw-semibold">Authenticator App</span>
+                                                            </div>
+                                                            <div class="col-md-2 text-md-end mt-3 mt-md-0">
+                                                                 <button
+                                                                      class="btn btn-outline-secondary w-100">Change</button>
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                                  <div class="card">
+                                                       <div class="card-header">
+                                                            <div class="row justify-content-between w-100">
+                                                                 <div class="col-xl-7 col-md-6">
+                                                                      <h6 class="fw-semibold">Active sessions</h6>
+                                                                      <span class="text-muted">
+                                                                           Lorem ipsum, dolor sit amet consectetur
+                                                                           <br class="d-none d-xl-block">
+                                                                           adipisicing elit.
+                                                                      </span>
+                                                                 </div>
+                                                                 <div class=" col-lg-3 col-md-6">
+                                                                      <button class="btn btn-danger w-100">Log out All
+                                                                           sessions</button>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                       <div class="card-body ">
+                                                            <div class="border rounded-4 py-4 px-2">
+                                                                 <div class="table-responsive">
+                                                                      <table
+                                                                           class="table dataTable align-middle table-hover table-body "
+                                                                           style="width: 100%;">
+                                                                           <thead>
+                                                                                <tr class="pt-3">
+                                                                                     <th>Browser</th>
+                                                                                     <th>Location</th>
+                                                                                     <th>Date &amp; Time</th>
+                                                                                     <th>Ip</th>
+                                                                                     <th></th>
+                                                                                </tr>
+                                                                           </thead>
+                                                                           <tbody>
+                                                                                <tr>
+                                                                                     <td>Mozilla firefox</td>
+                                                                                     <td>Ontario canada</td>
+                                                                                     <td>mar 18,2024 6:04 am</td>
+                                                                                     <td>227.0.8</td>
+                                                                                     <td>
+                                                                                          <button type="button"
+                                                                                               class="btn deleterow"><i
+                                                                                                    class="bi bi-trash text-danger"></i></button>
+                                                                                     </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                     <td>Mozilla firefox</td>
+                                                                                     <td>Ontario canada</td>
+                                                                                     <td>mar 18,2024 6:04 am</td>
+                                                                                     <td>227.0.8</td>
+                                                                                     <td>
+                                                                                          <button type="button"
+                                                                                               class="btn deleterow"><i
+                                                                                                    class="bi bi-trash text-danger"></i></button>
+                                                                                     </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                     <td>Mozilla firefox</td>
+                                                                                     <td>Ontario canada</td>
+                                                                                     <td>mar 18,2024 6:04 am</td>
+                                                                                     <td>227.0.8</td>
+                                                                                     <td>
+                                                                                          <button type="button"
+                                                                                               class="btn deleterow"><i
+                                                                                                    class="bi bi-trash text-danger"></i></button>
+                                                                                     </td>
+                                                                                </tr>
+                                                                           </tbody>
+                                                                      </table>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                             <!--=== localization ===-->
+                                             <div class="tab-pane fade" id="pills-Localization" role="tabpanel"
+                                                  aria-labelledby="pills-disabled-tab" tabindex="0">
+                                                  <table class="table table-hover table-border-custom">
+                                                       <tbody>
+                                                            <tr class="row">
+                                                                 <td class="col-sm-6 ">
+                                                                      <span class=" fw-semibold">Currency</span>
+                                                                      <span class="d-block text-muted">Lorem ipsum,
+                                                                           dolor sit amet consectetur adipisicing elit.
+                                                                           Numquam, provident!</span>
+                                                                 </td>
+                                                                 <td class="col-sm-6">
+                                                                      <div class="row justify-content-end">
+                                                                           <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                     <span class="fw-semibold mb-2"
+                                                                                          id="Currency">Currency :
+                                                                                          United states Dollar
+                                                                                          (USD)</span>
+                                                                                     <select class="form-control "
+                                                                                          id="currencySelect">
+                                                                                          <option value="USD">US Dollar
+                                                                                               (USD)</option>
+                                                                                          <option value="EUR">Euro (EUR)
+                                                                                          </option>
+                                                                                          <option value="GBP">British
+                                                                                               Pound (GBP)</option>
+                                                                                          <option value="JPY">Japanese
+                                                                                               Yen (JPY)</option>
+                                                                                          <option value="AUD">Australian
+                                                                                               Dollar (AUD)</option>
+                                                                                          <option value="CAD">Canadian
+                                                                                               Dollar (CAD)</option>
+                                                                                          <option value="CHF">Swiss
+                                                                                               Franc (CHF)</option>
+                                                                                          <option value="CNY">Chinese
+                                                                                               Yuan (CNY)</option>
+                                                                                          <option value="INR">Indian
+                                                                                               Rupee (INR)</option>
+                                                                                          <option value="NZD">New
+                                                                                               Zealand Dollar (NZD)
+                                                                                          </option>
+                                                                                     </select>
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                 </td>
+                                                            </tr>
+                                                            <tr class="row">
+                                                                 <td class="col-sm-6">
+                                                                      <span class=" fw-semibold">Timezone</span>
+                                                                      <span class="d-block text-muted">Lorem ipsum,
+                                                                           dolor sit amet consectetur adipisicing elit.
+                                                                           Numquam, provident!</span>
+                                                                 </td>
+                                                                 <td class="col-sm-6">
+                                                                      <div class="row justify-content-end">
+                                                                           <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                     <label for="timezoneSelect"
+                                                                                          class="fw-semibold">
+                                                                                          Time Zones:
+                                                                                          <span id="result"></span>
+                                                                                     </label>
+                                                                                     <select class="form-control  mt-2"
+                                                                                          id="timezoneSelect">
+                                                                                          <option value="UTC">UTC
+                                                                                          </option>
+                                                                                          <option value="GMT">GMT
+                                                                                          </option>
+                                                                                          <option value="EST">Eastern
+                                                                                               Standard Time (EST)
+                                                                                          </option>
+                                                                                          <option value="CST">Central
+                                                                                               Standard Time (CST)
+                                                                                          </option>
+                                                                                          <option value="MST">Mountain
+                                                                                               Standard Time (MST)
+                                                                                          </option>
+                                                                                          <option value="PST">Pacific
+                                                                                               Standard Time (PST)
+                                                                                          </option>
+                                                                                          <option value="CET">Central
+                                                                                               European Time (CET)
+                                                                                          </option>
+                                                                                          <option value="IST">India
+                                                                                               Standard Time (IST)
+                                                                                          </option>
+                                                                                          <option value="JST">Japan
+                                                                                               Standard Time (JST)
+                                                                                          </option>
+                                                                                          <option value="AEST">
+                                                                                               Australian Eastern
+                                                                                               Standard Time (AEST)
+                                                                                          </option>
+                                                                                     </select>
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                 </td>
+                                                            </tr>
+                                                            <tr class="row">
+                                                                 <td class="col-sm-6">
+                                                                      <span class=" fw-semibold">Date formate</span>
+                                                                      <span class="d-block text-muted">Lorem ipsum,
+                                                                           dolor sit amet consectetur adipisicing elit.
+                                                                           Numquam, provident!</span>
+                                                                 </td>
+                                                                 <td class="col-sm-6">
+                                                                      <div class="row justify-content-end">
+                                                                           <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                     <label for="dateFormatSelect"><span
+                                                                                               id="date-formate"
+                                                                                               class="fw-semibold text-lowercase">dd-mm-yy</span></label>
+                                                                                     <select class="form-control mt-2 "
+                                                                                          id="dateFormatSelect">
+                                                                                          <option value="dd/mm/yy">
+                                                                                               dd/mm/yy</option>
+                                                                                          <option value="mm/dd/yy">
+                                                                                               mm/dd/yy</option>
+                                                                                          <option value="yy/mm/dd">
+                                                                                               yy/mm/dd</option>
+                                                                                          <option value="dd-mm-yy">
+                                                                                               dd-mm-yy</option>
+                                                                                          <option value="mm-dd-yy">
+                                                                                               mm-dd-yy</option>
+                                                                                          <option value="yy-mm-dd">
+                                                                                               yy-mm-dd</option>
+                                                                                     </select>
+                                                                                </div>
+                                                                           </div>
+                                                                      </div>
+                                                                 </td>
+                                                            </tr>
+                                                       </tbody>
+                                                  </table>
+                                             </div>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </main>
+
+
+     <!-- Export Modal -->
+     <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+               <div class="modal-content">
+                    <div class="modal-header">
+                         <h5 class="modal-title" id="exportModalLabel">Export Data</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                         <div class="table-responsive custom_scroll">
+                              <table class="table table-hover">
+                                   <tbody>
+                                        <tr>
+                                             <th>Profile Photo</th>
+                                             <td colspan="2">
+                                                  <img th:src="@{/images/profile_av.png}" src="../static/images/profile_av.png" alt="avatar"
+                                                       class="avatar md rounded-circle">
+                                             </td>
+                                        </tr>
+                                        <tr>
+                                             <th>Full Name</th>
+                                             <td colspan="2">Liza</td>
+                                        </tr>
+                                        <tr>
+                                             <th>Email Address</th>
+                                             <td colspan="2">
+                                                  doeliza@gmail.com</td>
+                                        </tr>
+                                        <tr>
+                                             <th>Phone Number</th>
+                                             <td colspan="2">12345678</td>
+                                        </tr>
+                                        <tr>
+                                             <th>Address</th>
+                                             <td colspan="2">Lorem ipsum
+                                                  dolor sit amet
+                                                  consectetur adipisicing
+                                                  elit. Porro.</td>
+                                        </tr>
+                                   </tbody>
+                              </table>
+                         </div>
+                    </div>
+                    <div class="modal-footer">
+                         <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                         <button type="button" class="btn btn-grey-outline">Download</button>
+                    </div>
+               </div>
+          </div>
+     </div>
+
+     <!-- Edit Modal -->
+     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+               <div class="modal-content">
+                    <div class="modal-header">
+                         <h5 class="modal-title" id="editModalLabel">Edit
+                              Account Details</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                         <form>
+                              <!-- Profile Photo -->
+                              <div class="mb-3">
+                                   <label for="profilePhoto" class="form-label">Profile
+                                        Photo</label>
+                                   <input type="file" class="form-control filepond" id="profilePhoto" name="filepond"
+                                        multiple data-allow-reorder="true" data-max-file-size="3MB" data-max-files="3"
+                                        s>
+                              </div>
+                              <!-- Full Name -->
+                              <div class="mb-3">
+                                   <label for="fullName" class="form-label">Full
+                                        Name</label>
+                                   <input type="text" class="form-control" id="fullName" value="Liza">
+                              </div>
+                              <!-- Email Address -->
+                              <div class="mb-3">
+                                   <label for="email" class="form-label">Email
+                                        Address</label>
+                                   <input type="email" class="form-control" id="email" value="doeliza@gmail.com">
+                              </div>
+                              <!-- Phone Number -->
+                              <div class="mb-3">
+                                   <label for="phone" class="form-label">Phone
+                                        Number</label>
+                                   <input type="text" class="form-control" id="phone" value="12345678">
+                              </div>
+                              <!-- Address -->
+                              <div class="mb-3">
+                                   <label for="address" class="form-label">Address</label>
+                                   <textarea class="form-control" id="address"
+                                        rows="3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro.</textarea>
+                              </div>
+                         </form>
+                    </div>
+                    <div class="modal-footer">
+                         <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                         <button type="button" class="btn btn-grey-outline">Save</button>
+                    </div>
+               </div>
+          </div>
+     </div>
+
+     <th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+     <script src="../static/bundles/dataTables.bundle.js" th:src="@{/bundles/dataTables.bundle.js}"></script>
+     <script src="../static/bundles/sweetalert2.bundle.js" th:src="@{/bundles/sweetalert2.bundle.js}"></script>
+
+
+     <script>
+          $(document).ready(function () {
+               $("#pills-tab-page button").click(function () {
+                    let data = $("#pills-tab-page .dropdown-item  .active").html();
+                    $("#dropdown-value-set").html(data)
+               });
+               // data table
+               $('.dataTable')
+                    .addClass('nowrap')
+                    .dataTable({
+                         responsive: true,
+                    });
+               //select
+               $('#timezoneSelect').click(function () {
+                    var selectedTimezone = $('#timezoneSelect').val();
+                    $('#result').text(selectedTimezone);
+               });
+               //select
+               country
+               $('#country').click(function () {
+                    var selectedTimezone = $('#country').val();
+                    $('#country-value').text(selectedTimezone);
+               });
+               //select-two
+
+               // select
+               $('#dateFormatSelect').click(function () {
+                    var selectedFormat = $('#dateFormatSelect').val();
+                    $('#date-formate').text(selectedFormat);
+               });
+               //select
+               $('#currencySelect').click(function () {
+                    var selectedCurrency = $('#currencySelect').val();
+                    $('#Currency').text('Currency : ' + selectedCurrency);
+               });
+          });
+     </script>
+
+</body>
+
+</html>
