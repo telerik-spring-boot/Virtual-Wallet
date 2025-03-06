@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/general-fragments :: head('YNPay :: 404')}"></head>
+
+<body data-theme="theme-AppleGreen" class="svgstroke-a auth bg-gradient">
+	<!-- start: main grid layout -->
+	<main class="container-fluid px-0">
+		<!-- start: project logo -->
+		<div class="px-md-5 px-4 auth-header" data-bs-theme="none">
+			<a href="index.html" class="brand-icon text-decoration-none d-flex align-items-center"
+				title="YNPay">
+				<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" stroke="currentColor"
+					fill="none" stroke-linecap="round" stroke-linejoin="round">
+					<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+					<path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
+					<path d="M9 8l0 8"></path>
+					<path d="M9 12l6 0"></path>
+					<path d="M15 8l0 8"></path>
+				</svg>
+				<span class="fw-bold ps-2 fs-5 text-gradient">YNPay</span>
+			</a>
+		</div>
+		<!-- start: page body area -->
+		<div class="px-md-5 px-4 auth-body">
+			<form>
+				<ul class="row g-3 list-unstyled li_animate">
+					<li class="col-12 text-center">
+						<h1 class="display-1 fw-bold">4O4</h1>
+						<h5>We couldn't find this page.</h5>
+					</li>
+					<li class="col-12 my-lg-4">
+						<a class="btn btn-lg w-100 btn-primary text-uppercase mb-2" href="index.html" th:href="@{/users/dashboard}" title="">Back to
+							Home</a>
+					</li>
+				</ul><!--[ ul.row end ]-->
+			</form>
+		</div>
+		<!-- start: page footer -->
+		<footer class="px-xl-5 px-4">
+			<p class="mb-0 text-muted">© 2025 <a href="#" target="_blank" th:href="@{/users/dashboard}" title="YNPay">YNPay </a>, All Rights
+				Reserved.</p>
+		</footer>
+	</main>
+</body>
+
+</html>
