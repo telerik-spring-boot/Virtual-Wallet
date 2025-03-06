@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>:: YNPay :: Virtual Wallet</title>
     <meta charset="utf-8" />
@@ -14,26 +14,29 @@
       content="financial dashboard, financial reporting, admin panel, finance management"
     />
     <!--[ Favicon]-->
-    <link rel="icon" type="image/x-icon" href="../static/images/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="../static/images/favicon.ico" th:href="@{/images/favicon.ico}" />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
       href="../static/images/favicon-16x16.png"
+      th:href="@{/images/favicon-16x16.png}"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
       href="../static/images/favicon-32x32.png"
+      th:href="@{/images/favicon-32x32.png}"
     />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
       href="../static/images/apple-touch-icon.png"
+      th:href="@{/images/apple-touch-icon.png}"
     />
     <!--[ Template main css file ]-->
-    <link rel="stylesheet" href="../static/css/style.min.css" />
+    <link rel="stylesheet" href="../static/css/style.min.css"  th:href="@{/css/style.min.css}"/>
   </head>
 
   <body data-theme="theme-AppleGreen" class="svgstroke-a add-tooltip">
@@ -401,6 +404,7 @@
               <div class="d-flex align-items-center profile">
                 <img
                   src="../static/images/profile_av.png"
+                  th:src="@{/images/profile_av.png}"
                   alt="Avatar"
                   class="rounded-circle avatar"
                 />
@@ -652,6 +656,7 @@
                           <img
                             class="avatar sm rounded-circle"
                             src="../static/images/xs/avatar4.jpg"
+                            th:src="@{/images/xs/avatar4.jpg}"
                             alt="avatar"
                           />
                           <div class="flex-fill ms-3">
@@ -670,6 +675,7 @@
                           <img
                             class="avatar sm rounded-circle"
                             src="../static/images/xs/avatar1.jpg"
+                            th:src="@{/images/xs/avatar1.jpg}"
                             alt="avatar"
                           />
                           <div class="flex-fill ms-3">
@@ -1142,6 +1148,7 @@
                       <div class="me-2">
                         <img
                           src="../static/images/flags/1x1/um.svg"
+                          th:src="@{/images/flags/1x1/um.svg}"
                           alt="um"
                           class="img-fluid rounded-circle avatar sm"
                         />
@@ -1862,6 +1869,7 @@
                     <img
                       class="avatar rounded"
                       src="../static/images/payment/netflix.svg"
+                      th:src="@{/images/payment/netflix.svg}"
                       alt=""
                     />
                     <div class="flex-fill ms-3">
@@ -1879,6 +1887,7 @@
                     <img
                       class="avatar rounded"
                       src="../static/images/payment/youtube.svg"
+                      th:src="@{/images/payment/youtube.svg}"
                       alt=""
                     />
                     <div class="flex-fill ms-3">
@@ -1896,6 +1905,7 @@
                     <img
                       class="avatar rounded"
                       src="../static/images/payment/amazon.svg"
+                      th:src="@{/images/payment/amazon.svg}"
                       alt=""
                     />
                     <div class="flex-fill ms-3">
@@ -1913,6 +1923,7 @@
                     <img
                       class="avatar rounded"
                       src="../static/images/payment/bookmyshow.svg"
+                      th:src="@{/images/payment/bookmyshow.svg}"
                       alt=""
                     />
                     <div class="flex-fill ms-3">
@@ -1930,6 +1941,7 @@
                     <img
                       class="avatar rounded"
                       src="../static/images/payment/mastercard.svg"
+                      th:src="@{/images/payment/mastercard.svg}"
                       alt=""
                     />
                     <div class="flex-fill ms-3">
@@ -1947,6 +1959,7 @@
                     <img
                       class="avatar rounded"
                       src="../static/images/payment/visa-card.svg"
+                      th:src="@{/images/payment/visa-card.svg}"
                       alt=""
                     />
                     <div class="flex-fill ms-3">
@@ -2001,84 +2014,98 @@
             <option
               value="United States Dollar"
               data-img="../static/images/flags/1x1/um.svg"
+              th:data-img="@{/images/flags/1x1/um.svg}"
             >
               United States Dollar
             </option>
             <option
               value="Afghan Afghani"
               data-img="../static/images/flags/1x1/af.svg"
+              th:data-img="@{/images/flags/1x1/af.svg}"
             >
               Afghan Afghani
             </option>
             <option
               value="Albanian Lek"
               data-img="../static/images/flags/1x1/al.svg"
+              th:data-img="@{/images/flags/1x1/al.svg}"
             >
               Albanian Lek
             </option>
             <option
               value="Algerian Dinar"
               data-img="../static/images/flags/1x1/ad.svg"
+              th:data-img="@{/images/flags/1x1/ad.svg}"
             >
               Algerian Dinar
             </option>
             <option
               value="Argentine Peso"
               data-img="../static/images/flags/1x1/ar.svg"
+              th:data-img="@{/images/flags/1x1/ar.svg}"
             >
               Argentine Peso
             </option>
             <option
               value="Argentine Peso"
               data-img="../static/images/flags/1x1/ad.svg"
+              th:data-img="@{/images/flags/1x1/ad.svg}"
             >
               Armenian Dram
             </option>
             <option
               value="Armenian Dram"
               data-img="../static/images/flags/1x1/ad.svg"
+              th:data-img="@{/images/flags/1x1/ad.svg}"
             >
               Armenian Dram
             </option>
             <option
               value="Aruban Florin"
               data-img="../static/images/flags/1x1/af.svg"
+              th:data-img="@{/images/flags/1x1/af.svg}"
             >
               Aruban Florin
             </option>
             <option
               value="Australian Dollar"
               data-img="../static/images/flags/1x1/au.svg"
+              th:data-img="@{/images/flags/1x1/au.svg}"
             >
               Australian Dollar
             </option>
             <option
               value="Azerbaijani Manat"
               data-img="../static/images/flags/1x1/az.svg"
+              th:data-img="@{/images/flags/1x1/az.svg}"
             >
               Azerbaijani Manat
             </option>
             <option
               value="Bahamian Dollar"
               data-img="../static/images/flags/1x1/bd.svg"
+              th:data-img="@{/images/flags/1x1/bd.svg}"
             >
               Bahamian Dollar
             </option>
             <option
               value="Indian Rupis"
               data-img="../static/images/flags/1x1/in.svg"
+              th:data-img="@{/images/flags/1x1/in.svg}"
             >
               Indian Rupis
             </option>
             <option
               value="Singapore Dollar"
               data-img="../static/images/flags/1x1/si.svg"
+              th:data-img="@{/images/flags/1x1/si.svg}"
             >
               Singapore Dollar
             </option>
             <option
               value="United States Dollar"
               data-img="../static/images/flags/1x1/un.svg"
+              th:data-img="@{/images/flags/1x1/un.svg}"
             >
               United States Dollar
             </option>
@@ -2113,84 +2140,98 @@
             <option
               value="Singapore Dollar"
               data-img="../static/images/flags/1x1/si.svg"
+              th:data-img="@{/images/flags/1x1/si.svg}"
             >
               Singapore Dollar
             </option>
             <option
               value="United States Dollar"
               data-img="../static/images/flags/1x1/um.svg"
+              th:data-img="@{/images/flags/1x1/um.svg}"
             >
               United States Dollar
             </option>
             <option
               value="Afghan Afghani"
               data-img="../static/images/flags/1x1/af.svg"
+              th:data-img="@{/images/flags/1x1/af.svg}"
             >
               Afghan Afghani
             </option>
             <option
               value="Albanian Lek"
               data-img="../static/images/flags/1x1/al.svg"
+              th:data-img="@{/images/flags/1x1/al.svg}"
             >
               Albanian Lek
             </option>
             <option
               value="Algerian Dinar"
               data-img="../static/images/flags/1x1/ad.svg"
+              th:data-img="@{/images/flags/1x1/ad.svg}"
             >
               Algerian Dinar
             </option>
             <option
               value="Argentine Peso"
               data-img="../static/images/flags/1x1/ar.svg"
+              th:data-img="@{/images/flags/1x1/ar.svg}"
             >
               Argentine Peso
             </option>
             <option
               value="Argentine Peso"
               data-img="../static/images/flags/1x1/ad.svg"
+              th:data-img="@{/images/flags/1x1/ad.svg}"
             >
               Armenian Dram
             </option>
             <option
               value="Armenian Dram"
               data-img="../static/images/flags/1x1/ad.svg"
+              th:data-img="@{/images/flags/1x1/ad.svg}"
             >
               Armenian Dram
             </option>
             <option
               value="Aruban Florin"
               data-img="../static/images/flags/1x1/af.svg"
+              th:data-img="@{/images/flags/1x1/af.svg}"
             >
               Aruban Florin
             </option>
             <option
               value="Australian Dollar"
               data-img="../static/images/flags/1x1/au.svg"
+              th:data-img="@{/images/flags/1x1/au.svg}"
             >
               Australian Dollar
             </option>
             <option
               value="Azerbaijani Manat"
               data-img="../static/images/flags/1x1/az.svg"
+              th:data-img="@{/images/flags/1x1/az.svg}"
             >
               Azerbaijani Manat
             </option>
             <option
               value="Bahamian Dollar"
               data-img="../static/images/flags/1x1/bd.svg"
+              th:data-img="@{/images/flags/1x1/bd.svg}"
             >
               Bahamian Dollar
             </option>
             <option
               value="Indian Rupis"
               data-img="../static/images/flags/1x1/in.svg"
+              th:data-img="@{/images/flags/1x1/in.svg}"
             >
               Indian Rupis
             </option>
             <option
               value="United States Dollar"
               data-img="../static/images/flags/1x1/un.svg"
+              th:data-img="@{/images/flags/1x1/un.svg}"
             >
               United States Dollar
             </option>
@@ -2237,12 +2278,12 @@
     <!-- start: template setting, and more. -->
 
     <!--============== active class js =============-->
-    <script src="../static/js/active-class.js"></script>
+    <script src="../static/js/active-class.js" th:src="@{/js/active-class.js}"></script>
     <!--[ FintechWeb template vender js ]-->
-    <script src="../static/bundles/libscripts.bundle.js"></script>
-    <script src="../static/bundles/dynamicselect.js"></script>
+    <script src="../static/bundles/libscripts.bundle.js" th:src="@{/bundles/libscripts.bundle.js}"></script>
+    <script src="../static/bundles/dynamicselect.js" th:src="@{/bundles/dynamicselect.js}"></script>
     <!-- Template page js -->
-    <script src="../static/js/main.js" defer></script>
+    <script src="../static/js/main.js" th:src="@{/js/main.js}" defer></script>
     <script>
       // Basic Column
       $(document).ready(function () {
