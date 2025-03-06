@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/general-fragments :: head('YNPay :: Transactions')}"></head>
+
+<body data-theme="theme-AppleGreen" class="svgstroke-a">
+     <main class="container-fluid px-0">
+          <!-- start: page menu link -->
+          <div th:replace="~{fragments/general-fragments :: sidebar}"> </div>
+          <div class="content card">
+               <!-- start: page header -->
+               <div th:replace="~{fragments/general-fragments :: main-header('Transaction')}"></div>
+               <!-- start: page header area -->
+               <div class="px-xl-5 px-lg-4 px-3 py-2 page-header flex-wrap">
+                    <ol class="breadcrumb mb-0 bg-transparent mb-3 mb-sm-0">
+                         <li class="breadcrumb-item"><a class="text-muted" href="index.html" title="home">Home</a></li>
+                         <li class="breadcrumb-item active" aria-current="page" title="Balance">Transation</li>
+                    </ol>
+                    <ul class="list-unstyled action  mb-0 row g-2">
+                         <li class="col-sm-6 col-6">
+                              <div>
+                                   <input type="date" name="filter" class="form-control">
+                              </div>
+                         </li>
+                         <li class="dropdown col-sm-6 col-6">
+                              <a href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"
+                                   class="btn border  rounded fw-medium w-100">
+                                   <svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg" width="18"
+                                        viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path
+                                             d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z">
+                                        </path>
+                                   </svg>
+                                   Filter
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-end p-2 p-xl-3 shadow rounded-4"
+                                   style="width: 300px;">
+                                   <h6>Filter Options</h6>
+                                   <div class="row g-3 mt-3">
+                                        <div class="col-12">
+                                             <label class="form-label small text-muted">Sorted by:</label>
+                                             <input type="search" class="form-control" placeholder="Search">
+                                        </div>
+                                        <div class="col-12">
+                                             <label class="form-label small text-muted">Status:</label>
+                                             <select class="form-select">
+                                                  <option selected="">Choose...</option>
+                                                  <option>...</option>
+                                             </select>
+                                        </div>
+                                        <div class="col-12">
+                                             <label class="form-label small text-muted">Notifications:</label>
+                                             <div class="form-check form-switch">
+                                                  <input class="form-check-input" type="checkbox" role="switch">
+                                                  <label class="form-check-label">Enabled</label>
+                                             </div>
+                                        </div>
+                                        <div class="col-12 text-end mt-4">
+                                             <button type="reset" class="btn btn-sm btn-light me-1">Reset</button>
+                                             <button type="submit" class="btn btn-sm btn-primary">Apply</button>
+                                        </div>
+                                   </div>
+                              </div>
+                         </li>
+                    </ul>
+               </div>
+               <!-- start: page body area -->
+               <div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
+                    <div class="row">
+                         <div class="col-12">
+                              <div class="border p-4 rounded-2 rounded-4">
+                                   <div class="calendar-tab pb-4" style="--dynamic-color: var(--primary-color)">
+                                        <ul class="nav nav-pills text-muted text-uppercase" role="tablist">
+                                             <li class="nav-item">
+                                                  Sun
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_1" type="button" role="tab">01</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Mon
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_2" type="button" role="tab">02</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Tue
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_3" type="button" role="tab">03</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Wed
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_4" type="button" role="tab">04</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Thu
+                                                  <button class="nav-link active" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_5" type="button" role="tab">05</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Fri
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_6" type="button" role="tab">06</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Sat
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_7" type="button" role="tab">07</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Sun
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_8" type="button" role="tab">08</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Mon
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_9" type="button" role="tab">09</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Tue
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_10" type="button" role="tab">10</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Wed
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_11" type="button" role="tab">11</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Thu
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_12" type="button" role="tab">12</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Fri
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_13" type="button" role="tab">13</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Sat
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_14" type="button" role="tab">14</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Sun
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_15" type="button" role="tab">15</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Sun
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_16" type="button" role="tab">16</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Mon
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_17" type="button" role="tab">17</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Tue
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_18" type="button" role="tab">18</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Wed
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_19" type="button" role="tab">19</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Thu
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_20" type="button" role="tab">20</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Fri
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_21" type="button" role="tab">21</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Sat
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_22" type="button" role="tab">22</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Sun
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_23" type="button" role="tab">23</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Mon
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_24" type="button" role="tab">24</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Tue
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_25" type="button" role="tab">25</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Wed
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_26" type="button" role="tab">26</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Thu
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_27" type="button" role="tab">27</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Fri
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_28" type="button" role="tab">28</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Sat
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_29" type="button" role="tab">29</button>
+                                             </li>
+                                             <li class="nav-item">
+                                                  Sun
+                                                  <button class="nav-link" data-bs-toggle="pill"
+                                                       data-bs-target="#c_date_30" type="button" role="tab">30</button>
+                                             </li>
+                                        </ul>
+                                   </div>
+                                   <table
+                                        class="table align-middle table-hover dataTable table-body table-responsive w-100">
+                                        <thead>
+                                             <tr class="small text-muted text-uppercase">
+                                                  <th>
+                                                       <span class="form-check mb-0 " style="font-size: 16px;">
+                                                            <input class="form-check-input select-all d-none d-md-block"
+                                                                 type="checkbox" value="">
+                                                       </span>
+                                                  </th>
+                                                  <th>To / From</th>
+                                                  <th>Amount</th>
+                                                  <th>Status</th>
+                                                  <th>Date</th>
+                                                  <th>Payment Method</th>
+                                                  <th>Details</th>
+                                             </tr>
+                                        </thead>
+                                        <tbody>
+                                             <tr class="row-selectable">
+                                                  <td>
+                                                       <span class="form-check mb-0">
+                                                            <input class="form-check-input" type="checkbox" value="">
+                                                       </span>
+                                                  </td>
+                                                  <td>
+                                                       <span class="d-flex align-items-center">
+                                                            <img class="avatar rounded-circle d-none d-sm-inline-block"
+                                                                 src="../static/images/xs/avatar1.jpg" alt="" th:src="@{/images/xs/avatar1.jpg}">
+                                                            <span class="flex-fill ms-2">
+                                                                 <span class="h6 mb-0">Jony Doe</span>
+                                                            </span>
+                                                       </span>
+                                                  </td>
+                                                  <td>$500.00</td>
+                                                  <td>Checking</td>
+                                                  <td>Feb 05, 2024</td>
+                                                  <td>Wire</td>
+                                                  <td>
+                                                       <a href="#offcanvas_trdetails" data-bs-toggle="offcanvas"
+                                                            aria-expanded="false" class="btn btn-outline-secondary"
+                                                            title="More Action">
+                                                            <svg class="w-6 h-6" aria-hidden="true"
+                                                                 xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                 fill="none" viewBox="0 0 24 24">
+                                                                 <path stroke="currentColor" stroke-linecap="round"
+                                                                      stroke-width="3"
+                                                                      d="M6 12h.01m6 0h.01m5.99 0h.01" />
+                                                            </svg>
+
+                                                       </a>
+                                                  </td>
+                                             </tr>
+                                             <tr class="row-selectable">
+                                                  <td>
+                                                       <span class="form-check mb-0">
+                                                            <input class="form-check-input" type="checkbox" value="">
+                                                       </span>
+                                                  </td>
+                                                  <td>
+                                                       <span class="d-flex align-items-center">
+                                                            <img class="avatar rounded-circle d-none d-sm-inline-block"
+                                                                 src="../static/images/xs/avatar2.jpg" alt=""
+                                                            th:src="@{/images/xs/avatar2.jpg}">
+                                                            <span class="flex-fill ms-2">
+                                                                 <span class="h6 mb-0">Lincoin Gouse</span>
+                                                            </span>
+                                                       </span>
+                                                  </td>
+                                                  <td>$1500.00</td>
+                                                  <td>OPS Payroll</td>
+                                                  <td>Feb 05, 2024</td>
+                                                  <td>ACH</td>
+                                                  <td>
+                                                       <a href="#offcanvas_trdetails" data-bs-toggle="offcanvas"
+                                                            aria-expanded="false" class="btn btn-outline-secondary"
+                                                            title="More Action">
+                                                            <svg class="w-6 h-6" aria-hidden="true"
+                                                                 xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                 fill="none" viewBox="0 0 24 24">
+                                                                 <path stroke="currentColor" stroke-linecap="round"
+                                                                      stroke-width="3"
+                                                                      d="M6 12h.01m6 0h.01m5.99 0h.01" />
+                                                            </svg>
+
+                                                       </a>
+                                                  </td>
+                                             </tr>
+                                             <tr class="row-selectable">
+                                                  <td>
+                                                       <span class="form-check mb-0">
+                                                            <input class="form-check-input" type="checkbox" value="">
+                                                       </span>
+                                                  </td>
+                                                  <td>
+                                                       <span class="d-flex align-items-center">
+                                                            <img class="avatar rounded-circle d-none d-sm-inline-block"
+                                                                 src="../static/images/payment/netflix.svg" alt=""
+                                                            th:src="@{/images/payment/netflix.svg}">
+                                                            <span class="flex-fill ms-2">
+                                                                 <span class="h6 mb-0">Netflix</span>
+                                                            </span>
+                                                       </span>
+                                                  </td>
+                                                  <td>$200.00</td>
+                                                  <td>APP</td>
+                                                  <td>Feb 05, 2024</td>
+                                                  <td>Wire</td>
+                                                  <td>
+                                                       <a href="#offcanvas_trdetails" data-bs-toggle="offcanvas"
+                                                            aria-expanded="false" class="btn btn-outline-secondary"
+                                                            title="More Action">
+                                                            <svg class="w-6 h-6" aria-hidden="true"
+                                                                 xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                 fill="none" viewBox="0 0 24 24">
+                                                                 <path stroke="currentColor" stroke-linecap="round"
+                                                                      stroke-width="3"
+                                                                      d="M6 12h.01m6 0h.01m5.99 0h.01" />
+                                                            </svg>
+
+                                                       </a>
+                                                  </td>
+                                             </tr>
+                                             <tr class="row-selectable">
+                                                  <td>
+                                                       <span class="form-check mb-0">
+                                                            <input class="form-check-input" type="checkbox" value="">
+                                                       </span>
+                                                  </td>
+                                                  <td>
+                                                       <span class="d-flex align-items-center">
+                                                            <img class="avatar rounded-circle d-none d-sm-inline-block"
+                                                                 src="../static/images/payment/bookmyshow.svg" alt=""
+                                                            th:src="@{/images/payment/bookmyshow.svg}">
+                                                            <span class="flex-fill ms-2">
+                                                                 <span class="h6 mb-0">Bookmyshow</span>
+                                                            </span>
+                                                       </span>
+                                                  </td>
+                                                  <td>$180.00</td>
+                                                  <td>Checking</td>
+                                                  <td>Feb 05, 2024</td>
+                                                  <td>Wire</td>
+                                                  <td>
+                                                       <a href="#offcanvas_trdetails" data-bs-toggle="offcanvas"
+                                                            aria-expanded="false" class="btn btn-outline-secondary"
+                                                            title="More Action">
+                                                            <svg class="w-6 h-6" aria-hidden="true"
+                                                                 xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                 fill="none" viewBox="0 0 24 24">
+                                                                 <path stroke="currentColor" stroke-linecap="round"
+                                                                      stroke-width="3"
+                                                                      d="M6 12h.01m6 0h.01m5.99 0h.01" />
+                                                            </svg>
+
+                                                       </a>
+                                                  </td>
+                                             </tr>
+                                             <tr class="row-selectable">
+                                                  <td>
+                                                       <span class="form-check mb-0">
+                                                            <input class="form-check-input" type="checkbox" value="">
+                                                       </span>
+                                                  </td>
+                                                  <td>
+                                                       <span class="d-flex align-items-center">
+                                                            <img class="avatar rounded-circle d-none d-sm-inline-block"
+                                                                 src="../static/images/payment/amazon.svg" alt=""
+                                                            th:src="@{/images/payment/amazon.svg}">
+                                                            <span class="flex-fill ms-2">
+                                                                 <span class="h6 mb-0">Amazon</span>
+                                                            </span>
+                                                       </span>
+                                                  </td>
+                                                  <td>$120.00</td>
+                                                  <td>APP</td>
+                                                  <td>Feb 05, 2024</td>
+                                                  <td>Wire</td>
+                                                  <td>
+                                                       <a href="#offcanvas_trdetails" data-bs-toggle="offcanvas"
+                                                            aria-expanded="false" class="btn btn-outline-secondary"
+                                                            title="More Action">
+                                                            <svg class="w-6 h-6" aria-hidden="true"
+                                                                 xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                 fill="none" viewBox="0 0 24 24">
+                                                                 <path stroke="currentColor" stroke-linecap="round"
+                                                                      stroke-width="3"
+                                                                      d="M6 12h.01m6 0h.01m5.99 0h.01" />
+                                                            </svg>
+                                                       </a>
+                                                  </td>
+                                             </tr>
+                                             <tr class="row-selectable">
+                                                  <td>
+                                                       <span class="form-check mb-0">
+                                                            <input class="form-check-input" type="checkbox" value="">
+                                                       </span>
+                                                  </td>
+                                                  <td>
+                                                       <span class="d-flex align-items-center">
+                                                            <img class="avatar rounded-circle d-none d-sm-inline-block"
+                                                                 src="../static/images/payment/youtube.svg" alt=""
+                                                            th:src="@{/images/payment/youtube.svg}">
+                                                            <span class="flex-fill ms-2">
+                                                                 <span class="h6 mb-0">Youtube Monthly</span>
+                                                            </span>
+                                                       </span>
+                                                  </td>
+                                                  <td>$80.00</td>
+                                                  <td>APP</td>
+                                                  <td>Feb 05, 2024</td>
+                                                  <td>ACH</td>
+                                                  <td>
+                                                       <a href="#offcanvas_trdetails" data-bs-toggle="offcanvas"
+                                                            aria-expanded="false" class="btn btn-outline-secondary"
+                                                            title="More Action">
+                                                            <svg class="w-6 h-6" aria-hidden="true"
+                                                                 xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                 fill="none" viewBox="0 0 24 24">
+                                                                 <path stroke="currentColor" stroke-linecap="round"
+                                                                      stroke-width="3"
+                                                                      d="M6 12h.01m6 0h.01m5.99 0h.01" />
+                                                            </svg>
+
+                                                       </a>
+                                                  </td>
+                                             </tr>
+                                        </tbody>
+                                   </table>
+                              </div>
+                         </div>
+                    </div>
+
+               </div>
+          </div>
+     </main>
+     <!-- start: Transection details rate -->
+     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas_trdetails" aria-labelledby="offcanvas_trdetails">
+          <div class="offcanvas-header">
+               <h5 class="offcanvas-title">Transaction Details</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body px-0">
+               <div class="mb-4 p-3 bg-light">
+                    <h6 class="text-muted mb-0">Amount</h6>
+               </div>
+               <div class="mb-4 px-3">
+                    <h3>$500.00</h3>
+               </div>
+               <div class="mb-4 p-3 bg-light">
+                    <h6 class="text-muted mb-0">To</h6>
+               </div>
+               <div class="mb-4 px-3">
+                    <div class="d-flex align-items-center mb-3">
+                         <img class="avatar rounded-circle" src="../static/images/lg/avatar1.jpg" alt="" th:src="@{/images/lg/avatar1.jpg}">
+                         <div class="flex-fill ms-3">
+                              <div class="h6 mb-0">Jony Doe</div>
+                              <small class="text-muted">**** ****2498 DBS Bank</small>
+                         </div>
+                    </div>
+               </div>
+               <div class="mb-4 p-3 bg-light">
+                    <h6 class="text-muted mb-0">Details</h6>
+               </div>
+               <div class="mb-4 px-3">
+                    <div class="border-bottom py-3">
+                         <small class="text-muted">Payment Method</small>
+                         <div class="h6 mb-0">Wire</div>
+                    </div>
+                    <div class="border-bottom py-3">
+                         <small class="text-muted">Status</small>
+                         <div class="h6 mb-0">Checking</div>
+                    </div>
+                    <div class="border-bottom py-3">
+                         <small class="text-muted">Transaction Id</small>
+                         <div class="h6 mb-0">NVF25680222</div>
+                    </div>
+                    <div class="border-bottom py-3">
+                         <small class="text-muted">Date &amp; Time</small>
+                         <div class="h6 mb-0">Feb 05, 2024 At 18:20</div>
+                    </div>
+                    <div class="border-bottom py-3">
+                         <small class="text-muted">Fee</small>
+                         <div class="h6 mb-0">$0.2</div>
+                    </div>
+               </div>
+          </div>
+     </div>
+     <!-- start: exchange rate -->
+     <div th:replace="~{fragments/general-fragments :: exchange-rate}"> </div>
+
+     <th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+
+     <script src="../static/bundles/dataTables.bundle.js" th:src="@{/bundles/dataTables.bundle.js}"></script>
+
+     <script>
+          document.addEventListener("DOMContentLoaded", function () {
+               // Scroll handling for .calendar-tab .nav
+               const scrollContainer = document.querySelector(".calendar-tab .nav");
+               if (scrollContainer) {
+                    scrollContainer.addEventListener("wheel", (evt) => {
+                         evt.preventDefault();
+                         scrollContainer.scrollLeft += evt.deltaY;
+                    });
+               }
+
+          });
+
+          $(document).ready(function () {
+               // Initialize DataTable
+               $('.dataTable')
+                    .dataTable({
+                         responsive: true,
+                         columnDefs: [
+                              {
+                                   targets: 4, // Corrected 'target' to 'targets'
+                                   render: DataTable.render.date(),
+                              },
+                              {
+                                   targets: 5, // Corrected 'target' to 'targets'
+                                   render: DataTable.render.number(null, null, 0, '$'),
+                              }
+                         ]
+                    });
+
+               // Stacked Area
+               var options = {
+                    chart: {
+                         height: 200,
+                         type: 'area',
+                         stacked: true,
+                         toolbar: {
+                              show: false,
+                         },
+                         events: {
+                              selection: function (chart, e) {
+                                   console.log(new Date(e.xaxis.min))
+                              }
+                         },
+                    },
+                    colors: ['#e4bd51'],
+                    dataLabels: {
+                         enabled: false
+                    },
+
+                    series: [
+                         {
+                              name: 'Central',
+                              data: generateDayWiseTimeSeries(new Date('14 Aug 2024 GMT').getTime(), 10, {
+                                   min: 20,
+                                   max: 48
+                              })
+                         }
+                    ],
+
+                    fill: {
+                         type: 'gradient',
+                         gradient: {
+                              opacityFrom: 0.6,
+                              opacityTo: 0.8,
+                         }
+                    },
+
+                    legend: {
+                         position: 'top',
+                         horizontalAlign: 'right',
+                         show: true,
+                    },
+                    xaxis: {
+                         type: 'datetime',
+                    },
+                    grid: {
+                         yaxis: {
+                              lines: {
+                                   show: false,
+                              }
+                         },
+                         padding: {
+                              top: 0,
+                              right: 0,
+                              bottom: 0,
+                              left: 0
+                         },
+                    },
+                    stroke: {
+                         show: true,
+                         curve: 'smooth',
+                         width: 2,
+                    },
+               }
+
+               var chart = new ApexCharts(document.querySelector("#movement-apex"), options);
+               chart.render();
+               function generateDayWiseTimeSeries(baseval, count, yrange) {
+                    var i = 0;
+                    var series = [];
+                    while (i < count) {
+                         var x = baseval;
+                         var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+
+                         series.push([x, y]);
+                         baseval += 86400000;
+                         i++;
+                    }
+                    return series;
+               }
+          });
+     </script>
+
+
+</body>
+
+</html>
