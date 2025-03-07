@@ -77,6 +77,11 @@ public class UserMvcController {
         return "register";
     }
 
+    @GetMapping("/stocks")
+    public String getStocks(){
+        return "stocks";
+    }
+
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String getAdminPanel(){

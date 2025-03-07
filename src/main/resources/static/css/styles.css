@@ -1,1 +1,19 @@
-@import '../../../node_modules/font-awesome/css/font-awesome.css';
+
+.btn-custom {
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-custom svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.dataTable tbody tr, .dataTable tbody td {
+    border-bottom: none !important;
+}
+
