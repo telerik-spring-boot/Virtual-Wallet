@@ -13,7 +13,7 @@ public interface CardService {
 
     Card getCardById(int id);
 
-    void addCard(int userRequestId, Card card);
+    void addCard(String username, Card card);
 
     void updateCard(Card card);
 

@@ -63,9 +63,9 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public void addCard(int userRequestId, Card card) {
+    public void addCard(String username, Card card) {
 
-        User user = userRepository.getById(userRequestId);
+        User user = userRepository.getByUsername(username);
 
         card.setUser(user);
 

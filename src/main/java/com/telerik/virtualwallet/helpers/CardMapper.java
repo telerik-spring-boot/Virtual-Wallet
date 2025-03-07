@@ -1,6 +1,7 @@
 package com.telerik.virtualwallet.helpers;
 
 import com.telerik.virtualwallet.models.Card;
+import com.telerik.virtualwallet.models.dtos.card.CardCreateDTO;
 import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,20 @@ public class CardMapper {
         dto.setCardNumber("********" + card.getNumber().substring(card.getNumber().length() - 4));
 
         return dto;
+
+    }
+
+    public Card createDtoToCard(CardCreateDTO dto) {
+
+        Card card = new Card();
+
+        card.setNumber(dto.getCardNumber());
+        card.setExpiryMonth(dto.getExpiryMonth());
+        card.setExpiryYear(dto.getExpiryYear());
+        card.setCvv(dto.getCvv());
+        card.setHolder(dto.getCardHolderName());
+
+        return card;
 
     }
 }
