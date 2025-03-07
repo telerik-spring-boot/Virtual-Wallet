@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class CardServiceImpl implements CardService {
 
-    private static final String NO_CARDS_FOUND_MESSAGE = "No cards associated with user with id %d found.";
+    private static final String NO_CARDS_FOUND_MESSAGE = "No cards associated with %s found.";
     private static final String NO_CARDS_MESSAGE = "No cards are found.";
 
     private final CardRepository cardRepository;
@@ -38,12 +38,12 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public List<Card> getCardsByUserId(int userId) {
+    public List<Card> getCardsByUsername(String username) {
 
-        List<Card> cards = cardRepository.getCardsByUserId(userId);
+        List<Card> cards = cardRepository.getCardsByUsername(username);
 
         if (cards.isEmpty()) {
-            throw new EntityNotFoundException(String.format(NO_CARDS_FOUND_MESSAGE, userId));
+            throw new EntityNotFoundException(String.format(NO_CARDS_FOUND_MESSAGE, username));
         }
 
         return cards;

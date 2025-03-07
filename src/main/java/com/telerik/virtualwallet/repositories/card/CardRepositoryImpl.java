@@ -30,11 +30,11 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
-    public List<Card> getCardsByUserId(int userId) {
+    public List<Card> getCardsByUsername(String username) {
 
         try (Session session = sessionFactory.openSession()) {
-            Query<Card> query = session.createQuery("from Card where user.id = :userId", Card.class);
-            query.setParameter("userId", userId);
+            Query<Card> query = session.createQuery("from Card where user.username = :username", Card.class);
+            query.setParameter("username", username);
             return query.list();
         }
 

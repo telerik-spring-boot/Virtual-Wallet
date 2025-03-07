@@ -1,13 +1,13 @@
 package com.telerik.virtualwallet.controllers;
 
 
-import com.telerik.virtualwallet.helpers.StockMapper;
-import com.telerik.virtualwallet.helpers.TransactionMapper;
-import com.telerik.virtualwallet.helpers.UserMapper;
-import com.telerik.virtualwallet.helpers.WalletMapper;
+import com.telerik.virtualwallet.helpers.*;
+import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
+import com.telerik.virtualwallet.models.dtos.card.CardCreateDTO;
+import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.stock.StockDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
@@ -17,6 +17,7 @@ import com.telerik.virtualwallet.models.dtos.user.UserUpdateDTO;
 import com.telerik.virtualwallet.models.filters.FilterTransactionsOptions;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
+import com.telerik.virtualwallet.services.card.CardService;
 import com.telerik.virtualwallet.services.transaction.TransactionService;
 import com.telerik.virtualwallet.services.user.UserService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
@@ -46,9 +47,11 @@ public class UserController {
     private final WalletMapper walletMapper;
     private final TransactionService transactionService;
     private final TransactionMapper transactionMapper;
+    private final CardService cardService;
+    private final CardMapper cardMapper;
 
 
-    public UserController(UserService userService, UserMapper userMapper, AdminService adminService, StockMapper stockMapper, WalletService walletService, WalletMapper walletMapper, TransactionService transactionService, TransactionMapper transactionMapper) {
+    public UserController(UserService userService, UserMapper userMapper, AdminService adminService, StockMapper stockMapper, WalletService walletService, WalletMapper walletMapper, TransactionService transactionService, TransactionMapper transactionMapper, CardService cardService, CardMapper cardMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.adminService = adminService;
@@ -57,6 +60,8 @@ public class UserController {
         this.walletMapper = walletMapper;
         this.transactionService = transactionService;
         this.transactionMapper = transactionMapper;
+        this.cardService = cardService;
+        this.cardMapper = cardMapper;
     }
 
 
@@ -123,7 +128,7 @@ public class UserController {
                     .map(walletMapper::walletToPrivateDto)
                     .toList());
 
-        }else{
+        } else {
 
             return ResponseEntity.ok(wallets.stream()
                     .map(walletMapper::walletToPublicDto)
@@ -145,6 +150,56 @@ public class UserController {
                 .toList();
         return ResponseEntity.ok(new PageImpl<>(transactionDisplayDTOs, pageable, transactions.getTotalElements()));
 
+    }
+
+    @GetMapping("/{username}/cards")
+    @PreAuthorize("hasRole('ADMIN') OR #username == authentication.name")
+    public ResponseEntity<List<CardDisplayDTO>> getAllCardsByUsername(@PathVariable String username) {
+
+        List<Card> cards = cardService.getCardsByUsername(username);
+
+        List<CardDisplayDTO> cardDisplayDTOs = cards.stream()
+                .map(cardMapper::cardToCardDisplayDTO)
+                .toList();
+
+        return ResponseEntity.ok(cardDisplayDTOs);
+
+    }
+
+    @PostMapping("/{username}/cards")
+    @PreAuthorize("#username == authentication.name")
+    public ResponseEntity<CardDisplayDTO> addCardToUserByUsername(@PathVariable String username,
+                                                                  @RequestBody CardCreateDTO dto) {
+        Card cardToAdd = cardMapper.createDtoToCard(dto);
+        cardService.addCard(username, cardToAdd);
+
+        return ResponseEntity.ok(cardMapper.cardToCardDisplayDTO(cardService.getCardById(cardToAdd.getId())));
+
+    }
+
+    @PutMapping("/{username}/cards/{cardId}")
+    @PreAuthorize("#username == authentication.name AND " +
+            "@cardSecurityService.isUserCardHolder(#cardId, authentication.name) ")
+    public ResponseEntity<CardDisplayDTO> updateCardFromUser(@PathVariable String username,
+                                                             @PathVariable int cardId,
+                                                             @RequestBody CardCreateDTO dto) {
+
+        Card card = cardMapper.createDtoToCard(cardId, dto);
+
+        cardService.updateCard(card);
+
+        return ResponseEntity.ok(cardMapper.cardToCardDisplayDTO(cardService.getCardById(cardId)));
+    }
+
+    @DeleteMapping("/{username}/cards/{cardId}")
+    @PreAuthorize("#username == authentication.name AND " +
+            "@cardSecurityService.isUserCardHolder(#cardId, authentication.name) ")
+    public ResponseEntity<String> removeCardFromUser(@PathVariable String username,
+                                                     @PathVariable int cardId) {
+
+        cardService.deleteCard(cardId);
+
+        return ResponseEntity.ok(String.format("Card with id %d successfully removed.", cardId));
     }
 
 

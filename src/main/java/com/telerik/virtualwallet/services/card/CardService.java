@@ -1,7 +1,6 @@
 package com.telerik.virtualwallet.services.card;
 
 import com.telerik.virtualwallet.models.Card;
-import com.telerik.virtualwallet.models.User;
 
 import java.util.List;
 
@@ -9,7 +8,7 @@ public interface CardService {
 
     List<Card> getAllCards();
 
-    List<Card> getCardsByUserId(int userId);
+    List<Card> getCardsByUsername(String username);
 
     Card getCardById(int id);
 

@@ -8,7 +8,7 @@ public interface CardRepository {
 
     List<Card> getAllCards();
 
-    List<Card> getCardsByUserId(int userId);
+    List<Card> getCardsByUsername(String username);
 
     Card getCardById(int id);
 
