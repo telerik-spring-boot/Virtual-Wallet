@@ -4,21 +4,13 @@ import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionCreateDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
-import com.telerik.virtualwallet.models.filters.FilterTransactionsOptions;
 import com.telerik.virtualwallet.services.transaction.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/transactions")

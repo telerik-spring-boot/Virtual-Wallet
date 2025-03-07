@@ -11,6 +11,8 @@ public interface TransactionService {
 
     Page<Transaction> getAllTransactions(FilterTransactionsOptions options, Pageable pageable);
 
+    Page<Transaction> getTransactionsByUsername(FilterTransactionsOptions options, Pageable pageable,String username);
+
     Transaction getTransactionById(int id);
 
     Page<Transaction> getTransactionsByWalletId(FilterTransactionsOptions options, Pageable pageable, int walletId);

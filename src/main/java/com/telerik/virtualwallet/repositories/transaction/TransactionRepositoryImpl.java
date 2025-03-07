@@ -49,8 +49,13 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     @Override
     public Page<Transaction> getAllTransactionsWithWallets(FilterTransactionsOptions options, Pageable pageable) {
 
-        return getTransactionsWithFiltersHelper(options, pageable, -1);
+        return getTransactionsWithFiltersHelper(options, pageable, -1,"");
 
+    }
+
+    @Override
+    public Page<Transaction> getAllTransactionsWithWalletsByUsername(FilterTransactionsOptions options, Pageable pageable, String username) {
+        return getTransactionsWithFiltersHelper(options, pageable, -1,username);
     }
 
 
@@ -79,7 +84,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     @Override
     public Page<Transaction> getAllTransactionsWithWalletsByWalletId(FilterTransactionsOptions options, Pageable pageable, int walletId) {
 
-        return getTransactionsWithFiltersHelper(options, pageable, walletId);
+        return getTransactionsWithFiltersHelper(options, pageable, walletId,"");
 
     }
 
@@ -117,7 +122,8 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         }
     }
 
-    private PageImpl<Transaction> getTransactionsWithFiltersHelper(FilterTransactionsOptions options, Pageable pageable, int walletId) {
+    private PageImpl<Transaction> getTransactionsWithFiltersHelper(FilterTransactionsOptions options, Pageable pageable,
+                                                                   int walletId, String username) {
         try (Session session = sessionFactory.openSession()) {
             StringBuilder queryString = new StringBuilder("SELECT DISTINCT t FROM Transaction t " +
                     "JOIN FETCH t.senderWallet sw " +
@@ -146,6 +152,11 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                 filters.add("t.createdAt <= :endTime");
                 params.put("endTime", value);
             });
+
+            if(!username.isEmpty()){
+                filters.add("(s.username = :username OR r.username = :username)");
+                params.put("username", username);
+            }
 
             if (walletId != -1) {
 

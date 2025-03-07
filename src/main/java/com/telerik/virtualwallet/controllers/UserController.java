@@ -2,17 +2,22 @@ package com.telerik.virtualwallet.controllers;
 
 
 import com.telerik.virtualwallet.helpers.StockMapper;
+import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.helpers.WalletMapper;
+import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
 import com.telerik.virtualwallet.models.dtos.stock.StockDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayForTransactionsDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateDTO;
+import com.telerik.virtualwallet.models.filters.FilterTransactionsOptions;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
+import com.telerik.virtualwallet.services.transaction.TransactionService;
 import com.telerik.virtualwallet.services.user.UserService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
 import jakarta.validation.Valid;
@@ -39,15 +44,19 @@ public class UserController {
     private final StockMapper stockMapper;
     private final WalletService walletService;
     private final WalletMapper walletMapper;
+    private final TransactionService transactionService;
+    private final TransactionMapper transactionMapper;
 
 
-    public UserController(UserService userService, UserMapper userMapper, AdminService adminService, StockMapper stockMapper, WalletService walletService, WalletMapper walletMapper) {
+    public UserController(UserService userService, UserMapper userMapper, AdminService adminService, StockMapper stockMapper, WalletService walletService, WalletMapper walletMapper, TransactionService transactionService, TransactionMapper transactionMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.adminService = adminService;
         this.stockMapper = stockMapper;
         this.walletService = walletService;
         this.walletMapper = walletMapper;
+        this.transactionService = transactionService;
+        this.transactionMapper = transactionMapper;
     }
 
 
@@ -87,7 +96,6 @@ public class UserController {
     public ResponseEntity<Page<UserDisplayForTransactionsDTO>> getAllUsers(FilterUserOptions filterOptions,
                                                                            @PageableDefault(sort = "username", direction = Sort.Direction.ASC) Pageable pageable) {
 
-
         Page<User> res = adminService.getAllUsers(filterOptions, pageable);
 
         List<UserDisplayForTransactionsDTO> userDisplayDTOs = res.getContent().stream()
@@ -124,6 +132,21 @@ public class UserController {
         }
 
     }
+
+    @GetMapping("/{username}/transactions")
+    @PreAuthorize("hasRole('ADMIN') OR #username == authentication.name")
+    public ResponseEntity<Page<TransactionDisplayDTO>> getAllTransactionsByUsername(@PathVariable String username, FilterTransactionsOptions filterOptions,
+                                                                                    @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<Transaction> transactions = transactionService.getTransactionsByUsername(filterOptions, pageable, username);
+
+        List<TransactionDisplayDTO> transactionDisplayDTOs = transactions.getContent().stream()
+                .map(transactionMapper::transactionToTransactionDisplayDTO)
+                .toList();
+        return ResponseEntity.ok(new PageImpl<>(transactionDisplayDTOs, pageable, transactions.getTotalElements()));
+
+    }
+
 
     @PutMapping("/{username}/wallets/{walletId}/stocks")
     @PreAuthorize("#username == authentication.name")

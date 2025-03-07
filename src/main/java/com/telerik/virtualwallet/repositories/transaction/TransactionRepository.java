@@ -11,6 +11,8 @@ public interface TransactionRepository {
 
     Page<Transaction> getAllTransactionsWithWallets(FilterTransactionsOptions options, Pageable pageable);
 
+    Page<Transaction> getAllTransactionsWithWalletsByUsername(FilterTransactionsOptions options, Pageable pageable, String username);
+
     List<Transaction> getAllTransactionsWithWallets();
 
     Transaction getTransactionWithWalletsById(int id);

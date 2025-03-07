@@ -44,6 +44,14 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public Page<Transaction> getTransactionsByUsername(FilterTransactionsOptions options, Pageable pageable, String username) {
+
+        pageableHelper(pageable);
+
+        return transactionRepository.getAllTransactionsWithWalletsByUsername(options, pageable, username);
+    }
+
+    @Override
     public Transaction getTransactionById(int id) {
 
         Transaction transaction = transactionRepository.getTransactionWithWalletsById(id);
