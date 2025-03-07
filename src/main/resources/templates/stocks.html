@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/general-fragments :: head('YNPay :: Stocks')}"></head>
+<body data-theme="theme-AppleGreen" class="svgstroke-a">
+<main class="container-fluid px-0">
+	<!-- start: page menu link -->
+	<div th:replace="~{fragments/general-fragments :: sidebar}"></div>
+	<div class="content card">
+		<!-- start: page header -->
+		<div th:replace="~{fragments/general-fragments :: main-header('Stocks')}"></div>
+		<!-- start: page header area -->
+		<div class="px-xl-5 px-lg-4 px-3 py-2 page-header flex-wrap">
+			<ol class="breadcrumb mb-0 bg-transparent mb-3 mb-sm-0">
+				<li class="breadcrumb-item">
+					<a class="text-muted" href="index.html" title="home">Home</a>
+				</li>
+				<li
+						class="breadcrumb-item active"
+						aria-current="page"
+						title="Balance"
+				>
+					Stocks
+				</li>
+			</ol>
+			<ul class="list-unstyled action mb-0 row g-2">
+				<li class="col-sm-6 col-6">
+					<div>
+						<input type="date" name="filter" class="form-control"/>
+					</div>
+				</li>
+				<li class="dropdown col-sm-6 col-6">
+					<a
+							href="#"
+							data-bs-toggle="dropdown"
+							data-bs-auto-close="outside"
+							aria-expanded="false"
+							class="btn border rounded fw-medium w-100"
+					>
+						<svg
+								class="svg-stroke"
+								xmlns="http://www.w3.org/2000/svg"
+								width="18"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								fill="none"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+						>
+							<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+							<path
+									d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z"
+							></path>
+						</svg>
+						Filter
+					</a>
+					<div
+							class="dropdown-menu dropdown-menu-end p-2 p-xl-3 shadow rounded-4"
+							style="width: 300px"
+					>
+						<h6>Filter Options</h6>
+						<div class="row g-3 mt-3">
+							<div class="col-12">
+								<label class="form-label small text-muted"
+								>Sorted by:</label
+								>
+								<input
+										type="search"
+										class="form-control"
+										placeholder="Search"
+								/>
+							</div>
+							<div class="col-12">
+								<label class="form-label small text-muted">Status:</label>
+								<select class="form-select">
+									<option selected="">Choose...</option>
+									<option>...</option>
+								</select>
+							</div>
+							<div class="col-12">
+								<label class="form-label small text-muted"
+								>Notifications:</label
+								>
+								<div class="form-check form-switch">
+									<input
+											class="form-check-input"
+											type="checkbox"
+											role="switch"
+									/>
+									<label class="form-check-label">Enabled</label>
+								</div>
+							</div>
+							<div class="col-12 text-end mt-4">
+								<button type="reset" class="btn btn-sm btn-light me-1">
+									Reset
+								</button>
+								<button type="submit" class="btn btn-sm btn-primary">
+									Apply
+								</button>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!-- start: overall chart area -->
+		<div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="card mb-3 border rounded-2 rounded-4">
+						<div class="card-header pt-3">
+							<h6 class="card-title mb-0">Overall Transactions Overview</h6>
+						</div>
+						<div class="card-body">
+							<div id="overall-chart"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- start: page body area -->
+		<div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
+			<div class="row">
+				<div class="col-12">
+
+					<div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="chartModalLabel"
+					     aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="chartModalLabel">CandleStick Chart</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+									        aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div id="apex-CandleStick"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+
+			<!-- <div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
+			  <div class="row"> -->
+			<div class="col-12">
+				<div class="border p-4 rounded-2 rounded-4">
+					<div
+							class="calendar-tab pb-4"
+							style="--dynamic-color: var(--primary-color)"
+					>
+						<ul
+								class="nav nav-pills text-muted text-uppercase"
+								role="tablist"
+						>
+							<li class="nav-item">
+								Sun
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_1"
+										type="button"
+										role="tab"
+								>
+									01
+								</button>
+							</li>
+							<li class="nav-item">
+								Mon
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_2"
+										type="button"
+										role="tab"
+								>
+									02
+								</button>
+							</li>
+							<li class="nav-item">
+								Tue
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_3"
+										type="button"
+										role="tab"
+								>
+									03
+								</button>
+							</li>
+							<li class="nav-item">
+								Wed
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_4"
+										type="button"
+										role="tab"
+								>
+									04
+								</button>
+							</li>
+							<li class="nav-item">
+								Thu
+								<button
+										class="nav-link active"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_5"
+										type="button"
+										role="tab"
+								>
+									05
+								</button>
+							</li>
+							<li class="nav-item">
+								Fri
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_6"
+										type="button"
+										role="tab"
+								>
+									06
+								</button>
+							</li>
+							<li class="nav-item">
+								Sat
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_7"
+										type="button"
+										role="tab"
+								>
+									07
+								</button>
+							</li>
+							<li class="nav-item">
+								Sun
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_8"
+										type="button"
+										role="tab"
+								>
+									08
+								</button>
+							</li>
+							<li class="nav-item">
+								Mon
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_9"
+										type="button"
+										role="tab"
+								>
+									09
+								</button>
+							</li>
+							<li class="nav-item">
+								Tue
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_10"
+										type="button"
+										role="tab"
+								>
+									10
+								</button>
+							</li>
+							<li class="nav-item">
+								Wed
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_11"
+										type="button"
+										role="tab"
+								>
+									11
+								</button>
+							</li>
+							<li class="nav-item">
+								Thu
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_12"
+										type="button"
+										role="tab"
+								>
+									12
+								</button>
+							</li>
+							<li class="nav-item">
+								Fri
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_13"
+										type="button"
+										role="tab"
+								>
+									13
+								</button>
+							</li>
+							<li class="nav-item">
+								Sat
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_14"
+										type="button"
+										role="tab"
+								>
+									14
+								</button>
+							</li>
+							<li class="nav-item">
+								Sun
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_15"
+										type="button"
+										role="tab"
+								>
+									15
+								</button>
+							</li>
+							<li class="nav-item">
+								Sun
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_16"
+										type="button"
+										role="tab"
+								>
+									16
+								</button>
+							</li>
+							<li class="nav-item">
+								Mon
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_17"
+										type="button"
+										role="tab"
+								>
+									17
+								</button>
+							</li>
+							<li class="nav-item">
+								Tue
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_18"
+										type="button"
+										role="tab"
+								>
+									18
+								</button>
+							</li>
+							<li class="nav-item">
+								Wed
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_19"
+										type="button"
+										role="tab"
+								>
+									19
+								</button>
+							</li>
+							<li class="nav-item">
+								Thu
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_20"
+										type="button"
+										role="tab"
+								>
+									20
+								</button>
+							</li>
+							<li class="nav-item">
+								Fri
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_21"
+										type="button"
+										role="tab"
+								>
+									21
+								</button>
+							</li>
+							<li class="nav-item">
+								Sat
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_22"
+										type="button"
+										role="tab"
+								>
+									22
+								</button>
+							</li>
+							<li class="nav-item">
+								Sun
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_23"
+										type="button"
+										role="tab"
+								>
+									23
+								</button>
+							</li>
+							<li class="nav-item">
+								Mon
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_24"
+										type="button"
+										role="tab"
+								>
+									24
+								</button>
+							</li>
+							<li class="nav-item">
+								Tue
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_25"
+										type="button"
+										role="tab"
+								>
+									25
+								</button>
+							</li>
+							<li class="nav-item">
+								Wed
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_26"
+										type="button"
+										role="tab"
+								>
+									26
+								</button>
+							</li>
+							<li class="nav-item">
+								Thu
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_27"
+										type="button"
+										role="tab"
+								>
+									27
+								</button>
+							</li>
+							<li class="nav-item">
+								Fri
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_28"
+										type="button"
+										role="tab"
+								>
+									28
+								</button>
+							</li>
+							<li class="nav-item">
+								Sat
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_29"
+										type="button"
+										role="tab"
+								>
+									29
+								</button>
+							</li>
+							<li class="nav-item">
+								Sun
+								<button
+										class="nav-link"
+										data-bs-toggle="pill"
+										data-bs-target="#c_date_30"
+										type="button"
+										role="tab"
+								>
+									30
+								</button>
+							</li>
+						</ul>
+					</div>
+
+					<table class="table align-middle table-hover dataTable table-body table-responsive w-100 border rounded-4">
+						<thead>
+						<tr class="small text-muted text-uppercase">
+							<th class="border-end">Symbol</th>
+							<th class="border-end">Date</th>
+							<th class="border-end">Current Price</th>
+							<th class="border-end">Amount</th>
+							<th class="border-end">Options</th>
+							<th>Chart</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr class="row-selectable">
+							<td class="border-end border-top">
+        <span class="d-flex align-items-center">
+          <img
+		          class="rounded-circle d-none d-sm-inline-block"
+		          src="../static/images/stock-icons/apple.png"
+		          th:src="@{/images/stock-icons/apple.png}"
+		          alt=""
+		          width="25px"
+		          height="30px"
+          />
+          <span class="flex-fill ms-3">
+            <span class="h6 mb-0">AAPL</span>
+          </span>
+        </span>
+							</td>
+							<td class="border-end border-top">7 March 2025</td>
+							<td class="border-end border-top">200</td>
+							<td class="border-end border-top">
+								<input type="number" class="form-control" placeholder="Enter amount"/>
+							</td>
+							<td class="border-end  border-top">
+								<div class="d-flex">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
+										Buy
+									</button>
+									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+										Sell
+									</button>
+								</div>
+							</td>
+
+							<td class="border-top">
+								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
+								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
+									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
+									</svg>
+								</button>
+							</td>
+						</tr>
+						<tr class="row-selectable">
+							<td class="border-end border-top">
+                                <span class="d-flex align-items-center">
+                                  <img
+									      class="rounded-circle d-none d-sm-inline-block"
+									      src="../static/images/stock-icons/tesla.png"
+									      th:src="@{/images/stock-icons/tesla.png}"
+									      alt=""
+									      width="30px"
+									      height="30px"
+                                  />
+                                  <span class="flex-fill ms-3">
+                                    <span class="h6 mb-0">TSLA</span>
+                                  </span>
+                                </span>
+							</td>
+							<td class="border-end border-top">7 March 2025</td>
+							<td class="border-end border-top">150</td>
+							<td class="border-end border-top">
+								<input type="number" class="form-control" placeholder="Enter amount"/>
+							</td>
+							<td class="border-end border-top">
+								<div class="d-flex">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
+										Buy
+									</button>
+									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+										Sell
+									</button>
+								</div>
+							</td>
+							<td class="border-top">
+								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
+								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
+									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
+									</svg>
+								</button>
+							</td>
+						</tr>
+
+						<tr class="row-selectable">
+							<td class="border-end border-top">
+                                <span class="d-flex align-items-center">
+                                  <img
+									      class="rounded-circle d-none d-sm-inline-block"
+									      src="../static/images/stock-icons/amazon.png"
+									      th:src="@{/images/stock-icons/amazon.png}"
+									      alt=""
+									      width="30px"
+									      height="30px"
+                                  />
+                                  <span class="flex-fill ms-3">
+                                    <span class="h6 mb-0">AMZN</span>
+                                  </span>
+                                </span>
+							</td>
+							<td class="border-end border-top">7 March 2025</td>
+							<td class="border-end border-top">300</td>
+							<td class="border-end border-top">
+								<input type="number" class="form-control" placeholder="Enter amount"/>
+							</td>
+							<td class="border-end border-top">
+								<div class="d-flex">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
+										Buy
+									</button>
+									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+										Sell
+									</button>
+								</div>
+							</td>
+							<td class=" border-top">
+								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
+								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
+									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
+									</svg>
+								</button>
+							</td>
+						</tr>
+
+						<tr class="row-selectable">
+							<td class="border-end border-top">
+                                <span class="d-flex align-items-center">
+                                  <img
+									      class="rounded-circle d-none d-sm-inline-block"
+									      src="../static/images/stock-icons/netflix.png"
+									      th:src="@{/images/stock-icons/netflix.png}"
+									      alt=""
+									      width="30px"
+									      height="30px"
+                                  />
+                                  <span class="flex-fill ms-3">
+                                    <span class="h6 mb-0">NFLX</span>
+                                  </span>
+                                </span>
+							</td>
+							<td class="border-end border-top">7 March 2025</td>
+							<td class="border-end border-top">100</td>
+							<td class="border-end border-top">
+								<input type="number" class="form-control" placeholder="Enter amount"/>
+							</td>
+							<td class="border-end border-top">
+								<div class="d-flex">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
+										Buy
+									</button>
+									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+										Sell
+									</button>
+								</div>
+							</td>
+							<td class=" border-top">
+								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
+								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
+									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
+									</svg>
+								</button>
+							</td>
+						</tr>
+
+						<tr class="row-selectable">
+							<td class="border-end border-top">
+                                <span class="d-flex align-items-center">
+                                  <img
+									      class="rounded-circle d-none d-sm-inline-block"
+									      src="../static/images/stock-icons/google.png"
+									      th:src="@{/images/stock-icons/google.png}"
+									      alt=""
+									      width="30px"
+									      height="30px"
+                                  />
+                                  <span class="flex-fill ms-3">
+                                    <span class="h6 mb-0">GOOGL</span>
+                                  </span>
+                                </span>
+							</td>
+							<td class="border-end border-top">7 March 2025</td>
+							<td class="border-end border-top">250</td>
+							<td class="border-end border-top">
+								<input type="number" class="form-control" placeholder="Enter amount"/>
+							</td>
+							<td class="border-end border-top">
+								<div class="d-flex">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
+										Buy
+									</button>
+									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+										Sell
+									</button>
+								</div>
+							</td>
+							<td class=" border-top">
+								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
+								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
+									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
+									</svg>
+								</button>
+							</td>
+						</tr>
+
+						<tr class="row-selectable">
+							<td class="border-end border-top">
+                                <span class="d-flex align-items-center">
+                                  <img
+									      class="rounded-circle d-none d-sm-inline-block"
+									      src="../static/images/stock-icons/facebook.png"
+									      th:src="@{/images/stock-icons/facebook.png}"
+									      alt=""
+									      width="30px"
+									      height="30px"
+                                  />
+                                  <span class="flex-fill ms-3">
+                                    <span class="h6 mb-0">META</span>
+                                  </span>
+                                </span>
+							</td>
+							<td class="border-end border-top">7 March 2025</td>
+							<td class="border-end border-top">180</td>
+							<td class="border-end border-top">
+								<input type="number" class="form-control" placeholder="Enter amount"/>
+							</td>
+							<td class="border-end border-top">
+								<div class="d-flex">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
+										Buy
+									</button>
+									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+										Sell
+									</button>
+								</div>
+							</td>
+							<td class="border">
+								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
+								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
+									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
+									</svg>
+								</button>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- </div>
+		  </div> -->
+		</div>
+	</div>
+</main>
+
+<div th:replace="~{fragments/general-fragments :: exchange-rate}"> </div>
+
+<th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+<link rel="stylesheet" href="../static/vendor/dataTables.min.css"  th:href="@{/vendor/dataTables.min.css}"/>
+
+<script src="../static/bundles/dataTables.bundle.js" th:src="@{/bundles/dataTables.bundle.js}"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Scroll handling for .calendar-tab .nav
+        const scrollContainer = document.querySelector(".calendar-tab .nav");
+        if (scrollContainer) {
+            scrollContainer.addEventListener("wheel", (evt) => {
+                evt.preventDefault();
+                scrollContainer.scrollLeft += evt.deltaY;
+            });
+        }
+    });
+
+    $(document).ready(function () {
+        // Initialize DataTable
+        $(".dataTable").dataTable({
+            responsive: true,
+            columnDefs: [
+                {
+                    targets: 1, // Corrected 'target' to 'targets'
+                    render: DataTable.render.date(),
+                },
+                {
+                    targets: 2, // Corrected 'target' to 'targets'
+                    render: DataTable.render.number(null, null, 0, "$"),
+                },
+            ],
+        });
+
+        // Stacked Area
+        var options = {
+            chart: {
+                height: 100,
+                type: "area",
+                stacked: true,
+                toolbar: {
+                    show: false,
+                },
+                events: {
+                    selection: function (chart, e) {
+                        console.log(new Date(e.xaxis.min));
+                    },
+                },
+            },
+            colors: ["#e4bd51"],
+            dataLabels: {
+                enabled: false,
+            },
+
+            series: [
+                {
+                    name: "Central",
+                    data: generateDayWiseTimeSeries(
+                        new Date("14 Aug 2024 GMT").getTime(),
+                        10,
+                        {
+                            min: 20,
+                            max: 48,
+                        }
+                    ),
+                },
+            ],
+
+            fill: {
+                type: "gradient",
+                gradient: {
+                    opacityFrom: 0.6,
+                    opacityTo: 0.8,
+                },
+            },
+
+            legend: {
+                position: "top",
+                horizontalAlign: "right",
+                show: true,
+            },
+            xaxis: {
+                type: "datetime",
+            },
+            grid: {
+                yaxis: {
+                    lines: {
+                        show: false,
+                    },
+                },
+                padding: {
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
+                },
+            },
+            stroke: {
+                show: true,
+                curve: "smooth",
+                width: 2,
+            },
+        };
+
+        var chart = new ApexCharts(
+            document.querySelector("#movement-apex"),
+            options
+        );
+        chart.render();
+
+        function generateDayWiseTimeSeries(baseval, count, yrange) {
+            var i = 0;
+            var series = [];
+            while (i < count) {
+                var x = baseval;
+                var y =
+                    Math.floor(Math.random() * (yrange.max - yrange.min + 1)) +
+                    yrange.min;
+
+                series.push([x, y]);
+                baseval += 86400000;
+                i++;
+            }
+            return series;
+        }
+
+        // Overall Chart
+        var overallOptions = {
+            chart: {
+                height: 350,
+                type: "line",
+                toolbar: {
+                    show: false,
+                },
+            },
+            series: [
+                {
+                    name: "Transactions",
+                    data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
+                },
+            ],
+            xaxis: {
+                categories: [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                ],
+            },
+            stroke: {
+                curve: "smooth",
+            },
+            markers: {
+                size: 4,
+            },
+            colors: ["#00b8d6"],
+            tooltip: {
+                theme: "dark",
+            }
+        };
+
+        var overallChart = new ApexCharts(
+            document.querySelector("#overall-chart"),
+            overallOptions
+        );
+
+        overallChart.render();
+    });
+
+
+    $(document).ready(function () {
+        var options = {
+            chart: {
+                height: 350,
+                type: "candlestick",
+                toolbar: {
+                    show: false,
+                },
+            },
+            plotOptions: {
+                candlestick: {
+                    colors: {
+                        upward: "var(--theme-color1)",
+                        downward: "var(--theme-color3)",
+                    },
+                    wick: {
+                        useFillColor: true,
+                    },
+                },
+            },
+
+            series: [
+                {
+                    data: [
+                        {
+                            x: new Date(1538778600000),
+                            y: [6629.81, 6650.5, 6623.04, 6633.33],
+                        },
+                        {
+                            x: new Date(1538780400000),
+                            y: [6632.01, 6643.59, 6620, 6630.11],
+                        },
+                        {
+                            x: new Date(1538782200000),
+                            y: [6630.71, 6648.95, 6623.34, 6635.65],
+                        },
+                        {
+                            x: new Date(1538784000000),
+                            y: [6635.65, 6651, 6629.67, 6638.24],
+                        },
+                        {
+                            x: new Date(1538785800000),
+                            y: [6638.24, 6640, 6620, 6624.47],
+                        },
+                        {
+                            x: new Date(1538787600000),
+                            y: [6624.53, 6636.03, 6621.68, 6624.31],
+                        },
+                        {
+                            x: new Date(1538789400000),
+                            y: [6624.61, 6632.2, 6617, 6626.02],
+                        },
+                        {
+                            x: new Date(1538791200000),
+                            y: [6627, 6627.62, 6584.22, 6603.02],
+                        },
+                        {
+                            x: new Date(1538793000000),
+                            y: [6605, 6608.03, 6598.95, 6604.01],
+                        },
+                        {
+                            x: new Date(1538794800000),
+                            y: [6604.5, 6614.4, 6602.26, 6608.02],
+                        },
+                        {
+                            x: new Date(1538796600000),
+                            y: [6608.02, 6610.68, 6601.99, 6608.91],
+                        },
+                        {
+                            x: new Date(1538798400000),
+                            y: [6608.91, 6618.99, 6608.01, 6612],
+                        },
+                        {
+                            x: new Date(1538800200000),
+                            y: [6612, 6615.13, 6605.09, 6612],
+                        },
+                        {
+                            x: new Date(1538802000000),
+                            y: [6612, 6624.12, 6608.43, 6622.95],
+                        },
+                        {
+                            x: new Date(1538803800000),
+                            y: [6623.91, 6623.91, 6615, 6615.67],
+                        },
+                        {
+                            x: new Date(1538805600000),
+                            y: [6618.69, 6618.74, 6610, 6610.4],
+                        },
+                        {
+                            x: new Date(1538807400000),
+                            y: [6611, 6622.78, 6610.4, 6614.9],
+                        },
+                        {
+                            x: new Date(1538809200000),
+                            y: [6614.9, 6626.2, 6613.33, 6623.45],
+                        },
+                        {
+                            x: new Date(1538811000000),
+                            y: [6623.48, 6627, 6618.38, 6620.35],
+                        },
+                        {
+                            x: new Date(1538812800000),
+                            y: [6619.43, 6620.35, 6610.05, 6615.53],
+                        },
+                        {
+                            x: new Date(1538814600000),
+                            y: [6615.53, 6617.93, 6610, 6615.19],
+                        },
+                        {
+                            x: new Date(1538816400000),
+                            y: [6615.19, 6621.6, 6608.2, 6620],
+                        },
+                        {
+                            x: new Date(1538818200000),
+                            y: [6619.54, 6625.17, 6614.15, 6620],
+                        },
+                        {
+                            x: new Date(1538820000000),
+                            y: [6620.33, 6634.15, 6617.24, 6624.61],
+                        },
+                        {
+                            x: new Date(1538821800000),
+                            y: [6625.95, 6626, 6611.66, 6617.58],
+                        },
+                        {
+                            x: new Date(1538823600000),
+                            y: [6619, 6625.97, 6595.27, 6598.86],
+                        },
+                        {
+                            x: new Date(1538825400000),
+                            y: [6598.86, 6598.88, 6570, 6587.16],
+                        },
+                        {
+                            x: new Date(1538827200000),
+                            y: [6588.86, 6600, 6580, 6593.4],
+                        },
+                        {
+                            x: new Date(1538829000000),
+                            y: [6593.99, 6598.89, 6585, 6587.81],
+                        },
+                        {
+                            x: new Date(1538830800000),
+                            y: [6587.81, 6592.73, 6567.14, 6578],
+                        },
+                        {
+                            x: new Date(1538832600000),
+                            y: [6578.35, 6581.72, 6567.39, 6579],
+                        },
+                        {
+                            x: new Date(1538834400000),
+                            y: [6579.38, 6580.92, 6566.77, 6575.96],
+                        },
+                        {
+                            x: new Date(1538836200000),
+                            y: [6575.96, 6589, 6571.77, 6588.92],
+                        },
+                        {
+                            x: new Date(1538838000000),
+                            y: [6588.92, 6594, 6577.55, 6589.22],
+                        },
+                        {
+                            x: new Date(1538839800000),
+                            y: [6589.3, 6598.89, 6589.1, 6596.08],
+                        },
+                        {
+                            x: new Date(1538841600000),
+                            y: [6597.5, 6600, 6588.39, 6596.25],
+                        },
+                        {
+                            x: new Date(1538843400000),
+                            y: [6598.03, 6600, 6588.73, 6595.97],
+                        },
+                        {
+                            x: new Date(1538845200000),
+                            y: [6595.97, 6602.01, 6588.17, 6602],
+                        },
+                        {
+                            x: new Date(1538847000000),
+                            y: [6602, 6607, 6596.51, 6599.95],
+                        },
+                        {
+                            x: new Date(1538848800000),
+                            y: [6600.63, 6601.21, 6590.39, 6591.02],
+                        },
+                        {
+                            x: new Date(1538850600000),
+                            y: [6591.02, 6603.08, 6591, 6591],
+                        },
+                        {
+                            x: new Date(1538852400000),
+                            y: [6591, 6601.32, 6585, 6592],
+                        },
+                        {
+                            x: new Date(1538854200000),
+                            y: [6593.13, 6596.01, 6590, 6593.34],
+                        },
+                        {
+                            x: new Date(1538856000000),
+                            y: [6593.34, 6604.76, 6582.63, 6593.86],
+                        },
+                        {
+                            x: new Date(1538857800000),
+                            y: [6593.86, 6604.28, 6586.57, 6600.01],
+                        },
+                        {
+                            x: new Date(1538859600000),
+                            y: [6601.81, 6603.21, 6592.78, 6596.25],
+                        },
+                        {
+                            x: new Date(1538861400000),
+                            y: [6596.25, 6604.2, 6590, 6602.99],
+                        },
+                        {
+                            x: new Date(1538863200000),
+                            y: [6602.99, 6606, 6584.99, 6587.81],
+                        },
+                        {
+                            x: new Date(1538865000000),
+                            y: [6587.81, 6595, 6583.27, 6591.96],
+                        },
+                        {
+                            x: new Date(1538866800000),
+                            y: [6591.97, 6596.07, 6585, 6588.39],
+                        },
+                        {
+                            x: new Date(1538868600000),
+                            y: [6587.6, 6598.21, 6587.6, 6594.27],
+                        },
+                        {
+                            x: new Date(1538870400000),
+                            y: [6596.44, 6601, 6590, 6596.55],
+                        },
+                        {
+                            x: new Date(1538872200000),
+                            y: [6598.91, 6605, 6596.61, 6600.02],
+                        },
+                        {
+                            x: new Date(1538874000000),
+                            y: [6600.55, 6605, 6589.14, 6593.01],
+                        },
+                        {
+                            x: new Date(1538875800000),
+                            y: [6593.15, 6605, 6592, 6603.06],
+                        },
+                        {
+                            x: new Date(1538877600000),
+                            y: [6603.07, 6604.5, 6599.09, 6603.89],
+                        },
+                        {
+                            x: new Date(1538879400000),
+                            y: [6604.44, 6604.44, 6600, 6603.5],
+                        },
+                        {
+                            x: new Date(1538881200000),
+                            y: [6603.5, 6603.99, 6597.5, 6603.86],
+                        },
+                        {
+                            x: new Date(1538883000000),
+                            y: [6603.85, 6605, 6600, 6604.07],
+                        },
+                        {
+                            x: new Date(1538884800000),
+                            y: [6604.98, 6606, 6604.07, 6606],
+                        },
+                    ],
+                },
+            ],
+
+            xaxis: {
+                type: "datetime",
+            },
+            yaxis: {
+                tooltip: {
+                    enabled: true,
+                },
+            },
+            tooltip: {
+                theme: "dark",
+            }
+        };
+
+        var chart = new ApexCharts(
+            document.querySelector("#apex-CandleStick"),
+            options
+        );
+
+        chart.render();
+    });
+</script>
+<link rel="stylesheet" href="assets/vendor/dataTables.min.css"/>
+</body>
+</html>
