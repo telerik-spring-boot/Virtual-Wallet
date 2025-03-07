@@ -84,4 +84,22 @@ public class CardRepositoryImpl implements CardRepository {
         }
 
     }
+
+    @Override
+    public boolean isUserCardHolder(String username, int cardId) {
+
+        try (Session session = sessionFactory.openSession()) {
+            Query<Long> query = session.createQuery
+                    ("SELECT COUNT(c) FROM Card c WHERE c.id = :cardId AND c.user.username = :username ",
+                            Long.class);
+
+            query.setParameter("cardId", cardId);
+            query.setParameter("username", username);
+
+            Long count = query.uniqueResult();
+
+            return count > 0;
+
+        }
+    }
 }

@@ -18,5 +18,7 @@ public interface CardRepository {
 
     void deleteCard(int cardId);
 
+    boolean isUserCardHolder(String username, int cardId);
+
 
 }

@@ -46,7 +46,7 @@ public class SecurityConfig{
                 .csrf(AbstractHttpConfigurer::disable)
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").denyAll()
+
                         .requestMatchers("/api/auth/login", "/api/auth/register", "api/auth/verify-email").permitAll()
                         .requestMatchers("/api/admins/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
@@ -65,6 +65,7 @@ public class SecurityConfig{
                 .csrf(AbstractHttpConfigurer::disable)
                 .securityMatcher("/**")
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/**").denyAll()
                         .requestMatchers("/login", "/register", "/verify-email").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

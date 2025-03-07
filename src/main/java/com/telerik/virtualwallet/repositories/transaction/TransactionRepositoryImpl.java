@@ -188,13 +188,13 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                                 });
                             }
                         },
-                        () -> {
+                        () ->
                             options.getUsername().ifPresent(value -> {
                                 filters.add("(s.username LIKE :senderUsername OR r.username LIKE :receiverUsername)");
                                 params.put("senderUsername", "%" + value + "%");
                                 params.put("receiverUsername", "%" + value + "%");
-                            });
-                        });
+                            })
+                );
 
             }
 
@@ -203,12 +203,14 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                 queryString.append(" WHERE ").append(String.join(" AND ", filters));
             }
 
+            Query<Transaction> query = session.createQuery(queryString.toString(), Transaction.class);
+
             if (pageable.getSort().isSorted()) {
                 Sort.Order order = pageable.getSort().iterator().next();
                 queryString.append((" ORDER BY ")).append(order.getProperty()).append(" ").append(order.getDirection().name());
             }
 
-            Query<Transaction> query = session.createQuery(queryString.toString(), Transaction.class);
+
             query.setProperties(params);
 
             query.setFirstResult((int) pageable.getOffset());

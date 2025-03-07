@@ -34,10 +34,12 @@ public class Card {
     public Card() {
     }
 
-    public Card(int id, String number, String holder, String cvv, User user) {
+    public Card(int id, String number, String holder, String expiryMonth, String expiryYear, String cvv, User user) {
         this.id = id;
         this.number = number;
         this.holder = holder;
+        this.expiryMonth = expiryMonth;
+        this.expiryYear = expiryYear;
         this.cvv = cvv;
         this.user = user;
     }
@@ -80,5 +82,21 @@ public class Card {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getExpiryMonth() {
+        return expiryMonth;
+    }
+
+    public void setExpiryMonth(String expiryMonth) {
+        this.expiryMonth = expiryMonth;
+    }
+
+    public String getExpiryYear() {
+        return expiryYear;
+    }
+
+    public void setExpiryYear(String expiryYear) {
+        this.expiryYear = expiryYear;
     }
 }
