@@ -222,7 +222,7 @@
 .flatpickr-months .flatpickr-prev-month svg path, .flatpickr-months .flatpickr-next-month svg path {
     -webkit-transition: fill .1s;
     transition: fill .1s;
-    fill: inherit
+    fill: context-stroke
 }
 
 .numInputWrapper {
@@ -393,7 +393,7 @@
 }
 
 .flatpickr-current-month .flatpickr-monthDropdown-months {
-    appearance: menulist;
+    appearance: menulist-button;
     background: transparent;
     border: none;
     border-radius: 0;
