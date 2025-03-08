@@ -90,13 +90,13 @@ public class WalletServiceImpl implements WalletService {
 
         Card card = cardService.getCardById(cardId);
 
-        boolean hasFunds = dummyCardTransferService.successfulCardTransfer(card, amount);
+        Wallet wallet = getWalletById(walletId);
+
+        boolean hasFunds = dummyCardTransferService.successfulCardTransfer(card, amount, wallet.getCurrency());
 
         if (!hasFunds) {
             throw new InsufficientFundsException("Card transfer unsuccessful.");
         }
-
-        Wallet wallet = getWalletById(walletId);
 
         wallet.setBalance(wallet.getBalance().add(amount));
 
