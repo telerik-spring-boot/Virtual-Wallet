@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 public class CardCreateDTO {
 
     @NotBlank(message = "Card number cannot be empty")
-    @Pattern(regexp = "\\d{12}", message = "Card number must be exactly 12 digits")
+    @Pattern(regexp = "\\d{16}", message = "Card number must be exactly 12 digits")
     private String cardNumber;
 
     @NotBlank(message = "Cardholder name cannot be empty")

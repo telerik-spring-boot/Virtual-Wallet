@@ -18,15 +18,15 @@ public class Transaction {
     private BigDecimal amount;
 
     @ManyToOne
-    @JoinColumn(name="wallet_sender_id", nullable=false)
+    @JoinColumn(name = "wallet_sender_id", nullable = false)
     private Wallet senderWallet;
 
     @ManyToOne
-    @JoinColumn(name="wallet_receiver_id", nullable=false)
+    @JoinColumn(name = "wallet_receiver_id", nullable = false)
     private Wallet receiverWallet;
 
     @ManyToOne
-    @JoinColumn(name="user_sender_id", nullable=false)
+    @JoinColumn(name = "user_sender_id", nullable = false)
     private User userSender;
 
     @ManyToOne
@@ -36,16 +36,21 @@ public class Transaction {
     @Column(name = "transaction_time", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "message", nullable = false, updatable = false)
+    private String message;
+
     public Transaction() {
     }
 
-    public Transaction(int id, BigDecimal amount, Wallet senderWallet, Wallet receiverWallet, TransactionCategory transactionCategory, LocalDateTime createdAt) {
+    public Transaction(int id, BigDecimal amount, Wallet senderWallet, Wallet receiverWallet, User userSender, TransactionCategory transactionCategory, LocalDateTime createdAt, String message) {
         this.id = id;
         this.amount = amount;
         this.senderWallet = senderWallet;
         this.receiverWallet = receiverWallet;
+        this.userSender = userSender;
         this.transactionCategory = transactionCategory;
         this.createdAt = createdAt;
+        this.message = message;
     }
 
     public int getId() {
@@ -102,5 +107,13 @@ public class Transaction {
 
     public void setUserSender(User userSender) {
         this.userSender = userSender;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

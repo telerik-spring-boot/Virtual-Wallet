@@ -112,11 +112,24 @@ CREATE TABLE virtual_wallet.transactions
     user_sender_id     INT                                 NOT NULL,
     wallet_sender_id   INT                                 NOT NULL,
     wallet_receiver_id INT                                 NOT NULL,
+    message            VARCHAR(50)                         NOT NULL,
     category_id        INT                                 NOT NULL,
     FOREIGN KEY (user_sender_id) REFERENCES virtual_wallet.users (user_id) ON DELETE CASCADE,
     FOREIGN KEY (wallet_sender_id) REFERENCES virtual_wallet.wallets (wallet_id) ON DELETE CASCADE,
     FOREIGN KEY (wallet_receiver_id) REFERENCES virtual_wallet.wallets (wallet_id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES virtual_wallet.transaction_categories (id) ON DELETE CASCADE
+);
+
+CREATE TABLE virtual_wallet.transfers
+(
+    id                 INT AUTO_INCREMENT                  NOT NULL PRIMARY KEY,
+    transfer_time      TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    amount             DECIMAL(15, 2)                      NOT NULL,
+    card_sender_id     INT                                 NOT NULL,
+    wallet_receiver_id INT                                 NOT NULL,
+    FOREIGN KEY (card_sender_id) REFERENCES virtual_wallet.cards (card_id) ON DELETE CASCADE,
+    FOREIGN KEY (wallet_receiver_id) REFERENCES virtual_wallet.wallets (wallet_id) ON DELETE CASCADE
+
 );
 
 

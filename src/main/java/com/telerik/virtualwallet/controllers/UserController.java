@@ -6,7 +6,6 @@ import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
-import com.telerik.virtualwallet.models.dtos.card.CardCreateDTO;
 import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.stock.StockDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderDTO;
@@ -166,43 +165,6 @@ public class UserController {
 
     }
 
-    @PostMapping("/{username}/cards")
-    @PreAuthorize("#username == authentication.name")
-    public ResponseEntity<CardDisplayDTO> addCardToUserByUsername(@PathVariable String username,
-                                                                  @RequestBody CardCreateDTO dto) {
-        Card cardToAdd = cardMapper.createDtoToCard(dto);
-        cardService.addCard(username, cardToAdd);
-
-        return ResponseEntity.ok(cardMapper.cardToCardDisplayDTO(cardService.getCardById(cardToAdd.getId())));
-
-    }
-
-    @PutMapping("/{username}/cards/{cardId}")
-    @PreAuthorize("#username == authentication.name AND " +
-            "@cardSecurityService.isUserCardHolder(#cardId, authentication.name) ")
-    public ResponseEntity<CardDisplayDTO> updateCardFromUser(@PathVariable String username,
-                                                             @PathVariable int cardId,
-                                                             @RequestBody CardCreateDTO dto) {
-
-        Card card = cardMapper.createDtoToCard(cardId, dto);
-
-        cardService.updateCard(card);
-
-        return ResponseEntity.ok(cardMapper.cardToCardDisplayDTO(cardService.getCardById(cardId)));
-    }
-
-    @DeleteMapping("/{username}/cards/{cardId}")
-    @PreAuthorize("#username == authentication.name AND " +
-            "@cardSecurityService.isUserCardHolder(#cardId, authentication.name) ")
-    public ResponseEntity<String> removeCardFromUser(@PathVariable String username,
-                                                     @PathVariable int cardId) {
-
-        cardService.deleteCard(cardId);
-
-        return ResponseEntity.ok(String.format("Card with id %d successfully removed.", cardId));
-    }
-
-
     @PutMapping("/{username}/wallets/{walletId}/stocks")
     @PreAuthorize("#username == authentication.name")
     public ResponseEntity<String> purchaseStocks(@Valid @RequestBody List<StockOrderDTO> purchaseList, @PathVariable int walletId, @PathVariable String username) {
@@ -211,7 +173,6 @@ public class UserController {
 
         return ResponseEntity.ok("Stocks purchased successfully.");
     }
-
 
     @DeleteMapping("/{username}/wallets/{walletId}/stocks")
     @PreAuthorize("#username == authentication.name")

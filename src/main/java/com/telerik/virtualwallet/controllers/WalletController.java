@@ -5,6 +5,7 @@ import com.telerik.virtualwallet.helpers.WalletMapper;
 import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.Wallet;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.wallet.CardTransferCreateDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletPrivateDisplayDTO;
 import com.telerik.virtualwallet.models.filters.FilterTransactionsOptions;
 import com.telerik.virtualwallet.services.security.WalletSecurityService;
@@ -46,7 +47,7 @@ public class WalletController {
     }
 
     @GetMapping("/{walletId}")
-    public ResponseEntity<?> getUserById(@PathVariable int walletId) {
+    public ResponseEntity<?> getWalletById(@PathVariable int walletId) {
 
         Wallet wallet = walletService.getWalletById(walletId);
 
@@ -96,6 +97,17 @@ public class WalletController {
 
     }
 
+    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name) AND" +
+            "@cardSecurityService.isUserCardHolder(#cardId, authentication.name)")
+    @PostMapping("/{walletId}/cards/{cardId}")
+    public ResponseEntity<WalletPrivateDisplayDTO> addMoneyToWalletFromSavedCard(@PathVariable int walletId,
+                                                                                 @PathVariable int cardId,
+                                                                                 @RequestBody CardTransferCreateDTO dto) {
+
+        walletService.addFundsToWallet(walletId, cardId, dto.getAmount());
+
+        return ResponseEntity.ok(walletMapper.walletToPrivateDto(walletService.getWalletById(walletId)));
+    }
 
 
 }
