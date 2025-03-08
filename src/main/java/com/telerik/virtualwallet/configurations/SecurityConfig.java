@@ -1,5 +1,7 @@
 package com.telerik.virtualwallet.configurations;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -75,7 +77,7 @@ public class SecurityConfig{
                 .securityMatcher("/**")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").denyAll()
-                        .requestMatchers("/auth/login", "/auth/register", "/auth/verify-email").permitAll()
+                        .requestMatchers("/auth/login", "/auth/register", "/auth/verify-email", "/auth/logout").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**","/bundles/**","/vendor/**","/fonts/**","/images/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
@@ -88,13 +90,18 @@ public class SecurityConfig{
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/users/dashboard", true)
                         .failureUrl("/auth/login?error=true"))
+                .logout(logout -> logout
+                        .logoutUrl("/auth/logout")
+                        .logoutSuccessUrl("/auth/login"))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
