@@ -50,7 +50,7 @@ public class SecurityConfig{
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> auth
 
-                        .requestMatchers("/api/auth/login", "/api/auth/register", "api/auth/verify-email", "api/dummy-bank/transfer").permitAll()
+                        .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/verify-email", "/api/dummy-bank/transfer").permitAll()
                         .requestMatchers("/api/admins/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -75,14 +75,19 @@ public class SecurityConfig{
                 .securityMatcher("/**")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").denyAll()
-                        .requestMatchers("/login", "/register", "/verify-email").permitAll()
+                        .requestMatchers("/auth/login", "/auth/register", "/auth/verify-email").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**","/bundles/**","/vendor/**","/fonts/**","/images/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
-                .formLogin(withDefaults())
+                .formLogin(form -> form
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/users/dashboard", true)
+                        .failureUrl("/auth/login?error=true"))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
