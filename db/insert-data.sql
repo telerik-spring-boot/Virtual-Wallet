@@ -50,17 +50,16 @@ VALUES (1, 1),
 
 -- Insert Cards
 INSERT INTO virtual_wallet.cards (card_number, card_holder, expiry_month, expiry_year, card_cvv, user_id)
-VALUES
-    ('1111222233334444', 'Alice Smith', '02', '27', '123', 1),
-    ('2222333344445555', 'Bob Smith', '03', '28', '234', 2),
-    ('3333444455556666', 'Charlie Smith', '04', '25', '345', 3),
-    ('4444555566667777', 'David Smith', '05', '26', '456', 4),
-    ('5555666677778888', 'Eve Smith', '01', '27', '567', 5),
-    ('6666777788889999', 'Frank Smith', '12', '25', '678', 6),
-    ('7777888899990000', 'Grace Smith', '11', '26', '789', 7),
-    ('8888999900001111', 'Hannah Smith', '10', '26', '890', 8),
-    ('9999000011112222', 'Ian Smith', '07', '27', '901', 9),
-    ('0000111122223333', 'Jack Smith', '02', '26', '012', 10);
+VALUES ('1111222233334444', 'Alice Smith', '02', '27', '123', 1),
+       ('2222333344445555', 'Bob Smith', '03', '28', '234', 2),
+       ('3333444455556666', 'Charlie Smith', '04', '25', '345', 3),
+       ('4444555566667777', 'David Smith', '05', '26', '456', 4),
+       ('5555666677778888', 'Eve Smith', '01', '27', '567', 5),
+       ('6666777788889999', 'Frank Smith', '12', '25', '678', 6),
+       ('7777888899990000', 'Grace Smith', '11', '26', '789', 7),
+       ('8888999900001111', 'Hannah Smith', '10', '26', '890', 8),
+       ('9999000011112222', 'Ian Smith', '07', '27', '901', 9),
+       ('0000111122223333', 'Jack Smith', '02', '26', '012', 10);
 
 
 -- Insert Referrals
@@ -104,14 +103,28 @@ VALUES ('Shopping'),
        ('Other');
 
 -- Insert Transactions (Transferring between wallets)
-INSERT INTO virtual_wallet.transactions (amount, user_sender_id, wallet_sender_id, wallet_receiver_id, category_id)
-VALUES (50.00, 1, 1, 2, 1),
-       (200.00, 2, 2, 3, 2),
-       (30.00, 3, 3, 4, 3),
-       (500.00, 4, 4, 5, 4),
-       (15.75, 5, 5, 6, 1),
-       (90.00, 6, 6, 7, 2),
-       (120.50, 7, 7, 8, 3),
-       (300.00, 8, 8, 9, 4),
-       (75.25, 9, 9, 10, 5),
-       (25.00, 10, 10, 1, 1);
+INSERT INTO virtual_wallet.transactions (amount, user_sender_id, wallet_sender_id, wallet_receiver_id, category_id,
+                                         message)
+VALUES (50.00, 1, 1, 2, 1, 'Test transfer'),
+       (200.00, 2, 2, 3, 2, 'Test transfer'),
+       (30.00, 3, 3, 4, 3, 'Test transfer'),
+       (500.00, 4, 4, 5, 4, 'Test transfer'),
+       (15.75, 5, 5, 6, 2, 'Test transfer'),
+       (90.00, 6, 6, 7, 2, 'Test transfer'),
+       (120.50, 7, 7, 8, 3, 'Test transfer'),
+       (300.00, 8, 8, 9, 4, 'Test transfer'),
+       (75.25, 9, 9, 10, 5, 'Test transfer'),
+       (25.00, 10, 10, 1, 1, 'Test transfer');
+
+-- Insert Transfers (Transferring between card and wallet)
+INSERT INTO virtual_wallet.transfers (amount, card_sender_id, wallet_receiver_id)
+VALUES (50.00, 1, 1),
+       (200.00, 2, 2),
+       (30.00, 3, 3),
+       (500.00, 4, 4),
+       (15.75, 5, 5),
+       (90.00, 6, 6),
+       (120.50, 7, 7),
+       (300.00, 8, 8),
+       (75.25, 9, 9),
+       (25.00, 10, 10);
