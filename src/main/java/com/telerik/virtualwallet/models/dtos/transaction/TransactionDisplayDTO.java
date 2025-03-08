@@ -21,19 +21,22 @@ public class TransactionDisplayDTO {
 
     public Currency currency;
 
+    public String message;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm '['dd-MM-yyyy']'")
     public LocalDateTime transactionTime;
 
     public TransactionDisplayDTO() {
     }
 
-    public TransactionDisplayDTO(String senderUsername, List<String> senderWalletHolders, List<String> receiverWalletHolders, String transactionCategory, BigDecimal amount, Currency currency, LocalDateTime transactionTime) {
+    public TransactionDisplayDTO(String senderUsername, List<String> senderWalletHolders, List<String> receiverWalletHolders, String transactionCategory, BigDecimal amount, Currency currency, String message, LocalDateTime transactionTime) {
         this.senderUsername = senderUsername;
         this.senderWalletHolders = senderWalletHolders;
         this.receiverWalletHolders = receiverWalletHolders;
         this.transactionCategory = transactionCategory;
         this.amount = amount;
         this.currency = currency;
+        this.message = message;
         this.transactionTime = transactionTime;
     }
 
@@ -91,5 +94,13 @@ public class TransactionDisplayDTO {
 
     public void setSenderWalletHolders(List<String> senderWalletHolders) {
         this.senderWalletHolders = senderWalletHolders;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

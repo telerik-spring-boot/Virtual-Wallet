@@ -35,6 +35,7 @@ public class TransactionMapper {
         transactionDisplayDTO.setSenderUsername(transaction.getUserSender().getUsername());
         transactionDisplayDTO.setTransactionCategory(transaction.getTransactionCategory().getName());
         transactionDisplayDTO.setCurrency(transaction.getSenderWallet().getCurrency());
+        transactionDisplayDTO.setMessage(transaction.getMessage());
 
         List<String> senderUsernames = transaction.getSenderWallet().getUsers().stream()
                 .map(User::getUsername)
@@ -58,6 +59,7 @@ public class TransactionMapper {
         transaction.setUserSender(userSender);
 
         transaction.setAmount(dto.getAmount());
+        transaction.setMessage(dto.getMessage());
 
         Wallet receiverWallet = walletService.getWalletById(dto.getWalletReceiverId());
         transaction.setReceiverWallet(receiverWallet);
