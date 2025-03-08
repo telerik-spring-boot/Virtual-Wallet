@@ -2,10 +2,10 @@ package com.telerik.virtualwallet.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -23,11 +23,13 @@ public class SecurityConfig{
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserDetailsService userDetailsService;
+    private final SecurityExceptionHandler securityExceptionHandler;
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
-                          UserDetailsService userDetailsService) {
+                          UserDetailsService userDetailsService, SecurityExceptionHandler securityExceptionHandler) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.userDetailsService = userDetailsService;
+        this.securityExceptionHandler = securityExceptionHandler;
     }
 
     @Bean
@@ -41,25 +43,32 @@ public class SecurityConfig{
     }
 
     @Bean
+    @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> auth
 
-                        .requestMatchers("/api/auth/login", "/api/auth/register", "api/auth/verify-email").permitAll()
+                        .requestMatchers("/api/auth/login", "/api/auth/register", "api/auth/verify-email", "api/dummy-bank/transfer").permitAll()
                         .requestMatchers("/api/admins/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(securityExceptionHandler) // Handles 401 Unauthorized
+                        .accessDeniedHandler(securityExceptionHandler) // Handles 403 Forbidden
                 )
                 .sessionManagement( session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout(withDefaults());
+                .logout(withDefaults())
+                .formLogin(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
 
     @Bean
+    @Order(2)
     public SecurityFilterChain mvcSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)

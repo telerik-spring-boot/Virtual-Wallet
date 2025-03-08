@@ -100,7 +100,7 @@ public class WalletServiceImpl implements WalletService {
 
         wallet.setBalance(wallet.getBalance().add(amount));
 
-        walletRepository.addWallet(wallet);
+        walletRepository.updateWallet(wallet);
 
     }
 
