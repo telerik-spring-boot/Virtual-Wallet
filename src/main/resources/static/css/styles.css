@@ -2251,7 +2251,7 @@ progress {
     color: var(--bs-secondary-color)
 }
 
-.form-control {
+.form-control,.specific-form-control {
     display: block;
     width: 100%;
     padding: .375rem .75rem;
@@ -14280,7 +14280,7 @@ button:focus:not(:focus-visible) {
     outline-offset: 3px;
     outline-width: 1px;
     outline-style: dashed;
-    outline-color: var(--theme-color5)
+    outline-color: var(--theme-color5);
 }
 
 .form-control.form-control-lg, .form-select.form-control-lg {
@@ -20504,9 +20504,11 @@ input[type=number] {
 }
 
 
-.form-horizontal input[type=email]:focus, .form-horizontal input[type=password]:focus, .form-horizontal input[type=text]:focus {
+.form-horizontal .input-group:focus-within,.form-control:focus {
     box-shadow: 0 0 5px rgba(var(--accent-rgb), 0.8);
-    border: 1px solid rgba(var(--accent-rgb), 0.8)
+    border: 1px solid rgba(var(--accent-rgb), 0.8);
+    outline-offset: 3px;
+    outline: var(--theme-color5) dashed 1px;
 }
 
 .form-horizontal .progress {
@@ -20685,4 +20687,13 @@ input[type=number] {
 .dataTable tbody tr, .dataTable tbody td {
     border-bottom: none !important;
 }
+
+
+.remove-pseudo:focus, .remove-pseudo:hover, .remove-pseudo:active, .remove-pseudo:visited {
+    box-shadow: none;
+    border: none;
+    outline-offset: none;
+    outline: none;
+}
+
 
