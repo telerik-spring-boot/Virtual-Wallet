@@ -2,8 +2,10 @@ package com.telerik.virtualwallet.services.wallet;
 
 import com.telerik.virtualwallet.exceptions.*;
 import com.telerik.virtualwallet.models.Card;
+import com.telerik.virtualwallet.models.Transfer;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
+import com.telerik.virtualwallet.repositories.transaction.TransferRepository;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
 import com.telerik.virtualwallet.repositories.wallet.WalletRepository;
 import com.telerik.virtualwallet.services.card.CardService;
@@ -27,13 +29,15 @@ public class WalletServiceImpl implements WalletService {
     private final CardService cardService;
     private final UserRepository userRepository;
     private final DummyCardTransferService dummyCardTransferService;
+    private final TransferRepository transferRepository;
 
     @Autowired
-    public WalletServiceImpl(WalletRepository walletRepository, CardService cardService, UserRepository userRepository, DummyCardTransferService dummyCardTransferService) {
+    public WalletServiceImpl(WalletRepository walletRepository, CardService cardService, UserRepository userRepository, DummyCardTransferService dummyCardTransferService, TransferRepository transferRepository) {
         this.walletRepository = walletRepository;
         this.cardService = cardService;
         this.userRepository = userRepository;
         this.dummyCardTransferService = dummyCardTransferService;
+        this.transferRepository = transferRepository;
     }
 
     @Override
@@ -101,6 +105,13 @@ public class WalletServiceImpl implements WalletService {
         wallet.setBalance(wallet.getBalance().add(amount));
 
         walletRepository.updateWallet(wallet);
+
+        Transfer transfer = new Transfer();
+        transfer.setAmount(amount);
+        transfer.setReceiverWallet(wallet);
+        transfer.setSenderCard(card);
+
+        transferRepository.createTransfer(transfer);
 
     }
 
