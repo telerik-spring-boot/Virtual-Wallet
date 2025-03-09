@@ -14,8 +14,6 @@ public class WalletSecurityService {
         this.walletRepository = walletRepository;
     }
 
-
-
     public boolean isUserWalletHolder(int walletId, String username) {
 
         return walletRepository.isUserWalletHolder(username, walletId);
