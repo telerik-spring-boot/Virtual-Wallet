@@ -16,6 +16,7 @@ DROP TABLE IF EXISTS virtual_wallet.verifications CASCADE;
 CREATE TABLE virtual_wallet.users
 (
     user_id      INT AUTO_INCREMENT PRIMARY KEY,
+    full_name    VARCHAR(50)          NOT NULL,
     username     VARCHAR(20)          NOT NULL UNIQUE,
     password     VARCHAR(70)          NOT NULL,
     email        VARCHAR(50)          NOT NULL UNIQUE,
