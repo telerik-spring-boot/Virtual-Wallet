@@ -27,6 +27,13 @@ public class AnonymousMvcController {
         return "register";
     }
 
-    @GetMapping("/forgot")
-    public String getForgotPassword() { return "forgot";}
+    @GetMapping("/request-password")
+    public String getRequestPassword(Authentication authentication){
+        if(authentication != null){
+            return "redirect:/users/dashboard";
+        }
+        return "request-password";}
+
+    @GetMapping("/reset-password")
+    public String getResetPassword() { return "reset-password";}
 }
