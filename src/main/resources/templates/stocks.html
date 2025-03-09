@@ -522,7 +522,8 @@
 						<tr class="small text-muted text-uppercase">
 							<th class="border-end">Symbol</th>
 							<th class="border-end">Date</th>
-							<th class="border-end">Current Price</th>
+							<th class="border-end">Holdings</th>
+							<th class="border-end">Price</th>
 							<th class="border-end">Amount</th>
 							<th class="border-end">Options</th>
 							<th>Chart</th>
@@ -531,23 +532,24 @@
 						<tbody>
 						<tr class="row-selectable">
 							<td class="border-end border-top">
-        <span class="d-flex align-items-center">
-          <img
-		          class="rounded-circle d-none d-sm-inline-block"
-		          src="../static/images/stock-icons/apple.png"
-		          th:src="@{/images/stock-icons/apple.png}"
-		          alt=""
-		          width="25px"
-		          height="30px"
-          />
-          <span class="flex-fill ms-3">
-            <span class="h6 mb-0">AAPL</span>
-          </span>
-        </span>
+                                <span class="d-flex align-items-center">
+                                  <img
+								          class="rounded-circle d-none d-sm-inline-block"
+								          src="../static/images/stock-icons/apple.png"
+								          th:src="@{/images/stock-icons/apple.png}"
+								          alt=""
+								          width="25px"
+								          height="30px"
+                                  />
+                                  <span class="flex-fill ms-3">
+                                    <span class="h6 mb-0">AAPL</span>
+                                  </span>
+                                </span>
 							</td>
 							<td class="border-end border-top">7 March 2025</td>
+							<td class="border-end border-top">0</td>
 							<td class="border-end border-top">200</td>
-							<td class="border-end border-top">
+							<td class="border-end border-top" style="width:15rem;">
 								<input type="number" class="form-control" placeholder="Enter amount"/>
 							</td>
 							<td class="border-end  border-top">
@@ -589,6 +591,7 @@
                                 </span>
 							</td>
 							<td class="border-end border-top">7 March 2025</td>
+							<td class="border-end border-top">0</td>
 							<td class="border-end border-top">150</td>
 							<td class="border-end border-top">
 								<input type="number" class="form-control" placeholder="Enter amount"/>
@@ -632,6 +635,7 @@
                                 </span>
 							</td>
 							<td class="border-end border-top">7 March 2025</td>
+							<td class="border-end border-top">0</td>
 							<td class="border-end border-top">300</td>
 							<td class="border-end border-top">
 								<input type="number" class="form-control" placeholder="Enter amount"/>
@@ -675,6 +679,7 @@
                                 </span>
 							</td>
 							<td class="border-end border-top">7 March 2025</td>
+							<td class="border-end border-top">0</td>
 							<td class="border-end border-top">100</td>
 							<td class="border-end border-top">
 								<input type="number" class="form-control" placeholder="Enter amount"/>
@@ -718,6 +723,7 @@
                                 </span>
 							</td>
 							<td class="border-end border-top">7 March 2025</td>
+							<td class="border-end border-top">0</td>
 							<td class="border-end border-top">250</td>
 							<td class="border-end border-top">
 								<input type="number" class="form-control" placeholder="Enter amount"/>
@@ -761,6 +767,7 @@
                                 </span>
 							</td>
 							<td class="border-end border-top">7 March 2025</td>
+							<td class="border-end border-top">0</td>
 							<td class="border-end border-top">180</td>
 							<td class="border-end border-top">
 								<input type="number" class="form-control" placeholder="Enter amount"/>
@@ -827,7 +834,7 @@
                     render: DataTable.render.date(),
                 },
                 {
-                    targets: 2, // Corrected 'target' to 'targets'
+                    targets: 3, // Corrected 'target' to 'targets'
                     render: DataTable.render.number(null, null, 0, "$"),
                 },
             ],
