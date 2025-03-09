@@ -80,6 +80,7 @@ public class TransactionMapper {
 
         transferDisplayDTO.setTransferTime(transfer.getCreatedAt());
         transferDisplayDTO.setAmount(transfer.getAmount());
+        transferDisplayDTO.setSenderUsername(transfer.getSenderCard().getUser().getUsername());
 
         CardDisplayDTO cardDisplayDTO = cardMapper.cardToCardDisplayDTO(transfer.getSenderCard());
         transferDisplayDTO.setCardNumber(cardDisplayDTO.getCardNumber());

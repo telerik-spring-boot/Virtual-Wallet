@@ -10,6 +10,8 @@ public class TransferDisplayDTO {
 
     public String cardNumber;
 
+    public String senderUsername;
+
     public List<String> receiverWalletHolders;
 
     public BigDecimal amount;
@@ -20,8 +22,9 @@ public class TransferDisplayDTO {
     public TransferDisplayDTO() {
     }
 
-    public TransferDisplayDTO(String cardNumber, List<String> receiverWalletHolders, BigDecimal amount, LocalDateTime transferTime) {
+    public TransferDisplayDTO(String cardNumber, String senderUsername, List<String> receiverWalletHolders, BigDecimal amount, LocalDateTime transferTime) {
         this.cardNumber = cardNumber;
+        this.senderUsername = senderUsername;
         this.receiverWalletHolders = receiverWalletHolders;
         this.amount = amount;
         this.transferTime = transferTime;
@@ -57,5 +60,13 @@ public class TransferDisplayDTO {
 
     public void setTransferTime(LocalDateTime transferTime) {
         this.transferTime = transferTime;
+    }
+
+    public String getSenderUsername() {
+        return senderUsername;
+    }
+
+    public void setSenderUsername(String senderUsername) {
+        this.senderUsername = senderUsername;
     }
 }
