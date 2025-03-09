@@ -71,7 +71,7 @@
 						viewBox="0 0 24 24"
 						fill="none"
 						stroke="currentColor"
-						stroke-width="1"
+						Stroke-width="1"
 						stroke-linecap="round"
 						stroke-linejoin="round"
 				>
@@ -132,7 +132,7 @@
 							viewBox="0 0 24 24"
 							fill="none"
 							stroke="currentColor"
-							stroke-width="1"
+							Stroke-width="1"
 							stroke-linecap="round"
 							stroke-linejoin="round"
 					>
@@ -244,19 +244,8 @@
 						data-bs-title="Stocks"
 						data-bs-placement="right"
 				>
-					<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="svg-stroke"
-							width="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-					>
-						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-						<path d="M3 17l6 -6l4 4l8 -8"></path>
-						<path d="M14 7h7v7"></path>
+					<svg class="w-6 h-6 svg-stroke" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" Stroke-width="1" d="M4 4v15a1 1 0 0 0 1 1h15M8 16l2.5-5.5 3 3L17.273 7 20 9.667"></path>
 					</svg>
 					<span class="mx-3">Stocks</span>
 				</a>
@@ -299,34 +288,6 @@
 			Others
 		</h6>
 		<ul class="list-unstyled mb-2 menu-list ps-3">
-			<li>
-				<a
-						href="settings.html"
-						th:href="@{/users/settings}"
-						aria-label="Settings"
-						data-bs-toggle="tooltip"
-						data-bs-title="Settings"
-						data-bs-placement="right"
-				>
-					<svg
-							class="svg-stroke"
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-					>
-						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-						<path
-								d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"
-						></path>
-						<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
-					</svg>
-					<span class="mx-3">Settings</span>
-				</a>
-			</li>
 
 			<li>
 				<a
@@ -474,7 +435,7 @@
 							viewBox="0 0 24 24"
 							fill="none"
 							stroke="var(--brand-color)"
-							stroke-width="1"
+							Stroke-width="1"
 							stroke-linecap="round"
 							stroke-linejoin="round"
 					>
@@ -862,33 +823,54 @@
 						</symbol>
 					</svg>
 				</li>
-				<!--[ Start:: theme setting ]-->
-				<li class="nav-item dropdown px-md-1">
-					<a
-							class="dropdown-toggle gray-6"
-							href="#offcanvas_setting"
-							data-bs-toggle="offcanvas"
-							aria-expanded="false"
-							title="template setting"
-					>
-						<svg
-								class="svg-stroke"
-								xmlns="http://www.w3.org/2000/svg"
-								width="22"
-								height="22"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								fill="none"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-						>
-							<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-							<path
-									d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"
-							></path>
-							<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+				<!--[ Start:: person menu ]-->
+				<li class="nav-item dropdown">
+					<a class="dropdown-toggle gray-6" href="#" id="bd-theme-two"
+					   data-bs-toggle="dropdown" aria-expanded="false">
+
+						<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+						     stroke="currentColor" Stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="12" cy="6" r="4"/>
+
+							<path d="M5 20c2-8 12-8 14 0"/>
 						</svg>
 					</a>
+					<ul class="dropdown-menu dropdown-menu-end p-2 p-xl-3 shadow rounded-4"
+					    aria-labelledby="bd-theme-two">
+						<li class="mb-1" th:if="${#authentication != null}">
+							<a class="dropdown-item rounded-pill" href="settings.html" th:href="@{/users/settings}">
+								<svg class="avatar xs me-2 opacity-50 theme-icon" xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+									<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+									<path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"></path>
+									<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+								</svg>
+								Settings
+							</a>
+						</li>
+						<li class="mb-1" th:if="${#authentication != null}">
+							<a class="dropdown-item rounded-pill" href="#" th:href="@{/auth/logout}">
+								<svg class="avatar xs me-2 opacity-50 theme-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+								     stroke="currentColor" Stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"/>
+									<polyline points="14 17 9 12 14 7"/>
+									<line x1="9" y1="12" x2="21" y2="12"/>
+								</svg>
+								Log out
+							</a>
+						</li>
+						<li class="mb-1" th:if="${#authentication == null}">
+							<a class="dropdown-item rounded-pill" href="login.html" th:href="@{/auth/login}">
+								<svg class="avatar xs me-2 opacity-50 theme-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+								     stroke="currentColor" Stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+									<polyline points="10 17 15 12 10 7"/>
+									<line x1="15" y1="12" x2="3" y2="12"/>
+								</svg>
+								Log in
+							</a>
+						</li>
+					</ul>
+
 				</li>
 				<li class="nav-item py-2 py-md-1 col-auto d-none d-sm-flex">
 					<div class="vr d-none d-sm-flex h-100 mx-sm-2"></div>
