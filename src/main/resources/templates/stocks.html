@@ -517,21 +517,21 @@
 						</ul>
 					</div>
 
-					<table class="table align-middle table-hover dataTable table-body table-responsive w-100 border rounded-4">
+					<table class="table align-middle table-hover dataTable table-body table-responsive w-100">
 						<thead>
 						<tr class="small text-muted text-uppercase">
-							<th class="border-end">Symbol</th>
-							<th class="border-end">Date</th>
-							<th class="border-end">Holdings</th>
-							<th class="border-end">Price</th>
-							<th class="border-end">Amount</th>
-							<th class="border-end">Options</th>
-							<th>Chart</th>
+							<th class="border" style="border-top-left-radius:1rem;">Symbol</th>
+							<th class="border">Date</th>
+							<th class="border">Holdings</th>
+							<th class="border">Price</th>
+							<th class="border">Amount</th>
+							<th class="border">Options</th>
+							<th class="border" style="border-top-right-radius:1rem;">Chart</th>
 						</tr>
 						</thead>
 						<tbody>
 						<tr class="row-selectable">
-							<td class="border-end border-top">
+							<td class="border">
                                 <span class="d-flex align-items-center">
                                   <img
 								          class="rounded-circle d-none d-sm-inline-block"
@@ -546,24 +546,24 @@
                                   </span>
                                 </span>
 							</td>
-							<td class="border-end border-top">7 March 2025</td>
-							<td class="border-end border-top">0</td>
-							<td class="border-end border-top">200</td>
-							<td class="border-end border-top" style="width:15rem;">
+							<td class="border">7 March 2025</td>
+							<td class="border">0</td>
+							<td class="border">200</td>
+							<td class="border" style="width:15rem;">
 								<input type="number" class="form-control" placeholder="Enter amount"/>
 							</td>
-							<td class="border-end  border-top">
+							<td class="border">
 								<div class="d-flex">
-									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn" title="Buy">
 										Buy
 									</button>
-									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+									<button type="button" class="btn btn-outline-danger flex-fill btn-toggle red-btn" title="Sell">
 										Sell
 									</button>
 								</div>
 							</td>
 
-							<td class="border-top">
+							<td class="border">
 								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
 								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
 									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -575,7 +575,7 @@
 							</td>
 						</tr>
 						<tr class="row-selectable">
-							<td class="border-end border-top">
+							<td class="border">
                                 <span class="d-flex align-items-center">
                                   <img
 									      class="rounded-circle d-none d-sm-inline-block"
@@ -590,194 +590,18 @@
                                   </span>
                                 </span>
 							</td>
-							<td class="border-end border-top">7 March 2025</td>
-							<td class="border-end border-top">0</td>
-							<td class="border-end border-top">150</td>
-							<td class="border-end border-top">
+							<td class="border">7 March 2025</td>
+							<td class="border">0</td>
+							<td class="border">150</td>
+							<td class="border">
 								<input type="number" class="form-control" placeholder="Enter amount"/>
 							</td>
-							<td class="border-end border-top">
+							<td class="border">
 								<div class="d-flex">
-									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn" title="Buy">
 										Buy
 									</button>
-									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
-										Sell
-									</button>
-								</div>
-							</td>
-							<td class="border-top">
-								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
-								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
-									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
-									</svg>
-								</button>
-							</td>
-						</tr>
-
-						<tr class="row-selectable">
-							<td class="border-end border-top">
-                                <span class="d-flex align-items-center">
-                                  <img
-									      class="rounded-circle d-none d-sm-inline-block"
-									      src="../static/images/stock-icons/amazon.png"
-									      th:src="@{/images/stock-icons/amazon.png}"
-									      alt=""
-									      width="30px"
-									      height="30px"
-                                  />
-                                  <span class="flex-fill ms-3">
-                                    <span class="h6 mb-0">AMZN</span>
-                                  </span>
-                                </span>
-							</td>
-							<td class="border-end border-top">7 March 2025</td>
-							<td class="border-end border-top">0</td>
-							<td class="border-end border-top">300</td>
-							<td class="border-end border-top">
-								<input type="number" class="form-control" placeholder="Enter amount"/>
-							</td>
-							<td class="border-end border-top">
-								<div class="d-flex">
-									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
-										Buy
-									</button>
-									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
-										Sell
-									</button>
-								</div>
-							</td>
-							<td class=" border-top">
-								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
-								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
-									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
-									</svg>
-								</button>
-							</td>
-						</tr>
-
-						<tr class="row-selectable">
-							<td class="border-end border-top">
-                                <span class="d-flex align-items-center">
-                                  <img
-									      class="rounded-circle d-none d-sm-inline-block"
-									      src="../static/images/stock-icons/netflix.png"
-									      th:src="@{/images/stock-icons/netflix.png}"
-									      alt=""
-									      width="30px"
-									      height="30px"
-                                  />
-                                  <span class="flex-fill ms-3">
-                                    <span class="h6 mb-0">NFLX</span>
-                                  </span>
-                                </span>
-							</td>
-							<td class="border-end border-top">7 March 2025</td>
-							<td class="border-end border-top">0</td>
-							<td class="border-end border-top">100</td>
-							<td class="border-end border-top">
-								<input type="number" class="form-control" placeholder="Enter amount"/>
-							</td>
-							<td class="border-end border-top">
-								<div class="d-flex">
-									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
-										Buy
-									</button>
-									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
-										Sell
-									</button>
-								</div>
-							</td>
-							<td class=" border-top">
-								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
-								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
-									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
-									</svg>
-								</button>
-							</td>
-						</tr>
-
-						<tr class="row-selectable">
-							<td class="border-end border-top">
-                                <span class="d-flex align-items-center">
-                                  <img
-									      class="rounded-circle d-none d-sm-inline-block"
-									      src="../static/images/stock-icons/google.png"
-									      th:src="@{/images/stock-icons/google.png}"
-									      alt=""
-									      width="30px"
-									      height="30px"
-                                  />
-                                  <span class="flex-fill ms-3">
-                                    <span class="h6 mb-0">GOOGL</span>
-                                  </span>
-                                </span>
-							</td>
-							<td class="border-end border-top">7 March 2025</td>
-							<td class="border-end border-top">0</td>
-							<td class="border-end border-top">250</td>
-							<td class="border-end border-top">
-								<input type="number" class="form-control" placeholder="Enter amount"/>
-							</td>
-							<td class="border-end border-top">
-								<div class="d-flex">
-									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
-										Buy
-									</button>
-									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
-										Sell
-									</button>
-								</div>
-							</td>
-							<td class=" border-top">
-								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
-								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
-									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
-									</svg>
-								</button>
-							</td>
-						</tr>
-
-						<tr class="row-selectable">
-							<td class="border-end border-top">
-                                <span class="d-flex align-items-center">
-                                  <img
-									      class="rounded-circle d-none d-sm-inline-block"
-									      src="../static/images/stock-icons/facebook.png"
-									      th:src="@{/images/stock-icons/facebook.png}"
-									      alt=""
-									      width="30px"
-									      height="30px"
-                                  />
-                                  <span class="flex-fill ms-3">
-                                    <span class="h6 mb-0">META</span>
-                                  </span>
-                                </span>
-							</td>
-							<td class="border-end border-top">7 March 2025</td>
-							<td class="border-end border-top">0</td>
-							<td class="border-end border-top">180</td>
-							<td class="border-end border-top">
-								<input type="number" class="form-control" placeholder="Enter amount"/>
-							</td>
-							<td class="border-end border-top">
-								<div class="d-flex">
-									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
-										Buy
-									</button>
-									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+									<button type="button" class="btn btn-outline-danger flex-fill btn-toggle btn-red" title="Sell">
 										Sell
 									</button>
 								</div>
@@ -793,7 +617,198 @@
 								</button>
 							</td>
 						</tr>
+
+						<tr class="row-selectable">
+							<td class="border">
+                                <span class="d-flex align-items-center">
+                                  <img
+									      class="rounded-circle d-none d-sm-inline-block"
+									      src="../static/images/stock-icons/amazon.png"
+									      th:src="@{/images/stock-icons/amazon.png}"
+									      alt=""
+									      width="30px"
+									      height="30px"
+                                  />
+                                  <span class="flex-fill ms-3">
+                                    <span class="h6 mb-0">AMZN</span>
+                                  </span>
+                                </span>
+							</td>
+							<td class="border">7 March 2025</td>
+							<td class="border">0</td>
+							<td class="border">300</td>
+							<td class="border">
+								<input type="number" class="form-control" placeholder="Enter amount"/>
+							</td>
+							<td class="border">
+								<div class="d-flex">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn" title="Buy">
+										Buy
+									</button>
+									<button type="button" class="btn btn-outline-danger flex-fill btn-toggle red-btn" title="Sell">
+										Sell
+									</button>
+								</div>
+							</td>
+							<td class="border">
+								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
+								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
+									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
+									</svg>
+								</button>
+							</td>
+						</tr>
+
+						<tr class="row-selectable">
+							<td class="border">
+                                <span class="d-flex align-items-center">
+                                  <img
+									      class="rounded-circle d-none d-sm-inline-block"
+									      src="../static/images/stock-icons/netflix.png"
+									      th:src="@{/images/stock-icons/netflix.png}"
+									      alt=""
+									      width="30px"
+									      height="30px"
+                                  />
+                                  <span class="flex-fill ms-3">
+                                    <span class="h6 mb-0">NFLX</span>
+                                  </span>
+                                </span>
+							</td>
+							<td class="border">7 March 2025</td>
+							<td class="border">0</td>
+							<td class="border">100</td>
+							<td class="border">
+								<input type="number" class="form-control" placeholder="Enter amount"/>
+							</td>
+							<td class="border">
+								<div class="d-flex">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn" title="Buy">
+										Buy
+									</button>
+									<button type="button" class="btn btn-outline-danger flex-fill btn-toggle red-btn" title="Sell">
+										Sell
+									</button>
+								</div>
+							</td>
+							<td class="border">
+								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
+								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
+									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
+									</svg>
+								</button>
+							</td>
+						</tr>
+
+						<tr class="row-selectable">
+							<td class="border">
+                                <span class="d-flex align-items-center">
+                                  <img
+									      class="rounded-circle d-none d-sm-inline-block"
+									      src="../static/images/stock-icons/google.png"
+									      th:src="@{/images/stock-icons/google.png}"
+									      alt=""
+									      width="30px"
+									      height="30px"
+                                  />
+                                  <span class="flex-fill ms-3">
+                                    <span class="h6 mb-0">GOOGL</span>
+                                  </span>
+                                </span>
+							</td>
+							<td class="border">7 March 2025</td>
+							<td class="border">0</td>
+							<td class="border">250</td>
+							<td class="border">
+								<input type="number" class="form-control" placeholder="Enter amount"/>
+							</td>
+							<td class="border">
+								<div class="d-flex">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn" title="Buy">
+										Buy
+									</button>
+									<button type="button" class="btn btn-outline-danger flex-fill btn-toggle red-btn" title="Sell">
+										Sell
+									</button>
+								</div>
+							</td>
+							<td class="border">
+								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
+								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
+									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
+									</svg>
+								</button>
+							</td>
+						</tr>
+
+						<tr class="row-selectable">
+							<td class="border">
+                                <span class="d-flex align-items-center">
+                                  <img
+									      class="rounded-circle d-none d-sm-inline-block"
+									      src="../static/images/stock-icons/facebook.png"
+									      th:src="@{/images/stock-icons/facebook.png}"
+									      alt=""
+									      width="30px"
+									      height="30px"
+                                  />
+                                  <span class="flex-fill ms-3">
+                                    <span class="h6 mb-0">META</span>
+                                  </span>
+                                </span>
+							</td>
+							<td class="border">7 March 2025</td>
+							<td class="border">0</td>
+							<td class="border">180</td>
+							<td class="border">
+								<input type="number" class="form-control" placeholder="Enter amount"/>
+							</td>
+							<td class="border">
+								<div class="d-flex">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn" title="Buy">
+										Buy
+									</button>
+									<button type="button" class="btn btn-outline-danger flex-fill btn-toggle red-btn" title="Sell">
+										Sell
+									</button>
+								</div>
+							</td>
+							<td class="border">
+								<button type="button" class="btn btn-outline-secondary w-100 btn-custom"
+								        data-bs-toggle="modal" data-bs-target="#chartModal" title="View Chart">
+									<svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+									     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										      d="M4 4v16h16M8 12l3-3 4 4 5-5"/>
+									</svg>
+								</button>
+							</td>
+
+						</tr>
 						</tbody>
+						<tr class="no-hover">
+							<td class="border-top no-hover"></td>
+							<td class="border-top no-hover"></td>
+							<td class="border-top no-hover"></td>
+							<td class="border-top no-hover"></td>
+							<td class="border-top no-hover"></td>
+							<td class="border-top no-hover" colspan="2">
+								<div class="d-flex align-items-center text-center">
+									<button type="button" class="btn btn-outline-secondary text-dark flex-fill me-2" title="Finish Order">
+										Finish Order
+									</button>
+								</div>
+							</td>
+						</tr>
 					</table>
 				</div>
 			</div>
@@ -1268,6 +1283,28 @@
         );
 
         chart.render();
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.btn-toggle');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
+                } else {
+                    const row = this.closest('tr');
+
+                    const rowButtons = row.querySelectorAll('.btn-toggle');
+
+                    rowButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    this.classList.add('active');
+                }
+            });
+        });
     });
 </script>
 </body>

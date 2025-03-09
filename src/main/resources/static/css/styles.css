@@ -2064,7 +2064,7 @@ progress {
     --bs-table-bg-state: var(--bs-table-active-bg)
 }
 
-.table-hover > tbody > tr:hover > * {
+.table-hover > tbody > tr:hover:not(.no-hover) > *{
     --bs-table-color-state: var(--bs-table-hover-color);
     --bs-table-bg-state: var(--bs-table-hover-bg)
 }
@@ -20692,8 +20692,17 @@ input[type=number] {
 .remove-pseudo:focus, .remove-pseudo:hover, .remove-pseudo:active, .remove-pseudo:visited {
     box-shadow: none;
     border: none;
-    outline-offset: none;
+    outline-offset: 0;
     outline: none;
 }
 
+.btn-toggle.active.green-btn {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-toggle.active.red-btn {
+    background-color: var(--bs-danger);
+    border-color :var(--bs-danger);
+}
 
