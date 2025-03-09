@@ -6,6 +6,10 @@ import jakarta.validation.constraints.Size;
 
 public class RegisterDTO {
 
+    @NotBlank(message = "Full name is required.")
+    @Size(min = 2, max = 50, message = "Full name must be between 2 and 50 symbols.")
+    private String fullName;
+
     @NotBlank(message = "Username is required.")
     @Size(min = 2, max = 20, message = "Username must be between 2 and 20 symbols.")
     private String username;
@@ -25,7 +29,16 @@ public class RegisterDTO {
 
     public RegisterDTO(){}
 
-    public RegisterDTO(String username, String phoneNumber, String emailAddress, String password) {
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public RegisterDTO(String fullName, String username, String phoneNumber, String emailAddress, String password) {
+        this.fullName = fullName;
         this.username = username;
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;

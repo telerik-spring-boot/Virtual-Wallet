@@ -6,7 +6,7 @@
 <main class="container-fluid px-0">
 	<!-- start: page menu link -->
 	<div th:replace="~{fragments/general-fragments :: sidebar}"></div>
-	<div class="content card">
+	<div class="content">
 		<!-- start: page header -->
 		<div th:replace="~{fragments/general-fragments :: main-header('Admin Panel')}"></div>
 		<!-- start: page header area -->
@@ -133,7 +133,7 @@
 		<div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
 			<div class="row">
 				<div class="col-12">
-					<div class="border p-4 rounded-2 rounded-4">
+					<div class="border p-4 rounded-2 rounded-4 card">
 						<div
 								class="calendar-tab pb-4"
 								style="--dynamic-color: var(--primary-color)"
@@ -772,7 +772,7 @@
 
 <script src="../static/bundles/dataTables.bundle.js" th:src="@{/bundles/dataTables.bundle.js}"></script>
 
-<link href="../static/vendor/dataTables.min.css" rel="stylesheet" th:href="@{/vendor/dataTables.min.css}"/>
+<link href="../static/vendor/dataTables.css" rel="stylesheet" th:href="@{/vendor/dataTables.css}"/>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {

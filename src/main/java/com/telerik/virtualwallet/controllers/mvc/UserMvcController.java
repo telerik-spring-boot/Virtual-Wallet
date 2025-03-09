@@ -67,15 +67,6 @@ public class UserMvcController {
         return "profile";
     }
 
-    @GetMapping("/login")
-    public String getLogin(){
-        return "login";
-    }
-
-    @GetMapping("/register")
-    public String getRegister(){
-        return "register";
-    }
 
     @GetMapping("/stocks")
     public String getStocks(){

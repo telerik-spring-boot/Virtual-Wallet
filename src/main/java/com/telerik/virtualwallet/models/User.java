@@ -17,6 +17,9 @@ public class User {
     @Column(name = "user_id")
     private int id;
 
+    @Column(name="full_name")
+    private String fullName;
+
     @Column(name="username")
     private String username;
 
@@ -63,9 +66,10 @@ public class User {
     public User() {
     }
 
-    public User(int id, String username, String email, String password, String phoneNumber, Set<Wallet> wallets, List<Role> roles, Verification verification, boolean isBlocked) {
+    public User(int id, String fullName, String username, String email, String password, String phoneNumber, Set<Wallet> wallets, List<Role> roles, Verification verification, boolean isBlocked) {
         this.id = id;
         this.username = username;
+        this.fullName=fullName;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -169,5 +173,13 @@ public class User {
 
     public void sellStock(Stock stock){
         this.stocks.remove(stock);
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }

@@ -25,6 +25,7 @@ public class UserMapper {
     public User dtoToUser(RegisterDTO dto) {
         User user = new User();
 
+        user.setFullName(dto.getFullName());
         user.setUsername(dto.getUsername());
         user.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
         user.setEmail(dto.getEmailAddress());
