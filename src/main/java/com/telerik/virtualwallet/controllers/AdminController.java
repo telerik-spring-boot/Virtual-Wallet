@@ -5,15 +5,19 @@ import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.Transaction;
+import com.telerik.virtualwallet.models.Transfer;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransferDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayDTO;
 import com.telerik.virtualwallet.models.filters.FilterTransactionsOptions;
+import com.telerik.virtualwallet.models.filters.FilterTransferOptions;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
 import com.telerik.virtualwallet.services.card.CardService;
 import com.telerik.virtualwallet.services.transaction.TransactionService;
+import com.telerik.virtualwallet.services.transaction.TransferService;
 import com.telerik.virtualwallet.services.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -33,16 +37,18 @@ public class AdminController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final TransactionService transactionService;
+    private final TransferService transferService;
     private final TransactionMapper transactionMapper;
     private final CardService cardService;
     private final CardMapper cardMapper;
 
 
-    public AdminController(AdminService adminService, UserService userService, UserMapper userMapper, TransactionService transactionService, TransactionMapper transactionMapper, CardService cardService, CardMapper cardMapper){
+    public AdminController(AdminService adminService, UserService userService, UserMapper userMapper, TransactionService transactionService, TransferService transferService, TransactionMapper transactionMapper, CardService cardService, CardMapper cardMapper){
         this.adminService = adminService;
         this.userService = userService;
         this.userMapper = userMapper;
         this.transactionService = transactionService;
+        this.transferService = transferService;
         this.transactionMapper = transactionMapper;
         this.cardService = cardService;
         this.cardMapper = cardMapper;
@@ -93,6 +99,18 @@ public class AdminController {
                 .map(transactionMapper::transactionToTransactionDisplayDTO)
                 .toList();
         return ResponseEntity.ok(new PageImpl<>(transactionDisplayDTOs, pageable, transactions.getTotalElements()));
+    }
+
+    @GetMapping("/transfers")
+    public ResponseEntity<Page<TransferDisplayDTO>> getAllTransfers(FilterTransferOptions filterOptions,
+                                                                    @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<Transfer> transfers = transferService.getAllTransfers(filterOptions, pageable);
+
+        List<TransferDisplayDTO> transferDisplayDTOs = transfers.getContent().stream()
+                .map(transactionMapper::transferToTransferDisplayDTO)
+                .toList();
+        return ResponseEntity.ok(new PageImpl<>(transferDisplayDTOs, pageable, transfers.getTotalElements()));
     }
 
     @GetMapping("/cards")

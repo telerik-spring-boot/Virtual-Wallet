@@ -99,21 +99,21 @@ public class TransactionServiceImpl implements TransactionService {
 
     }
 
-    private void pageableHelper(Pageable pageable) {
+    public static void pageableHelper(Pageable pageable) {
         Sort.Order sortOrder = pageable.getSort().iterator().next();
 
         validateSortByFieldTransaction(sortOrder.getProperty());
         validateSortOrderField(sortOrder.getDirection().name());
     }
 
-    private void validateSortByFieldTransaction(String type) {
+    public static void validateSortByFieldTransaction(String type) {
         if (!type.equalsIgnoreCase("createdAt") &&
                 !type.equalsIgnoreCase("amount")) {
             throw new InvalidSortParameterException(type);
         }
     }
 
-    public void validateSortOrderField(String type) {
+    public static void validateSortOrderField(String type) {
         if (!type.equalsIgnoreCase("asc") && !type.equalsIgnoreCase("desc")) {
             throw new InvalidSortParameterException(type);
         }

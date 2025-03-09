@@ -3,13 +3,17 @@ package com.telerik.virtualwallet.controllers;
 import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.WalletMapper;
 import com.telerik.virtualwallet.models.Transaction;
+import com.telerik.virtualwallet.models.Transfer;
 import com.telerik.virtualwallet.models.Wallet;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransferDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.CardTransferCreateDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletPrivateDisplayDTO;
 import com.telerik.virtualwallet.models.filters.FilterTransactionsOptions;
+import com.telerik.virtualwallet.models.filters.FilterTransferOptions;
 import com.telerik.virtualwallet.services.security.WalletSecurityService;
 import com.telerik.virtualwallet.services.transaction.TransactionService;
+import com.telerik.virtualwallet.services.transaction.TransferService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,16 +37,18 @@ public class WalletController {
     private final WalletMapper walletMapper;
     private final TransactionMapper transactionMapper;
     private final TransactionService transactionService;
+    private final TransferService transferService;
     private final WalletSecurityService walletSecurityService;
 
 
     @Autowired
-    public WalletController(WalletService walletService, WalletMapper walletMapper, TransactionMapper transactionMapper, TransactionService transactionService, WalletSecurityService walletSecurityService) {
+    public WalletController(WalletService walletService, WalletMapper walletMapper, TransactionMapper transactionMapper, TransactionService transactionService, TransferService transferService, WalletSecurityService walletSecurityService) {
         this.walletService = walletService;
         this.walletMapper = walletMapper;
 
         this.transactionMapper = transactionMapper;
         this.transactionService = transactionService;
+        this.transferService = transferService;
         this.walletSecurityService = walletSecurityService;
     }
 
@@ -76,6 +82,20 @@ public class WalletController {
                 .map(transactionMapper::transactionToTransactionDisplayDTO)
                 .toList();
         return ResponseEntity.ok(new PageImpl<>(transactionDisplayDTOs, pageable, transactions.getTotalElements()));
+
+    }
+
+    @GetMapping("/{walletId}/transfers")
+    @PreAuthorize("hasRole('ADMIN') OR @walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    public ResponseEntity<Page<TransferDisplayDTO>> getAllTransfersByWalletId(@PathVariable int walletId, FilterTransferOptions filterOptions,
+                                                                              @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<Transfer> transfers = transferService.getAllTransfersByWalletId(filterOptions, pageable, walletId);
+
+        List<TransferDisplayDTO> transferDisplayDTOs = transfers.getContent().stream()
+                .map(transactionMapper::transferToTransferDisplayDTO)
+                .toList();
+        return ResponseEntity.ok(new PageImpl<>(transferDisplayDTOs, pageable, transfers.getTotalElements()));
 
     }
 

@@ -2,22 +2,22 @@ package com.telerik.virtualwallet.controllers;
 
 
 import com.telerik.virtualwallet.helpers.*;
-import com.telerik.virtualwallet.models.Card;
-import com.telerik.virtualwallet.models.Transaction;
-import com.telerik.virtualwallet.models.User;
-import com.telerik.virtualwallet.models.Wallet;
+import com.telerik.virtualwallet.models.*;
 import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.stock.StockDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransferDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayForTransactionsDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateDTO;
 import com.telerik.virtualwallet.models.filters.FilterTransactionsOptions;
+import com.telerik.virtualwallet.models.filters.FilterTransferOptions;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.services.admin.AdminService;
 import com.telerik.virtualwallet.services.card.CardService;
 import com.telerik.virtualwallet.services.transaction.TransactionService;
+import com.telerik.virtualwallet.services.transaction.TransferService;
 import com.telerik.virtualwallet.services.user.UserService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
 import jakarta.validation.Valid;
@@ -45,12 +45,13 @@ public class UserController {
     private final WalletService walletService;
     private final WalletMapper walletMapper;
     private final TransactionService transactionService;
+    private final TransferService transferService;
     private final TransactionMapper transactionMapper;
     private final CardService cardService;
     private final CardMapper cardMapper;
 
 
-    public UserController(UserService userService, UserMapper userMapper, AdminService adminService, StockMapper stockMapper, WalletService walletService, WalletMapper walletMapper, TransactionService transactionService, TransactionMapper transactionMapper, CardService cardService, CardMapper cardMapper) {
+    public UserController(UserService userService, UserMapper userMapper, AdminService adminService, StockMapper stockMapper, WalletService walletService, WalletMapper walletMapper, TransactionService transactionService, TransferService transferService, TransactionMapper transactionMapper, CardService cardService, CardMapper cardMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.adminService = adminService;
@@ -58,6 +59,7 @@ public class UserController {
         this.walletService = walletService;
         this.walletMapper = walletMapper;
         this.transactionService = transactionService;
+        this.transferService = transferService;
         this.transactionMapper = transactionMapper;
         this.cardService = cardService;
         this.cardMapper = cardMapper;
@@ -150,6 +152,22 @@ public class UserController {
         return ResponseEntity.ok(new PageImpl<>(transactionDisplayDTOs, pageable, transactions.getTotalElements()));
 
     }
+
+    @GetMapping("/{username}/transactions")
+    @PreAuthorize("hasRole('ADMIN') OR #username == authentication.name")
+    public ResponseEntity<Page<TransferDisplayDTO>> getAllTransfersByUsername(@PathVariable String username, FilterTransferOptions filterOptions,
+                                                                                 @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<Transfer> transfers = transferService.getAllTransfersByUsername(filterOptions, pageable, username);
+
+        List<TransferDisplayDTO> transferDisplayDTOs = transfers.getContent().stream()
+                .map(transactionMapper::transferToTransferDisplayDTO)
+                .toList();
+        return ResponseEntity.ok(new PageImpl<>(transferDisplayDTOs, pageable, transfers.getTotalElements()));
+
+    }
+
+
 
     @GetMapping("/{username}/cards")
     @PreAuthorize("hasRole('ADMIN') OR #username == authentication.name")

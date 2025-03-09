@@ -16,4 +16,6 @@ public interface TransferRepository {
     Transfer getTransferById(int id);
 
     void createTransfer(Transfer transfer);
+
+    boolean isUserTransferReceiver(int transferId, String username);
 }

@@ -71,6 +71,27 @@ public class TransferRepositoryImpl implements TransferRepository {
 
     }
 
+    @Override
+    public boolean isUserTransferReceiver(int transferId, String username) {
+
+        try (Session session = sessionFactory.openSession()) {
+            Query<Long> query = session.createQuery
+                    ("SELECT COUNT(t) FROM Transfer t " +
+                                    "JOIN t.receiverWallet.users r " +
+                                    "WHERE t.id=:transferId " +
+                                    "AND r.username = :username",
+                            Long.class);
+
+            query.setParameter("transferId", transferId);
+            query.setParameter("username", username);
+
+            Long count = query.uniqueResult();
+
+            return count > 0;
+
+        }
+    }
+
     private PageImpl<Transfer> getTransfersWithFiltersHelper(FilterTransferOptions options, Pageable pageable,
                                                              int walletId, String username) {
         try (Session session = sessionFactory.openSession()) {
