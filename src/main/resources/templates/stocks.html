@@ -554,10 +554,10 @@
 							</td>
 							<td class="border">
 								<div class="d-flex">
-									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn" title="Buy">
 										Buy
 									</button>
-									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+									<button type="button" class="btn btn-outline-danger flex-fill btn-toggle red-btn" title="Sell">
 										Sell
 									</button>
 								</div>
@@ -598,10 +598,10 @@
 							</td>
 							<td class="border">
 								<div class="d-flex">
-									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn" title="Buy">
 										Buy
 									</button>
-									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+									<button type="button" class="btn btn-outline-danger flex-fill btn-toggle btn-red" title="Sell">
 										Sell
 									</button>
 								</div>
@@ -642,10 +642,10 @@
 							</td>
 							<td class="border">
 								<div class="d-flex">
-									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn" title="Buy">
 										Buy
 									</button>
-									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+									<button type="button" class="btn btn-outline-danger flex-fill btn-toggle red-btn" title="Sell">
 										Sell
 									</button>
 								</div>
@@ -686,10 +686,10 @@
 							</td>
 							<td class="border">
 								<div class="d-flex">
-									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn" title="Buy">
 										Buy
 									</button>
-									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+									<button type="button" class="btn btn-outline-danger flex-fill btn-toggle red-btn" title="Sell">
 										Sell
 									</button>
 								</div>
@@ -730,10 +730,10 @@
 							</td>
 							<td class="border">
 								<div class="d-flex">
-									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn" title="Buy">
 										Buy
 									</button>
-									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+									<button type="button" class="btn btn-outline-danger flex-fill btn-toggle red-btn" title="Sell">
 										Sell
 									</button>
 								</div>
@@ -774,11 +774,10 @@
 							</td>
 							<td class="border">
 								<div class="d-flex">
-									<button type="button" class="btn btn-outline-primary flex-fill me-2" title="Buy"
-									        onclick="this.classList.toggle('active')">
+									<button type="button" class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn" title="Buy">
 										Buy
 									</button>
-									<button type="button" class="btn btn-outline-danger flex-fill" title="Sell">
+									<button type="button" class="btn btn-outline-danger flex-fill btn-toggle red-btn" title="Sell">
 										Sell
 									</button>
 								</div>
@@ -1284,6 +1283,28 @@
         );
 
         chart.render();
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.btn-toggle');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
+                } else {
+                    const row = this.closest('tr');
+
+                    const rowButtons = row.querySelectorAll('.btn-toggle');
+
+                    rowButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    this.classList.add('active');
+                }
+            });
+        });
     });
 </script>
 </body>

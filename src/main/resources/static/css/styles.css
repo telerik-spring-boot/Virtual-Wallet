@@ -20696,3 +20696,13 @@ input[type=number] {
     outline: none;
 }
 
+.btn-toggle.active.green-btn {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-toggle.active.red-btn {
+    background-color: var(--bs-danger);
+    border-color :var(--bs-danger);
+}
+
