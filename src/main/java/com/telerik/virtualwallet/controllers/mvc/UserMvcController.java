@@ -62,10 +62,6 @@ public class UserMvcController {
         return "transaction";
     }
 
-    @GetMapping("/profile")
-    public String getProfile(){
-        return "profile";
-    }
 
 
     @GetMapping("/stocks")

@@ -439,32 +439,17 @@
 		<div class="row g-0 align-items-center mt-2">
 			<div class="col text-truncate">
 				<div class="d-flex align-items-center profile">
+					<a href="#" title=""  th:href="@{/users/settings}">
 					<img
 							src="../../static/images/profile_av.png"
 							th:src="@{/images/profile_av.png}"
 							alt="Avatar"
 							class="rounded-circle avatar"
 					/>
+					</a>
 					<div class="ms-3 profile-text">
-						<a href="#" title="" class="small">Kevin Gill</a>
+						<p class="small mb-0">Kevin Gill</p>
 						<p class="mb-0 small">kevin.gill@gmail.com</p>
-					</div>
-				</div>
-			</div>
-			<!-- Dropdown -->
-			<div class="col-auto">
-				<div class="dropdown dropstart">
-					<a
-							href="#"
-							class="btn btn-link btn-sm dropdown-toggle"
-							role="button"
-							data-bs-toggle="dropdown"
-							aria-haspopup="true"
-							data-expanded="false"
-							aria-expanded="false"
-					></a>
-					<div class="dropdown-menu">
-						<a href="profile.html" class="dropdown-item" th:href="@{/users/profile}" >profile</a>
 					</div>
 				</div>
 			</div>
