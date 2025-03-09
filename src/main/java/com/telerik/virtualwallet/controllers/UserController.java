@@ -153,7 +153,7 @@ public class UserController {
 
     }
 
-    @GetMapping("/{username}/transactions")
+    @GetMapping("/{username}/transfers")
     @PreAuthorize("hasRole('ADMIN') OR #username == authentication.name")
     public ResponseEntity<Page<TransferDisplayDTO>> getAllTransfersByUsername(@PathVariable String username, FilterTransferOptions filterOptions,
                                                                                  @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
