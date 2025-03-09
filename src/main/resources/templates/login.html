@@ -4,7 +4,7 @@
 <head th:replace="~{fragments/general-fragments :: head('YNPay :: Login')}"></head>
 
 <body data-theme="theme-AppleGreen" class="svgstroke-a">
-     <nav class="navbar navbar-expand-md position-fixed top-0 w-100 z-3 body-color ">
+     <nav class="navbar navbar-expand-md position-fixed top-0 w-100 body-color ">
           <div class="container-fluid">
                <a class="navbar-brand" href="index.html">
                     <img src="../static/images/favicon.ico" th:src="@{/images/favicon.ico}" alt="Logo" width="80" height="80"/>
@@ -132,10 +132,9 @@
           <!-- start: page menu link -->
           <div class="content">
                <!-- start: page body area -->
-               <div class="px-xl-5 px-lg-4 px-3 py-3 page-body my-2 py-2">
-                    <div style="height: 90vh;" class="row justify-content-center align-items-center">
-                         <div class="col-xl-4 col-lg-5 col-md-7">
-                              <div class="card">
+               <div class="row justify-content-center align-items-center my-5 py-5">
+                    <div class=" col-lg-5 col-xl-4 col-7 mt-5">
+                         <div class="card ">
                                    <div class="card-body">
                                         <div class="d-flex flex-column align-items-center ">
                                              <div class="no-thumbnail rounded-circle border bg-light p-2">
@@ -149,9 +148,9 @@
 
                                                   </div>
                                              </div>
-                                             <div class="mt-3 ">
-                                                  <h6 class="text-capitalize text-center fw-bold">Sign in to your account
-                                                  </h6>
+                                             <div class="mt-3 text-center ">
+                                                  <h4 class="text-capitalize text-center fw-bold">Sign in to your account
+                                                  </h4>
                                                   <span class="text-muted text-capitalize">Please enter your credentials below</span>
                                              </div>
                                              <div class="mt-3 w-100">
@@ -227,7 +226,7 @@
                                                                            for="flexCheckDefault">Remember Me</label>
                                                                  </div>
                                                                  <a href="forgot.html"
-                                                                      class=" nav-link text-decoration-underline text-reverse fw-semibold text-capitalize">forgot
+                                                                      class=" nav-link text-decoration-underline text-reverse fw-semibold text-capitalize" th:href="@{/auth/forgot}">forgot
                                                                       password</a>
                                                             </div>
                                                             <!-- Button -->
@@ -242,7 +241,7 @@
                               </div>
                          </div>
                     </div>
-               </div>
+<!--               </div>-->
           </div>
      </main>
      <footer class="w-100 bg-body position-fixed bottom-0">

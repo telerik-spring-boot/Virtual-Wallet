@@ -18,4 +18,7 @@ public class AnonymousMvcController {
     public String getRegister(){
         return "register";
     }
+
+    @GetMapping("/forgot")
+    public String getForgotPassword() { return "forgot";}
 }
