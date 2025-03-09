@@ -1,11 +1,10 @@
 package com.telerik.virtualwallet.helpers;
 
-import com.telerik.virtualwallet.models.Transaction;
-import com.telerik.virtualwallet.models.TransactionCategory;
-import com.telerik.virtualwallet.models.User;
-import com.telerik.virtualwallet.models.Wallet;
+import com.telerik.virtualwallet.models.*;
+import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionCreateDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransferDisplayDTO;
 import com.telerik.virtualwallet.services.transactionCategory.TransactionCategoryService;
 import com.telerik.virtualwallet.services.user.UserService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
@@ -20,12 +19,14 @@ public class TransactionMapper {
     private final UserService userService;
     private final WalletService walletService;
     private final TransactionCategoryService transactionCategoryService;
+    private final CardMapper cardMapper;
 
     @Autowired
-    public TransactionMapper(UserService userService, WalletService walletService, TransactionCategoryService transactionCategoryService) {
+    public TransactionMapper(UserService userService, WalletService walletService, TransactionCategoryService transactionCategoryService, CardMapper cardMapper) {
         this.userService = userService;
         this.walletService = walletService;
         this.transactionCategoryService = transactionCategoryService;
+        this.cardMapper = cardMapper;
     }
 
     public TransactionDisplayDTO transactionToTransactionDisplayDTO(Transaction transaction) {
@@ -72,5 +73,23 @@ public class TransactionMapper {
 
         return transaction;
 
+    }
+
+    public TransferDisplayDTO transferToTransferDisplayDTO(Transfer transfer) {
+        TransferDisplayDTO transferDisplayDTO = new TransferDisplayDTO();
+
+        transferDisplayDTO.setTransferTime(transfer.getCreatedAt());
+        transferDisplayDTO.setAmount(transfer.getAmount());
+
+        CardDisplayDTO cardDisplayDTO = cardMapper.cardToCardDisplayDTO(transfer.getSenderCard());
+        transferDisplayDTO.setCardNumber(cardDisplayDTO.getCardNumber());
+
+        List<String> walletHoldersUsernames = transfer.getReceiverWallet().getUsers().stream()
+                .map(User::getUsername)
+                .toList();
+
+        transferDisplayDTO.setReceiverWalletHolders(walletHoldersUsernames);
+
+        return transferDisplayDTO;
     }
 }
