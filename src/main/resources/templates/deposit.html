@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments/general-fragments :: head('YNPay :: Save Card')}"></head>
+<head th:replace="~{fragments/general-fragments :: head('YNPay :: Deposit')}"></head>
 
 <body data-theme="theme-AppleGreen" class="svgstroke-a ">
 <nav class="navbar navbar-expand-md position-fixed top-0 w-100 body-color ">
@@ -107,7 +107,7 @@
                                 </div>
                             </div>
                             <div class="mt-3 text-center ">
-                                <h4 class="text-capitalize text-center fw-bold">Add new credit or debit card</h4>
+                                <h4 class="text-capitalize text-center fw-bold">Make a deposit to your wallet</h4>
                                 <span class="text-muted text-capitalize text-center"
                                       style="text-transform:none!important;">Please enter card details below</span>
                             </div>
@@ -116,83 +116,62 @@
                                     <fieldset>
                                         <!-- Card Holder-->
                                         <div class="mb-3">
-                                            <label for="cardHolderName" class="form-label"
-                                            >Card Holder</label
+                                            <label for="amount" class="form-label"
+                                            >Amount (USD)</label
                                             >
                                             <div class="input-group form-control p-0">
 
                                                 <input
                                                         type="text"
                                                         class="form-control border-0 remove-pseudo"
-                                                        id="cardHolderName"
+                                                        id="amount"
                                                         required=""
-                                                        oninput="this.value = this.value.replace(/[^a-zA-Z\s\-']/g, '')"
+                                                        maxlength="8"
+                                                        oninput="this.value = validateAmount(this.value)"
                                                 >
                                             </div>
                                         </div>
+                                        <script>
+                                            function validateAmount(value) {
+                                                // Remove non-numeric and non-dot characters
+                                                value = value.replace(/[^0-9.]/g, '');
+
+                                                // Ensure there's only one decimal point
+                                                let parts = value.split('.');
+                                                if (parts.length > 2) {
+                                                    value = parts[0] + '.' + parts.slice(1).join('');
+                                                }
+
+                                                // Limit to 8 digits before the decimal and 2 after
+                                                value = value.match(/^(\d{0,5})(\.\d{0,2})?/);
+
+                                                return value ? value[0] : "";
+                                            }
+
+                                        </script>
+
+
                                         <!-- Card Number-->
                                         <div class="mb-3">
-                                            <label for="number" class="form-label"
-                                            >Card Number</label
-                                            >
+                                            <label for="number" class="form-label" >Select Card</label>
                                             <div class="input-group form-control p-0">
-
-                                                <input
-                                                        type="text"
-                                                        class="form-control border-0 remove-pseudo"
-                                                        id="number"
-                                                        required=""
-                                                        maxlength="16"
-                                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-
+                                                <select class="form-control border-0 remove-pseudo" id="number"  name="cardNumber" required>
+                                                    <option value="4111111111111111">Visa - 4111 1111 1111 1111</option>
+                                                    <option value="5500000000000004">MasterCard - 5500 0000 0000 0004</option>
+                                                    <option value="340000000000009">Amex - 3400 0000 0000 009</option>
+                                                </select>
                                             </div>
                                         </div>
-                                        <!--=== email ===-->
-                                        <div class="mb-3">
 
-                                            <div class="row, d-flex justify-content-between">
-
-                                                <div class="col-md-8">
-                                                    <label for="exDate" class="form-label">Expiry Date</label>
-                                                    <div class="row, d-flex justify-content-start g-0">
-                                                        <div class="col-md-4 pe-3">
-                                                            <input type="text" class="form-control" id="exDate"
-                                                                   placeholder=""
-                                                                   maxlength="2"
-                                                                   oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                                        </div>
-                                                        <div class="col-md-0 pe-3 d-flex align-items-center justify-content-center">
-                                                            <div class=" text-center" >
-                                                                /
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 pe-3">
-                                                            <input type="text" class="form-control"
-                                                                   placeholder=""
-                                                                   maxlength="2"
-                                                                   oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="col-md-2">
-                                                    <label for="cvv" class="form-label">CVV</label>
-                                                    <input type="text" class="form-control"
-                                                           id="cvv" required=""
-                                                           maxlength="3"
-                                                           oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-
-                                                </div>
-
-
-                                            </div>
-                                        </div>
 
                                         <!-- Button -->
                                         <div class="form-group">
-                                            <a href="sign-in.html" class="btn btn-dark w-100">Save Card
-                                                </a>
+                                            <a th:href="@{/users/card-add}" href="card-add.html" class="btn btn-dark w-100">Use a new card
+                                            </a>
+                                        </div>
+                                        <div class="form-group">
+                                            <a href="sign-in.html" class="btn btn-dark w-100">Confirm transaction
+                                            </a>
                                         </div>
                                         <div class="text-center mt-2">
                                             <span class="text-muted">By saving card, you agree to our Terms and Conditions.</span>
