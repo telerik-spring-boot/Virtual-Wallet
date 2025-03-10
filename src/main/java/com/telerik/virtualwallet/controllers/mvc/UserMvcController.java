@@ -62,6 +62,11 @@ public class UserMvcController {
         return "transaction";
     }
 
+    @GetMapping("/card-add")
+    public String addCard(){
+        return "card-add";
+    }
+
 
 
     @GetMapping("/stocks")
