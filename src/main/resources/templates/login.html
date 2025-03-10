@@ -243,6 +243,45 @@
                     </div>
 <!--               </div>-->
           </div>
+          <div aria-hidden="true" aria-labelledby="successModalLabel" class="modal fade" id="successModal"
+               tabindex="-1">
+               <div class="modal-dialog">
+                    <div class="modal-content">
+                         <div class="modal-header">
+                              <h5 class="modal-title" id="successModalLabel">Success</h5>
+                              <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                         </div>
+                         <div class="modal-body">
+                              <span th:if="${changeSuccess}" th:text="#{change-password.success}"  style="text-transform: none;"> </span>
+                              <span th:if="${emailSuccess}" th:text="#{email-verification.success}"  style="text-transform: none;"> </span>
+                              <span th:if="${registerSuccess}" th:text="#{register.success}"  style="text-transform: none;"> </span>
+                              <span th:if="${successfulDeletion}"  th:text="#{user.delete.success}"  style="text-transform: none;"> </span>
+                         </div>
+                         <div class="modal-footer">
+                              <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                         </div>
+                    </div>
+               </div>
+          </div>
+
+
+          <div aria-hidden="true" aria-labelledby="successModalLabel" class="modal fade" id="failureModal"
+               tabindex="-1">
+               <div class="modal-dialog">
+                    <div class="modal-content">
+                         <div class="modal-header">
+                              <h5 class="modal-title" id="failureModalLabel">Failure</h5>
+                              <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                         </div>
+                         <div class="modal-body">
+                              <span th:if="${emailFail}" th:text="#{email-verification.failure}"  style="text-transform: none;"> </span>
+                         </div>
+                         <div class="modal-footer">
+                              <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                         </div>
+                    </div>
+               </div>
+          </div>
      </main>
      <footer class="w-100 bg-body position-fixed bottom-0">
           <div class="container-fluid">
@@ -256,6 +295,23 @@
           </div>
      </footer>
 
+
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" th:src="'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js'"></script>
+
+     <script th:if="${registerSuccess}" type="text/javascript">
+          var modal = new bootstrap.Modal(document.getElementById('successModal'));
+          modal.show();
+     </script>
+
+     <script th:if="${emailSuccess}" type="text/javascript">
+          var modal = new bootstrap.Modal(document.getElementById('successModal'));
+          modal.show();
+     </script>
+
+     <script th:if="${emailFail}" type="text/javascript">
+          var modal = new bootstrap.Modal(document.getElementById('failureModal'));
+          modal.show();
+     </script>
 
      <th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
 </body>

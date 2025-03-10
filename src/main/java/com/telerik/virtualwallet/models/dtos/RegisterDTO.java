@@ -7,11 +7,12 @@ import jakarta.validation.constraints.Size;
 public class RegisterDTO {
 
     @NotBlank(message = "Full name is required.")
-    @Size(min = 2, max = 50, message = "Full name must be between 2 and 50 symbols.")
+    @Size(min=2, max =20, message = "Full name must be between 2 and 20 characters.")
+    @Pattern(regexp = "^[A-Za-z]+( [A-Za-z]+)*$", message = "Full name must contain only letters and spaces (one space between each word).")
     private String fullName;
 
     @NotBlank(message = "Username is required.")
-    @Size(min = 2, max = 20, message = "Username must be between 2 and 20 symbols.")
+    @Pattern(regexp= "^[^ ]{2,20}$", message = "Username must be between 2 and 20 characters long and cannot contain spaces.")
     private String username;
 
     @NotBlank(message = "Password is required.")

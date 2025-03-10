@@ -117,12 +117,15 @@ public class UserServiceImpl implements UserService{
     public void create(User user) {
         List<User> dbUsers = userRepository.getByAnyUniqueField(user.getUsername(), user.getEmail(), user.getPhoneNumber());
 
-        setDefaultVerification(user);
-        setDefaultWallet(user);
 
         if(!dbUsers.isEmpty()){
             appropriateThrow(user, dbUsers.get(0));
         }
+
+
+        setDefaultVerification(user);
+        setDefaultWallet(user);
+
 
         userRepository.create(user);
     }
@@ -188,7 +191,6 @@ public class UserServiceImpl implements UserService{
         Wallet wallet = new Wallet();
 
         wallet.setBalance(BigDecimal.ZERO);
-        wallet.getUsers().add(user);
         wallet.setCurrency(Currency.USD);
 
         user.getWallets().add(wallet);
