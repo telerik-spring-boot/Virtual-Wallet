@@ -1020,7 +1020,7 @@
 				<small class="text-muted mb-1">Verification</small>
 				<div class="d-flex">
 					<div class="h6 align-self-end"> Not Verified </div>
-					<button class="ms-auto btn btn-outline-primary"> Verify </button>
+					<button class="ms-auto btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verifyModal"> Verify </button>
 				</div>
 			</div>
 
@@ -1049,7 +1049,43 @@
 		</div>
 	</div>
 </div>
-<!-- start: exchange rate -->
+
+<!-- Verify Modal -->
+<div class="modal fade" id="verifyModal" tabindex="-1" aria-labelledby="verifyModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="verifyModalLabel">Verify Identity</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form class="text-center d-flex flex-column gap-3" enctype="multipart/form-data" method="post">
+					<div class="row">
+						<div class="col-6 d-flex flex-column justify-content-between align-items-center">
+							<div>
+								<img id="preview1" src="../static/images/gallery/idExample.jpg"
+								     th:src="@{/images/gallery/idExample.jpg}" class="img-thumbnail mb-3"
+								     alt="Preview Selfie"/>
+							</div>
+						</div>
+						<div class="col-6 d-flex flex-column justify-content-between align-items-center">
+							<div>
+								<img id="preview2" src="../static/images/gallery/selfieExample.png"
+								     th:src="@{/images/gallery/selfieExample.png}" class="img-thumbnail mb-3"
+								     alt="Preview ID"/>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button"  class="btn btn-primary  " >Approve</button>
+
+				<button type="button" class="btn btn-danger  " >Reject</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <div th:replace="~{fragments/general-fragments :: exchange-rate}"></div>
 
