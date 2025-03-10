@@ -20706,3 +20706,9 @@ input[type=number] {
     border-color :var(--bs-danger);
 }
 
+#transfersTab.active {
+    background-color: var(--bs-info);
+    border-color :var(--bs-info);
+}
+/*ssssssssssssssssssssss*/
+
