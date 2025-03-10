@@ -273,7 +273,8 @@
 						<a class="dropdown-toggle gray-6" href="#" id="bd-theme-two"
 						   data-bs-toggle="dropdown" aria-expanded="false">
 
-							<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+							<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+							     fill="none"
 							     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 								<circle cx="12" cy="6" r="4"/>
 
@@ -284,7 +285,9 @@
 						    aria-labelledby="bd-theme-two">
 							<li class="mb-1" th:if="${#authentication != null}">
 								<a class="dropdown-item rounded-pill" href="settings.html" th:href="@{/users/settings}">
-									<svg class="avatar xs me-2 opacity-50 theme-icon" xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+									<svg class="avatar xs me-2 opacity-50 theme-icon" xmlns="http://www.w3.org/2000/svg"
+									     width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+									     stroke-linecap="round" stroke-linejoin="round">
 										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
 										<path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"></path>
 										<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
@@ -294,8 +297,10 @@
 							</li>
 							<li class="mb-1" th:if="${#authentication != null}">
 								<a class="dropdown-item rounded-pill" href="#" th:href="@{/auth/logout}">
-									<svg class="avatar xs me-2 opacity-50 theme-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-									     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<svg class="avatar xs me-2 opacity-50 theme-icon" xmlns="http://www.w3.org/2000/svg"
+									     width="24" height="24" viewBox="0 0 24 24" fill="none"
+									     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+									     stroke-linejoin="round">
 										<path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"/>
 										<polyline points="14 17 9 12 14 7"/>
 										<line x1="9" y1="12" x2="21" y2="12"/>
@@ -305,8 +310,10 @@
 							</li>
 							<li class="mb-1" th:if="${#authentication == null}">
 								<a class="dropdown-item rounded-pill" href="login.html" th:href="@{/auth/login}">
-									<svg class="avatar xs me-2 opacity-50 theme-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-									     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<svg class="avatar xs me-2 opacity-50 theme-icon" xmlns="http://www.w3.org/2000/svg"
+									     width="24" height="24" viewBox="0 0 24 24" fill="none"
+									     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+									     stroke-linejoin="round">
 										<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
 										<polyline points="10 17 15 12 10 7"/>
 										<line x1="15" y1="12" x2="3" y2="12"/>
@@ -471,9 +478,20 @@
 												<td class="text-end align-content-center">12345678</td>
 											</tr>
 											<tr style="height:55px!important;">
-												<th class="align-content-center"> Status</th>
-												<td class="text-end align-content-center"> Verified</td>
+												<th class="align-content-center"> Verification</th>
+												<td class="text-end align-content-center">
+													<button class="btn btn-outline-primary" data-bs-toggle="modal"
+													        data-bs-target="#verifyModal">Verify
+													</button>
+												</td>
+												<td class="text-end align-content-center d-none"> Verified</td>
 											</tr>
+
+											<tr style="height:55px!important;">
+												<th class="align-content-center"> Status</th>
+												<td class="text-end align-content-center"> Active</td>
+											</tr>
+
 											<tr>
 												<th class="align-content-center"> Password</th>
 												<td class="text-end align-content-center ">
@@ -595,12 +613,88 @@
 	</div>
 </div>
 
+<!-- Verify Modal -->
+<div class="modal fade" id="verifyModal" tabindex="-1" aria-labelledby="verifyModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="verifyModalLabel">Verify Identity</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form class="text-center d-flex flex-column gap-3" enctype="multipart/form-data" method="post">
+					<div class="row">
+						<div class="col-6 d-flex flex-column justify-content-between align-items-center">
+							<div>
+								<img id="preview1" src="../static/images/gallery/idExample.jpg"
+								     th:src="@{/images/gallery/idExample.jpg}" class="img-thumbnail mb-3"
+								     alt="Preview Selfie"/>
+							</div>
+							<label for="picture1" class="btn btn-secondary" >Upload ID</label>
+							<input accept="image/jpeg, image/png, image/gif, image/bmp, image/webp"
+							       id="picture1"
+							       class="d-none"
+							       name="idCard"
+							       type="file"
+							       onchange="updatePreview(event, 'preview1'); checkFiles();"/>
+
+						</div>
+						<div class="col-6 d-flex flex-column justify-content-between align-items-center">
+							<div>
+								<img id="preview2" src="../static/images/gallery/selfieExample.png"
+								     th:src="@{/images/gallery/selfieExample.png}" class="img-thumbnail mb-3"
+								     alt="Preview ID"/>
+							</div>
+
+							<label for="picture2" class="btn btn-secondary">Upload Selfie</label>
+							<input accept="image/jpeg, image/png, image/gif, image/bmp, image/webp"
+							       class="d-none"
+							       id="picture2"
+							       name="selfie"
+							       type="file"
+							       onchange="updatePreview(event, 'preview2'); checkFiles();"/>
+						</div>
+
+
+					</div>
+					<button type="submit" class="btn btn-primary mt-4" id="verifyBtn" disabled>Verify</button>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
 <script src="../static/bundles/dataTables.bundle.js" th:src="@{/bundles/dataTables.bundle.js}"></script>
 <script src="../static/bundles/sweetalert2.bundle.js" th:src="@{/bundles/sweetalert2.bundle.js}"></script>
+<script>
+    function updatePreview(event, previewId) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewImage = document.getElementById(previewId);
+                previewImage.src = e.target.result; // Update preview image
+            };
+            reader.readAsDataURL(file); // Read file as Data URL
+        }
+    }
 
+    function checkFiles() {
+        const picture1 = document.getElementById("picture1").files.length;
+        const picture2 = document.getElementById("picture2").files.length;
+        const verifyBtn = document.getElementById("verifyBtn");
 
-
+        if (picture1 > 0 && picture2 > 0) {
+            verifyBtn.disabled = false;
+        } else {
+            verifyBtn.disabled = true;
+        }
+    }
+</script>
 
 </body>
 
