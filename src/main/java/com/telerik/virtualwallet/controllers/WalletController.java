@@ -8,6 +8,7 @@ import com.telerik.virtualwallet.models.Wallet;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransferDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.CardTransferCreateDTO;
+import com.telerik.virtualwallet.models.dtos.wallet.WalletCreateDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletPrivateDisplayDTO;
 import com.telerik.virtualwallet.models.filters.FilterTransactionsOptions;
 import com.telerik.virtualwallet.models.filters.FilterTransferOptions;
@@ -113,6 +114,31 @@ public class WalletController {
     public ResponseEntity<WalletPrivateDisplayDTO> removeUserFromWallet(@PathVariable int walletId, @PathVariable int userId) {
 
         walletService.removeUserFromWallet(walletId, userId);
+        return ResponseEntity.ok(walletMapper.walletToPrivateDto(walletService.getWalletById(walletId)));
+
+    }
+
+    @PostMapping()
+    public ResponseEntity<WalletPrivateDisplayDTO> createWallet(@RequestBody WalletCreateDTO dto) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        Wallet wallet = walletMapper.createDtoToWallet(dto);
+        walletService.createAdditionalWallet(auth.getName(), wallet);
+
+        return ResponseEntity.ok(walletMapper.walletToPrivateDto(walletService.getWalletById(wallet.getId())));
+
+    }
+
+    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    @PutMapping("/{walletId}")
+    public ResponseEntity<WalletPrivateDisplayDTO> makeWalletMainWalletById(@PathVariable int walletId)
+    {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        walletService.makeWalletMainWalletById(walletId, auth.getName());
+
         return ResponseEntity.ok(walletMapper.walletToPrivateDto(walletService.getWalletById(walletId)));
 
     }

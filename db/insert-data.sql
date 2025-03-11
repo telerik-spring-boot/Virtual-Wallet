@@ -23,17 +23,17 @@ VALUES (1, 1),
        (10, 1);
 
 -- Insert Wallets
-INSERT INTO virtual_wallet.wallets (balance, currency)
-VALUES (500.00, 'USD'),
-       (1500.00, 'USD'),
-       (300.75, 'EUR'),
-       (780.50, 'GBP'),
-       (1250.30, 'USD'),
-       (60.00, 'EUR'),
-       (900.00, 'USD'),
-       (175.45, 'GBP'),
-       (420.80, 'USD'),
-       (999.99, 'USD');
+INSERT INTO virtual_wallet.wallets (balance, currency,is_main_wallet)
+VALUES (500.00, 'USD',true),
+       (1500.00, 'USD',true),
+       (300.75, 'EUR',true),
+       (780.50, 'GBP',true),
+       (1250.30, 'USD',true),
+       (60.00, 'EUR',true),
+       (900.00, 'USD',true),
+       (175.45, 'GBP',true),
+       (420.80, 'USD',true),
+       (999.99, 'USD',true);
 
 -- Assign Users to Wallets
 INSERT INTO virtual_wallet.users_wallets (wallet_id, user_id)

@@ -24,6 +24,7 @@ public class WalletServiceImpl implements WalletService {
     private static final String USER_ALREADY_WALLET_HOLDER_MESSAGE = "Wallet with id %d is already managed by a user with id %d.";
     private static final String USER_NOT_WALLET_HOLDER_MESSAGE = "Wallet with id %d is not managed by user with id %d.";
     private static final String WALLET_WITH_NO_USERS_EXCEPTION = "A wallet has to be managed by at least 1 user.";
+    private static final String WALLET_ALREADY_MAIN_MESSAGE = "Wallet with id %d is already the main wallet for user %s.";
 
     private final WalletRepository walletRepository;
     private final CardService cardService;
@@ -80,12 +81,44 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public void createWallet(int userRequestId, Wallet wallet) {
+    public void createAdditionalWallet(String username, Wallet wallet) {
 
-        User user = userRepository.getById(userRequestId);
+        User user = userRepository.getByUsername(username);
         wallet.getUsers().add(user);
+        wallet.setMainWallet(false);
         walletRepository.addWallet(wallet);
 
+    }
+
+    @Override
+    public void createMainWallet(String username, Wallet wallet) {
+
+        User user = userRepository.getByUsername(username);
+        wallet.getUsers().add(user);
+        wallet.setMainWallet(true);
+        walletRepository.addWallet(wallet);
+
+    }
+
+    @Override
+    public void makeWalletMainWalletById(int walletId, String username) {
+
+        Wallet oldMainWallet = walletRepository.getMainWalletByUsername(username);
+        Wallet newMainWallet = walletRepository.getWalletById(walletId);
+
+        if(newMainWallet == null) {
+            throw new EntityNotFoundException("Wallet", "id", walletId);
+        }
+
+        if(newMainWallet.getId() == oldMainWallet.getId()) {
+            throw new DuplicateEntityException(String.format(WALLET_ALREADY_MAIN_MESSAGE,walletId, username));
+        }
+
+        oldMainWallet.setMainWallet(false);
+        walletRepository.updateWallet(oldMainWallet);
+
+        newMainWallet.setMainWallet(true);
+        walletRepository.updateWallet(newMainWallet);
     }
 
     @Transactional

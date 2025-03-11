@@ -2,12 +2,14 @@ package com.telerik.virtualwallet.helpers;
 
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
+import com.telerik.virtualwallet.models.dtos.wallet.WalletCreateDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletPrivateDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletPublicDisplayDTO;
 import com.telerik.virtualwallet.services.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Component
@@ -30,6 +32,7 @@ public class WalletMapper {
         dto.setWalletHolders(walletHoldersUsernames);
         dto.setBalance(wallet.getBalance());
         dto.setCurrency(wallet.getCurrency());
+        dto.setMainWallet(wallet.isMainWallet());
 
         return dto;
     }
@@ -45,5 +48,14 @@ public class WalletMapper {
         dto.setCurrency(wallet.getCurrency());
 
         return dto;
+    }
+
+    public Wallet createDtoToWallet(WalletCreateDTO dto) {
+
+        Wallet wallet = new Wallet();
+        wallet.setCurrency(dto.getCurrency());
+        wallet.setBalance(BigDecimal.ZERO);
+
+        return wallet;
     }
 }

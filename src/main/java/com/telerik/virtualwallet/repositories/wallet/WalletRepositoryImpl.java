@@ -42,6 +42,23 @@ public class WalletRepositoryImpl implements WalletRepository {
     }
 
     @Override
+    public Wallet getMainWalletByUsername(String username) {
+
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Wallet> query = session.createQuery(
+                    "SELECT w FROM Wallet w LEFT JOIN FETCH w.users u WHERE " +
+                            "w.isMainWallet = :isMainWallet AND u.username=:username", Wallet.class);
+
+            query.setParameter("isMainWallet", true);
+            query.setParameter("username", username);
+
+            return query.uniqueResult();
+
+        }
+    }
+
+    @Override
     public Wallet getWalletWithUsersById(int id) {
         try (Session session = sessionFactory.openSession()) {
 

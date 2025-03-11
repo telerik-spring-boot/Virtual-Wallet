@@ -13,10 +13,13 @@ public class WalletPrivateDisplayDTO {
 
     public Currency currency;
 
-    public WalletPrivateDisplayDTO(List<String> walletHolders, BigDecimal balance, Currency currency) {
+    boolean isMainWallet;
+
+    public WalletPrivateDisplayDTO(List<String> walletHolders, BigDecimal balance, Currency currency, boolean isMainWallet) {
         this.walletHolders = walletHolders;
         this.balance = balance;
         this.currency = currency;
+        this.isMainWallet = isMainWallet;
     }
 
     public WalletPrivateDisplayDTO() {
@@ -44,5 +47,13 @@ public class WalletPrivateDisplayDTO {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    public boolean isMainWallet() {
+        return isMainWallet;
+    }
+
+    public void setMainWallet(boolean mainWallet) {
+        isMainWallet = mainWallet;
     }
 }

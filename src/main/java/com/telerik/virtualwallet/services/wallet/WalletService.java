@@ -13,7 +13,11 @@ public interface WalletService {
 
     Wallet getWalletById(int walletId);
 
-    void createWallet(int userRequestId, Wallet wallet);
+    void createAdditionalWallet(String username, Wallet wallet);
+
+    void createMainWallet(String username, Wallet wallet);
+
+    void makeWalletMainWalletById(int walletId, String username);
 
     void addFundsToWallet(int walletId, int cardId, BigDecimal amount);
 

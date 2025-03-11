@@ -55,9 +55,10 @@ CREATE TABLE virtual_wallet.cards
 
 CREATE TABLE virtual_wallet.wallets
 (
-    wallet_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    balance   DECIMAL(15, 2)     NOT NULL,
-    currency  VARCHAR(30)        NOT NULL
+    wallet_id      INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    balance        DECIMAL(15, 2)     NOT NULL,
+    currency       VARCHAR(30)        NOT NULL,
+    is_main_wallet BOOLEAN            NOT NULL
 );
 
 CREATE TABLE virtual_wallet.users_wallets

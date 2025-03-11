@@ -10,6 +10,8 @@ public interface WalletRepository {
 
     Wallet getWalletById(int id);
 
+    Wallet getMainWalletByUsername(String username);
+
     Wallet getWalletWithUsersById(int id);
 
     List<Wallet> getWalletsWithUsersByUsername(String username);
