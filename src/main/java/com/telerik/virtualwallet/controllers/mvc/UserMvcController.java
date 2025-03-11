@@ -154,6 +154,11 @@ public class UserMvcController {
         return "deposit";
     }
 
+    @GetMapping("/transfer")
+    public String createTransfer(){
+        return "transfer-make";
+    }
+
 
 
     @GetMapping("/stocks")
