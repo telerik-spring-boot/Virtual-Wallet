@@ -48,9 +48,8 @@ public class WalletRepositoryImpl implements WalletRepository {
 
             Query<Wallet> query = session.createQuery(
                     "SELECT w FROM Wallet w LEFT JOIN FETCH w.users u WHERE " +
-                            "w.isMainWallet = :isMainWallet AND u.username=:username", Wallet.class);
+                            "u.username=:username AND u.mainWalletId = w.id", Wallet.class);
 
-            query.setParameter("isMainWallet", true);
             query.setParameter("username", username);
 
             return query.uniqueResult();

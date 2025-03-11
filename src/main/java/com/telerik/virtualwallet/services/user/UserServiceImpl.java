@@ -131,6 +131,8 @@ public class UserServiceImpl implements UserService{
 
 
         userRepository.create(user);
+        user.setMainWalletId(user.getWallets().iterator().next().getId());
+        userRepository.update(user);
     }
 
 
@@ -205,6 +207,7 @@ public class UserServiceImpl implements UserService{
         wallet.setCurrency(Currency.USD);
 
         user.getWallets().add(wallet);
+
     }
 
     private void processStockTransaction(String username, int walletId, List<StockOrderDTO> orderList, boolean isPurchase) {

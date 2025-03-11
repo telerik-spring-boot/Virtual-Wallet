@@ -124,7 +124,7 @@ public class WalletController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         Wallet wallet = walletMapper.createDtoToWallet(dto);
-        walletService.createAdditionalWallet(auth.getName(), wallet);
+        walletService.createWallet(auth.getName(), wallet);
 
         return ResponseEntity.ok(walletMapper.walletToPrivateDto(walletService.getWalletById(wallet.getId())));
 

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -23,8 +24,10 @@ public class WalletServiceImpl implements WalletService {
     private static final String NO_WALLETS_FOUND_MESSAGE = "No wallets associated with %s found.";
     private static final String USER_ALREADY_WALLET_HOLDER_MESSAGE = "Wallet with id %d is already managed by a user with id %d.";
     private static final String USER_NOT_WALLET_HOLDER_MESSAGE = "Wallet with id %d is not managed by user with id %d.";
-    private static final String WALLET_WITH_NO_USERS_EXCEPTION = "A wallet has to be managed by at least 1 user.";
+    private static final String WALLET_WITH_NO_USERS_EXCEPTION = "A wallet has to be managed by at least one user.";
     private static final String WALLET_ALREADY_MAIN_MESSAGE = "Wallet with id %d is already the main wallet for user %s.";
+    private static final String USER_WITH_NO_WALLETS_EXCEPTION = "A user has to manage at least one wallet.";
+    private static final String MAXIMUM_WALLET_SIZE_MESSAGE = "A user cannot have more than ten wallets.";
 
     private final WalletRepository walletRepository;
     private final CardService cardService;
@@ -81,44 +84,37 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public void createAdditionalWallet(String username, Wallet wallet) {
+    public void createWallet(String username, Wallet wallet) {
 
-        User user = userRepository.getByUsername(username);
+        User user = userRepository.getUserWithStocksAndWallets(username);
+
+        if (user.getWallets().size() >= 10) {
+            throw new UnauthorizedOperationException(MAXIMUM_WALLET_SIZE_MESSAGE);
+        }
+
         wallet.getUsers().add(user);
-        wallet.setMainWallet(false);
         walletRepository.addWallet(wallet);
 
     }
 
-    @Override
-    public void createMainWallet(String username, Wallet wallet) {
-
-        User user = userRepository.getByUsername(username);
-        wallet.getUsers().add(user);
-        wallet.setMainWallet(true);
-        walletRepository.addWallet(wallet);
-
-    }
 
     @Override
     public void makeWalletMainWalletById(int walletId, String username) {
 
-        Wallet oldMainWallet = walletRepository.getMainWalletByUsername(username);
+        User user = userRepository.getByUsername(username);
+
         Wallet newMainWallet = walletRepository.getWalletById(walletId);
 
-        if(newMainWallet == null) {
+        if (newMainWallet == null) {
             throw new EntityNotFoundException("Wallet", "id", walletId);
         }
 
-        if(newMainWallet.getId() == oldMainWallet.getId()) {
-            throw new DuplicateEntityException(String.format(WALLET_ALREADY_MAIN_MESSAGE,walletId, username));
+        if (newMainWallet.getId() == user.getMainWalletId()) {
+            throw new DuplicateEntityException(String.format(WALLET_ALREADY_MAIN_MESSAGE, walletId, username));
         }
 
-        oldMainWallet.setMainWallet(false);
-        walletRepository.updateWallet(oldMainWallet);
-
-        newMainWallet.setMainWallet(true);
-        walletRepository.updateWallet(newMainWallet);
+        user.setMainWalletId(newMainWallet.getId());
+        userRepository.update(user);
     }
 
     @Transactional
@@ -161,6 +157,10 @@ public class WalletServiceImpl implements WalletService {
             throw new DuplicateEntityException(String.format(USER_ALREADY_WALLET_HOLDER_MESSAGE, walletId, userIdToAdd));
         }
 
+        if (userToAdd.getWallets().size() >= 10) {
+            throw new UnauthorizedOperationException(MAXIMUM_WALLET_SIZE_MESSAGE);
+        }
+
         wallet.getUsers().add(userToAdd);
 
         walletRepository.updateWallet(wallet);
@@ -172,7 +172,7 @@ public class WalletServiceImpl implements WalletService {
 
         Wallet wallet = walletRepository.getWalletWithUsersById(walletId);
 
-        if (wallet.getUsers().size() == 1) {
+        if (wallet.getUsers().size() <= 1) {
             throw new InconsistentOperationException(WALLET_WITH_NO_USERS_EXCEPTION);
         }
 
@@ -183,6 +183,21 @@ public class WalletServiceImpl implements WalletService {
                 .findFirst()
                 .orElseThrow(() ->
                         new DuplicateEntityException(String.format(USER_NOT_WALLET_HOLDER_MESSAGE, walletId, userIdToRemove)));
+
+        if (userToRemove.getWallets().size() <= 1) {
+            throw new InconsistentOperationException(USER_WITH_NO_WALLETS_EXCEPTION);
+        }
+
+        if (userToRemove.getMainWalletId() == walletId) {
+
+            Wallet newMainWallet = userToRemove.getWallets().stream()
+                    .max(Comparator.comparing(Wallet::getBalance))
+                    .orElseThrow(() -> new EntityNotFoundException(NO_WALLETS_MESSAGE));
+
+            userToRemove.setMainWalletId(newMainWallet.getId());
+            userRepository.update(userToRemove);
+
+        }
 
         wallet.getUsers().remove(existingUser);
 

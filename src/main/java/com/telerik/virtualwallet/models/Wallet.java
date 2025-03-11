@@ -20,10 +20,6 @@ public class Wallet {
     @Column(name = "balance", precision = 15, scale = 2)
     private BigDecimal balance;
 
-    @Column(name="is_main_wallet")
-    private boolean isMainWallet;
-
-
     @Enumerated(EnumType.STRING)
     @Column(name = "currency")
     private Currency currency;
@@ -40,10 +36,9 @@ public class Wallet {
     public Wallet() {
     }
 
-    public Wallet(int id, BigDecimal balance, boolean isMainWallet, Currency currency, Set<User> users) {
+    public Wallet(int id, BigDecimal balance, Currency currency, Set<User> users) {
         this.id = id;
         this.balance = balance;
-        this.isMainWallet = isMainWallet;
         this.currency = currency;
         this.users = users;
     }
@@ -80,11 +75,4 @@ public class Wallet {
         this.users = users;
     }
 
-    public boolean isMainWallet() {
-        return isMainWallet;
-    }
-
-    public void setMainWallet(boolean mainWallet) {
-        isMainWallet = mainWallet;
-    }
 }

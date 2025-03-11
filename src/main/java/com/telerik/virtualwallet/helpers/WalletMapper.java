@@ -32,7 +32,6 @@ public class WalletMapper {
         dto.setWalletHolders(walletHoldersUsernames);
         dto.setBalance(wallet.getBalance());
         dto.setCurrency(wallet.getCurrency());
-        dto.setMainWallet(wallet.isMainWallet());
 
         return dto;
     }

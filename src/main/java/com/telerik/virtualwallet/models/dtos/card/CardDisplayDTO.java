@@ -10,6 +10,8 @@ public class CardDisplayDTO {
 
     private String expiryYear;
 
+    private String type;
+
     public CardDisplayDTO() {
     }
 
@@ -50,5 +52,13 @@ public class CardDisplayDTO {
 
     public void setExpiryYear(String expiryYear) {
         this.expiryYear = expiryYear;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

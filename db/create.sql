@@ -15,13 +15,14 @@ DROP TABLE IF EXISTS virtual_wallet.verifications CASCADE;
 
 CREATE TABLE virtual_wallet.users
 (
-    user_id      INT AUTO_INCREMENT PRIMARY KEY,
-    full_name    VARCHAR(50)          NOT NULL,
-    username     VARCHAR(20)          NOT NULL UNIQUE,
-    password     VARCHAR(70)          NOT NULL,
-    email        VARCHAR(50)          NOT NULL UNIQUE,
-    phone_number VARCHAR(20)          NOT NULL UNIQUE,
-    is_blocked   TINYINT(1) DEFAULT 0 NOT NULL
+    user_id        INT AUTO_INCREMENT PRIMARY KEY,
+    full_name      VARCHAR(50)          NOT NULL,
+    username       VARCHAR(20)          NOT NULL UNIQUE,
+    password       VARCHAR(70)          NOT NULL,
+    email          VARCHAR(50)          NOT NULL UNIQUE,
+    phone_number   VARCHAR(20)          NOT NULL UNIQUE,
+    is_blocked     TINYINT(1) DEFAULT 0 NOT NULL,
+    main_wallet_id INT                  NOT NULL
 );
 
 CREATE TABLE virtual_wallet.roles
@@ -55,10 +56,9 @@ CREATE TABLE virtual_wallet.cards
 
 CREATE TABLE virtual_wallet.wallets
 (
-    wallet_id      INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    balance        DECIMAL(15, 2)     NOT NULL,
-    currency       VARCHAR(30)        NOT NULL,
-    is_main_wallet BOOLEAN            NOT NULL
+    wallet_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    balance   DECIMAL(15, 2)     NOT NULL,
+    currency  VARCHAR(30)        NOT NULL
 );
 
 CREATE TABLE virtual_wallet.users_wallets

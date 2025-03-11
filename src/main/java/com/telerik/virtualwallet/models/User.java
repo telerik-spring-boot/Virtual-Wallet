@@ -61,7 +61,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade= CascadeType.ALL, orphanRemoval = true)
     private List<Stock> stocks = new ArrayList<>();
 
-
+    @Column(name="main_wallet_id")
+    private int mainWalletId;
 
     public User() {
     }
@@ -181,5 +182,13 @@ public class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public int getMainWalletId() {
+        return mainWalletId;
+    }
+
+    public void setMainWalletId(int mainWalletId) {
+        this.mainWalletId = mainWalletId;
     }
 }

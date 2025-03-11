@@ -7,8 +7,12 @@ import com.telerik.virtualwallet.services.card.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class CardMapper {
+
+    private static final List<String> CARD_TYPES = List.of("Visa Credit", "Visa Debit", "Visa Electron", "MasterCard Credit", "MasterCard Debit", "Maestro", "Amex");
 
     private final CardService cardService;
 
@@ -25,6 +29,10 @@ public class CardMapper {
         dto.setExpiryMonth(card.getExpiryMonth());
         dto.setExpiryYear(card.getExpiryYear());
         dto.setCardNumber("********" + card.getNumber().substring(card.getNumber().length() - 4));
+
+        int sumOfDigits = card.getNumber().chars().map(c -> c - '0').sum();
+
+        dto.setType(CARD_TYPES.get(sumOfDigits % CARD_TYPES.size()));
 
         return dto;
 
