@@ -157,4 +157,17 @@ public class WalletServiceImpl implements WalletService {
 
     }
 
+    @Override
+    public void deleteWallet(int walletId) {
+
+        getWalletById(walletId);
+        walletRepository.deleteWallet(walletId);
+
+    }
+
+    @Override
+    public void deleteWallets(List<Integer> walletIds) {
+        walletRepository.deleteWallets(walletIds);
+    }
+
 }

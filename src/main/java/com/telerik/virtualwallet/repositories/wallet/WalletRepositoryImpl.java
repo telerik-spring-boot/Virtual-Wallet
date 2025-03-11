@@ -1,8 +1,10 @@
 package com.telerik.virtualwallet.repositories.wallet;
 
 import com.telerik.virtualwallet.models.Wallet;
+import jakarta.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.MutationQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -86,7 +88,7 @@ public class WalletRepositoryImpl implements WalletRepository {
     }
 
     @Override
-    public void deleteWallet(String id) {
+    public void deleteWallet(int id) {
 
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -96,6 +98,19 @@ public class WalletRepositoryImpl implements WalletRepository {
 
             session.getTransaction().commit();
         }
+
+    }
+
+    @Override
+    @Transactional
+    public void deleteWallets(List<Integer> ids) {
+
+        Session session = sessionFactory.getCurrentSession();
+
+        String hql = "DELETE FROM Wallet w WHERE w.id IN (:ids)";
+        MutationQuery query = session.createMutationQuery(hql);
+        query.setParameter("ids", ids);
+        query.executeUpdate();
 
     }
 

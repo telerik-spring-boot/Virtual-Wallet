@@ -21,5 +21,9 @@ public interface WalletService {
 
     void removeUserFromWallet(int walletId, int userIdToRemove);
 
+    void deleteWallet(int walletId);
+
+    void deleteWallets(List<Integer> walletIds);
+
 
 }
