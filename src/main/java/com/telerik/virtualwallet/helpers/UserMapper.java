@@ -37,6 +37,10 @@ public class UserMapper {
     public User dtoToUser(UserUpdateDTO dto, String username) {
         User user = userService.getByUsername(username);
 
+        if(dto.getFullName() != null){
+            user.setFullName(dto.getFullName());
+        }
+
         if(dto.getPassword() != null){
             user.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
         }
