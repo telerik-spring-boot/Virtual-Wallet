@@ -503,7 +503,7 @@
 											<tr>
 												<th class="align-content-center"> Password</th>
 												<td class="text-end align-content-center ">
-													<button class="btn btn-outline-info" th:href="@{/auth/reset-password}"> Reset Password</button>
+													<a class="btn btn-outline-info"  th:href="@{/auth/reset-password?token={token}(token=${token})}"> Reset Password</a>
 												</td>
 											</tr>
 

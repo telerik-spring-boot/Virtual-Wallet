@@ -1,17 +1,25 @@
 package com.telerik.virtualwallet.controllers.mvc;
 
 import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
+import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.RegisterDTO;
+import com.telerik.virtualwallet.models.dtos.user.UserPasswordUpdateDTO;
+import com.telerik.virtualwallet.models.dtos.user.UserRetrieveDTO;
 import com.telerik.virtualwallet.services.email.EmailService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
 import com.telerik.virtualwallet.services.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -97,15 +105,119 @@ public class AnonymousMvcController {
         }
     }
 
+
+    //TODO
     @GetMapping("/request-password")
-    public String getRequestPassword(Authentication authentication){
+    public String getRequestPassword(Authentication authentication, Model model){
         if(authentication != null){
             return "redirect:/users/dashboard";
         }
-        return "request-password";}
+
+        model.addAttribute("user", new UserRetrieveDTO());
+        return "request-password";
+    }
+
+    @PostMapping("/request-password")
+    public String handlePasswordRetrieval(@Valid @ModelAttribute("user") UserRetrieveDTO userRetrieveDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+
+        model.addAttribute("formSubmitted", true);
+
+        if (bindingResult.hasErrors()) {
+            return "request-password";
+        }
+
+        try {
+            User user = userService.getByUsername(userRetrieveDTO.getUsername());
+
+
+            String token = jwtService.generateEmailVerificationToken(user.getEmail());
+            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/auth/reset-password?token=" + token;
+
+
+            String emailContent = "<p>Hello " + user.getUsername() + ",</p>"
+                    + "<p>Please click the link below to reset your password:</p>"
+                    + "<a href='" + verificationUrl + "'>Reset Password</a>"
+                    + "<p>If you did not request password reset, you can ignore this email.</p>";
+
+            emailService.send(user.getEmail(), "Reset Your Password", emailContent);
+
+
+            redirectAttributes.addFlashAttribute("requestPasswordSuccess", true);
+
+            return "redirect:/auth/login";
+        } catch (EntityNotFoundException e) {
+            bindingResult.rejectValue("username", "error.retrieve", e.getMessage());
+            return "request-password";
+        }
+
+    }
 
     @GetMapping("/reset-password")
-    public String getResetPassword() { return "reset-password";}
+    public String showResetPasswordForm(@RequestParam String token, Model model, RedirectAttributes redirectAttributes) {
+
+
+        try {
+            if (jwtService.isTokenExpired(token)) {
+                redirectAttributes.addFlashAttribute("passwordFail", true);
+                return "redirect:/auth/login";
+            }
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("passwordFail", true);
+            return "redirect:/auth/login";
+        }
+
+        model.addAttribute("token", token);
+        model.addAttribute("user", new UserPasswordUpdateDTO());
+
+        return "reset-password";
+    }
+
+    @PostMapping("/reset-password")
+    public String resetPassword(@RequestParam String token, @Valid @ModelAttribute("user") UserPasswordUpdateDTO userPasswordUpdateDTO,
+                                BindingResult bindingResult, HttpServletRequest request,
+                                Model model, RedirectAttributes redirectAttributes,
+                                HttpServletResponse response, Authentication authentication) {
+
+        model.addAttribute("formSubmitted", true);
+
+        if (bindingResult.hasErrors()) {
+            return "reset-password";
+        }
+
+        if (!userPasswordUpdateDTO.getPassword().equals(userPasswordUpdateDTO.getConfirmPassword())) {
+            bindingResult.rejectValue("confirmPassword", "error.register", "Passwords do not match");
+            bindingResult.rejectValue("password", "error.register", "Password do not match");
+            return "reset-password";
+        }
+
+
+        try {
+            User user = userService.getByEmail(jwtService.extractSubject(token));
+
+            user.setPassword(new BCryptPasswordEncoder().encode(userPasswordUpdateDTO.getPassword()));
+
+            userService.update(user);
+
+            model.addAttribute("currentURI", request.getRequestURI());
+
+            if (authentication != null && authentication.isAuthenticated()) {
+                new SecurityContextLogoutHandler().logout(request, response, authentication);
+            }
+
+            redirectAttributes.addFlashAttribute("changeSuccess", true);
+
+            return "redirect:/auth/login";
+
+        } catch (Exception e) {
+            bindingResult.rejectValue("password", "error.reset", e.getMessage());
+            bindingResult.rejectValue("confirmPassword", "error.reset", e.getMessage());
+            return "reset-password";
+        }
+
+    }
+
+
 
 
     @GetMapping("/verify-email")
