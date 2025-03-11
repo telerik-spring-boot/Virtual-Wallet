@@ -2,19 +2,22 @@ package com.telerik.virtualwallet.controllers.mvc;
 
 
 import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
-import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
+import com.telerik.virtualwallet.exceptions.ExpiredCardException;
 import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
+import com.telerik.virtualwallet.helpers.CardMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
+import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.User;
+import com.telerik.virtualwallet.models.dtos.card.CardCreateDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
-import com.telerik.virtualwallet.models.dtos.user.UserUpdateDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
+import com.telerik.virtualwallet.services.card.CardService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
 import com.telerik.virtualwallet.services.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,8 +32,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 @Controller
 @RequestMapping("/users")
 public class UserMvcController {
@@ -38,20 +39,25 @@ public class UserMvcController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final JwtService jwtService;
+    private final CardService cardService;
+    private final CardMapper cardMapper;
 
-    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService){
+    @Autowired
+    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, CardService cardService, CardMapper cardMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.jwtService = jwtService;
+        this.cardService = cardService;
+        this.cardMapper = cardMapper;
     }
 
     @ModelAttribute("isAdmin")
-    public boolean populateIsAdmin(){
+    public boolean populateIsAdmin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         List<String> roles = new ArrayList<>();
         if (authentication != null && authentication.isAuthenticated()) {
-            roles =  authentication.getAuthorities().stream()
+            roles = authentication.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .toList();
         }
@@ -61,22 +67,22 @@ public class UserMvcController {
     }
 
     @GetMapping("/dashboard")
-    public String getOverview(){
+    public String getOverview() {
         return "index";
     }
 
     @GetMapping("/balance")
-    public String getCards(){
+    public String getCards() {
         return "balance";
     }
 
     @GetMapping("/cards")
-    public String getBalance(){
+    public String getBalance() {
         return "card";
     }
 
     @GetMapping("/recipients")
-    public String getRecipients(){
+    public String getRecipients() {
         return "recipients";
     }
 
@@ -91,7 +97,7 @@ public class UserMvcController {
 
 
             model.addAttribute("userUpdate", userUpdate);
-            model.addAttribute("userDisplay",userDisplay);
+            model.addAttribute("userDisplay", userDisplay);
             model.addAttribute("requestURI", request.getRequestURI());
             model.addAttribute("token", jwtService.generateEmailVerificationToken(user.getEmail()));
 
@@ -102,7 +108,7 @@ public class UserMvcController {
     }
 
     @PutMapping("/settings")
-    public String handleUpdateUser(Authentication authentication, @Valid @ModelAttribute("userUpdate") UserUpdateMvcDTO userUpdateMvcDTO,  BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String handleUpdateUser(Authentication authentication, @Valid @ModelAttribute("userUpdate") UserUpdateMvcDTO userUpdateMvcDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
 
         if (bindingResult.hasErrors()) {
@@ -128,7 +134,7 @@ public class UserMvcController {
     }
 
     @DeleteMapping
-    public String deleteUser(HttpServletRequest request, HttpServletResponse response, Authentication authentication, RedirectAttributes redirectAttributes){
+    public String deleteUser(HttpServletRequest request, HttpServletResponse response, Authentication authentication, RedirectAttributes redirectAttributes) {
 
         userService.delete(authentication.getName());
 
@@ -140,35 +146,70 @@ public class UserMvcController {
     }
 
     @GetMapping("/transactions")
-    public String getTransactions(){
+    public String getTransactions() {
         return "transaction";
     }
 
     @GetMapping("/card-add")
-    public String addCard(){
+    public String addCard() {
         return "card-add";
     }
 
     @GetMapping("/deposit")
-    public String depositFromCard(){
+    public String depositFromCard() {
         return "deposit";
     }
 
     @GetMapping("/transfer")
-    public String createTransfer(){
+    public String createTransfer() {
         return "transfer-make";
     }
 
+    @GetMapping("/cards/new")
+    public String showNewCardForm(Model model, HttpServletRequest request) {
+
+        model.addAttribute("card", new CardCreateDTO());
+        model.addAttribute("requestURI", request.getRequestURI());
+        return "card-add";
+    }
+
+    @PostMapping("/cards/new")
+    public String handleNewCardForm(Model model, @Valid @ModelAttribute("card") CardCreateDTO cardCreateDTO,
+                                    BindingResult bindingResult, Authentication authentication) {
+        model.addAttribute("formSubmitted", true);
+
+
+        if (bindingResult.hasErrors()) {
+            return "card-add";
+        }
+
+        try {
+            Card card = cardMapper.createDtoToCard(cardCreateDTO);
+
+            cardService.addCard(authentication.getName(), card);
+
+            return "redirect:/users/cards";
+        } catch (DuplicateEntityException e) {
+            bindingResult.rejectValue("cardNumber", "card.number", e.getMessage());
+
+            return "card-add";
+        } catch (ExpiredCardException e) {
+            bindingResult.rejectValue("expiryMonth", "card.month", e.getMessage());
+            bindingResult.rejectValue("expiryYear", "card.year", e.getMessage());
+
+            return "card-add";
+        }
+    }
 
 
     @GetMapping("/stocks")
-    public String getStocks(){
+    public String getStocks() {
         return "stocks";
     }
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
-    public String getAdminPanel(){
+    public String getAdminPanel() {
 
         return "admin-panel";
     }

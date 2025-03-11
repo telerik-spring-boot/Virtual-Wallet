@@ -112,7 +112,8 @@
                                       style="text-transform:none!important;">Please enter card details below</span>
                             </div>
                             <div class="mt-3 w-100">
-                                <form class="form-horizontal" id="validateForm" action="#" method="post" th:action="@{__${requestURI}__}">
+                                <form class="form-horizontal" id="validateForm" action="#" method="post"
+                                      th:action="@{__${requestURI}__}" th:object="${card}">
                                     <fieldset>
                                         <!-- Card Holder-->
                                         <div class="mb-3">
@@ -125,15 +126,17 @@
                                                         type="text"
                                                         class="form-control border-0 remove-pseudo"
                                                         id="cardHolderName"
-                                                        required=""
+                                                        required
                                                         oninput="this.value = this.value.replace(/[^a-zA-Z\s\-']/g, '')"
-                                                        th:field="${card.cardHolderName}"
+                                                        th:field="*{cardHolderName}"
+                                                        th:classappend="${#fields.hasErrors('cardHolderName') ? 'is-invalid' : (formSubmitted != null ? 'is-valid' : '')}"
+                                                        th:title="${#fields.errors('cardHolderName')}"
                                                 >
                                             </div>
                                         </div>
                                         <!-- Card Number-->
                                         <div class="mb-3">
-                                            <label for="number" class="form-label"
+                                            <label for="cardNumber" class="form-label"
                                             >Card Number</label
                                             >
                                             <div class="input-group form-control p-0">
@@ -141,11 +144,14 @@
                                                 <input
                                                         type="text"
                                                         class="form-control border-0 remove-pseudo"
-                                                        id="number"
+                                                        id="cardNumber"
                                                         required=""
                                                         maxlength="16"
                                                         oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                                        th:field="${card.cardNumber}">
+                                                        th:field="*{cardNumber}"
+                                                        th:classappend="${#fields.hasErrors('cardNumber') ? 'is-invalid' : (formSubmitted != null ? 'is-valid' : '')}"
+                                                        th:title="${#fields.errors('cardNumber')}"
+                                                >
 
                                             </div>
                                         </div>
@@ -155,26 +161,32 @@
                                             <div class="row, d-flex justify-content-between">
 
                                                 <div class="col-md-8">
-                                                    <label for="exDate" class="form-label">Expiry Date</label>
+                                                    <label for="expiryMonth" class="form-label">Expiry Date</label>
                                                     <div class="row, d-flex justify-content-start g-0">
                                                         <div class="col-md-4 pe-3">
-                                                            <input type="text" class="form-control" id="exDate"
+                                                            <input type="text" class="form-control" id="expiryMonth"
                                                                    placeholder=""
                                                                    maxlength="2"
                                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                                                    th:field="${card.expiryMonth}">
+                                                                   th:field="*{expiryMonth}"
+                                                                   th:classappend="${#fields.hasErrors('expiryMonth') ? 'is-invalid' : (formSubmitted != null ? 'is-valid' : '')}"
+                                                                   th:title="${#fields.errors('expiryMonth')}"
+                                                            >
                                                         </div>
                                                         <div class="col-md-0 pe-3 d-flex align-items-center justify-content-center">
-                                                            <div class=" text-center" >
+                                                            <div class=" text-center">
                                                                 /
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 pe-3">
-                                                            <input type="text" class="form-control"
+                                                            <input type="text" class="form-control" id="expiryYear"
                                                                    placeholder=""
                                                                    maxlength="2"
                                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                                                    th:field="${card.expiryYear}">
+                                                                   th:field="*{expiryYear}"
+                                                                   th:classappend="${#fields.hasErrors('expiryYear') ? 'is-invalid' : (formSubmitted != null ? 'is-valid' : '')}"
+                                                                   th:title="${#fields.errors('expiryYear')}"
+                                                            >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -186,7 +198,10 @@
                                                            id="cvv" required=""
                                                            maxlength="3"
                                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                                           th:field="${card.cvv}">
+                                                           th:field="*{cvv}"
+                                                           th:classappend="${#fields.hasErrors('cvv') ? 'is-invalid' : (formSubmitted != null ? 'is-valid' : '')}"
+                                                           th:title="${#fields.errors('cvv')}"
+                                                    >
 
                                                 </div>
 
@@ -196,8 +211,9 @@
 
                                         <!-- Button -->
                                         <div class="form-group">
-                                            <button type="submit" href="sign-in.html" class="btn btn-dark w-100">Save Card
-                                                </button>
+                                            <button type="submit" href="sign-in.html" class="btn btn-dark w-100">Save
+                                                Card
+                                            </button>
                                         </div>
                                         <div class="text-center mt-2">
                                             <span class="text-muted">By saving card, you agree to our Terms and Conditions.</span>
