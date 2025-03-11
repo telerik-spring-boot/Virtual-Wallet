@@ -130,16 +130,18 @@ public class AnonymousMvcController {
             User user = userService.getByUsername(userRetrieveDTO.getUsername());
 
 
-            String token = jwtService.generateEmailVerificationToken(user.getEmail());
-            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/auth/reset-password?token=" + token;
+            // Do not uncomment before production!
 
-
-            String emailContent = "<p>Hello " + user.getUsername() + ",</p>"
-                    + "<p>Please click the link below to reset your password:</p>"
-                    + "<a href='" + verificationUrl + "'>Reset Password</a>"
-                    + "<p>If you did not request password reset, you can ignore this email.</p>";
-
-            emailService.send(user.getEmail(), "Reset Your Password", emailContent);
+//            String token = jwtService.generateEmailVerificationToken(user.getEmail());
+//            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/auth/reset-password?token=" + token;
+//
+//
+//            String emailContent = "<p>Hello " + user.getUsername() + ",</p>"
+//                    + "<p>Please click the link below to reset your password:</p>"
+//                    + "<a href='" + verificationUrl + "'>Reset Password</a>"
+//                    + "<p>If you did not request password reset, you can ignore this email.</p>";
+//
+//            emailService.send(user.getEmail(), "Reset Your Password", emailContent);
 
 
             redirectAttributes.addFlashAttribute("requestPasswordSuccess", true);
