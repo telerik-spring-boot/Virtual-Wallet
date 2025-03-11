@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/general-fragments :: head('YNPay :: Transfer')}"></head>
+
+<body data-theme="theme-AppleGreen" class="svgstroke-a ">
+<nav class="navbar navbar-expand-md position-fixed top-0 w-100 body-color ">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">
+            <img src="../static/images/favicon.ico" th:src="@{/images/favicon.ico}" alt="Logo" width="80" height="80"/>
+        </a>
+        <div class="d-none d-sm-block">
+            <ul class="list-unstyled d-none">
+                <li class="nav-item dropdown px-md-1">
+                    <a class="dropdown-toggle gray-6" href="#" id="bd-theme-one" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"
+                             class="theme-icon-active">
+                            <use href="#sun-fill"></use>
+                        </svg>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end p-2 p-xl-3 shadow rounded-4"
+                        aria-labelledby="bd-theme-one">
+                        <li class="mb-1">
+                            <a class="dropdown-item rounded-pill" href="#" data-bs-theme-value="light">
+                                <svg class="avatar xs me-2 opacity-50 theme-icon" fill="currentColor">
+                                    <use href="#sun-fill"></use>
+                                </svg>
+                                Light
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a class="dropdown-item rounded-pill active" href="#"
+                               data-bs-theme-value="dark">
+                                <svg class="avatar xs me-2 opacity-50 theme-icon" fill="currentColor">
+                                    <use href="#moon-stars-fill"></use>
+                                </svg>
+                                Dark
+                            </a>
+                        </li>
+                        <li class="mb-1">
+                            <a class="dropdown-item rounded-pill" href="#" data-bs-theme-value="auto">
+                                <svg class="avatar xs me-2 opacity-50 theme-icon" fill="currentColor">
+                                    <use href="#circle-half"></use>
+                                </svg>
+                                Auto
+                            </a>
+                        </li>
+                    </ul>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         viewBox="0 0 16 16" style="display: none;">
+                        <symbol id="sun-fill" viewBox="0 0 16 16">
+                            <path
+                                    d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z">
+                            </path>
+                        </symbol>
+                        <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+                            <path
+                                    d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z">
+                            </path>
+                            <path
+                                    d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z">
+                            </path>
+                        </symbol>
+                        <symbol id="circle-half" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path>
+                        </symbol>
+                    </svg>
+                </li>
+                <li class="nav-item dropdown px-md-1">
+                    <a class="dropdown-toggle gray-6" href="#offcanvas_setting" data-bs-toggle="offcanvas"
+                       aria-expanded="false" title="template setting">
+                        <svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                             viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path
+                                    d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+                            </path>
+                            <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<main class="container-fluid">
+    <div class="content ">
+        <!-- start: page body area -->
+        <div class="row justify-content-center align-items-center my-5 py-5">
+            <div class=" col-lg-5 col-xl-4 col-7">
+                <div class="card ">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center ">
+                            <div class="no-thumbnail rounded-circle border bg-light p-2">
+                                <div class="no-thumbnail rounded-circle border bg-white p-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="34" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-linecap="round"
+                                         stroke-linejoin="round" class=" svg-stroke">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                        <path d="M16 19h6"></path>
+                                        <path d="M19 16v6"></path>
+                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-3 text-center mb-3">
+                                <h4 class="text-capitalize text-center fw-bold">Make a transfer to another wallet</h4>
+                                <span class="text-muted text-capitalize text-center"
+                                      style="text-transform:none!important;">Please enter recipient details below</span>
+                            </div>
+
+                            <div class="d-flex justify-content-center">
+                                <button id="usersTab" class="btn btn-outline-primary rounded-pill me-2"> Username or phone number</button>
+
+                                <button id="walletsTab" class="btn btn-outline-info rounded-pill ms-2 info-btn">
+                                    Wallet Id
+                                </button>
+                            </div>
+
+                            <div class="mt-3 w-100" id="usersForm">
+                                <form class="form-horizontal" id="validateForm">
+                                    <fieldset>
+                                        <div class="mb-3">
+                                            <label for="usernameOrPhone" class="form-label"
+                                            >Username or phone number </label
+                                            >
+                                            <div class="input-group form-control p-0">
+
+                                                <input
+                                                        type="text"
+                                                        class="form-control border-0 remove-pseudo"
+                                                        required=""
+                                                        id="usernameOrPhone"
+                                                        maxlength="15"
+
+                                                >
+                                            </div>
+                                        </div>
+                                        <!-- Card Holder-->
+                                        <div class="mb-3">
+                                            <label for="amountUser" class="form-label"
+                                            >Amount </label
+                                            >
+                                            <div class="input-group form-control p-0">
+
+                                                <input
+                                                        type="text"
+                                                        class="form-control border-0 remove-pseudo"
+                                                        required=""
+                                                        id="amountUser"
+                                                        maxlength="8"
+                                                        oninput="this.value = validateAmount(this.value)"
+                                                >
+                                            </div>
+                                        </div>
+                                        <script>
+                                            function validateAmount(value) {
+                                                // Remove non-numeric and non-dot characters
+                                                value = value.replace(/[^0-9.]/g, '');
+
+                                                // Ensure there's only one decimal point
+                                                let parts = value.split('.');
+                                                if (parts.length > 2) {
+                                                    value = parts[0] + '.' + parts.slice(1).join('');
+                                                }
+
+                                                // Limit to 8 digits before the decimal and 2 after
+                                                value = value.match(/^(\d{0,5})(\.\d{0,2})?/);
+
+                                                return value ? value[0] : "";
+                                            }
+
+                                        </script>
+
+
+                                        <!-- Card Number-->
+                                        <div class="mb-3">
+                                            <label for="numberWallet" class="form-label">Select Wallet</label>
+                                            <div class="input-group form-control p-0">
+                                                <select class="form-control border-0 remove-pseudo" id="numberWallet"
+                                                        name="walletId" required>
+                                                    <option value="4111111111111111">Wallet 1 (USD) - 4111 1111 1111
+                                                        1111
+                                                    </option>
+                                                    <option value="5500000000000004">Wallet 2 (EUR) - 5500 0000 0000
+                                                        0004
+                                                    </option>
+                                                    <option value="340000000000009">Wallet 3 (USD) - 3400 0000 0000
+                                                        009
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Button -->
+                                        <div class="form-group">
+                                            <a href="sign-in.html" class="btn btn-dark w-100">Confirm transfer
+                                            </a>
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <span class="text-muted">By confirming transfer, you agree to our Terms and Conditions.</span>
+                                            <a href="#"
+                                               class="text-reverse fw-semibold text-capitalize text-center mt-3 text-decoration-underline d-block">terms
+                                                and condition</a>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <!-- Wallet ID-->
+                            <div class="mt-3 w-100" id="walletsForm">
+                                <form class="form-horizontal" >
+                                    <fieldset>
+
+                                        <div class="mb-3">
+                                            <label for="walletId" class="form-label"
+                                            >Wallet Id </label
+                                            >
+                                            <div class="input-group form-control p-0">
+
+                                                <input
+                                                        type="text"
+                                                        class="form-control border-0 remove-pseudo"
+                                                        id="walletId"
+                                                        required=""
+                                                        maxlength="4"
+                                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                                >
+                                            </div>
+                                        </div>
+                                        <!-- Card Holder-->
+                                        <div class="mb-3">
+                                            <label for="amount" class="form-label"
+                                            >Amount </label
+                                            >
+                                            <div class="input-group form-control p-0">
+
+                                                <input
+                                                        type="text"
+                                                        class="form-control border-0 remove-pseudo"
+                                                        id="amount"
+                                                        required=""
+                                                        maxlength="8"
+                                                        oninput="this.value = validateAmount(this.value)"
+                                                >
+                                            </div>
+                                        </div>
+                                        <script>
+                                            function validateAmount(value) {
+                                                // Remove non-numeric and non-dot characters
+                                                value = value.replace(/[^0-9.]/g, '');
+
+                                                // Ensure there's only one decimal point
+                                                let parts = value.split('.');
+                                                if (parts.length > 2) {
+                                                    value = parts[0] + '.' + parts.slice(1).join('');
+                                                }
+
+                                                // Limit to 8 digits before the decimal and 2 after
+                                                value = value.match(/^(\d{0,5})(\.\d{0,2})?/);
+
+                                                return value ? value[0] : "";
+                                            }
+
+                                        </script>
+
+
+                                        <!-- Card Number-->
+                                        <div class="mb-3">
+                                            <label for="number" class="form-label">Select Wallet</label>
+                                            <div class="input-group form-control p-0">
+                                                <select class="form-control border-0 remove-pseudo" id="number"
+                                                        name="walletId" required>
+                                                    <option value="4111111111111111">Wallet 1 (USD) - 4111 1111 1111
+                                                        1111
+                                                    </option>
+                                                    <option value="5500000000000004">Wallet 2 (EUR) - 5500 0000 0000
+                                                        0004
+                                                    </option>
+                                                    <option value="340000000000009">Wallet 3 (USD) - 3400 0000 0000
+                                                        009
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Button -->
+                                        <div class="form-group">
+                                            <a href="sign-in.html" class="btn btn-dark w-100">Confirm transfer
+                                            </a>
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <span class="text-muted">By confirming transfer, you agree to our Terms and Conditions.</span>
+                                            <a href="#"
+                                               class="text-reverse fw-semibold text-capitalize text-center mt-3 text-decoration-underline d-block">terms
+                                                and condition</a>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="w-100 bg-body position-fixed bottom-0">
+    <div class="container-fluid">
+        <div class="d-flex align-items-center">
+            <div class="p-0 m-0">
+                <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover text-reverse"
+                   href="#" th:href="@{/home}">
+                    @2025 YNPay
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+
+<script>
+    $(document).ready(function () {
+        $('#password').on('input', function () {
+            var password = $(this).val();
+            var strength = 0;
+            var indicators = $('#strength-indicators li');
+
+            // Check for lowercase and uppercase
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
+                strength++;
+                // Add 'valid' class to the corresponding span for lowercase-uppercase
+                indicators.find('.lower-upper').addClass('valid');
+            } else {
+                indicators.find('.lower-upper').removeClass('valid');
+            }
+
+            // Check for numbers
+            if (/\d/.test(password)) {
+                strength++;
+                // Add 'valid' class to the corresponding span for digits
+                indicators.find('.digit').addClass('valid');
+            } else {
+                indicators.find('.digit').removeClass('valid');
+            }
+
+            // Check for special characters
+            if (/[!@#$%^&*]/.test(password)) {
+                strength++;
+                // Add 'valid' class to the corresponding span for special characters
+                indicators.find('.special-char').addClass('valid');
+            } else {
+                indicators.find('.special-char').removeClass('valid');
+            }
+
+            // Check for length
+            if (password.length >= 8) {
+                strength++;
+                // Add 'valid' class to the corresponding span for length
+                indicators.find('.length').addClass('valid');
+            } else {
+                indicators.find('.length').removeClass('valid');
+            }
+
+            // Update progress bar
+            var strengthPercent = (strength / 4) * 100;
+            $('#password-strength').css('width', strengthPercent + '%');
+
+            // Change progress bar color based on strength
+            if (strengthPercent === 100) {
+                $('#password-strength').addClass('bg-success').removeClass('bg-danger').removeClass('bg-warning');
+            } else if (strengthPercent >= 50) {
+                $('#password-strength').addClass('bg-warning').removeClass('bg-danger').removeClass('bg-success');
+            } else {
+                $('#password-strength').addClass('bg-danger').removeClass('bg-warning').removeClass('bg-success');
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+// Hide both forms initially
+        $('#usernameForm').hide();
+        $('#walletForm').hide();
+
+// When Users button is clicked
+        $('#usersTab').on('click', function () {
+// Activate Users button, deactivate Transfers button
+            $(this).addClass('active');
+            $('#walletsTab').removeClass('active');
+
+// Show Users form and hide Transfers form
+            $('#usernameForm').show();
+            $('#walletForm').hide();
+        });
+
+// When Transfers button is clicked
+        $('#walletsTab').on('click', function () {
+// Activate Transfers button, deactivate Users button
+            $(this).addClass('active');
+            $('#usersTab').removeClass('active');
+
+// Show Transfers form and hide Users form
+            $('#walletForm').show();
+            $('#usernameForm').hide();
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const usersTab = document.getElementById("usersTab");
+        const walletsTab = document.getElementById("walletsTab");
+        const usersForm = document.getElementById("usersForm");
+        const walletsForm = document.getElementById("walletsForm");
+
+        // Initially show the usersForm and hide the walletsForm
+        usersForm.style.display = "block";
+        walletsForm.style.display = "none";
+
+        usersTab.addEventListener("click", function () {
+            usersForm.style.display = "block";
+            walletsForm.style.display = "none";
+            usersTab.classList.add("active");
+            walletsTab.classList.remove("active");
+        });
+
+        walletsTab.addEventListener("click", function () {
+            usersForm.style.display = "none";
+            walletsForm.style.display = "block";
+            walletsTab.classList.add("active");
+            usersTab.classList.remove("active");
+        });
+    });
+</script>
+
+
+</body>
+
+</html>
