@@ -20,5 +20,7 @@ public interface CardRepository {
 
     boolean isUserCardHolder(String username, int cardId);
 
+    boolean isCardAlreadyAssingedToUser(String username, String cardNumber);
+
 
 }

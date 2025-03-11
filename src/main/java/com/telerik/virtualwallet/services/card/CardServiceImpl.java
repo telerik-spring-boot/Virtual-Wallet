@@ -1,5 +1,6 @@
 package com.telerik.virtualwallet.services.card;
 
+import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.User;
@@ -64,6 +65,10 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public void addCard(String username, Card card) {
+
+        if (cardRepository.isCardAlreadyAssingedToUser(username, card.getNumber())) {
+            throw new DuplicateEntityException("Card", "number", card.getNumber());
+        }
 
         User user = userRepository.getByUsername(username);
 
