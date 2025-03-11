@@ -10,6 +10,7 @@ import com.telerik.virtualwallet.repositories.user.UserRepository;
 import com.telerik.virtualwallet.services.stock.StockService;
 import com.telerik.virtualwallet.services.picture.PictureService;
 import com.telerik.virtualwallet.models.enums.Currency;
+import com.telerik.virtualwallet.services.wallet.WalletService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -24,12 +25,14 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final StockService stockService;
     private final PictureService pictureService;
+    private final WalletService walletService;
 
 
-    public UserServiceImpl(UserRepository userRepository, StockService stockService, PictureService pictureService){
+    public UserServiceImpl(UserRepository userRepository, StockService stockService, PictureService pictureService, WalletService walletService){
         this.userRepository = userRepository;
         this.stockService = stockService;
         this.pictureService = pictureService;
+        this.walletService = walletService;
     }
 
 
@@ -156,6 +159,14 @@ public class UserServiceImpl implements UserService{
         if (userToDelete == null) {
             throw new EntityNotFoundException("User", "username", username);
         }
+
+//        List<Wallet> wallets = walletService.getWalletsByUsername(username);
+//
+//        for(Wallet wallet : wallets) {
+//            if(wallet.getUsers().size() == 1){
+//                //
+//            }
+//        }
 
         pictureService.delete(username);
 

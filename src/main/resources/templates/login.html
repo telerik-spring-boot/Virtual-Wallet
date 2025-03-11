@@ -253,9 +253,10 @@
                          </div>
                          <div class="modal-body">
                               <span th:if="${changeSuccess}" th:text="#{change-password.success}"  style="text-transform: none;"> </span>
+                              <span th:if="${requestPasswordSuccess}" th:text="#{password-verification.sent}"></span>
                               <span th:if="${emailSuccess}" th:text="#{email-verification.success}"  style="text-transform: none;"> </span>
                               <span th:if="${registerSuccess}" th:text="#{register.success}"  style="text-transform: none;"> </span>
-                              <span th:if="${successfulDeletion}"  th:text="#{user.delete.success}"  style="text-transform: none;"> </span>
+                              <span th:if="${userDeleted}"  th:text="#{user.delete.success}"  style="text-transform: none;"> </span>
                          </div>
                          <div class="modal-footer">
                               <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
@@ -275,6 +276,7 @@
                          </div>
                          <div class="modal-body">
                               <span th:if="${emailFail}" th:text="#{email-verification.failure}"  style="text-transform: none;"> </span>
+                              <span th:if="${passwordFail}" th:text="#{password-verification.failure}"></span>
                          </div>
                          <div class="modal-footer">
                               <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
@@ -303,6 +305,11 @@
           modal.show();
      </script>
 
+     <script th:if="${changeSuccess}" type="text/javascript">
+          var modal = new bootstrap.Modal(document.getElementById('successModal'));
+          modal.show();
+     </script>
+
      <script th:if="${emailSuccess}" type="text/javascript">
           var modal = new bootstrap.Modal(document.getElementById('successModal'));
           modal.show();
@@ -310,6 +317,21 @@
 
      <script th:if="${emailFail}" type="text/javascript">
           var modal = new bootstrap.Modal(document.getElementById('failureModal'));
+          modal.show();
+     </script>
+
+     <script th:if="${passwordFail}" type="text/javascript">
+          var modal = new bootstrap.Modal(document.getElementById('failureModal'));
+          modal.show();
+     </script>
+
+     <script th:if="${userDeleted}" type="text/javascript">
+          var modal = new bootstrap.Modal(document.getElementById('successModal'));
+          modal.show();
+     </script>
+
+     <script th:if="${requestPasswordSuccess}" type="text/javascript">
+          var modal = new bootstrap.Modal(document.getElementById('successModal'));
           modal.show();
      </script>
 
