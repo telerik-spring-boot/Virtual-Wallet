@@ -112,13 +112,15 @@
                                       style="text-transform:none!important;">Please enter card details below</span>
                             </div>
                             <div class="mt-3 w-100">
-                                <form class="form-horizontal" id="validateForm">
+                                <form class="form-horizontal" id="validateForm" action="#" method="post"
+                                      th:action="@{__${requestURI}__}">
                                     <fieldset>
                                         <!-- Card Holder-->
                                         <div class="mb-3">
-                                            <label for="amount" class="form-label"
-                                            >Amount (USD)</label
-                                            >
+                                            <label for="amount" class="form-label">
+                                                Amount (<span th:text="${currency}">USD</span>)
+                                            </label>
+
                                             <div class="input-group form-control p-0">
 
                                                 <input
@@ -128,6 +130,7 @@
                                                         required=""
                                                         maxlength="8"
                                                         oninput="this.value = validateAmount(this.value)"
+                                                        th:field="${cardTransfer.amount}"
                                                 >
                                             </div>
                                         </div>
@@ -156,9 +159,10 @@
                                             <label for="number" class="form-label" >Select Card</label>
                                             <div class="input-group form-control p-0">
                                                 <select class="form-control border-0 remove-pseudo" id="number"  name="cardNumber" required>
-                                                    <option value="4111111111111111">Visa - 4111 1111 1111 1111</option>
-                                                    <option value="5500000000000004">MasterCard - 5500 0000 0000 0004</option>
-                                                    <option value="340000000000009">Amex - 3400 0000 0000 009</option>
+                                                    <option th:each="card : ${cards}"
+                                                            th:value="${card.cardNumber}"
+                                                            th:text="${card.type + ' - ' + card.cardNumber}">
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>

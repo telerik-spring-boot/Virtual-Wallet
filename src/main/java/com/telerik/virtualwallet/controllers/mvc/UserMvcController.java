@@ -9,8 +9,11 @@ import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.card.CardCreateDTO;
+import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
+import com.telerik.virtualwallet.models.dtos.wallet.CardTransferCreateDTO;
+import com.telerik.virtualwallet.models.enums.Currency;
 import com.telerik.virtualwallet.services.card.CardService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
 import com.telerik.virtualwallet.services.user.UserService;
@@ -151,8 +154,20 @@ public class UserMvcController {
     }
 
     @GetMapping("/deposit")
-    public String depositFromCard() {
+    public String depositFromCard(Authentication authentication, Model model, HttpServletRequest request) {
+
+        List<CardDisplayDTO> userCards = cardService.getCardsByUsername(authentication.getName()).stream()
+                .map(cardMapper::cardToCardDisplayDTO)
+                .toList();
+        Currency currency = Currency.USD;
+
+        model.addAttribute("cards", userCards);
+        model.addAttribute("currency", currency);
+        model.addAttribute("cardTransfer", new CardTransferCreateDTO());
+        model.addAttribute("requestURI", request.getRequestURI());
+
         return "deposit";
+
     }
 
     @GetMapping("/transfer")
