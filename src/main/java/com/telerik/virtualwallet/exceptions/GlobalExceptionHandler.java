@@ -52,4 +52,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleInconsistentOperationException(InconsistentOperationException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
+
+    @ExceptionHandler(ExpiredCardException.class)
+    public ResponseEntity<?> handleExpiredCardException(ExpiredCardException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
 }

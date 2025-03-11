@@ -104,14 +104,21 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
-    public boolean isCardAlreadyAssingedToUser(String username, String cardNumber) {
+    public boolean isCardAlreadyAssignedToUser(String username, Card card) {
 
         try (Session session = sessionFactory.openSession()) {
             Query<Long> query = session.createQuery
-                    ("SELECT COUNT(c) FROM Card c WHERE c.number = :cardNumber AND c.user.username = :username ",
+                    ("SELECT COUNT(c) FROM Card c WHERE c.number = :cardNumber " +
+                                    "AND c.user.username = :username " +
+                                    "AND c.cvv = :cvv AND c.holder = :holder " +
+                                    "AND c.expiryMonth = :expiryMonth AND c.expiryYear = :expiryYear",
                             Long.class);
 
-            query.setParameter("cardNumber", cardNumber);
+            query.setParameter("cardNumber", card.getNumber());
+            query.setParameter("cvv", card.getCvv());
+            query.setParameter("holder", card.getHolder());
+            query.setParameter("expiryMonth", card.getExpiryMonth());
+            query.setParameter("expiryYear", card.getExpiryYear());
             query.setParameter("username", username);
 
             Long count = query.uniqueResult();
