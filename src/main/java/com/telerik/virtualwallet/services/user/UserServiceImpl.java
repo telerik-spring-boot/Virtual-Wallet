@@ -131,6 +131,8 @@ public class UserServiceImpl implements UserService{
 
 
         userRepository.create(user);
+
+
         user.setMainWalletId(user.getWallets().iterator().next().getId());
         userRepository.update(user);
     }

@@ -26,6 +26,8 @@ public interface UserRepository {
 
     User getUserWithStocksAndWallets(String username);
 
+    User getUserWithWallets(String username);
+
     List<User> getByAnyUniqueField(String username, String email, String phone);
 
     void create(User user);

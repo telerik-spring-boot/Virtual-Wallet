@@ -173,6 +173,18 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
+    public User getUserWithWallets(String username) {
+        try(Session session = sessionFactory.openSession()){
+
+            Query<User> query = session.createQuery("from User u LEFT JOIN FETCH u.wallets WHERE u.username = :username", User.class);
+
+            query.setParameter("username", username);
+
+            return query.uniqueResult();
+        }
+    }
+
+    @Override
     public List<User> getByAnyUniqueField(String username, String email, String phone) {
         try(Session session = sessionFactory.openSession()){
 

@@ -86,7 +86,7 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public void createWallet(String username, Wallet wallet) {
 
-        User user = userRepository.getUserWithStocksAndWallets(username);
+        User user = userRepository.getUserWithWallets(username);
 
         if (user.getWallets().size() >= 10) {
             throw new UnauthorizedOperationException(MAXIMUM_WALLET_SIZE_MESSAGE);
