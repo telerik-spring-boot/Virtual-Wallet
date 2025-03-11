@@ -420,7 +420,7 @@
 								<img th:src="@{/images/profile_av.png}" src="../static/images/profile_av.png" alt=""
 								     class="rounded-4">
 								<div class="media-body ms-md-5 m-0 mt-4 mt-md-0 text-md-start text-center">
-									<h4 class="mt-3">Michelle Hughes</h4>
+									<h4 class="mt-3" th:text="${userDisplay.fullName}">Michelle Hughes</h4>
 								</div>
 
 								<div class="ms-md-auto align-self-md-end d-flex">
@@ -438,16 +438,23 @@
 										Edit
 									</button>
 
-									<button class="btn btn-outline-danger justify-content-center align-items-center ms-2">
-										<svg width="18" fill="currentColor" stroke="currentColor" class="pb-1"
-										     viewBox="0 0 408.483 408.483" xml:space="preserve"><g stroke-width="0"></g>
-											<g id="SVGRepo_tracerCarrier"></g>
-											<g> <g> <g> <path stroke="currentColor"
-											                  d="M87.748,388.784c0.461,11.01,9.521,19.699,20.539,19.699h191.911c11.018,0,20.078-8.689,20.539-19.699l13.705-289.316 H74.043L87.748,388.784z M247.655,171.329c0-4.61,3.738-8.349,8.35-8.349h13.355c4.609,0,8.35,3.738,8.35,8.349v165.293 c0,4.611-3.738,8.349-8.35,8.349h-13.355c-4.61,0-8.35-3.736-8.35-8.349V171.329z M189.216,171.329 c0-4.61,3.738-8.349,8.349-8.349h13.355c4.609,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.737,8.349-8.349,8.349h-13.355 c-4.61,0-8.349-3.736-8.349-8.349V171.329L189.216,171.329z M130.775,171.329c0-4.61,3.738-8.349,8.349-8.349h13.356 c4.61,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.738,8.349-8.349,8.349h-13.356c-4.61,0-8.349-3.736-8.349-8.349V171.329z"></path>
-												<path stroke="currentColor"
-												      d="M343.567,21.043h-88.535V4.305c0-2.377-1.927-4.305-4.305-4.305h-92.971c-2.377,0-4.304,1.928-4.304,4.305v16.737H64.916 c-7.125,0-12.9,5.776-12.9,12.901V74.47h304.451V33.944C356.467,26.819,350.692,21.043,343.567,21.043z"></path> </g> </g> </g></svg>
-										Delete
-									</button>
+
+									<form action="#" id="deleteUser" method="post"
+									      onsubmit="return confirm('Are you sure you want to delete this user?');"
+									      th:action="@{/users}">
+										<input name="_method" th:value="delete" type="hidden"/>
+										<button class="btn btn-outline-danger justify-content-center align-items-center ms-2">
+											<svg width="18" fill="currentColor" stroke="currentColor" class="pb-1"
+											     viewBox="0 0 408.483 408.483" xml:space="preserve"><g stroke-width="0"></g>
+												<g id="SVGRepo_tracerCarrier"></g>
+												<g> <g> <g> <path stroke="currentColor"
+												                  d="M87.748,388.784c0.461,11.01,9.521,19.699,20.539,19.699h191.911c11.018,0,20.078-8.689,20.539-19.699l13.705-289.316 H74.043L87.748,388.784z M247.655,171.329c0-4.61,3.738-8.349,8.35-8.349h13.355c4.609,0,8.35,3.738,8.35,8.349v165.293 c0,4.611-3.738,8.349-8.35,8.349h-13.355c-4.61,0-8.35-3.736-8.35-8.349V171.329z M189.216,171.329 c0-4.61,3.738-8.349,8.349-8.349h13.355c4.609,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.737,8.349-8.349,8.349h-13.355 c-4.61,0-8.349-3.736-8.349-8.349V171.329L189.216,171.329z M130.775,171.329c0-4.61,3.738-8.349,8.349-8.349h13.356 c4.61,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.738,8.349-8.349,8.349h-13.356c-4.61,0-8.349-3.736-8.349-8.349V171.329z"></path>
+													<path stroke="currentColor"
+													      d="M343.567,21.043h-88.535V4.305c0-2.377-1.927-4.305-4.305-4.305h-92.971c-2.377,0-4.304,1.928-4.304,4.305v16.737H64.916 c-7.125,0-12.9,5.776-12.9,12.901V74.47h304.451V33.944C356.467,26.819,350.692,21.043,343.567,21.043z"></path> </g> </g> </g></svg>
+											Delete
+										</button>
+									</form>
+
 								</div>
 							</div>
 						</div>
@@ -463,39 +470,40 @@
 											<tr style="height:55px!important;">
 
 												<th class="border-top align-content-center">Full Name</th>
-												<td class="text-end border-top align-content-center">Liza Meliza</td>
+												<td class="text-end border-top align-content-center" th:text="${userDisplay.fullName}"></td>
 											</tr>
 											<tr style="height:55px!important;">
 												<th class="align-content-center">Username</th>
-												<td class="text-end align-content-center">lizameliza</td>
+												<td class="text-end align-content-center" th:text="${userDisplay.username}">lizameliza</td>
 											</tr>
 											<tr style="height:55px!important;">
 												<th class="align-content-center">Email Address</th>
-												<td class="text-end align-content-center">doeliza@gmail.com</td>
+												<td class="text-end align-content-center" th:text="${userDisplay.emailAddress}">doeliza@gmail.com</td>
 											</tr>
 											<tr style="height:55px!important;">
 												<th class="align-content-center">Phone Number</th>
-												<td class="text-end align-content-center">12345678</td>
+												<td class="text-end align-content-center" th:text="${userDisplay.phoneNumber}">12345678</td>
 											</tr>
 											<tr style="height:55px!important;">
 												<th class="align-content-center"> Verification</th>
 												<td class="text-end align-content-center">
 													<button class="btn btn-outline-primary" data-bs-toggle="modal"
-													        data-bs-target="#verifyModal">Verify
+													        data-bs-target="#verifyModal" th:if="${userDisplay.isVerified() == false}">Verify
 													</button>
+													<span class="text-end align-content-center" th:if="${userDisplay.isVerified()}"> Verified</span>
 												</td>
-												<td class="text-end align-content-center d-none"> Verified</td>
 											</tr>
 
 											<tr style="height:55px!important;">
 												<th class="align-content-center"> Status</th>
-												<td class="text-end align-content-center"> Active</td>
+												<td class="text-end align-content-center" th:if="${userDisplay.isBlocked() == false}"> Active</td>
+												<td class="text-end align-content-center" th:if="${userDisplay.isBlocked()}"> Blocked</td>
 											</tr>
 
 											<tr>
 												<th class="align-content-center"> Password</th>
 												<td class="text-end align-content-center ">
-													<button class="btn btn-outline-info"> Reset Password</button>
+													<button class="btn btn-outline-info" th:href="@{/auth/reset-password}"> Reset Password</button>
 												</td>
 											</tr>
 
@@ -576,7 +584,8 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form>
+				<form th:object="${userUpdate}" method="post" th:action="@{/users/settings}">
+					<input name="_method" th:value="put" type="hidden"/>
 					<!-- Profile Photo -->
 					<div class="mb-3">
 						<label for="profilePhoto" class="form-label">Profile
@@ -589,26 +598,34 @@
 					<div class="mb-3">
 						<label for="fullName" class="form-label">Full
 							Name</label>
-						<input type="text" class="form-control" id="fullName" value="Liza">
+						<input type="text" class="form-control" id="fullName" th:field="*{fullName}">
 					</div>
 					<!-- Email Address -->
 					<div class="mb-3">
 						<label for="email" class="form-label">Email
 							Address</label>
-						<input type="email" class="form-control" id="email" value="doeliza@gmail.com">
+						<input type="email" class="form-control" id="email" value="doeliza@gmail.com" th:field="*{emailAddress}">
 					</div>
 					<!-- Phone Number -->
 					<div class="mb-3">
 						<label for="phone" class="form-label">Phone
 							Number</label>
-						<input type="text" class="form-control" id="phone" value="12345678">
+						<input type="text" class="form-control" id="phone" value="12345678" th:field="*{phoneNumber}">
+					</div>
+					<div class="modal-footer border-top-0">
+						<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-grey-outline">Save</button>
 					</div>
 				</form>
+<!--				<div class="modal-footer">-->
+<!--					<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>-->
+<!--					<button type="submit" class="btn btn-grey-outline">Save</button>-->
+<!--				</div>-->
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-grey-outline">Save</button>
-			</div>
+<!--			<div class="modal-footer">-->
+<!--				<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>-->
+<!--				<button type="submit" class="btn btn-grey-outline">Save</button>-->
+<!--			</div>-->
 		</div>
 	</div>
 </div>
@@ -667,6 +684,37 @@
 	</div>
 </div>
 
+<!-- Error Toast Notification -->
+<div id="errorToast" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+     role="alert" aria-live="assertive" aria-atomic="true"
+     th:if="${errors}" style="z-index: 1050;">
+	<div class="toast-header bg-danger rounded-2 text-white">
+		<strong class="text-end">Error</strong>
+		<button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+	</div>
+	<div class="toast-body mt-2 ps-0">
+		<ul class="mb-0">
+			<li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
+		</ul>
+	</div>
+</div>
+
+
+<!-- Success Toast Notification -->
+<div id="successToast" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+     role="alert" aria-live="assertive" aria-atomic="true"
+     th:if="${successUpdate}" style="z-index: 1050;">
+	<div class="toast-header bg-success rounded-2 text-white">
+		<strong class="text-end">Success</strong>
+		<button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+	</div>
+	<div class="toast-body mt-2 ps-0">
+		<ul class="mb-0">
+			<li> User updated Successfully </li>
+		</ul>
+	</div>
+</div>
+
 <th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
 <script src="../static/bundles/dataTables.bundle.js" th:src="@{/bundles/dataTables.bundle.js}"></script>
 <script src="../static/bundles/sweetalert2.bundle.js" th:src="@{/bundles/sweetalert2.bundle.js}"></script>
@@ -694,6 +742,23 @@
             verifyBtn.disabled = true;
         }
     }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let errorToastEl = document.getElementById('errorToast');
+        if (errorToastEl) {
+            let toast = new bootstrap.Toast(errorToastEl, { delay: 5000 });
+            toast.show();
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let successToast = document.getElementById('successToast');
+        if (successToast) {
+            let toast = new bootstrap.Toast(successToast, { delay: 5000 });
+            toast.show();
+        }
+    });
+
 </script>
 
 </body>

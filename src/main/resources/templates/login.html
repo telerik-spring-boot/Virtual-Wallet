@@ -255,7 +255,7 @@
                               <span th:if="${changeSuccess}" th:text="#{change-password.success}"  style="text-transform: none;"> </span>
                               <span th:if="${emailSuccess}" th:text="#{email-verification.success}"  style="text-transform: none;"> </span>
                               <span th:if="${registerSuccess}" th:text="#{register.success}"  style="text-transform: none;"> </span>
-                              <span th:if="${successfulDeletion}"  th:text="#{user.delete.success}"  style="text-transform: none;"> </span>
+                              <span th:if="${userDeleted}"  th:text="#{user.delete.success}"  style="text-transform: none;"> </span>
                          </div>
                          <div class="modal-footer">
                               <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
@@ -310,6 +310,11 @@
 
      <script th:if="${emailFail}" type="text/javascript">
           var modal = new bootstrap.Modal(document.getElementById('failureModal'));
+          modal.show();
+     </script>
+
+     <script th:if="${userDeleted}" type="text/javascript">
+          var modal = new bootstrap.Modal(document.getElementById('successModal'));
           modal.show();
      </script>
 

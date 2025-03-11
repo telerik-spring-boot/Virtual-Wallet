@@ -20715,3 +20715,6 @@ input[type=number] {
 }
 /*ssssssssssssssssssssss*/
 
+body{
+    text-transform:none !important;
+}
