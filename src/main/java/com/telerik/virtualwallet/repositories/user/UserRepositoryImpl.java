@@ -81,6 +81,17 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
+    public List<User> getAllMvc() {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<User> query = session.createQuery("From User LEFT JOIN FETCH roles", User.class);
+
+            return query.list();
+
+        }
+    }
+
+    @Override
     public User getById(int id) {
         try (Session session = sessionFactory.openSession()) {
 

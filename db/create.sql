@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS virtual_wallet.cards CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.wallets CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.referrals CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.transactions CASCADE;
+DROP TABLE IF EXISTS virtual_wallet.transfers CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.transaction_categories CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.stocks CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.verifications CASCADE;
@@ -30,6 +31,8 @@ CREATE TABLE virtual_wallet.users
     phone_number   VARCHAR(20)          NOT NULL UNIQUE,
     is_blocked     TINYINT(1) DEFAULT 0 NOT NULL,
     main_wallet_id INT                  NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    last_online TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (main_wallet_id) REFERENCES virtual_wallet.wallets (wallet_id)
 );
 
@@ -98,6 +101,7 @@ CREATE TABLE virtual_wallet.verifications
     user_id           INT                NOT NULL,
     pictures_verified BOOLEAN            NOT NULL,
     email_verified    BOOLEAN            NOT NULL,
+    verified_at TIMESTAMP NULL,
     FOREIGN KEY (user_id) REFERENCES virtual_wallet.users (user_id) ON DELETE CASCADE
 );
 

@@ -161,17 +161,22 @@ public class UserServiceImpl implements UserService{
             throw new EntityNotFoundException("User", "username", username);
         }
 
-//        List<Wallet> wallets = walletService.getWalletsByUsername(username);
-//
-//        for(Wallet wallet : wallets) {
-//            if(wallet.getUsers().size() == 1){
-//                //
-//            }
-//        }
+        List<Wallet> wallets = walletService.getWalletsByUsername(username);
+
+
+        List<Integer> walletsToDelete = new ArrayList<>();
+        for(Wallet wallet : wallets) {
+            if(wallet.getUsers().size() == 1){
+                walletsToDelete.add(wallet.getId());
+            }
+        }
+
 
         pictureService.delete(username);
 
         userRepository.delete(userToDelete.getId());
+
+        walletService.deleteWallets(walletsToDelete);
 
     }
 

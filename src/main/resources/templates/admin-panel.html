@@ -524,7 +524,7 @@
 							</tr>
 							</thead>
 							<tbody>
-							<tr class="row-selectable">
+							<tr class="row-selectable" th:each="user : ${users}">
 
 								<td class="border-end border-top">
                                                        <span class="d-flex align-items-center">
@@ -533,17 +533,17 @@
                                                                  src="../static/images/xs/avatar1.jpg"
                                                                  th:src="@{/images/xs/avatar1.jpg}">
                                                             <span class="flex-fill ms-2">
-                                                                 <span class="h6 mb-0">Jony Doe</span>
+                                                                 <span class="h6 mb-0" th:text="${user.fullName}">Jony Doe</span>
                                                             </span>
                                                        </span>
 								</td>
-								<td class="border-end border-top">$500.00</td>
-								<td class="border-end border-top">Checking</td>
-								<td class="border-end border-top">Feb 05, 2024</td>
-								<td class="border-end border-top">Deposit</td>
+								<td class="border-end border-top" th:text="${user.username}">johny devito</td>
+								<td class="border-end border-top" th:text="${user.email}"> johny@gmail.com</td>
+								<td class="border-end border-top" th:text="${user.phoneNumber}">+234234234</td>
+								<td class="border-end border-top" th:text="${user.isBlocked() ? 'Blocked' : 'Active'}">Active</td>
 								<td class="border-top">
 									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
-									   data-bs-toggle="offcanvas" href="#offcanvas_userDetails"
+									   data-bs-toggle="offcanvas" th:href="'#offcanvas_userDetails' + ${user.id}"
 									   title="More Action">
 										<svg aria-hidden="true" class="w-6 h-6"
 										     fill="none" viewBox="0 0 24 24"
@@ -555,165 +555,70 @@
 
 									</a>
 								</td>
-							</tr>
-							<tr class="row-selectable">
+								<div aria-labelledby="offcanvas_trdetails" class="offcanvas offcanvas-end" th:id="'offcanvas_userDetails' + ${user.id}" tabindex="-1">
+									<div class="offcanvas-header">
+										<h5 class="offcanvas-title">User Details</h5>
+										<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+									</div>
+									<div class="offcanvas-body px-0">
 
-								<td class="border-end border-top">
-                                                       <span class="d-flex align-items-center">
-                                                            <img alt=""
-                                                                 class="avatar rounded-circle d-none d-sm-inline-block"
-                                                                 src="../static/images/xs/avatar2.jpg"
-                                                                 th:src="@{/images/xs/avatar2.jpg}">
-                                                            <span class="flex-fill ms-2">
-                                                                 <span class="h6 mb-0">Lincoin Gouse</span>
-                                                            </span>
-                                                       </span>
-								</td>
-								<td class="border-end border-top">$1500.00</td>
-								<td class="border-end border-top">OPS Payroll</td>
-								<td class="border-end border-top">Feb 05, 2024</td>
-								<td class="border-end border-top">Internal Transfer</td>
-								<td class="border-top">
-									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
-									   data-bs-toggle="offcanvas" href="#offcanvas_trdetails"
-									   title="More Action">
-										<svg aria-hidden="true" class="w-6 h-6"
-										     fill="none" viewBox="0 0 24 24"
-										     width="24" xmlns="http://www.w3.org/2000/svg">
-											<path d="M6 12h.01m6 0h.01m5.99 0h.01" stroke="currentColor"
-											      stroke-linecap="round"
-											      stroke-width="3"/>
-										</svg>
+										<div class="mb-4 px-3">
+											<div class="d-flex align-items-center mb-3">
+												<img alt="" class="avatar rounded-circle" src="../static/images/lg/avatar1.jpg"
+												     th:src="@{/images/lg/avatar1.jpg}">
+												<div class="flex-fill ms-3">
+													<div class="h6 mb-1" th:text="${user.fullName}">Jony Doe</div>
+													<small class="text-muted">Last seen 12.03.2025</small>
+												</div>
+											</div>
+											<div class="border-bottom py-3">
+												<small class="text-muted mb-3" >Username</small>
+												<div class="h6 mb-0 pt-3" th:text="${user.username}">jonidevito</div>
+											</div>
 
-									</a>
-								</td>
-							</tr>
-							<tr class="row-selectable">
+											<div class="border-bottom py-3">
+												<small class="text-muted mb-3">Email Address</small>
+												<div class="h6 mb-0 pt-3" th:text="${user.email}">jonny@gmail.com</div>
+											</div>
+											<div class="border-bottom py-3">
+												<small class="text-muted mb-3">Phone Number</small>
+												<div class="h6 mb-0 pt-3" th:text="${user.phoneNumber}">+343423423423</div>
+											</div>
+											<div class="border-bottom py-3">
+												<small class="text-muted mb-1">Verification</small>
+												<div class="d-flex">
+													<div class="h6 align-self-end" th:if="${user.getVerification().isEmailVerified() and user.getVerification().isPicturesVerified()}"> Verified </div>
+													<button class="ms-auto btn btn-outline-primary"  th:if="${!user.getVerification().isEmailVerified() or !user.getVerification().isPicturesVerified()}" data-bs-toggle="modal" data-bs-target="#verifyModal"> Verify </button>
+												</div>
+											</div>
 
-								<td class="border-end border-top">
-                                                       <span class="d-flex align-items-center">
-                                                            <img alt=""
-                                                                 class="avatar rounded-circle d-none d-sm-inline-block"
-                                                                 src="../static/images/payment/netflix.svg"
-                                                                 th:src="@{/images/payment/netflix.svg}">
-                                                            <span class="flex-fill ms-2">
-                                                                 <span class="h6 mb-0">Netflix</span>
-                                                            </span>
-                                                       </span>
-								</td>
-								<td class="border-end border-top">$200.00</td>
-								<td class="border-end border-top">APP</td>
-								<td class="border-end border-top">Feb 05, 2024</td>
-								<td class="border-end border-top">Stock Purchase</td>
-								<td class="border-top">
-									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
-									   data-bs-toggle="offcanvas" href="#offcanvas_trdetails"
-									   title="More Action">
-										<svg aria-hidden="true" class="w-6 h-6"
-										     fill="none" viewBox="0 0 24 24"
-										     width="24" xmlns="http://www.w3.org/2000/svg">
-											<path d="M6 12h.01m6 0h.01m5.99 0h.01" stroke="currentColor"
-											      stroke-linecap="round"
-											      stroke-width="3"/>
-										</svg>
+											<div class="border-bottom py-3">
+												<small class="text-muted mb-1">Status</small>
+												<div class="d-flex">
+													<div class="h6 align-self-end"> Active </div>
+													<button class="ms-auto btn btn-outline-primary" th:if="${user.isBlocked()}"> Unblock </button>
+													<button class="ms-auto btn btn-outline-danger" th:if="${!user.isBlocked()}"> Block </button>
+												</div>
+											</div>
+											<div class="border-bottom py-3">
+												<small class="text-muted mb-1 align-self-start">Role</small>
+												<div class="d-flex">
+													<div class="h6 align-self-end " th:if="${!user.getRoles().isEmpty()}"> Admin </div>
+													<div class="h6 align-self-end" th:if="${user.getRoles().isEmpty()}"> User </div>
+													<button class="ms-auto btn btn-outline-primary" th:if="${!user.getRoles().isEmpty()}"> Promote </button>
+													<button class="ms-auto btn btn-outline-danger" th:if="${user.getRoles().isEmpty()}"> Demote </button>
+												</div>
+											</div>
+											<div class="border-bottom py-3">
+												<small class="text-muted mb-3">Registration Date</small>
+												<div class="d-flex">
+													<div class="h6 align-self-end pt-3"> Feb 05, 2024 At 18:20 </div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 
-									</a>
-								</td>
-							</tr>
-							<tr class="row-selectable">
-
-								<td class="border-end border-top">
-                                                       <span class="d-flex align-items-center">
-                                                            <img alt=""
-                                                                 class="avatar rounded-circle d-none d-sm-inline-block"
-                                                                 src="../static/images/payment/bookmyshow.svg"
-                                                                 th:src="@{/images/payment/bookmyshow.svg}">
-                                                            <span class="flex-fill ms-2">
-                                                                 <span class="h6 mb-0">Bookmyshow</span>
-                                                            </span>
-                                                       </span>
-								</td>
-								<td class="border-end border-top">$180.00</td>
-								<td class="border-end border-top">Checking</td>
-								<td class="border-end border-top">Feb 05, 2024</td>
-								<td class="border-end border-top">Wire</td>
-								<td class="border-top">
-									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
-									   data-bs-toggle="offcanvas" href="#offcanvas_trdetails"
-									   title="More Action">
-										<svg aria-hidden="true" class="w-6 h-6"
-										     fill="none" viewBox="0 0 24 24"
-										     width="24" xmlns="http://www.w3.org/2000/svg">
-											<path d="M6 12h.01m6 0h.01m5.99 0h.01" stroke="currentColor"
-											      stroke-linecap="round"
-											      stroke-width="3"/>
-										</svg>
-
-									</a>
-								</td>
-							</tr>
-							<tr class="row-selectable">
-
-								<td class="border-end border-top">
-                                                       <span class="d-flex align-items-center">
-                                                            <img alt=""
-                                                                 class="avatar rounded-circle d-none d-sm-inline-block"
-                                                                 src="../static/images/payment/amazon.svg"
-                                                                 th:src="@{/images/payment/amazon.svg}">
-                                                            <span class="flex-fill ms-2">
-                                                                 <span class="h6 mb-0">Amazon</span>
-                                                            </span>
-                                                       </span>
-								</td>
-								<td class="border-end border-top">$120.00</td>
-								<td class="border-end border-top">APP</td>
-								<td class="border-end border-top">Feb 05, 2024</td>
-								<td class="border-end border-top">Wire</td>
-								<td class="border-top">
-									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
-									   data-bs-toggle="offcanvas" href="#offcanvas_trdetails"
-									   title="More Action">
-										<svg aria-hidden="true" class="w-6 h-6"
-										     fill="none" viewBox="0 0 24 24"
-										     width="24" xmlns="http://www.w3.org/2000/svg">
-											<path d="M6 12h.01m6 0h.01m5.99 0h.01" stroke="currentColor"
-											      stroke-linecap="round"
-											      stroke-width="3"/>
-										</svg>
-									</a>
-								</td>
-							</tr>
-							<tr class="row-selectable">
-
-								<td class="border-end border-top">
-                                                       <span class="d-flex align-items-center">
-                                                            <img alt=""
-                                                                 class="avatar rounded-circle d-none d-sm-inline-block"
-                                                                 src="../static/images/payment/youtube.svg"
-                                                                 th:src="@{/images/payment/youtube.svg}">
-                                                            <span class="flex-fill ms-2">
-                                                                 <span class="h6 mb-0">Youtube Monthly</span>
-                                                            </span>
-                                                       </span>
-								</td>
-								<td class="border-end border-top">$80.00</td>
-								<td class="border-end border-top">APP</td>
-								<td class="border-end border-top">Feb 05, 2024</td>
-								<td class="border-end border-top">ACH</td>
-								<td class="border-top">
-									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
-									   data-bs-toggle="offcanvas" href="#offcanvas_trdetails"
-									   title="More Action">
-										<svg aria-hidden="true" class="w-6 h-6"
-										     fill="none" viewBox="0 0 24 24"
-										     width="24" xmlns="http://www.w3.org/2000/svg">
-											<path d="M6 12h.01m6 0h.01m5.99 0h.01" stroke="currentColor"
-											      stroke-linecap="round"
-											      stroke-width="3"/>
-										</svg>
-
-									</a>
-								</td>
 							</tr>
 							</tbody>
 						</table>
@@ -733,7 +638,7 @@
 							</tr>
 							</thead>
 							<tbody>
-							<tr class="row-selectable">
+							<tr class="row-selectable" th:each="transaction : ${transactions}">
 
 								<td class="border-end border-top">
                                                        <span class="d-flex align-items-center">
@@ -742,17 +647,18 @@
                                                                  src="../static/images/xs/avatar1.jpg"
                                                                  th:src="@{/images/xs/avatar1.jpg}">
                                                             <span class="flex-fill ms-2">
-                                                                 <span class="h6 mb-0">Jony Doe</span>
+                                                                 <span class="h6 mb-0" th:text="${transaction.getUserSender().fullName}">Jony Doe</span>
                                                             </span>
                                                        </span>
 								</td>
-								<td class="border-end border-top">$500.00</td>
-								<td class="border-end border-top">Checking</td>
-								<td class="border-end border-top">Feb 05, 2024</td>
+								<td class="border-end border-top" th:text="${transaction.getAmount()}">$500.00</td>
+								<td class="border-end border-top" th:text="${transaction.getTransactionCategory().getName()}">Checking</td>
+								<td class="border-end border-top" th:text="${transaction.getCreatedAt()}">Feb 05, 2024</td>
 								<td class="border-end border-top">Deposit</td>
 								<td class="border-top">
 									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
-									   data-bs-toggle="offcanvas" href="#offcanvas_trdetails"
+									   data-bs-toggle="offcanvas"
+									   th:href="'#offcanvas_trdetails_' + ${transaction.id}"
 									   title="More Action">
 										<svg aria-hidden="true" class="w-6 h-6"
 										     fill="none" viewBox="0 0 24 24"
@@ -764,165 +670,59 @@
 
 									</a>
 								</td>
-							</tr>
-							<tr class="row-selectable">
-
-								<td class="border-end border-top">
-                                                       <span class="d-flex align-items-center">
-                                                            <img alt=""
-                                                                 class="avatar rounded-circle d-none d-sm-inline-block"
-                                                                 src="../static/images/xs/avatar2.jpg"
-                                                                 th:src="@{/images/xs/avatar2.jpg}">
-                                                            <span class="flex-fill ms-2">
-                                                                 <span class="h6 mb-0">Lincoin Gouse</span>
-                                                            </span>
-                                                       </span>
-								</td>
-								<td class="border-end border-top">$1500.00</td>
-								<td class="border-end border-top">OPS Payroll</td>
-								<td class="border-end border-top">Feb 05, 2024</td>
-								<td class="border-end border-top">Internal Transfer</td>
-								<td class="border-top">
-									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
-									   data-bs-toggle="offcanvas" href="#offcanvas_trdetails"
-									   title="More Action">
-										<svg aria-hidden="true" class="w-6 h-6"
-										     fill="none" viewBox="0 0 24 24"
-										     width="24" xmlns="http://www.w3.org/2000/svg">
-											<path d="M6 12h.01m6 0h.01m5.99 0h.01" stroke="currentColor"
-											      stroke-linecap="round"
-											      stroke-width="3"/>
-										</svg>
-
-									</a>
-								</td>
-							</tr>
-							<tr class="row-selectable">
-
-								<td class="border-end border-top">
-                                                       <span class="d-flex align-items-center">
-                                                            <img alt=""
-                                                                 class="avatar rounded-circle d-none d-sm-inline-block"
-                                                                 src="../static/images/payment/netflix.svg"
-                                                                 th:src="@{/images/payment/netflix.svg}">
-                                                            <span class="flex-fill ms-2">
-                                                                 <span class="h6 mb-0">Netflix</span>
-                                                            </span>
-                                                       </span>
-								</td>
-								<td class="border-end border-top">$200.00</td>
-								<td class="border-end border-top">APP</td>
-								<td class="border-end border-top">Feb 05, 2024</td>
-								<td class="border-end border-top">Stock Purchase</td>
-								<td class="border-top">
-									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
-									   data-bs-toggle="offcanvas" href="#offcanvas_trdetails"
-									   title="More Action">
-										<svg aria-hidden="true" class="w-6 h-6"
-										     fill="none" viewBox="0 0 24 24"
-										     width="24" xmlns="http://www.w3.org/2000/svg">
-											<path d="M6 12h.01m6 0h.01m5.99 0h.01" stroke="currentColor"
-											      stroke-linecap="round"
-											      stroke-width="3"/>
-										</svg>
-
-									</a>
-								</td>
-							</tr>
-							<tr class="row-selectable">
-
-								<td class="border-end border-top">
-                                                       <span class="d-flex align-items-center">
-                                                            <img alt=""
-                                                                 class="avatar rounded-circle d-none d-sm-inline-block"
-                                                                 src="../static/images/payment/bookmyshow.svg"
-                                                                 th:src="@{/images/payment/bookmyshow.svg}">
-                                                            <span class="flex-fill ms-2">
-                                                                 <span class="h6 mb-0">Bookmyshow</span>
-                                                            </span>
-                                                       </span>
-								</td>
-								<td class="border-end border-top">$180.00</td>
-								<td class="border-end border-top">Checking</td>
-								<td class="border-end border-top">Feb 05, 2024</td>
-								<td class="border-end border-top">Wire</td>
-								<td class="border-top">
-									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
-									   data-bs-toggle="offcanvas" href="#offcanvas_trdetails"
-									   title="More Action">
-										<svg aria-hidden="true" class="w-6 h-6"
-										     fill="none" viewBox="0 0 24 24"
-										     width="24" xmlns="http://www.w3.org/2000/svg">
-											<path d="M6 12h.01m6 0h.01m5.99 0h.01" stroke="currentColor"
-											      stroke-linecap="round"
-											      stroke-width="3"/>
-										</svg>
-
-									</a>
-								</td>
-							</tr>
-							<tr class="row-selectable">
-
-								<td class="border-end border-top">
-                                                       <span class="d-flex align-items-center">
-                                                            <img alt=""
-                                                                 class="avatar rounded-circle d-none d-sm-inline-block"
-                                                                 src="../static/images/payment/amazon.svg"
-                                                                 th:src="@{/images/payment/amazon.svg}">
-                                                            <span class="flex-fill ms-2">
-                                                                 <span class="h6 mb-0">Amazon</span>
-                                                            </span>
-                                                       </span>
-								</td>
-								<td class="border-end border-top">$120.00</td>
-								<td class="border-end border-top">APP</td>
-								<td class="border-end border-top">Feb 05, 2024</td>
-								<td class="border-end border-top">Wire</td>
-								<td class="border-top">
-									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
-									   data-bs-toggle="offcanvas" href="#offcanvas_trdetails"
-									   title="More Action">
-										<svg aria-hidden="true" class="w-6 h-6"
-										     fill="none" viewBox="0 0 24 24"
-										     width="24" xmlns="http://www.w3.org/2000/svg">
-											<path d="M6 12h.01m6 0h.01m5.99 0h.01" stroke="currentColor"
-											      stroke-linecap="round"
-											      stroke-width="3"/>
-										</svg>
-									</a>
-								</td>
-							</tr>
-							<tr class="row-selectable">
-
-								<td class="border-end border-top">
-                                                       <span class="d-flex align-items-center">
-                                                            <img alt=""
-                                                                 class="avatar rounded-circle d-none d-sm-inline-block"
-                                                                 src="../static/images/payment/youtube.svg"
-                                                                 th:src="@{/images/payment/youtube.svg}">
-                                                            <span class="flex-fill ms-2">
-                                                                 <span class="h6 mb-0">Youtube Monthly</span>
-                                                            </span>
-                                                       </span>
-								</td>
-								<td class="border-end border-top">$500.00</td>
-								<td class="border-end border-top">APP</td>
-								<td class="border-end border-top">Feb 05, 2024</td>
-								<td class="border-end border-top">ACH</td>
-								<td class="border-top">
-									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
-									   data-bs-toggle="offcanvas" href="#offcanvas_trdetails"
-									   title="More Action">
-										<svg aria-hidden="true" class="w-6 h-6"
-										     fill="none" viewBox="0 0 24 24"
-										     width="24" xmlns="http://www.w3.org/2000/svg">
-											<path d="M6 12h.01m6 0h.01m5.99 0h.01" stroke="currentColor"
-											      stroke-linecap="round"
-											      stroke-width="3"/>
-										</svg>
-
-									</a>
-								</td>
+								<!-- start: Transection details rate -->
+								<div aria-labelledby="offcanvas_trdetails" class="offcanvas offcanvas-end" th:id="'offcanvas_trdetails_' + ${transaction.id}"  tabindex="-1">
+									<div class="offcanvas-header">
+										<h5 class="offcanvas-title">Transaction Details</h5>
+										<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+									</div>
+									<div class="offcanvas-body px-0">
+										<div class="mb-4 p-3 bg-light">
+											<h6 class="text-muted mb-0">Amount</h6>
+										</div>
+										<div class="mb-4 px-3">
+											<h3 th:text="${transaction.getAmount()}">$500.00</h3>
+										</div>
+										<div class="mb-4 p-3 bg-light">
+											<h6 class="text-muted mb-0">To</h6>
+										</div>
+										<div class="mb-4 px-3">
+											<div class="d-flex align-items-center mb-3">
+												<img alt="" class="avatar rounded-circle" src="../static/images/lg/avatar1.jpg"
+												     th:src="@{/images/lg/avatar1.jpg}">
+												<div class="flex-fill ms-3">
+													<div class="h6 mb-0"      th:text="${#strings.listJoin(transaction.getReceiverWallet().getUsers().![fullName], ', ')}"> John Jones </div>
+													<small class="text-muted" th:text="${transaction.getReceiverWallet().getId()}">**** ****2498 DBS Bank</small>
+												</div>
+											</div>
+										</div>
+										<div class="mb-4 p-3 bg-light">
+											<h6 class="text-muted mb-0 pt-3">Details</h6>
+										</div>
+										<div class="mb-4 px-3">
+											<div class="border-bottom py-3">
+												<small class="text-muted">Payment Type</small>
+												<div class="h6 mb-0 pt-3">Internal Transfer</div>
+											</div>
+											<div class="border-bottom py-3">
+												<small class="text-muted">Status</small>
+												<div class="h6 mb-0 pt-3">Complete</div>
+											</div>
+											<div class="border-bottom py-3">
+												<small class="text-muted">Transaction Id</small>
+												<div class="h6 mb-0 pt-3" th:text="${transaction.getId()}">NVF25680222</div>
+											</div>
+											<div class="border-bottom py-3">
+												<small class="text-muted">Date &amp; Time</small>
+												<div class="h6 mb-0 pt-3" th:text="${transaction.getCreatedAt()}">Feb 05, 2024 At 18:20</div>
+											</div>
+											<div class="border-bottom py-3">
+												<small class="text-muted">Message</small>
+												<div class="h6 mb-0 pt-3" th:text="${transaction.getMessage()}">#4433</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</tr>
 							</tbody>
 						</table>
@@ -933,122 +733,6 @@
 		</div>
 	</div>
 </main>
-<!-- start: Transection details rate -->
-<div aria-labelledby="offcanvas_trdetails" class="offcanvas offcanvas-end" id="offcanvas_trdetails" tabindex="-1">
-	<div class="offcanvas-header">
-		<h5 class="offcanvas-title">Transaction Details</h5>
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
-	</div>
-	<div class="offcanvas-body px-0">
-		<div class="mb-4 p-3 bg-light">
-			<h6 class="text-muted mb-0">Amount</h6>
-		</div>
-		<div class="mb-4 px-3">
-			<h3>$500.00</h3>
-		</div>
-		<div class="mb-4 p-3 bg-light">
-			<h6 class="text-muted mb-0">To</h6>
-		</div>
-		<div class="mb-4 px-3">
-			<div class="d-flex align-items-center mb-3">
-				<img alt="" class="avatar rounded-circle" src="../static/images/lg/avatar1.jpg"
-				     th:src="@{/images/lg/avatar1.jpg}">
-				<div class="flex-fill ms-3">
-					<div class="h6 mb-0">Jony Doe</div>
-					<small class="text-muted">**** ****2498 DBS Bank</small>
-				</div>
-			</div>
-		</div>
-		<div class="mb-4 p-3 bg-light">
-			<h6 class="text-muted mb-0 pt-3">Details</h6>
-		</div>
-		<div class="mb-4 px-3">
-			<div class="border-bottom py-3">
-				<small class="text-muted">Payment Type</small>
-				<div class="h6 mb-0 pt-3">Internal Transfer</div>
-			</div>
-			<div class="border-bottom py-3">
-				<small class="text-muted">Status</small>
-				<div class="h6 mb-0 pt-3">Complete</div>
-			</div>
-			<div class="border-bottom py-3">
-				<small class="text-muted">Transaction Id</small>
-				<div class="h6 mb-0 pt-3">NVF25680222</div>
-			</div>
-			<div class="border-bottom py-3">
-				<small class="text-muted">Date &amp; Time</small>
-				<div class="h6 mb-0 pt-3">Feb 05, 2024 At 18:20</div>
-			</div>
-			<div class="border-bottom py-3">
-				<small class="text-muted">Message</small>
-				<div class="h6 mb-0 pt-3">#4433</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div aria-labelledby="offcanvas_trdetails" class="offcanvas offcanvas-end" id="offcanvas_userDetails" tabindex="-1">
-	<div class="offcanvas-header">
-		<h5 class="offcanvas-title">User Details</h5>
-		<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
-	</div>
-	<div class="offcanvas-body px-0">
-
-		<div class="mb-4 px-3">
-			<div class="d-flex align-items-center mb-3">
-				<img alt="" class="avatar rounded-circle" src="../static/images/lg/avatar1.jpg"
-				     th:src="@{/images/lg/avatar1.jpg}">
-				<div class="flex-fill ms-3">
-					<div class="h6 mb-1">Jony Doe</div>
-					<small class="text-muted">Last seen 12.03.2025</small>
-				</div>
-			</div>
-			<div class="border-bottom py-3">
-				<small class="text-muted mb-3">Username</small>
-				<div class="h6 mb-0 pt-3">jonidevito</div>
-			</div>
-
-			<div class="border-bottom py-3">
-				<small class="text-muted mb-3">Email Address</small>
-				<div class="h6 mb-0 pt-3">jonny@gmail.com</div>
-			</div>
-			<div class="border-bottom py-3">
-				<small class="text-muted mb-3">Phone Number</small>
-				<div class="h6 mb-0 pt-3">+343423423423</div>
-			</div>
-			<div class="border-bottom py-3">
-				<small class="text-muted mb-1">Verification</small>
-				<div class="d-flex">
-					<div class="h6 align-self-end"> Not Verified </div>
-					<button class="ms-auto btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verifyModal"> Verify </button>
-				</div>
-			</div>
-
-			<div class="border-bottom py-3">
-				<small class="text-muted mb-1">Status</small>
-				<div class="d-flex">
-					<div class="h6 align-self-end"> Active </div>
-					<button class="ms-auto btn btn-outline-primary d-none"> Unblock </button>
-					<button class="ms-auto btn btn-outline-danger"> Block </button>
-				</div>
-			</div>
-			<div class="border-bottom py-3">
-				<small class="text-muted mb-1 align-self-start">Role</small>
-				<div class="d-flex">
-					<div class="h6 align-self-end"> Admin </div>
-					<button class="ms-auto btn btn-outline-primary d-none"> Promote </button>
-					<button class="ms-auto btn btn-outline-danger"> Demote </button>
-				</div>
-			</div>
-			<div class="border-bottom py-3">
-				<small class="text-muted mb-3">Registration Date</small>
-				<div class="d-flex">
-					<div class="h6 align-self-end pt-3"> Feb 05, 2024 At 18:20 </div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 
 <!-- Verify Modal -->
 <div class="modal fade" id="verifyModal" tabindex="-1" aria-labelledby="verifyModalLabel" aria-hidden="true">
@@ -1111,16 +795,16 @@
         // Initialize DataTable
         $(".dataTable").dataTable({
             responsive: true,
-            columnDefs: [
-                {
-                    targets: 3, // Corrected 'target' to 'targets'
-                    render: DataTable.render.date(),
-                },
-                {
-                    targets: 4, // Corrected 'target' to 'targets'
-                    render: DataTable.render.number(null, null, 0, "$"),
-                },
-            ],
+            // columnDefs: [
+            //     {
+            //         targets: 3, // Corrected 'target' to 'targets'
+            //         render: DataTable.render.date(),
+            //     },
+            //     {
+            //         targets: 4, // Corrected 'target' to 'targets'
+            //         render: DataTable.render.number(null, null, 0, "$"),
+            //     },
+            // ],
         });
 
         // Stacked Area
