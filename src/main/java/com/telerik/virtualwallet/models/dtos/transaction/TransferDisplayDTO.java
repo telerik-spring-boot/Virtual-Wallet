@@ -8,16 +8,20 @@ import java.util.List;
 
 public class TransferDisplayDTO {
 
-    public String cardNumber;
+    private int transferId;
 
-    public String senderUsername;
+    private String cardNumber;
 
-    public List<String> receiverWalletHolders;
+    private String senderUsername;
 
-    public BigDecimal amount;
+    private List<String> receiverWalletHolders;
+
+    private int receiverWalletId;
+
+    private BigDecimal amount;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm '['dd-MM-yyyy']'")
-    public LocalDateTime transferTime;
+    private LocalDateTime transferTime;
 
     public TransferDisplayDTO() {
     }
@@ -46,6 +50,14 @@ public class TransferDisplayDTO {
         this.receiverWalletHolders = receiverWalletHolders;
     }
 
+    public int getReceiverWalletId() {
+        return receiverWalletId;
+    }
+
+    public void setReceiverWalletId(int receiverWalletId) {
+        this.receiverWalletId = receiverWalletId;
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }
@@ -69,4 +81,13 @@ public class TransferDisplayDTO {
     public void setSenderUsername(String senderUsername) {
         this.senderUsername = senderUsername;
     }
+
+    public int getTransferId() {
+        return transferId;
+    }
+
+    public void setTransferId(int transferId) {
+        this.transferId = transferId;
+    }
+
 }

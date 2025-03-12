@@ -9,19 +9,23 @@ import java.util.List;
 
 public class TransactionDisplayDTO {
 
-    public String senderUsername;
+    private int transactionId;
 
-    public List<String> senderWalletHolders;
+    private String senderUsername;
 
-    public List<String> receiverWalletHolders;
+    private String senderWalletHolders;
 
-    public String transactionCategory;
+    private String receiverWalletHolders;
 
-    public BigDecimal amount;
+    private int receiverWalletId;
 
-    public Currency currency;
+    private String transactionCategory;
 
-    public String message;
+    private BigDecimal amount;
+
+    private Currency currency;
+
+    private String message;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm '['dd-MM-yyyy']'")
     public LocalDateTime transactionTime;
@@ -29,7 +33,7 @@ public class TransactionDisplayDTO {
     public TransactionDisplayDTO() {
     }
 
-    public TransactionDisplayDTO(String senderUsername, List<String> senderWalletHolders, List<String> receiverWalletHolders, String transactionCategory, BigDecimal amount, Currency currency, String message, LocalDateTime transactionTime) {
+    public TransactionDisplayDTO(String senderUsername, String senderWalletHolders, String receiverWalletHolders, String transactionCategory, BigDecimal amount, Currency currency, String message, LocalDateTime transactionTime) {
         this.senderUsername = senderUsername;
         this.senderWalletHolders = senderWalletHolders;
         this.receiverWalletHolders = receiverWalletHolders;
@@ -48,11 +52,11 @@ public class TransactionDisplayDTO {
         this.senderUsername = senderUsername;
     }
 
-    public List<String> getReceiverWalletHolders() {
+    public String getReceiverWalletHolders() {
         return receiverWalletHolders;
     }
 
-    public void setReceiverWalletHolders(List<String> receiverWalletHolders) {
+    public void setReceiverWalletHolders(String receiverWalletHolders) {
         this.receiverWalletHolders = receiverWalletHolders;
     }
 
@@ -88,12 +92,28 @@ public class TransactionDisplayDTO {
         this.currency = currency;
     }
 
-    public List<String> getSenderWalletHolders() {
+    public String getSenderWalletHolders() {
         return senderWalletHolders;
     }
 
-    public void setSenderWalletHolders(List<String> senderWalletHolders) {
+    public void setSenderWalletHolders(String senderWalletHolders) {
         this.senderWalletHolders = senderWalletHolders;
+    }
+
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public int getReceiverWalletId() {
+        return receiverWalletId;
+    }
+
+    public void setReceiverWalletId(int receiverWalletId) {
+        this.receiverWalletId = receiverWalletId;
     }
 
     public String getMessage() {

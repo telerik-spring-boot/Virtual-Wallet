@@ -2,12 +2,17 @@ package com.telerik.virtualwallet.controllers.mvc;
 
 
 import com.telerik.virtualwallet.helpers.TransactionMapper;
+import com.telerik.virtualwallet.models.dtos.transaction.TransactionsWrapper;
 import com.telerik.virtualwallet.services.admin.AdminService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -27,10 +32,11 @@ public class AdminMvcController {
 
         model.addAttribute("users", adminService.getAllUsersMvc());
 
+        List<TransactionsWrapper> transactions = new ArrayList<>(adminService.getAllTransactions().stream().map(transactionMapper::transactionToTransactionWrapper).toList());
 
-        model.addAttribute("transfers", adminService.getAllTransfers().stream().map(transactionMapper::transferToTransferDisplayDTO).toList());
+        transactions.addAll(adminService.getAllTransfers().stream().map(transactionMapper::transferToTransactionWrapper).toList());
 
-        model.addAttribute("transactions", adminService.getAllTransactions().stream().map(transactionMapper::transactionToTransactionDisplayDTO).toList());
+        model.addAttribute("transactions", transactions);
 
         return "admin-panel";
     }

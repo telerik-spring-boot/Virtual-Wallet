@@ -4,6 +4,7 @@ import com.telerik.virtualwallet.models.*;
 import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionCreateDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransactionsWrapper;
 import com.telerik.virtualwallet.models.dtos.transaction.TransferDisplayDTO;
 import com.telerik.virtualwallet.services.transactionCategory.TransactionCategoryService;
 import com.telerik.virtualwallet.services.user.UserService;
@@ -31,6 +32,10 @@ public class TransactionMapper {
 
     public TransactionDisplayDTO transactionToTransactionDisplayDTO(Transaction transaction) {
         TransactionDisplayDTO transactionDisplayDTO = new TransactionDisplayDTO();
+
+
+        transactionDisplayDTO.setTransactionId(transaction.getId());
+        transactionDisplayDTO.setReceiverWalletId(transaction.getReceiverWallet().getId());
         transactionDisplayDTO.setTransactionTime(transaction.getCreatedAt());
         transactionDisplayDTO.setAmount(transaction.getAmount());
         transactionDisplayDTO.setSenderUsername(transaction.getUserSender().getUsername());
@@ -42,13 +47,13 @@ public class TransactionMapper {
                 .map(User::getUsername)
                 .toList();
 
-        transactionDisplayDTO.setSenderWalletHolders(senderUsernames);
+        transactionDisplayDTO.setSenderWalletHolders(String.join(", ", senderUsernames));
 
         List<String> receiverUsernames = transaction.getReceiverWallet().getUsers().stream()
                 .map(User::getUsername)
                 .toList();
 
-        transactionDisplayDTO.setReceiverWalletHolders(receiverUsernames);
+        transactionDisplayDTO.setReceiverWalletHolders(String.join(", ", receiverUsernames));
 
         return transactionDisplayDTO;
     }
@@ -78,6 +83,8 @@ public class TransactionMapper {
     public TransferDisplayDTO transferToTransferDisplayDTO(Transfer transfer) {
         TransferDisplayDTO transferDisplayDTO = new TransferDisplayDTO();
 
+        transferDisplayDTO.setTransferId(transfer.getId());
+        transferDisplayDTO.setReceiverWalletId(transfer.getId());
         transferDisplayDTO.setTransferTime(transfer.getCreatedAt());
         transferDisplayDTO.setAmount(transfer.getAmount());
         transferDisplayDTO.setSenderUsername(transfer.getSenderCard().getUser().getUsername());
@@ -92,5 +99,44 @@ public class TransactionMapper {
         transferDisplayDTO.setReceiverWalletHolders(walletHoldersUsernames);
 
         return transferDisplayDTO;
+    }
+
+
+    public TransactionsWrapper transferToTransactionWrapper(Transfer transfer){
+        TransactionsWrapper transactionsWrapper = new TransactionsWrapper();
+
+        transactionsWrapper.setTransactionId(transfer.getId());
+        transactionsWrapper.setAmount(transfer.getAmount());
+        transactionsWrapper.setCurrency(transfer.getReceiverWallet().getCurrency());
+        transactionsWrapper.setReceivers(String.join(", ", transfer.getReceiverWallet().getUsers().stream()
+                .map(User::getUsername)
+                .toList()));
+        transactionsWrapper.setTransactionType("Deposit");
+        transactionsWrapper.setSender("**** **** **** " + transfer.getSenderCard().getNumber().substring(12));
+        transactionsWrapper.setMessage("No Message");
+        transactionsWrapper.setReceiverWalletId(transfer.getReceiverWallet().getId());
+        transactionsWrapper.setTransactionCategory("Deposit");
+        transactionsWrapper.setTransactionTime(transfer.getCreatedAt());
+
+        return transactionsWrapper;
+    }
+
+    public TransactionsWrapper transactionToTransactionWrapper(Transaction transaction){
+        TransactionsWrapper transactionsWrapper = new TransactionsWrapper();
+
+        transactionsWrapper.setTransactionId(transaction.getId());
+        transactionsWrapper.setAmount(transaction.getAmount());
+        transactionsWrapper.setCurrency(transaction.getReceiverWallet().getCurrency());
+        transactionsWrapper.setReceivers(String.join(", ", transaction.getReceiverWallet().getUsers().stream()
+                .map(User::getUsername)
+                .toList()));
+        transactionsWrapper.setTransactionType("Internal Transfer");
+        transactionsWrapper.setSender(transaction.getUserSender().getUsername());
+        transactionsWrapper.setMessage(transaction.getMessage());
+        transactionsWrapper.setReceiverWalletId(transaction.getReceiverWallet().getId());
+        transactionsWrapper.setTransactionCategory(transaction.getTransactionCategory().getName());
+        transactionsWrapper.setTransactionTime(transaction.getCreatedAt());
+
+        return transactionsWrapper;
     }
 }
