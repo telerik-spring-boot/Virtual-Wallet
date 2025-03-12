@@ -1,9 +1,7 @@
 package com.telerik.virtualwallet.controllers.mvc;
 
 
-import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
-import com.telerik.virtualwallet.exceptions.ExpiredCardException;
-import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
+import com.telerik.virtualwallet.exceptions.*;
 import com.telerik.virtualwallet.helpers.CardMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.Card;
@@ -13,10 +11,10 @@ import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.CardTransferCreateDTO;
-import com.telerik.virtualwallet.models.enums.Currency;
 import com.telerik.virtualwallet.services.card.CardService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
 import com.telerik.virtualwallet.services.user.UserService;
+import com.telerik.virtualwallet.services.wallet.WalletService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -44,14 +42,16 @@ public class UserMvcController {
     private final JwtService jwtService;
     private final CardService cardService;
     private final CardMapper cardMapper;
+    private final WalletService walletService;
 
     @Autowired
-    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, CardService cardService, CardMapper cardMapper) {
+    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, CardService cardService, CardMapper cardMapper, WalletService walletService) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.jwtService = jwtService;
         this.cardService = cardService;
         this.cardMapper = cardMapper;
+        this.walletService = walletService;
     }
 
     @ModelAttribute("isAdmin")
@@ -75,12 +75,19 @@ public class UserMvcController {
     }
 
     @GetMapping("/balance")
-    public String getCards() {
+    public String getBalance() {
         return "balance";
     }
 
     @GetMapping("/cards")
-    public String getBalance() {
+    public String getCards(Authentication authentication, Model model, HttpServletRequest request) {
+
+        User user = userService.getByUsername(authentication.getName());
+
+        loadUserCardList(model,authentication);
+        model.addAttribute("user", user);
+        model.addAttribute("requestURI", request.getRequestURI());
+
         return "card";
     }
 
@@ -156,19 +163,57 @@ public class UserMvcController {
     @GetMapping("/deposit")
     public String depositFromCard(Authentication authentication, Model model, HttpServletRequest request) {
 
-        List<CardDisplayDTO> userCards = cardService.getCardsByUsername(authentication.getName()).stream()
-                .map(cardMapper::cardToCardDisplayDTO)
-                .toList();
-        Currency currency = Currency.USD;
+        User user = userService.getByUsername(authentication.getName());
 
-        model.addAttribute("cards", userCards);
-        model.addAttribute("currency", currency);
+        loadUserCardList(model, authentication);
+
+        model.addAttribute("user", user);
         model.addAttribute("cardTransfer", new CardTransferCreateDTO());
         model.addAttribute("requestURI", request.getRequestURI());
 
         return "deposit";
 
     }
+
+    @PostMapping("/deposit")
+    public String handleDeposit(Model model, @RequestParam("chosenCardId") int cardId, Authentication authentication,
+                                @Valid @ModelAttribute("cardTransfer") CardTransferCreateDTO cardTransferCreateDTO,
+                                BindingResult bindingResult) {
+
+        model.addAttribute("formSubmitted", true);
+
+        User user = userService.getByUsername(authentication.getName());
+
+        if (bindingResult.hasErrors()) {
+            return "deposit";
+        }
+
+        try {
+            walletService.addFundsToWallet(user.getMainWallet().getId(), cardId, cardTransferCreateDTO.getAmount());
+
+            return "redirect:/users/dashboard";
+
+        } catch (EntityNotFoundException | InsufficientFundsException e) {
+            bindingResult.rejectValue("amount", "card.number", e.getMessage());
+
+            loadUserCardList(model, authentication);
+
+            model.addAttribute("user", user);
+
+            return "deposit";
+        }
+
+    }
+
+    private void loadUserCardList(Model model, Authentication authentication) {
+        List<CardDisplayDTO> userCards = cardService.getCardsByUsername(authentication.getName()).stream()
+                .map(cardMapper::cardToCardDisplayDTO)
+                .toList();
+
+        model.addAttribute("cards", userCards);
+
+    }
+
 
     @GetMapping("/transfer")
     public String createTransfer() {
