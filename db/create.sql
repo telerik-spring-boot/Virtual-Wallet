@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS virtual_wallet.cards CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.wallets CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.referrals CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.transactions CASCADE;
+DROP TABLE IF EXISTS virtual_wallet.transfers CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.transaction_categories CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.stocks CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.verifications CASCADE;
