@@ -4,10 +4,12 @@ import com.telerik.virtualwallet.exceptions.AdminRoleManagementException;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.exceptions.InvalidSortParameterException;
 import com.telerik.virtualwallet.models.Transaction;
+import com.telerik.virtualwallet.models.Transfer;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.repositories.role.RoleRepository;
 import com.telerik.virtualwallet.repositories.transaction.TransactionRepository;
+import com.telerik.virtualwallet.repositories.transaction.TransferRepository;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
 import com.telerik.virtualwallet.services.picture.PictureService;
 import com.telerik.virtualwallet.services.user.UserService;
@@ -27,13 +29,15 @@ public class AdminServiceImpl implements AdminService{
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final TransactionRepository transactionRepository;
+    private final TransferRepository transferRepository;
     private final PictureService pictureService;
 
-    public AdminServiceImpl(UserRepository userRepository, RoleRepository roleRepository, TransactionRepository transactionRepository, PictureService pictureService){
+    public AdminServiceImpl(UserRepository userRepository, TransferRepository transferRepository, RoleRepository roleRepository, TransactionRepository transactionRepository, PictureService pictureService){
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.transactionRepository = transactionRepository;
         this.pictureService = pictureService;
+        this.transferRepository = transferRepository;
     }
 
 
@@ -46,6 +50,16 @@ public class AdminServiceImpl implements AdminService{
         validateSortOrderField(sortOrder.getDirection().name());
 
         return userRepository.getAll(options, pageable);
+    }
+
+    @Override
+    public List<User> getAllUsersMvc() {
+        return userRepository.getAllMvc();
+    }
+
+    @Override
+    public List<Transfer> getAllTransfers() {
+        return transferRepository.getAllTransfersMvc();
     }
 
     @Override

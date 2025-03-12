@@ -10,6 +10,8 @@ public interface UserRepository {
 
     Page<User> getAll(FilterUserOptions options, Pageable pageable);
 
+    List<User> getAllMvc();
+
     User getById(int id);
 
     User getByIdWithRoles(int id);
@@ -35,4 +37,5 @@ public interface UserRepository {
     void update(User user);
 
     void delete(int id);
+
 }
