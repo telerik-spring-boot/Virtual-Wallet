@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class CardMapper {
 
-    private static final List<String> CARD_TYPES = List.of("Visa Credit", "Visa Debit", "Visa Electron", "MasterCard Credit", "MasterCard Debit", "Maestro", "Amex");
+    private static final List<String> CARD_TYPES = List.of("Visa Credit", "Visa Debit", "Visa Electron", "MasterCard Credit", "MasterCard Debit", "Amex");
 
     private final CardService cardService;
 
