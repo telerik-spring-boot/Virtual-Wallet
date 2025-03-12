@@ -1,8 +1,19 @@
 package com.telerik.virtualwallet.models.dtos.card;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class CardDisplayDTO {
 
+    @JsonIgnore
+    private int id;
+
     private String cardNumber;
+
+    @JsonIgnore
+    private String cardNumberFull;
+
+    @JsonIgnore
+    private String cvv;
 
     private String cardHolder;
 
@@ -15,11 +26,22 @@ public class CardDisplayDTO {
     public CardDisplayDTO() {
     }
 
-    public CardDisplayDTO(String cardNumber, String cardHolder, String expiryMonth, String expiryYear) {
+    public CardDisplayDTO(int id, String cardNumber, String cardNumberFull, String cardHolder, String expiryMonth, String expiryYear, String type) {
+        this.id = id;
         this.cardNumber = cardNumber;
+        this.cardNumberFull = cardNumberFull;
         this.cardHolder = cardHolder;
         this.expiryMonth = expiryMonth;
         this.expiryYear = expiryYear;
+        this.type = type;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCardNumber() {
@@ -60,5 +82,21 @@ public class CardDisplayDTO {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getCardNumberFull() {
+        return cardNumberFull;
+    }
+
+    public void setCardNumberFull(String cardNumberFull) {
+        this.cardNumberFull = cardNumberFull;
+    }
+
+    public String getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
     }
 }

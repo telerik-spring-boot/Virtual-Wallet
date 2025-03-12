@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 public class CardCreateDTO {
 
     @NotBlank(message = "Card number cannot be empty")
-    @Pattern(regexp = "\\d{16}", message = "Card number must be exactly 12 digits")
+    @Pattern(regexp = "\\d{16}", message = "Card number must be exactly 16 digits")
     private String cardNumber;
 
     @NotBlank(message = "Cardholder name cannot be empty")
@@ -57,5 +57,25 @@ public class CardCreateDTO {
 
     public String getExpiryYear() {
         return expiryYear;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public void setCardHolderName(String cardHolderName) {
+        this.cardHolderName = cardHolderName;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
+    }
+
+    public void setExpiryMonth(String expiryMonth) {
+        this.expiryMonth = expiryMonth;
+    }
+
+    public void setExpiryYear(String expiryYear) {
+        this.expiryYear = expiryYear;
     }
 }

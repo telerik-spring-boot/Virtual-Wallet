@@ -95,14 +95,11 @@
                         <div class="d-flex flex-column align-items-center ">
                             <div class="no-thumbnail rounded-circle border bg-light p-2">
                                 <div class="no-thumbnail rounded-circle border bg-white p-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="34" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-linecap="round"
-                                         stroke-linejoin="round" class=" svg-stroke">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="svg-stroke">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                                        <path d="M16 19h6"></path>
-                                        <path d="M19 16v6"></path>
-                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                                        <rect x="2" y="5" width="20" height="14" rx="3" ry="3"></rect>
+                                        <path d="M2 9h20"></path>
+                                        <path d="M2 13h20"></path>
                                     </svg>
                                 </div>
                             </div>
@@ -113,12 +110,12 @@
                             </div>
                             <div class="mt-3 w-100">
                                 <form class="form-horizontal" id="validateForm" action="#" method="post"
-                                      th:action="@{__${requestURI}__}">
+                                      th:action="@{__${requestURI}__}" >
                                     <fieldset>
                                         <!-- Card Holder-->
                                         <div class="mb-3">
                                             <label for="amount" class="form-label">
-                                                Amount (<span th:text="${currency}">USD</span>)
+                                                Amount (<span th:text="${user.mainWallet.currency}">USD</span>)
                                             </label>
 
                                             <div class="input-group form-control p-0">
@@ -131,6 +128,8 @@
                                                         maxlength="8"
                                                         oninput="this.value = validateAmount(this.value)"
                                                         th:field="${cardTransfer.amount}"
+                                                        th:classappend="${#fields.hasErrors('cardTransfer.amount') ? 'is-invalid' : (formSubmitted != null ? 'is-valid' : '')}"
+                                                        th:title="${#fields.errors('cardTransfer.amount')}"
                                                 >
                                             </div>
                                         </div>
@@ -158,9 +157,9 @@
                                         <div class="mb-3">
                                             <label for="number" class="form-label" >Select Card</label>
                                             <div class="input-group form-control p-0">
-                                                <select class="form-control border-0 remove-pseudo" id="number"  name="cardNumber" required>
+                                                <select class="form-control border-0 remove-pseudo" id="number"  name="chosenCardId" required>
                                                     <option th:each="card : ${cards}"
-                                                            th:value="${card.cardNumber}"
+                                                            th:value="${card.id}"
                                                             th:text="${card.type + ' - ' + card.cardNumber}">
                                                     </option>
                                                 </select>
@@ -170,12 +169,12 @@
 
                                         <!-- Button -->
                                         <div class="form-group">
-                                            <a th:href="@{/users/card-add}" href="card-add.html" class="btn btn-dark w-100">Use a new card
+                                            <a th:href="@{/users/cards/new}" href="card-add.html" class="btn btn-dark w-100">Use a new card
                                             </a>
                                         </div>
                                         <div class="form-group">
-                                            <a href="sign-in.html" class="btn btn-dark w-100">Confirm transaction
-                                            </a>
+                                            <button type="submit" class="btn btn-dark w-100">Confirm transaction
+                                            </button>
                                         </div>
                                         <div class="text-center mt-2">
                                             <span class="text-muted">By saving card, you agree to our Terms and Conditions.</span>

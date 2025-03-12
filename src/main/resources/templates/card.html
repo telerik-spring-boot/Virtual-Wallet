@@ -24,139 +24,52 @@
                <!-- start: page body area -->
                <div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
                     <div class="row g-3 mb-3">
-                         <div class="col-md-6 col-xl-4 col-lg-6">
+
+                         <div th:each="card : ${cards}" class="col-md-6 col-xl-4 col-lg-6">
                               <div class="card">
-                                   <div class="card-header">
-                                        <h6 class="card-title mb-0">Virtual Card</h6>
-                                   </div>
-                                   <div class="card-body">
-                                        <div class=" d-flex justify-content-center flex-column align-items-center">
-                                             <div class="card-wrapper">
-                                                  <div class=" cc visa ">
-                                                       <div class="card-data">
-                                                            <div class="type">Debit</div>
-                                                            <div class="circuit">
-                                                                 <i class="fa fa-cc-visa fa-2x"></i>
-                                                            </div>
-                                                       </div>
-                                                       <div class="holder">
-                                                            <span class="name">Theodore Webber</span>
-                                                            <span class="number">**** - **** - **** - 8485</span>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                        <ul class="list-unstyled mt-3 mb-0">
-                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
-                                                  <a href="#" class="text-reverse">Status</a>
-                                                  <span class="badge bg-success rounded">Active</span>
-                                             </li>
-                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
-                                                  <a href="#" class="text-reverse">Card Number</a>
-                                                  <span class="text-muted">*********8485</span>
-                                             </li>
-                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
-                                                  <a href="#" class="text-reverse">Expiry date</a>
-                                                  <span class="text-muted">04/24</span>
-                                             </li>
-                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
-                                                  <a href="#" class="text-reverse">CVC</a>
-                                                  <span class="text-muted">***</span>
-                                             </li>
-                                        </ul>
-                                        <div class="mt-3">
-                                             <div class="d-flex justify-content-between mb-2">
-                                                  <span>Spending Limit</span>
-                                                  <span>2190.56</span>
-                                             </div>
-                                             <div class="progress" role="progressbar" aria-label="Example 1px high"
-                                                  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
-                                                  style="height: 4px">
-                                                  <div class="progress-bar" style="width: 25%"></div>
-                                             </div>
-                                        </div>
-                                        <hr>
-                                        <div class="d-flex">
-                                             <a data-bs-toggle="collapse" href="#collapseshowpin1" role="button"
-                                                  aria-expanded="false" aria-controls="collapseshowpin1"
-                                                  class="btn me-1 btn-grey-outline flex-grow-1">Show Pin</a>
-                                             <a href="#viewcard" data-bs-toggle="offcanvas" aria-expanded="false"
-                                                  title="exchange"
-                                                  class="btn mx-1 btn-grey-outline flex-grow-1">Details</a>
-                                             <a data-bs-toggle="collapse" href="#collapsesfreez1" role="button"
-                                                  aria-expanded="false" aria-controls="collapsesfreez1"
-                                                  class="btn ms-1 btn-grey-outline flex-grow-1">Freeze</a>
-                                        </div>
-                                        <div class="collapse mt-2" id="collapseshowpin1">
-                                             <div class="card card-body border-0 alert alert-secondary">
-                                                  <h6 class="mb-0">1503</h6>
-                                             </div>
-                                        </div>
-                                        <div class="collapse mt-2" id="collapsesfreez1">
-                                             <div class="card card-body border-0 alert alert-danger">
-                                                  <p class="mb-0">Your Account has been frozen</p>
-                                             </div>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>
-                         <div class="col-md-6 col-xl-4 col-lg-6">
-                              <div class="card">
-                                   <div class="card-header">
-                                        <h6 class="card-title mb-0">Physical Card</h6>
-                                   </div>
+
                                    <div class="card-body">
                                         <div class="d-flex justify-content-center flex-column align-items-center">
-                                             <div class="card-wrapper light-card">
+                                             <div  class="card-wrapper">
                                                   <div class=" cc visa ">
 
                                                        <div class="card-data">
-                                                            <div class="type">Debit</div>
+                                                            <div th:if="${card.expiryMonth.substring(0,1) == '0'}" class="type">Debit</div>
+                                                            <div th:if="${card.expiryMonth.substring(0,1) == '1'}"  class="type">Credit</div>
                                                             <div class="circuit">
-                                                                 <i class="fa fa-cc-visa fa-2x"></i>
+                                                                 <i th:if="${card.getType()=='Visa'}" class="fa fa-cc-visa fa-2x"></i>
+                                                                 <i th:if="${card.getType()=='Mastercard'}" class="fa fa-cc-mastercard fa-2x"></i>
+                                                                 <i th:if="${card.getType()=='Amex'}" class="fa fa-cc-amex fa-2x"></i>
                                                             </div>
                                                        </div>
                                                        <div class="holder">
-                                                            <span class="name">Jone Doe</span>
-                                                            <span class="number">**** - **** - **** - 3456</span>
+                                                            <span class="name" th:text="${card.cardHolder}">Jone Doe</span>
+<!--                                                            <span id="cardNumber" class="number" th:text="${card.cardNumber}">**** - **** - **** - 3456</span>-->
+                                                            <span class="number" th:data-full-number="${card.cardNumberFull}" th:text="'**** - **** - **** - ' + ${card.cardNumber.substring(card.cardNumber.length() - 4)}"></span>
+
                                                        </div>
                                                   </div>
                                              </div>
                                         </div>
                                         <ul class="list-unstyled mt-3 mb-0">
-                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
-                                                  <a href="#" class="text-reverse">Status</a>
-                                                  <span class="badge bg-success rounded">Active</span>
-                                             </li>
-                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
-                                                  <a href="#" class="text-reverse">Card Number</a>
-                                                  <span class="text-muted">*********3456</span>
-                                             </li>
+
+
                                              <li class="d-flex justify-content-between align-items-center py-1 mt-2">
                                                   <a href="#" class="text-reverse">Expiry date</a>
-                                                  <span class="text-muted">03/26</span>
+                                                  <span class="text-muted number" th:text="${card.expiryMonth+'/'+card.expiryYear}">03/26</span>
                                              </li>
                                              <li class="d-flex justify-content-between align-items-center py-1 mt-2">
-                                                  <a href="#" class="text-reverse">CVC</a>
-                                                  <span class="text-muted">***</span>
+                                                  <a href="#" class="text-reverse">CVV</a>
+                                                  <span class="cvv text-muted number" th:attr="data-full-cvv=${card.cvv}">
+        ***
+    </span>
                                              </li>
                                         </ul>
-                                        <div class="mt-3">
-                                             <div class="d-flex justify-content-between mb-2">
-                                                  <span>Spending Limit</span>
-                                                  <span>1190.16</span>
-                                             </div>
-                                             <div class="progress" role="progressbar" aria-label="Example 1px high"
-                                                  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
-                                                  style="height: 4px">
-                                                  <div class="progress-bar" style="width: 15%"></div>
-                                             </div>
-                                        </div>
+
                                         <hr>
                                         <div class="d-flex">
-                                             <a data-bs-toggle="collapse" href="#collapseshowpin" role="button"
-                                                  aria-expanded="false" aria-controls="collapseshowpin"
-                                                  class="btn me-1 btn-grey-outline flex-grow-1">Show Pin</a>
+
+                                             <button onclick="toggleCardNumber(this)" class="btn me-1 btn-grey-outline" >Show Details</button>
                                              <a href="#viewcard" data-bs-toggle="offcanvas" aria-expanded="false"
                                                   title="exchange"
                                                   class="btn mx-1 btn-grey-outline flex-grow-1">Details</a>
@@ -184,90 +97,7 @@
                                    </div>
                               </div>
                          </div>
-                         <div class="col-md-6 col-xl-4 col-lg-6">
-                              <div class="card">
-                                   <div class="card-header">
-                                        <h6 class="card-title mb-0">Physical Card 1</h6>
-                                   </div>
-                                   <div class="card-body">
-                                        <div class="d-flex justify-content-center flex-column align-items-center">
-                                             <div class="card-wrapper light-card">
-                                                  <div class=" cc visa ">
 
-                                                       <div class="card-data">
-                                                            <div class="type">Debit</div>
-                                                            <div class="circuit">
-                                                                 <i class="fa fa-cc-visa fa-2x"></i>
-                                                            </div>
-                                                       </div>
-                                                       <div class="holder">
-                                                            <span class="name">Eddy Cusuma</span>
-                                                            <span class="number">**** - **** - **** - 4562</span>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                        <ul class="list-unstyled mt-3 mb-0">
-                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
-                                                  <a href="#" class="text-reverse">Status</a>
-                                                  <span class="badge bg-danger rounded">In Active</span>
-                                             </li>
-                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
-                                                  <a href="#" class="text-reverse">Card Number</a>
-                                                  <span class="text-muted">*********4562</span>
-                                             </li>
-                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
-                                                  <a href="#" class="text-reverse">Expiry date</a>
-                                                  <span class="text-muted">01/25</span>
-                                             </li>
-                                             <li class="d-flex justify-content-between align-items-center py-1 mt-2">
-                                                  <a href="#" class="text-reverse">CVC</a>
-                                                  <span class="text-muted">***</span>
-                                             </li>
-                                        </ul>
-                                        <div class="mt-3">
-                                             <div class="d-flex justify-content-between mb-2">
-                                                  <span>Spending Limit</span>
-                                                  <span>7456.16</span>
-                                             </div>
-                                             <div class="progress progress-bar-warning" role="progressbar"
-                                                  aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0"
-                                                  aria-valuemax="100" style="height: 4px">
-                                                  <div class="progress-bar bg-danger" style="width: 75%"></div>
-                                             </div>
-                                        </div>
-                                        <hr>
-                                        <div class="d-flex">
-                                             <a data-bs-toggle="collapse" href="#collapseshowpin2" role="button"
-                                                  aria-expanded="false" aria-controls="collapseshowpin"
-                                                  class="btn me-1 btn-grey-outline flex-grow-1">Show Pin</a>
-                                             <a href="#viewcard" data-bs-toggle="offcanvas" aria-expanded="false"
-                                                  title="exchange"
-                                                  class="btn mx-1 btn-grey-outline flex-grow-1">Details</a>
-                                             <a data-bs-toggle="collapse" href="#collapsesfreez2" role="button"
-                                                  aria-expanded="false" aria-controls="collapsesfreez"
-                                                  class="btn ms-1 btn-grey-outline flex-grow-1">Freeze</a>
-                                        </div>
-                                        <div class="collapse mt-2" id="collapseshowpin2">
-                                             <div class="card card-body border-0 alert alert-secondary">
-                                                  <h6 class="mb-0">1478</h6>
-                                             </div>
-                                        </div>
-                                        <div class="collapse mt-2" id="collapsesdetails">
-                                             <div class="card card-body border-0 alert alert-secondary">
-                                                  <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and
-                                                       typesetting industry. Lorem Ipsum has been the industry's
-                                                       standard dummy text ever since the 1500s</p>
-                                             </div>
-                                        </div>
-                                        <div class="collapse mt-2" id="collapsesfreez2">
-                                             <div class="card card-body border-0 alert alert-danger">
-                                                  <p class="mb-0">Your Account as been freezed</p>
-                                             </div>
-                                        </div>
-                                   </div>
-                              </div>
-                         </div>
                     </div>
                </div>
           </div>
@@ -449,7 +279,52 @@
      <!-- start: exchange rate -->
      <div th:replace="~{fragments/general-fragments :: exchange-rate}"> </div>
 
+     <script>
+          function formatCardNumber(number) {
+               return number.replace(/\d{4}(?=\d)/g, "$& - "); // Adds " - " after every 4 digits
+          }
+
+          function toggleCardNumber(button) {
+               var cardContainer = button.closest(".card"); // Find the parent card
+               var cardNumberSpan = cardContainer.querySelector(".number"); // Select the correct number field
+               var cvvSpan = cardContainer.querySelector(".cvv"); // Get the CVV inside the same card
+
+               var actualCardNumber = cardNumberSpan.getAttribute("data-full-number"); // Get full number from data attribute
+               var actualCvv = cvvSpan.getAttribute("data-full-cvv"); // Full CVV
+
+               var maskedCardNumber = "**** - **** - **** - " + actualCardNumber.slice(-4);
+               var maskedCvv = "***"; // Masked CVV
+
+               // Toggle between masked and actual card number
+               if (cardNumberSpan.textContent === maskedCardNumber) {
+                    cardNumberSpan.textContent = formatCardNumber(actualCardNumber);
+                    cvvSpan.textContent = actualCvv; // Show full CVV
+               } else {
+                    cardNumberSpan.textContent = maskedCardNumber; // Hide full number
+                    cvvSpan.textContent = maskedCvv; // Hide CVV
+               }
+          }
+
+          document.addEventListener('DOMContentLoaded', function() {
+               document.querySelectorAll('.btn-grey-outline').forEach(button => {
+                    button.addEventListener('click', function() {
+                         if (this.style.backgroundColor) {
+                              this.style.backgroundColor = '';  // Reset to default
+                              this.style.color = '';
+                         } else {
+                              this.style.backgroundColor = getComputedStyle(this).getPropertyValue('--reverse-color');
+                              this.style.color = getComputedStyle(this).getPropertyValue('--body-color');
+                         }
+                    });
+               });
+          });
+
+     </script>
+
+
+
      <th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+
      <script src="../static/bundles/dataTables.bundle.js" th:src="@{/bundles/dataTables.bundle.js}"></script>
      <script>
           $(document).ready(function () {

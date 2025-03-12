@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class CardMapper {
 
-    private static final List<String> CARD_TYPES = List.of("Visa Credit", "Visa Debit", "Visa Electron", "MasterCard Credit", "MasterCard Debit", "Amex");
+    private static final List<String> CARD_TYPES = List.of("Visa", "Mastercard", "Amex");
 
     private final CardService cardService;
 
@@ -25,10 +25,13 @@ public class CardMapper {
 
         CardDisplayDTO dto = new CardDisplayDTO();
 
-        dto.setCardHolder(card.getHolder());
+        dto.setId(card.getId());
+        dto.setCardHolder(card.getHolder().toUpperCase());
         dto.setExpiryMonth(card.getExpiryMonth());
         dto.setExpiryYear(card.getExpiryYear());
-        dto.setCardNumber("********" + card.getNumber().substring(card.getNumber().length() - 4));
+        dto.setCardNumberFull(card.getNumber());
+        dto.setCvv(card.getCvv());
+        dto.setCardNumber("**** **** **** " + card.getNumber().substring(card.getNumber().length() - 4));
 
         int sumOfDigits = card.getNumber().chars().map(c -> c - '0').sum();
 
