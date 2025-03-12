@@ -3,6 +3,8 @@ package com.telerik.virtualwallet.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "verifications")
 public class Verification {
@@ -21,6 +23,17 @@ public class Verification {
 
     @Column(name="pictures_verified")
     private boolean picturesVerified;
+
+    @Column(name = "verified_at")
+    private LocalDateTime verifiedAt;
+
+    public LocalDateTime getVerifiedAt() {
+        return verifiedAt;
+    }
+
+    public void setVerifiedAt(LocalDateTime verifiedAt) {
+        this.verifiedAt = verifiedAt;
+    }
 
     public Verification() {};
 

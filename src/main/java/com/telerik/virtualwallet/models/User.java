@@ -3,6 +3,7 @@ package com.telerik.virtualwallet.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -66,10 +67,16 @@ public class User {
     @JoinColumn(name="main_wallet_id", nullable=false)
     private Wallet mainWallet;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "last_online")
+    private LocalDateTime lastOnline;
+
     public User() {
     }
 
-    public User(int id, String fullName, String username, String email, String password, String phoneNumber, Set<Wallet> wallets, List<Role> roles, Verification verification, boolean isBlocked) {
+    public User(int id, String fullName, String username, String email, String password, String phoneNumber, Set<Wallet> wallets, List<Role> roles, Verification verification, boolean isBlocked, LocalDateTime createdAt, LocalDateTime lastOnline) {
         this.id = id;
         this.username = username;
         this.fullName=fullName;
@@ -80,6 +87,8 @@ public class User {
         this.roles = roles;
         this.verification = verification;
         this.isBlocked = isBlocked;
+        this.createdAt  = createdAt;
+        this.lastOnline = lastOnline;
     }
 
     public int getId() {
@@ -192,5 +201,21 @@ public class User {
 
     public void setMainWallet(Wallet mainWallet) {
         this.mainWallet = mainWallet;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getLastOnline() {
+        return lastOnline;
+    }
+
+    public void setLastOnline(LocalDateTime lastOnline) {
+        this.lastOnline = lastOnline;
     }
 }

@@ -211,9 +211,11 @@
                                                                  </div>
                                                             </div>
                                                             <div th:if="${param.error}">
-                                                                 <div class="alert alert-danger" role="alert">
-                                                                      Invalid username or password. Please try again.
-                                                                 </div>
+                                                                 <div class="alert alert-danger" role="alert" th:if="${param.error.get(0) == 'details'}">Invalid username or password. Please try again.</div>
+
+                                                                 <div class="alert alert-danger" role="alert" th:if="${param.error.get(0) == 'email'}">Your email is not verified. Please verify your email and try again.</div>
+
+                                                                 <div class="alert alert-danger" role="alert" th:if="${param.error.get(0)  == 'block'}">Your account is blocked. Please contact support.</div>
                                                             </div>
                                                             <!-- check -->
                                                             <div class="d-flex justify-content-between my-3">

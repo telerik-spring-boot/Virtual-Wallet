@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/auth")
@@ -51,6 +54,27 @@ public class AnonymousMvcController {
         }
 
         return "login";
+    }
+
+    @GetMapping("/extraChecks")
+    public String getLogin(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getByUsername(userDetails.getUsername());
+
+        if (!user.getVerification().isEmailVerified()) {
+            new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+            return "redirect:/auth/login?error=email";
+        }
+
+        if (user.isBlocked()) {
+            new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+            return "redirect:/auth/login?error=block";
+        }
+
+        user.setLastOnline(LocalDateTime.now());
+        userService.update(user);
+
+        return "redirect:/users/dashboard";
     }
 
     @GetMapping("/register")
