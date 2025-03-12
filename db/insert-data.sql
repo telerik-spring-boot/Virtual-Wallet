@@ -1,3 +1,18 @@
+
+-- Insert Wallets
+INSERT INTO virtual_wallet.wallets (balance, currency)
+VALUES (500.00, 'USD'),
+       (1500.00, 'USD'),
+       (300.75, 'EUR'),
+       (780.50, 'GBP'),
+       (1250.30, 'USD'),
+       (60.00, 'EUR'),
+       (900.00, 'USD'),
+       (175.45, 'GBP'),
+       (420.80, 'USD'),
+       (999.99, 'USD');
+
+
 -- Insert Users
 INSERT INTO virtual_wallet.users (full_name, username, password, email, phone_number, main_wallet_id)
 VALUES ('Alice Johnson', 'alice', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa', 'alice@example.com',
@@ -31,19 +46,6 @@ VALUES ('ROLE_ADMIN');
 INSERT INTO virtual_wallet.user_roles(user_id, role_id)
 VALUES (1, 1),
        (10, 1);
-
--- Insert Wallets
-INSERT INTO virtual_wallet.wallets (balance, currency)
-VALUES (500.00, 'USD'),
-       (1500.00, 'USD'),
-       (300.75, 'EUR'),
-       (780.50, 'GBP'),
-       (1250.30, 'USD'),
-       (60.00, 'EUR'),
-       (900.00, 'USD'),
-       (175.45, 'GBP'),
-       (420.80, 'USD'),
-       (999.99, 'USD');
 
 -- Assign Users to Wallets
 INSERT INTO virtual_wallet.users_wallets (wallet_id, user_id)

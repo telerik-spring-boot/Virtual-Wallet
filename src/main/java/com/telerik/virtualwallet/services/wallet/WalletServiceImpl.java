@@ -109,11 +109,11 @@ public class WalletServiceImpl implements WalletService {
             throw new EntityNotFoundException("Wallet", "id", walletId);
         }
 
-        if (newMainWallet.getId() == user.getMainWalletId()) {
+        if (newMainWallet.getId() == user.getMainWallet().getId()) {
             throw new DuplicateEntityException(String.format(WALLET_ALREADY_MAIN_MESSAGE, walletId, username));
         }
 
-        user.setMainWalletId(newMainWallet.getId());
+        user.setMainWallet(newMainWallet);
         userRepository.update(user);
     }
 
@@ -188,13 +188,13 @@ public class WalletServiceImpl implements WalletService {
             throw new InconsistentOperationException(USER_WITH_NO_WALLETS_EXCEPTION);
         }
 
-        if (userToRemove.getMainWalletId() == walletId) {
+        if (userToRemove.getMainWallet().getId() == walletId) {
 
             Wallet newMainWallet = userToRemove.getWallets().stream()
                     .max(Comparator.comparing(Wallet::getBalance))
                     .orElseThrow(() -> new EntityNotFoundException(NO_WALLETS_MESSAGE));
 
-            userToRemove.setMainWalletId(newMainWallet.getId());
+            userToRemove.setMainWallet(newMainWallet);
             userRepository.update(userToRemove);
 
         }

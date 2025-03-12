@@ -61,8 +61,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade= CascadeType.ALL, orphanRemoval = true)
     private List<Stock> stocks = new ArrayList<>();
 
-    @Column(name="main_wallet_id")
-    private int mainWalletId;
+
+    @OneToOne( cascade = CascadeType.ALL)
+    @JoinColumn(name="main_wallet_id", nullable=false)
+    private Wallet mainWallet;
 
     public User() {
     }
@@ -184,11 +186,11 @@ public class User {
         this.fullName = fullName;
     }
 
-    public int getMainWalletId() {
-        return mainWalletId;
+    public Wallet getMainWallet() {
+        return mainWallet;
     }
 
-    public void setMainWalletId(int mainWalletId) {
-        this.mainWalletId = mainWalletId;
+    public void setMainWallet(Wallet mainWallet) {
+        this.mainWallet = mainWallet;
     }
 }
