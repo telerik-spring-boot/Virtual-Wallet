@@ -26,7 +26,6 @@ public class TransactionsWrapper {
 
     private String message;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm '['dd-MM-yyyy']'")
     private LocalDateTime transactionTime;
 
     public TransactionsWrapper() {

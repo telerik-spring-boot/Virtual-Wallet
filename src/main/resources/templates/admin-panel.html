@@ -959,7 +959,7 @@
 
         let formattedLabels = monthLabels.map(dateStr => {
             let date = new Date(dateStr);
-            return date.toLocaleString("default", { month: "short", year: "numeric" });
+            return date.toLocaleString("en-US", { month: "short" }).slice(0, 3);
         });
 
 
@@ -1018,6 +1018,57 @@
     });
 
     $(document).ready(function () {
+
+        var transactions = /*[[${transactions}]]*/[];
+
+        const conversionRates = {
+            EUR: 1.09,
+            GBP: 1.30,
+            USD: 1,
+        };
+
+
+        let depositCounts = Array(12).fill(0);
+        let transferCounts = Array(12).fill(0);
+        let monthLabels = Array(12).fill(0);
+
+
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
+
+
+
+        let formattedLabels = monthLabels.map(dateStr => {
+            let date = new Date(dateStr);
+            return date.toLocaleString("en-US", { month: "short" }).slice(0, 3);
+        });
+
+
+        transactions.forEach((transaction) => {
+
+            console.log(transaction.transactionTime);
+            const transactionDate = new Date(transaction.transactionTime);
+            const transactionMonth = transactionDate.getMonth();
+            const transactionYear = transactionDate.getFullYear();
+
+
+            const conversionRate = conversionRates[transaction.currency];
+            const amountInUSD = transaction.amount * conversionRate;
+
+            const monthDiff = currentMonth - transactionMonth + (currentYear - transactionYear) * 12;
+
+            if (monthDiff >= 0 && monthDiff < 12) {
+
+                if (transaction.transactionType === "Deposit") {
+                    depositCounts[11 - monthDiff] += amountInUSD;
+                } else if (transaction.transactionType === "Internal Transfer") {
+                    transferCounts[11 - monthDiff] += amountInUSD;
+                }
+            }
+        });
+
         var options = {
             chart: {
                 height: 500,
@@ -1026,7 +1077,7 @@
             colors: [
                 "var(--theme-color2)",
                 "var(--theme-color3)",
-                "var(--theme-color4)",
+	            "var(--theme-color4)",
             ],
             plotOptions: {
                 bar: {
@@ -1046,53 +1097,45 @@
             series: [
                 {
                     name: "Deposits",
-                    data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
+                    data: depositCounts,
                 },
                 {
                     name: "Internal Transfers",
-                    data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
+                    data: transferCounts,
                 },
                 {
                     name: "Trading Volume",
-                    data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
+                    data: [234, 100, 34, 444, 232, 444, 434, 1, 0, 344, 44, 33],
                 },
             ],
             xaxis: {
-                categories: [
-                    "Feb",
-                    "Mar",
-                    "Apr",
-                    "May",
-                    "Jun",
-                    "Jul",
-                    "Aug",
-                    "Sep",
-                    "Oct",
-                ],
+                categories: formattedLabels,
             },
             yaxis: {
-                title: {
-                    text: "$ (thousand)",
-                },
+	            labels:{
+                    formatter: function(val) {
+                        return "$ " + val.toFixed(2); // Limits the decimal places to 2 for Y-axis labels
+                    },
+	            }
             },
             fill: {
                 opacity: 1,
             },
             tooltip: {
-                theme: "dark", // This sets the tooltip background to dark
+                theme: "dark",
                 y: {
                     formatter: function (val) {
-                        return "$ " + val + " thousand";
+                        return "$ " + val.toFixed(2);
                     },
                 },
             },
         };
 
+
         var chart = new ApexCharts(
             document.querySelector("#apex-basic-column"),
             options
         );
-
         chart.render();
     });
 
