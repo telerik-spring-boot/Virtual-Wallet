@@ -538,9 +538,9 @@
                                                        </span>
 								</td>
 								<td class="border-end border-top" th:text="${user.username}">johny devito</td>
-								<td class="border-end border-top" th:text="${user.email}"> johny@gmail.com</td>
+								<td class="border-end border-top" th:text="${user.emailAddress}"> johny@gmail.com</td>
 								<td class="border-end border-top" th:text="${user.phoneNumber}">+234234234</td>
-								<td class="border-end border-top" th:text="${user.isBlocked() ? 'Blocked' : 'Active'}">Active</td>
+								<td class="border-end border-top" th:text="${user.blocked ? 'Blocked' : 'Active'}">Active</td>
 								<td class="border-top">
 									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
 									   data-bs-toggle="offcanvas" th:href="'#offcanvas_userDetails' + ${user.id}"
@@ -568,7 +568,7 @@
 												     th:src="@{/images/lg/avatar1.jpg}">
 												<div class="flex-fill ms-3">
 													<div class="h6 mb-1" th:text="${user.fullName}">Jony Doe</div>
-													<small class="text-muted">Last seen 12.03.2025</small>
+													<small class="text-muted" th:text="${#temporals.format(user.getLastOnline(), 'yyyy-MM-dd HH:mm:ss')}">Last seen 12.03.2025</small>
 												</div>
 											</div>
 											<div class="border-bottom py-3">
@@ -578,7 +578,7 @@
 
 											<div class="border-bottom py-3">
 												<small class="text-muted mb-3">Email Address</small>
-												<div class="h6 mb-0 pt-3" th:text="${user.email}">jonny@gmail.com</div>
+												<div class="h6 mb-0 pt-3" th:text="${user.emailAddress}">jonny@gmail.com</div>
 											</div>
 											<div class="border-bottom py-3">
 												<small class="text-muted mb-3">Phone Number</small>
@@ -587,9 +587,9 @@
 											<div class="border-bottom py-3">
 												<small class="text-muted mb-1">Verification</small>
 												<div class="d-flex">
-													<div class="h6 align-self-end" th:if="${!user.getVerification().isEmailVerified() or !user.getVerification().isPicturesVerified()}"> Not Verified </div>
-													<div class="h6 mb-0 pt-3" th:if="${user.getVerification().isEmailVerified() and user.getVerification().isPicturesVerified()}"> Verified </div>
-													<button class="ms-auto btn btn-outline-primary"  th:if="${!user.getVerification().isEmailVerified() or !user.getVerification().isPicturesVerified()}" data-bs-toggle="modal" data-bs-target="#verifyModal"> Verify </button>
+													<div class="h6 align-self-end" th:if="${user.getVerifiedAt() == null}"> Not Verified </div>
+													<div class="h6 mb-0 pt-3" th:if="${user.getVerifiedAt() != null}"> Verified </div>
+													<button class="ms-auto btn btn-outline-primary"  th:if="${user.getVerifiedAt() == null}" data-bs-toggle="modal" data-bs-target="#verifyModal"> Verify </button>
 												</div>
 											</div>
 
@@ -604,16 +604,16 @@
 											<div class="border-bottom py-3">
 												<small class="text-muted mb-1 align-self-start">Role</small>
 												<div class="d-flex">
-													<div class="h6 align-self-end " th:if="${!user.getRoles().isEmpty()}"> Admin </div>
-													<div class="h6 align-self-end" th:if="${user.getRoles().isEmpty()}"> User </div>
-													<button class="ms-auto btn btn-outline-primary" th:if="${!user.getRoles().isEmpty()}"> Promote </button>
-													<button class="ms-auto btn btn-outline-danger" th:if="${user.getRoles().isEmpty()}"> Demote </button>
+													<div class="h6 align-self-end " th:if="${user.isAdmin()}"> Admin </div>
+													<div class="h6 align-self-end" th:if="${!user.isAdmin()}"> User </div>
+													<button class="ms-auto btn btn-outline-primary" th:if="${!user.isAdmin()}"> Promote </button>
+													<button class="ms-auto btn btn-outline-danger" th:if="${user.isAdmin()}"> Demote </button>
 												</div>
 											</div>
 											<div class="border-bottom py-3">
-												<small class="text-muted mb-3">Registration Date</small>
+												<small class="text-muted mb-3" >Registration Date</small>
 												<div class="d-flex">
-													<div class="h6 align-self-end pt-3"> Feb 05, 2024 At 18:20 </div>
+													<div class="h6 align-self-end pt-3" th:text="${#temporals.format(user.getCreatedAt(), 'yyyy-MM-dd HH:mm:ss')}"> Feb 05, 2024 At 18:20 </div>
 												</div>
 											</div>
 										</div>
@@ -787,7 +787,7 @@
 
 <link href="../static/vendor/dataTables.css" rel="stylesheet" th:href="@{/vendor/dataTables.css}"/>
 
-<script>
+<script th:inline="javascript">
     document.addEventListener("DOMContentLoaded", function () {
         // Scroll handling for .calendar-tab .nav
         const scrollContainer = document.querySelector(".calendar-tab .nav");
@@ -801,7 +801,7 @@
 
     $(document).ready(function () {
         // Initialize DataTable
-        $(".dataTable").dataTable({
+        $("#usersTable").dataTable({
             responsive: true,
 
 
@@ -913,6 +913,57 @@
     });
 
     $(document).ready(function () {
+
+        var users = /*[[${users}]]*/ [];
+
+        var monthLabels = [];
+        var createdCounts = Array(12).fill(0);
+        var verifiedCounts = Array(12).fill(0);
+
+        var now = new Date();
+        var currentYear = now.getFullYear();
+        var currentMonth = now.getMonth();
+
+
+        for (let i = 0; i < 12; i++) {
+            let month = new Date(currentYear, currentMonth - i, 1);
+            monthLabels.unshift(month);
+        }
+
+
+
+        users.forEach(user => {
+            let createdAt = new Date(user.createdAt);
+            let verifiedAt = user.verifiedAt ? new Date(user.verifiedAt) : null;
+
+            for (let i = 0; i < 12; i++) {
+                let month = new Date(currentYear, currentMonth - i, 1);
+
+                if (
+                    createdAt.getFullYear() === month.getFullYear() &&
+                    createdAt.getMonth() === month.getMonth()
+                ) {
+                    createdCounts[11-i]++;
+                }
+
+                if (
+                    verifiedAt &&
+                    verifiedAt.getFullYear() === month.getFullYear() &&
+                    verifiedAt.getMonth() === month.getMonth()
+                ) {
+                    verifiedCounts[11-i]++;
+                }
+            }
+        });
+
+
+        let formattedLabels = monthLabels.map(dateStr => {
+            let date = new Date(dateStr);
+            return date.toLocaleString("default", { month: "short", year: "numeric" });
+        });
+
+
+        // Create the chart
         var options = {
             chart: {
                 height: 500,
@@ -926,35 +977,20 @@
                 {
                     name: "Created Users",
                     type: "column",
-                    data: [
-                        440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160,
-                    ],
+                    data: createdCounts,
                 },
                 {
                     name: "Verified Users",
                     type: "line",
-                    data: [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16],
+                    data: verifiedCounts,
                 },
             ],
             stroke: {
                 width: [0, 4],
             },
-            labels: [
-                "01 Jan 2001",
-                "02 Jan 2001",
-                "03 Jan 2001",
-                "04 Jan 2001",
-                "05 Jan 2001",
-                "06 Jan 2001",
-                "07 Jan 2001",
-                "08 Jan 2001",
-                "09 Jan 2001",
-                "10 Jan 2001",
-                "11 Jan 2001",
-                "12 Jan 2001",
-            ],
+            labels: formattedLabels,
             xaxis: {
-                type: "datetime",
+                type: "category",
             },
             yaxis: [
                 {
@@ -973,6 +1009,7 @@
                 theme: "dark",
             },
         };
+
         var chart = new ApexCharts(
             document.querySelector("#apex-chart-line-column"),
             options

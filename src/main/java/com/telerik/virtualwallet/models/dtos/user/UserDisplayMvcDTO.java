@@ -4,26 +4,22 @@ import java.time.LocalDateTime;
 
 public class UserDisplayMvcDTO extends UserDisplayDTO{
 
+    private int id;
+
     private String fullName;
 
-    private boolean isVerified;
+    private LocalDateTime verifiedAt;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime lastOnline;
 
-    private boolean isAdmin;
+    private boolean admin;
 
 
     public UserDisplayMvcDTO(){}
 
-    public boolean isVerified() {
-        return isVerified;
-    }
 
-    public void setVerified(boolean verified) {
-        isVerified = verified;
-    }
 
     public String getFullName() {
         return fullName;
@@ -49,11 +45,27 @@ public class UserDisplayMvcDTO extends UserDisplayDTO{
         this.lastOnline = lastOnline;
     }
 
+    public LocalDateTime getVerifiedAt() {
+        return verifiedAt;
+    }
+
+    public void setVerifiedAt(LocalDateTime verifiedAt) {
+        this.verifiedAt = verifiedAt;
+    }
+
     public boolean isAdmin() {
-        return isAdmin;
+        return admin;
     }
 
     public void setAdmin(boolean admin) {
-        isAdmin = admin;
+        this.admin = admin;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

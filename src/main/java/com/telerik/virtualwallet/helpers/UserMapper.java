@@ -106,7 +106,15 @@ public class UserMapper {
     public UserDisplayMvcDTO userToUserDisplayMvcDTO(User user){
         UserDisplayMvcDTO dto = new UserDisplayMvcDTO();
 
+        dto.setId(user.getId());
+
         dto.setFullName(user.getFullName());
+
+        dto.setLastOnline(user.getLastOnline());
+
+        dto.setCreatedAt(user.getCreatedAt());
+
+        dto.setAdmin(user.getRoles().stream().anyMatch(role -> role.getRoleName().equalsIgnoreCase("ROLE_ADMIN")));
 
         dto.setEmailAddress(user.getEmail());
 
@@ -114,7 +122,7 @@ public class UserMapper {
 
         dto.setBlocked(user.isBlocked());
 
-        dto.setVerified(user.getVerification().isEmailVerified() && user.getVerification().isPicturesVerified());
+        dto.setVerifiedAt(user.getVerification().getVerifiedAt());
 
         dto.setPhoneNumber(user.getPhoneNumber());
 
