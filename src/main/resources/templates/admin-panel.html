@@ -540,7 +540,7 @@
 								<td class="border-end border-top" th:text="${user.username}">johny devito</td>
 								<td class="border-end border-top" th:text="${user.emailAddress}"> johny@gmail.com</td>
 								<td class="border-end border-top" th:text="${user.phoneNumber}">+234234234</td>
-								<td class="border-end border-top" th:text="${user.blocked ? 'Blocked' : 'Active'}">Active</td>
+								<td class="border-end border-top" th:text="${user.blocked ? 'Blocked' : 'Active'}"></td>
 								<td class="border-top">
 									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
 									   data-bs-toggle="offcanvas" th:href="'#offcanvas_userDetails' + ${user.id}"
@@ -589,16 +589,23 @@
 												<div class="d-flex">
 													<div class="h6 align-self-end" th:if="${user.getVerifiedAt() == null}"> Not Verified </div>
 													<div class="h6 mb-0 pt-3" th:if="${user.getVerifiedAt() != null}"> Verified </div>
-													<button class="ms-auto btn btn-outline-primary"  th:if="${user.getVerifiedAt() == null}" data-bs-toggle="modal" data-bs-target="#verifyModal"> Verify </button>
+													<button class="ms-auto btn btn-outline-primary"  th:if="${user.getVerifiedAt() == null}" data-bs-toggle="modal" th:data-bs-target="'#verifyModal' + ${user.id}"> Verify </button>
 												</div>
 											</div>
 
 											<div class="border-bottom py-3">
 												<small class="text-muted mb-1">Status</small>
 												<div class="d-flex">
-													<div class="h6 align-self-end"> Active </div>
-													<button class="ms-auto btn btn-outline-primary" th:if="${user.isBlocked()}"> Unblock </button>
-													<button class="ms-auto btn btn-outline-danger" th:if="${!user.isBlocked()}"> Block </button>
+													<div class="h6 align-self-end" th:text="${user.blocked ? 'Blocked' : 'Active'}"> </div>
+													<form th:action="@{/admin/users/{userId}/unblock(userId=${user.id})}" method="post">
+														<input type="hidden" name="_method" value="PUT"/>
+														<button type="submit" class="ms-auto btn btn-outline-primary" th:if="${user.isBlocked()}"> Unblock </button>
+													</form>
+
+													<form th:action="@{/admin/users/{userId}/block(userId=${user.id})}" method="post">
+														<input type="hidden" name="_method" value="PUT"/>
+														<button type="submit" class="ms-auto btn btn-outline-danger" th:if="${!user.isBlocked()}" > Block </button>
+													</form
 												</div>
 											</div>
 											<div class="border-bottom py-3">
@@ -606,8 +613,16 @@
 												<div class="d-flex">
 													<div class="h6 align-self-end " th:if="${user.isAdmin()}"> Admin </div>
 													<div class="h6 align-self-end" th:if="${!user.isAdmin()}"> User </div>
-													<button class="ms-auto btn btn-outline-primary" th:if="${!user.isAdmin()}"> Promote </button>
-													<button class="ms-auto btn btn-outline-danger" th:if="${user.isAdmin()}"> Demote </button>
+
+													<form th:action="@{/admin/users/{userId}/grant(userId=${user.id})}" method="post">
+														<input type="hidden" name="_method" value="PUT"/>
+														<button type="submit" class="ms-auto btn btn-outline-primary" th:if="${!user.isAdmin()}"> Promote </button>
+													</form>
+
+													<form th:action="@{/admin/users/{userId}/revoke(userId=${user.id})}" method="post">
+														<input type="hidden" name="_method" value="PUT"/>
+														<button type="submit" class="ms-auto btn btn-outline-danger" th:if="${user.isAdmin()}" > Demote </button>
+													</form>
 												</div>
 											</div>
 											<div class="border-bottom py-3">
@@ -619,7 +634,53 @@
 										</div>
 									</div>
 								</div>
+								<!-- Verify Modal -->
+								<div class="modal fade" th:id="'verifyModal' + ${user.id}" tabindex="-1" th:aria-labelledby="'verifyModalLabel' + ${user.id}" aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" th:id="'verifyModalLabel' + ${user.id}">Verify Identity</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<form class="text-center d-flex flex-column gap-3" enctype="multipart/form-data" method="post">
+													<div class="row">
+														<div class="col-6 d-flex flex-column justify-content-between align-items-center">
+															<div>
+																<img id="preview1" src="../static/images/gallery/idExample.jpg"
+																     th:src="@{/images/gallery/idExample.jpg}" class="img-thumbnail mb-3"
+																     alt="Preview ID"/>
 
+															</div>
+
+
+														</div>
+														<div class="col-6 d-flex flex-column justify-content-between align-items-center">
+															<div>
+																<img id="preview2" src="../static/images/gallery/selfieExample.png"
+																     th:src="@{/images/gallery/selfieExample.png}" class="img-thumbnail mb-3"
+																     alt="Preview Selfie"/>
+
+
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+											<div class="modal-footer">
+												<form th:action="@{/admin/users/{username}/approve-verification(username=${user.username})}" method="post">
+													<input type="hidden" name="_method" value="PUT"/>
+													<button type="submit"  class="btn btn-primary  ">Approve</button>
+												</form>
+
+												<form th:action="@{/admin/users/{username}/reject-verification(username=${user.username})}" method="post">
+													<input type="hidden" name="_method" value="PUT"/>
+													<button type="submit" class="btn btn-danger" >Reject</button>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
 							</tr>
 							</tbody>
 						</table>
@@ -742,42 +803,7 @@
 	</div>
 </main>
 
-<!-- Verify Modal -->
-<div class="modal fade" id="verifyModal" tabindex="-1" aria-labelledby="verifyModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="verifyModalLabel">Verify Identity</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<form class="text-center d-flex flex-column gap-3" enctype="multipart/form-data" method="post">
-					<div class="row">
-						<div class="col-6 d-flex flex-column justify-content-between align-items-center">
-							<div>
-								<img id="preview1" src="../static/images/gallery/idExample.jpg"
-								     th:src="@{/images/gallery/idExample.jpg}" class="img-thumbnail mb-3"
-								     alt="Preview Selfie"/>
-							</div>
-						</div>
-						<div class="col-6 d-flex flex-column justify-content-between align-items-center">
-							<div>
-								<img id="preview2" src="../static/images/gallery/selfieExample.png"
-								     th:src="@{/images/gallery/selfieExample.png}" class="img-thumbnail mb-3"
-								     alt="Preview ID"/>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button"  class="btn btn-primary  " >Approve</button>
 
-				<button type="button" class="btn btn-danger  " >Reject</button>
-			</div>
-		</div>
-	</div>
-</div>
 
 <div th:replace="~{fragments/general-fragments :: exchange-rate}"></div>
 

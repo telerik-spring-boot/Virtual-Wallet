@@ -3,31 +3,32 @@ package com.telerik.virtualwallet.controllers.mvc;
 
 import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
+import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionsWrapper;
 import com.telerik.virtualwallet.services.admin.AdminService;
+import com.telerik.virtualwallet.services.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Controller
-@RequestMapping("/admins")
+@RequestMapping("/admin")
 public class AdminMvcController {
 
     private final AdminService adminService;
+    private final UserService userService;
     private final TransactionMapper transactionMapper;
     private final UserMapper userMapper;
 
-    public AdminMvcController(AdminService adminService, UserMapper userMapper, TransactionMapper transactionMapper) {
+    public AdminMvcController(AdminService adminService, UserMapper userMapper, TransactionMapper transactionMapper, UserService userService) {
         this.adminService = adminService;
         this.transactionMapper = transactionMapper;
         this.userMapper =userMapper;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -48,5 +49,69 @@ public class AdminMvcController {
     @ModelAttribute("isAdmin")
     public boolean populateIsAdmin() {
         return true;
+    }
+
+    @PutMapping("/users/{userId}/grant")
+    public String grantAdminRights(@PathVariable int userId) {
+
+
+        adminService.giveAdminRights(userId);
+
+        return "redirect:/admin";
+
+    }
+
+    @PutMapping("/users/{userId}/revoke")
+    public String revokeAdminRights(@PathVariable int userId) {
+
+        adminService.revokeAdminRights(userId);
+
+        return "redirect:/admin";
+
+
+    }
+
+    @PutMapping("/users/{userId}/block")
+    public String blockUser(@PathVariable int userId) {
+
+
+        User userToBlock = userService.getById(userId);
+
+        adminService.blockUser(userToBlock);
+
+        return "redirect:/admin";
+
+
+    }
+
+    @PutMapping("/users/{userId}/unblock")
+    public String unblockUser(@PathVariable int userId) {
+
+        User userToBlock = userService.getById(userId);
+
+        adminService.unblockUser(userToBlock);
+
+        return "redirect:/admin";
+
+    }
+
+    @PutMapping("/users/{username}/approve-verification")
+    public String approveVerification(@PathVariable String username) {
+
+        adminService.approveUserPictureVerification(username);
+
+        return "redirect:/admin";
+
+
+    }
+
+    @PutMapping("/users/{username}/reject-verification")
+    public String rejectVerification(@PathVariable String username) {
+
+        adminService.rejectUserPictureVerification(username);
+
+        return "redirect:/admin";
+
+
     }
 }
