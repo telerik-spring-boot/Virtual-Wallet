@@ -17,8 +17,6 @@ public class WalletMapper {
 
     private final WalletService walletService;
 
-
-
     @Autowired
     public WalletMapper(WalletService walletService) {
         this.walletService = walletService;
