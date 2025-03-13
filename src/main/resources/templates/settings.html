@@ -417,8 +417,14 @@
 							</div>
 							<div
 									class="d-flex align-items-md-start align-items-center flex-column flex-md-row mt-4 w-100">
-								<img th:src="@{/images/profile_av.png}" src="../static/images/profile_av.png" alt=""
-								     class="rounded-4">
+
+								<img alt="Profile Picture" src="../static/images/profile_av.png"
+								     class="rounded-4"
+								     onerror="this.onerror=null; this.src='/images/profile_av.png';"
+								     width="160"
+								     height="160"
+								     th:src="@{/uploads/picture{username}3.jpg(username=${userDisplay.username})}"/>
+
 								<div class="media-body ms-md-5 m-0 mt-4 mt-md-0 text-md-start text-center">
 									<h4 class="mt-3" th:text="${userDisplay.fullName}">Michelle Hughes</h4>
 								</div>
@@ -470,40 +476,55 @@
 											<tr style="height:55px!important;">
 
 												<th class="border-top align-content-center">Full Name</th>
-												<td class="text-end border-top align-content-center" th:text="${userDisplay.fullName}"></td>
+												<td class="text-end border-top align-content-center"
+												    th:text="${userDisplay.fullName}"></td>
 											</tr>
 											<tr style="height:55px!important;">
 												<th class="align-content-center">Username</th>
-												<td class="text-end align-content-center" th:text="${userDisplay.username}">lizameliza</td>
+												<td class="text-end align-content-center"
+												    th:text="${userDisplay.username}">lizameliza
+												</td>
 											</tr>
 											<tr style="height:55px!important;">
 												<th class="align-content-center">Email Address</th>
-												<td class="text-end align-content-center" th:text="${userDisplay.emailAddress}">doeliza@gmail.com</td>
+												<td class="text-end align-content-center"
+												    th:text="${userDisplay.emailAddress}">doeliza@gmail.com
+												</td>
 											</tr>
 											<tr style="height:55px!important;">
 												<th class="align-content-center">Phone Number</th>
-												<td class="text-end align-content-center" th:text="${userDisplay.phoneNumber}">12345678</td>
+												<td class="text-end align-content-center"
+												    th:text="${userDisplay.phoneNumber}">12345678
+												</td>
 											</tr>
 											<tr style="height:55px!important;">
 												<th class="align-content-center"> Verification</th>
 												<td class="text-end align-content-center">
 													<button class="btn btn-outline-primary" data-bs-toggle="modal"
-													        data-bs-target="#verifyModal" th:if="${userDisplay.isVerified() == false}">Verify
+													        data-bs-target="#verifyModal"
+													        th:if="${userDisplay.verifiedAt == null}">Verify
 													</button>
-													<span class="text-end align-content-center" th:if="${userDisplay.isVerified()}"> Verified</span>
+													<span class="text-end align-content-center"
+													      th:if="${userDisplay.verifiedAt != null}"> Verified</span>
 												</td>
 											</tr>
 
 											<tr style="height:55px!important;">
 												<th class="align-content-center"> Status</th>
-												<td class="text-end align-content-center" th:if="${userDisplay.isBlocked() == false}"> Active</td>
-												<td class="text-end align-content-center" th:if="${userDisplay.isBlocked()}"> Blocked</td>
+												<td class="text-end align-content-center"
+												    th:if="${userDisplay.isBlocked() == false}"> Active
+												</td>
+												<td class="text-end align-content-center"
+												    th:if="${userDisplay.isBlocked()}"> Blocked
+												</td>
 											</tr>
 
 											<tr>
 												<th class="align-content-center"> Password</th>
 												<td class="text-end align-content-center ">
-													<a class="btn btn-outline-info"  th:href="@{/auth/reset-password?token={token}(token=${token})}"> Reset Password</a>
+													<a class="btn btn-outline-info"
+													   th:href="@{/auth/reset-password?token={token}(token=${token})}">
+														Reset Password</a>
 												</td>
 											</tr>
 
@@ -536,9 +557,11 @@
 						<tr>
 							<th class="align-content-center"> Profile Photo</th>
 							<td class="text-end align-content-center">
-								<img th:src="@{/images/profile_av.png}" src="../static/images/profile_av.png"
-								     alt="avatar"
-								     class="avatar md rounded-circle">
+
+								<img alt="avatar" src="../static/images/profile_av.png"
+								     class="avatar md rounded-circle"
+								     onerror="this.onerror=null; this.src='/images/profile_av.png';"
+								     th:src="@{/uploads/picture{username}3.jpg(username=${userDisplay.username})}"/>
 							</td>
 						</tr>
 						<tr style="height:55px!important;">
@@ -584,16 +607,34 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
+
+				<!-- Profile Photo -->
+				<form class="text-center" enctype="multipart/form-data" method="post"
+				      th:action="@{/uploads/profile/{username}(username=${userDisplay.username})}">
+
+					<div class="m-3 image-container">
+						<input accept="image/jpeg, image/png, image/gif, image/bmp, image/webp"
+						       class="d-none"
+						       id="fileInput"
+						       name="picture"
+						       onchange="if(validateFile(this)) this.form.submit()" type="file"/>
+
+						<img alt="Profile Picture"
+						     class="rounded-circle border mb-3 profile-picture ms-auto"
+						     onclick="document.getElementById('fileInput').click()"
+						     width="160"
+						     height="160"
+						     onerror="this.onerror=null; this.src='/images/profile_av.png';"
+						     th:src="@{/uploads/picture{username}3.jpg(username=${userDisplay.username})}"/>
+
+						<div class="overlay-text">Click to change picture</div>
+
+					</div>
+				</form>
+
 				<form th:object="${userUpdate}" method="post" th:action="@{/users/settings}">
 					<input name="_method" th:value="put" type="hidden"/>
-					<!-- Profile Photo -->
-					<div class="mb-3">
-						<label for="profilePhoto" class="form-label">Profile
-							Photo</label>
-						<input type="file" class="form-control filepond" id="profilePhoto" name="filepond"
-						       multiple data-allow-reorder="true" data-max-file-size="3MB" data-max-files="3"
-						       s>
-					</div>
+
 					<!-- Full Name -->
 					<div class="mb-3">
 						<label for="fullName" class="form-label">Full
@@ -604,7 +645,8 @@
 					<div class="mb-3">
 						<label for="email" class="form-label">Email
 							Address</label>
-						<input type="email" class="form-control" id="email" value="doeliza@gmail.com" th:field="*{emailAddress}">
+						<input type="email" class="form-control" id="email" value="doeliza@gmail.com"
+						       th:field="*{emailAddress}">
 					</div>
 					<!-- Phone Number -->
 					<div class="mb-3">
@@ -617,15 +659,7 @@
 						<button type="submit" class="btn btn-grey-outline">Save</button>
 					</div>
 				</form>
-<!--				<div class="modal-footer">-->
-<!--					<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>-->
-<!--					<button type="submit" class="btn btn-grey-outline">Save</button>-->
-<!--				</div>-->
 			</div>
-<!--			<div class="modal-footer">-->
-<!--				<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>-->
-<!--				<button type="submit" class="btn btn-grey-outline">Save</button>-->
-<!--			</div>-->
 		</div>
 	</div>
 </div>
@@ -639,41 +673,41 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form class="text-center d-flex flex-column gap-3" enctype="multipart/form-data" method="post">
+				<form class="text-center d-flex flex-column gap-3" enctype="multipart/form-data" method="post"
+				      th:action="@{/uploads/verification/{username}(username=${userDisplay.username})}">
 					<div class="row">
+
 						<div class="col-6 d-flex flex-column justify-content-between align-items-center">
 							<div>
 								<img id="preview1" src="../static/images/gallery/idExample.jpg"
 								     th:src="@{/images/gallery/idExample.jpg}" class="img-thumbnail mb-3"
-								     alt="Preview Selfie"/>
+								     alt="Preview ID"/>
 							</div>
-							<label for="picture1" class="btn btn-secondary" >Upload ID</label>
+							<label for="picture1" class="btn btn-secondary">Upload ID</label>
 							<input accept="image/jpeg, image/png, image/gif, image/bmp, image/webp"
 							       id="picture1"
 							       class="d-none"
-							       name="idCard"
+							       name="picture"
 							       type="file"
-							       onchange="updatePreview(event, 'preview1'); checkFiles();"/>
-
+							       onchange="if(validateFile(this)) {updatePreview(event, 'preview1'); checkFiles();}"/>
 						</div>
+
 						<div class="col-6 d-flex flex-column justify-content-between align-items-center">
 							<div>
 								<img id="preview2" src="../static/images/gallery/selfieExample.png"
 								     th:src="@{/images/gallery/selfieExample.png}" class="img-thumbnail mb-3"
-								     alt="Preview ID"/>
+								     alt="Preview Selfie"/>
 							</div>
-
 							<label for="picture2" class="btn btn-secondary">Upload Selfie</label>
 							<input accept="image/jpeg, image/png, image/gif, image/bmp, image/webp"
 							       class="d-none"
 							       id="picture2"
-							       name="selfie"
+							       name="picture"
 							       type="file"
-							       onchange="updatePreview(event, 'preview2'); checkFiles();"/>
+							       onchange="if(validateFile(this)) {updatePreview(event, 'preview2'); checkFiles();}"/>
 						</div>
-
-
 					</div>
+
 					<button type="submit" class="btn btn-primary mt-4" id="verifyBtn" disabled>Verify</button>
 				</form>
 			</div>
@@ -690,11 +724,29 @@
      th:if="${errors}" style="z-index: 1050;">
 	<div class="toast-header bg-danger rounded-2 text-white">
 		<strong class="text-end">Error</strong>
-		<button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+		<button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+		        aria-label="Close"></button>
 	</div>
 	<div class="toast-body mt-2 ps-0">
 		<ul class="mb-0">
 			<li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
+		</ul>
+	</div>
+</div>
+
+
+<!-- Error Toast Notification -->
+<div id="errorToastUpload" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+     role="alert" aria-live="assertive" aria-atomic="true"
+     th:if="${failUpload}" style="z-index: 1050;">
+	<div class="toast-header bg-danger rounded-2 text-white">
+		<strong class="text-end">Error</strong>
+		<button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+		        aria-label="Close"></button>
+	</div>
+	<div class="toast-body mt-2 ps-0">
+		<ul class="mb-0">
+			<li> Picture uploading failed, please try again</li>
 		</ul>
 	</div>
 </div>
@@ -706,11 +758,29 @@
      th:if="${successUpdate}" style="z-index: 1050;">
 	<div class="toast-header bg-success rounded-2 text-white">
 		<strong class="text-end">Success</strong>
-		<button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+		<button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+		        aria-label="Close"></button>
 	</div>
 	<div class="toast-body mt-2 ps-0">
 		<ul class="mb-0">
-			<li> User updated Successfully </li>
+			<li> User updated Successfully</li>
+		</ul>
+	</div>
+</div>
+
+
+<!-- Success Toast Notification -->
+<div id="successToastUpload" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+     role="alert" aria-live="assertive" aria-atomic="true"
+     th:if="${successUpload}" style="z-index: 1050;">
+	<div class="toast-header bg-success rounded-2 text-white">
+		<strong class="text-end">Success</strong>
+		<button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+		        aria-label="Close"></button>
+	</div>
+	<div class="toast-body mt-2 ps-0">
+		<ul class="mb-0">
+			<li> Verification photos updated successfully</li>
 		</ul>
 	</div>
 </div>
@@ -723,12 +793,27 @@
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 const previewImage = document.getElementById(previewId);
-                previewImage.src = e.target.result; // Update preview image
+                previewImage.src = e.target.result;
             };
-            reader.readAsDataURL(file); // Read file as Data URL
+            reader.readAsDataURL(file);
         }
+    }
+
+    function validateFile(input) {
+        const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/bmp", "image/webp"];
+        const file = input.files[0];
+
+        if (!file) return false;
+
+        if (!allowedTypes.includes(file.type)) {
+            alert("Invalid file type. Please upload an image (JPEG, PNG, GIF, BMP, WEBP).");
+            input.value = "";
+            return false;
+        }
+
+        return true;
     }
 
     function checkFiles() {
@@ -743,21 +828,34 @@
         }
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         let errorToastEl = document.getElementById('errorToast');
         if (errorToastEl) {
-            let toast = new bootstrap.Toast(errorToastEl, { delay: 5000 });
+            let toast = new bootstrap.Toast(errorToastEl, {delay: 5000});
             toast.show();
         }
+
+        let errorToastUpload = document.getElementById('errorToastUpload');
+        if (errorToastUpload) {
+            let toast = new bootstrap.Toast(errorToastUpload, {delay: 5000});
+            toast.show();
+        }
+
+        let successToastUpdate = document.getElementById('successToast');
+        if (successToastUpdate) {
+            let toast = new bootstrap.Toast(successToastUpdate, {delay: 5000});
+            toast.show();
+        }
+
+        let successToastUpload = document.getElementById('successToastUpload');
+        if (successToastUpload) {
+            let toast = new bootstrap.Toast(successToastUpload, {delay: 5000});
+            toast.show();
+        }
+
+
     });
 
-    document.addEventListener("DOMContentLoaded", function() {
-        let successToast = document.getElementById('successToast');
-        if (successToast) {
-            let toast = new bootstrap.Toast(successToast, { delay: 5000 });
-            toast.show();
-        }
-    });
 
 </script>
 
