@@ -16,4 +16,6 @@ public interface PictureService {
     Resource retrieveSingle(String filename);
 
     void delete(String username);
+
+    boolean checkIfExists(String username, int photoNumber);
 }

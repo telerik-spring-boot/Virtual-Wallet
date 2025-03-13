@@ -74,6 +74,7 @@ public class PictureServiceImpl implements PictureService{
 
         Path filePathFirst = Paths.get(uploadDirectory, "picture" + username + "1.jpg");
         Path filePathSecond = Paths.get(uploadDirectory, "picture" + username + "2.jpg");
+        Path filePathThird = Paths.get(uploadDirectory, "picture" + username + "3.jpg");
 
         Map<String, String> fileUrls = new HashMap<>();
 
@@ -83,6 +84,10 @@ public class PictureServiceImpl implements PictureService{
 
         if (Files.exists(filePathSecond)) {
             fileUrls.put("picture2", "/api/uploads/pictures/" + "picture" + username + "2.jpg");
+        }
+
+        if (Files.exists(filePathThird)) {
+            fileUrls.put("picture3", "/api/uploads/pictures/" + "picture" + username + "3.jpg");
         }
 
         if (fileUrls.isEmpty()) {
@@ -128,4 +133,12 @@ public class PictureServiceImpl implements PictureService{
             throw new PictureOperationException("Failed to delete pictures for user with username: " + username);
         }
     }
+
+    @Override
+    public boolean checkIfExists(String username, int photoNumber) {
+        String imagePath = uploadDirectory + "/picture" + username + photoNumber + ".jpg";
+
+        return Files.exists(Paths.get(imagePath));
+    }
+
 }
