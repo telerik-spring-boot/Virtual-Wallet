@@ -27,7 +27,7 @@ public class PictureController {
     @PreAuthorize("#username == authentication.name")
     public ResponseEntity<String> handleFileUpload(@RequestParam("picture") MultipartFile [] pictures, @PathVariable String username) {
 
-        pictureService.upload(pictures, username);
+        pictureService.uploadVerificationPictures(pictures, username);
 
         return ResponseEntity.ok("Successfully uploaded pictures");
 

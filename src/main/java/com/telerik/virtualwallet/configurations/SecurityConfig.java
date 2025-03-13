@@ -80,7 +80,7 @@ public class SecurityConfig{
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").denyAll()
                         .requestMatchers("/auth/login", "/auth/register", "/auth/verify-email**", "/auth/logout","/auth/request-password", "/auth/reset-password**").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/images/**","/bundles/**","/vendor/**","/fonts/**","/images/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/uploads/**","/bundles/**","/vendor/**","/fonts/**","/images/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

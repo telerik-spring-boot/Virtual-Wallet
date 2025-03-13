@@ -28,7 +28,7 @@ public class PictureServiceImpl implements PictureService{
     }
 
     @Override
-    public void upload(MultipartFile[] pictures, String username){
+    public void uploadVerificationPictures(MultipartFile[] pictures, String username){
 
         File uploadDir = new File(uploadDirectory);
         if (!uploadDir.exists()) uploadDir.mkdirs();
@@ -50,10 +50,31 @@ public class PictureServiceImpl implements PictureService{
     }
 
     @Override
+    public void uploadProfilePicture(MultipartFile pictures, String username){
+
+        File uploadDir = new File(uploadDirectory);
+        if (!uploadDir.exists()) uploadDir.mkdirs();
+
+        if(pictures == null){
+            throw new PictureOperationException("No pictures uploaded.");
+        }
+
+        Path path = Paths.get(uploadDirectory, "picture" + username + "3.jpg");
+
+        try {
+            pictures.transferTo(path);
+        } catch (IOException e){
+            throw new PictureOperationException("Failed to upload picture for user with username: " + username);
+        }
+
+    }
+
+    @Override
     public Map<String, String> retrieveAll(String username) {
 
         Path filePathFirst = Paths.get(uploadDirectory, "picture" + username + "1.jpg");
         Path filePathSecond = Paths.get(uploadDirectory, "picture" + username + "2.jpg");
+        Path filePathThird = Paths.get(uploadDirectory, "picture" + username + "3.jpg");
 
         Map<String, String> fileUrls = new HashMap<>();
 
@@ -63,6 +84,10 @@ public class PictureServiceImpl implements PictureService{
 
         if (Files.exists(filePathSecond)) {
             fileUrls.put("picture2", "/api/uploads/pictures/" + "picture" + username + "2.jpg");
+        }
+
+        if (Files.exists(filePathThird)) {
+            fileUrls.put("picture3", "/api/uploads/pictures/" + "picture" + username + "3.jpg");
         }
 
         if (fileUrls.isEmpty()) {
@@ -108,4 +133,12 @@ public class PictureServiceImpl implements PictureService{
             throw new PictureOperationException("Failed to delete pictures for user with username: " + username);
         }
     }
+
+    @Override
+    public boolean checkIfExists(String username, int photoNumber) {
+        String imagePath = uploadDirectory + "/picture" + username + photoNumber + ".jpg";
+
+        return Files.exists(Paths.get(imagePath));
+    }
+
 }
