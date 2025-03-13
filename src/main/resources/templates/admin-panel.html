@@ -605,7 +605,7 @@
 													<form th:action="@{/admin/users/{userId}/block(userId=${user.id})}" method="post">
 														<input type="hidden" name="_method" value="PUT"/>
 														<button type="submit" class="ms-auto btn btn-outline-danger" th:if="${!user.isBlocked()}" > Block </button>
-													</form
+													</form>
 												</div>
 											</div>
 											<div class="border-bottom py-3">
