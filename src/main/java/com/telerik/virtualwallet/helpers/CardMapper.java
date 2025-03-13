@@ -32,7 +32,7 @@ public class CardMapper {
         dto.setCardNumberFull(card.getNumber());
         dto.setCvv(card.getCvv());
         dto.setCardNumber("**** **** **** " + card.getNumber().substring(card.getNumber().length() - 4));
-
+        System.out.println("test");
         int sumOfDigits = card.getNumber().chars().map(c -> c - '0').sum();
 
         dto.setType(CARD_TYPES.get(sumOfDigits % CARD_TYPES.size()));
