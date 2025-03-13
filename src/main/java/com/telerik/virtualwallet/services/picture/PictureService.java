@@ -7,7 +7,9 @@ import java.util.Map;
 
 public interface PictureService {
 
-    void upload(MultipartFile[] pictures, String username);
+    void uploadVerificationPictures(MultipartFile[] pictures, String username);
+
+    void uploadProfilePicture(MultipartFile picture, String username);
 
     Map<String, String> retrieveAll(String username);
 

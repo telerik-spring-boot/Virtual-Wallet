@@ -28,7 +28,7 @@ public class PictureServiceImpl implements PictureService{
     }
 
     @Override
-    public void upload(MultipartFile[] pictures, String username){
+    public void uploadVerificationPictures(MultipartFile[] pictures, String username){
 
         File uploadDir = new File(uploadDirectory);
         if (!uploadDir.exists()) uploadDir.mkdirs();
@@ -45,6 +45,26 @@ public class PictureServiceImpl implements PictureService{
             pictures[1].transferTo(filePathSecond);
         } catch (IOException e){
             throw new PictureOperationException("Failed to upload pictures for user with username: " + username);
+        }
+
+    }
+
+    @Override
+    public void uploadProfilePicture(MultipartFile pictures, String username){
+
+        File uploadDir = new File(uploadDirectory);
+        if (!uploadDir.exists()) uploadDir.mkdirs();
+
+        if(pictures == null){
+            throw new PictureOperationException("No pictures uploaded.");
+        }
+
+        Path path = Paths.get(uploadDirectory, "picture" + username + "3.jpg");
+
+        try {
+            pictures.transferTo(path);
+        } catch (IOException e){
+            throw new PictureOperationException("Failed to upload picture for user with username: " + username);
         }
 
     }
