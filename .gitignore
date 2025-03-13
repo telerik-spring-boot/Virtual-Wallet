@@ -63,3 +63,5 @@ bin/
 
 # Ignore generated help file
 HELP.md
+gradle-wrapper.jar
+gradle-wrapper.properties
