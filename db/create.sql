@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS virtual_wallet.transfers CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.transaction_categories CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.stocks CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.verifications CASCADE;
+DROP TABLE IF EXISTS virtual_wallet.investments CASCADE;
 
 CREATE TABLE virtual_wallet.wallets
 (
@@ -24,15 +25,15 @@ CREATE TABLE virtual_wallet.wallets
 CREATE TABLE virtual_wallet.users
 (
     user_id        INT AUTO_INCREMENT PRIMARY KEY,
-    full_name      VARCHAR(50)          NOT NULL,
-    username       VARCHAR(20)          NOT NULL UNIQUE,
-    password       VARCHAR(70)          NOT NULL,
-    email          VARCHAR(50)          NOT NULL UNIQUE,
-    phone_number   VARCHAR(20)          NOT NULL UNIQUE,
-    is_blocked     TINYINT(1) DEFAULT 0 NOT NULL,
-    main_wallet_id INT                  NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    last_online TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    full_name      VARCHAR(50)                          NOT NULL,
+    username       VARCHAR(20)                          NOT NULL UNIQUE,
+    password       VARCHAR(70)                          NOT NULL,
+    email          VARCHAR(50)                          NOT NULL UNIQUE,
+    phone_number   VARCHAR(20)                          NOT NULL UNIQUE,
+    is_blocked     TINYINT(1) DEFAULT 0                 NOT NULL,
+    main_wallet_id INT                                  NOT NULL,
+    created_at     TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    last_online    TIMESTAMP  DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (main_wallet_id) REFERENCES virtual_wallet.wallets (wallet_id)
 );
 
@@ -101,7 +102,7 @@ CREATE TABLE virtual_wallet.verifications
     user_id           INT                NOT NULL,
     pictures_verified BOOLEAN            NOT NULL,
     email_verified    BOOLEAN            NOT NULL,
-    verified_at TIMESTAMP NULL,
+    verified_at       TIMESTAMP          NULL,
     FOREIGN KEY (user_id) REFERENCES virtual_wallet.users (user_id) ON DELETE CASCADE
 );
 
@@ -137,6 +138,20 @@ CREATE TABLE virtual_wallet.transfers
     FOREIGN KEY (card_sender_id) REFERENCES virtual_wallet.cards (card_id) ON DELETE CASCADE,
     FOREIGN KEY (wallet_receiver_id) REFERENCES virtual_wallet.wallets (wallet_id) ON DELETE CASCADE
 
+);
+
+
+CREATE TABLE virtual_wallet.investments
+(
+    id           INT AUTO_INCREMENT                  NOT NULL PRIMARY KEY,
+    user_id      INT                                 NOT NULL,
+    purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    symbols      TEXT                                NOT NULL,
+    quantities   TEXT                                NOT NULL,
+    stock_values TEXT                                NOT NULL,
+    total_value  decimal(15, 5)                      NOT NULL,
+    type         varchar(5)                          NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES virtual_wallet.users (user_id) ON DELETE CASCADE
 );
 
 

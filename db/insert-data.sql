@@ -79,18 +79,33 @@ INSERT INTO virtual_wallet.referrals (referrer_id, referee_id)
 VALUES (1, 2),
        (1, 3);
 
--- Insert Portfolios (Users purchasing stocks)
+-- Insert Stocks
 INSERT INTO virtual_wallet.stocks (buyer_id, stock_symbol, value, amount)
-VALUES (1, 'AAPL', 150.00, 0.3),
-       (2, 'GOOGL', 2800.00, 1),
-       (3, 'MSFT', 300.00, 5),
-       (4, 'TSLA', 900.00, 0.02),
-       (5, 'AMZN', 3500.00, 1),
-       (6, 'FB', 375.00, 2),
-       (7, 'NFLX', 650.00, 3),
-       (8, 'NVDA', 225.00, 4),
-       (9, 'PYPL', 220.00, 2),
-       (10, 'DIS', 170.00, 2);
+VALUES
+    (1, 'AAPL', 150.00, 0.3),
+    (1, 'TSLA', 900.00, 0.5),
+    (2, 'AAPL', 180.00, 1.5),
+    (2, 'GOOGL', 2800.00, 1),
+    (3, 'META', 350.00, 3),
+    (3, 'TSLA', 850.00, 0.2),
+    (4, 'AMZN', 3500.00, 1),
+    (4, 'NFLX', 650.00, 3),
+    (5, 'AMZN', 3500.00, 1),
+    (5, 'TSLA', 900.00, 0.05);
+
+
+-- Insert Investments
+INSERT INTO virtual_wallet.investments (user_id, purchased_at, symbols, quantities, stock_values, total_value, type)
+VALUES
+    (1, '2024-01-01 12:00:00', 'AAPL,TSLA', '1,1', '100,1000', '1100', 'BUY'),
+    (1, '2024-02-01 14:00:00', 'AAPL,TSLA', '1,1', '200,800', '1000', 'BUY'),
+    (1, '2024-03-01 16:00:00', 'AAPL,TSLA', '1.7,1.5', '200,1000', '1840', 'SELL'),
+    (2, '2024-01-01 12:00:00', 'AAPL,GOOGL', '3,2', '180,2800', '6140', 'BUY'),
+    (2, '2024-02-01 14:00:00', 'AAPL,GOOGL', '2,1', '200,3000', '3400', 'SELL'),
+    (3, '2024-01-01 12:00:00', 'META,TSLA', '3,0.2', '350,850', '1220', 'BUY'),
+    (4, '2024-01-01 12:00:00', 'AMZN,NFLX', '1,3', '3500,650', '5450', 'BUY'),
+    (5, '2024-01-01 12:00:00', 'AMZN,TSLA', '1,0.1', '3500,900', '3590', 'BUY'),
+    (5, '2024-02-01 14:00:00', 'TSLA', '0.05', '900', '45', 'SELL');
 
 -- Insert Verifications
 INSERT INTO virtual_wallet.verifications (user_id, pictures_verified, email_verified)
