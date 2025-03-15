@@ -76,7 +76,7 @@ public class SecurityConfig{
     public SecurityFilterChain mvcSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .securityMatcher("/**")
+                .securityMatcher("/ui/**")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").denyAll()
                         .requestMatchers("/auth/login", "/auth/register", "/auth/verify-email**", "/auth/logout","/auth/request-password", "/auth/reset-password**").permitAll()

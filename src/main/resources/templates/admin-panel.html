@@ -13,7 +13,7 @@
 		<div class="px-xl-5 px-lg-4 px-3 py-2 page-header flex-wrap">
 			<ol class="breadcrumb mb-0 bg-transparent mb-3 mb-sm-0">
 				<li class="breadcrumb-item">
-					<a class="text-muted" href="index.html" title="home" th:href="@{/users/dashboard}">Home</a>
+					<a class="text-muted" href="index.html" title="home" th:href="@{/ui/users/dashboard}">Home</a>
 				</li>
 				<li
 						aria-current="page"
@@ -532,7 +532,7 @@
 	                                                       <img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
 	                                                            class="avatar rounded-circle d-none d-sm-inline-block"
 	                                                            onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
-	                                                            th:src="@{/uploads/picture{username}3.jpg(username=${user.username})}"/>
+	                                                            th:src="@{/ui/uploads/picture{username}3.jpg(username=${user.username})}"/>
                                                             <span class="flex-fill ms-2">
                                                                  <span class="h6 mb-0" th:text="${user.fullName}">Jony Doe</span>
                                                             </span>
@@ -569,7 +569,7 @@
 												<img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
 												     class="avatar rounded-circle d-none d-sm-inline-block"
 												     onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
-												     th:src="@{/uploads/picture{username}3.jpg(username=${user.username})}"/>
+												     th:src="@{/ui/uploads/picture{username}3.jpg(username=${user.username})}"/>
 
 												<div class="flex-fill ms-3">
 													<div class="h6 mb-1" th:text="${user.fullName}">Jony Doe</div>
@@ -602,12 +602,12 @@
 												<small class="text-muted mb-1">Status</small>
 												<div class="d-flex">
 													<div class="h6 align-self-end" th:text="${user.blocked ? 'Blocked' : 'Active'}"> </div>
-													<form th:action="@{/admin/users/{userId}/unblock(userId=${user.id})}" method="post">
+													<form th:action="@{/ui/admin/users/{userId}/unblock(userId=${user.id})}" method="post">
 														<input type="hidden" name="_method" value="PUT"/>
 														<button type="submit" class="ms-auto btn btn-outline-primary" th:if="${user.isBlocked()}"> Unblock </button>
 													</form>
 
-													<form th:action="@{/admin/users/{userId}/block(userId=${user.id})}" method="post">
+													<form th:action="@{/ui/admin/users/{userId}/block(userId=${user.id})}" method="post">
 														<input type="hidden" name="_method" value="PUT"/>
 														<button type="submit" class="ms-auto btn btn-outline-danger" th:if="${!user.isBlocked()}" > Block </button>
 													</form>
@@ -619,12 +619,12 @@
 													<div class="h6 align-self-end " th:if="${user.isAdmin()}"> Admin </div>
 													<div class="h6 align-self-end" th:if="${!user.isAdmin()}"> User </div>
 
-													<form th:action="@{/admin/users/{userId}/grant(userId=${user.id})}" method="post">
+													<form th:action="@{/ui/admin/users/{userId}/grant(userId=${user.id})}" method="post">
 														<input type="hidden" name="_method" value="PUT"/>
 														<button type="submit" class="ms-auto btn btn-outline-primary" th:if="${!user.isAdmin()}"> Promote </button>
 													</form>
 
-													<form th:action="@{/admin/users/{userId}/revoke(userId=${user.id})}" method="post">
+													<form th:action="@{/ui/admin/users/{userId}/revoke(userId=${user.id})}" method="post">
 														<input type="hidden" name="_method" value="PUT"/>
 														<button type="submit" class="ms-auto btn btn-outline-danger" th:if="${user.isAdmin()}" > Demote </button>
 													</form>
@@ -655,7 +655,7 @@
 																<img alt="preview1" src="../static/images/gallery/no-image.png"
 																     class="img-thumbnail mb-3"
 																     onerror="this.onerror=null; this.src='/images/gallery/no-image.png'"
-																     th:src="@{/uploads/picture{username}1.jpg(username=${user.username})}"
+																     th:src="@{/ui/uploads/picture{username}1.jpg(username=${user.username})}"
 																     style="cursor:pointer;"
 																     onclick="showFullScreen(this)"/>
 															</div>
@@ -669,7 +669,7 @@
 																     onerror="this.onerror=null; this.src='/images/gallery/no-image.png'"
 																     onclick="showFullScreen(this)"
 																     style="cursor:pointer;"
-																     th:src="@{/uploads/picture{username}2.jpg(username=${user.username})}"/>
+																     th:src="@{/ui/uploads/picture{username}2.jpg(username=${user.username})}"/>
 
 
 															</div>
@@ -678,12 +678,12 @@
 												</form>
 											</div>
 											<div class="modal-footer">
-												<form th:action="@{/admin/users/{username}/approve-verification(username=${user.username})}" method="post">
+												<form th:action="@{/ui/admin/users/{username}/approve-verification(username=${user.username})}" method="post">
 													<input type="hidden" name="_method" value="PUT"/>
 													<button type="submit"  class="btn btn-primary  ">Approve</button>
 												</form>
 
-												<form th:action="@{/admin/users/{username}/reject-verification(username=${user.username})}" method="post">
+												<form th:action="@{/ui/admin/users/{username}/reject-verification(username=${user.username})}" method="post">
 													<input type="hidden" name="_method" value="PUT"/>
 													<button type="submit" class="btn btn-danger" >Reject</button>
 												</form>

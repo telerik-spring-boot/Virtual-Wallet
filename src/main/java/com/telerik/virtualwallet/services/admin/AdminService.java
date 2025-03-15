@@ -1,5 +1,6 @@
 package com.telerik.virtualwallet.services.admin;
 
+import com.telerik.virtualwallet.models.Investment;
 import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.Transfer;
 import com.telerik.virtualwallet.models.User;
@@ -18,6 +19,8 @@ public interface AdminService {
     List<Transfer> getAllTransfers();
 
     List<Transaction> getAllTransactions();
+
+    List<Investment> getAllInvestments();
 
     void blockUser(User user);
 

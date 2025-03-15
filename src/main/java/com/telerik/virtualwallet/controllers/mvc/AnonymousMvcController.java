@@ -30,7 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDateTime;
 
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/ui/auth")
 public class AnonymousMvcController {
 
     private final UserService userService;
@@ -103,7 +103,7 @@ public class AnonymousMvcController {
             // Do not uncomment before production!
 
 //                    String token = jwtService.generateEmailVerificationToken(user.getEmail());
-//        String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/auth/verify-email?token=" + token;
+//        String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/ui/auth/verify-email?token=" + token;
 //
 //
 //        String emailContent = "<p>Hello " + user.getUsername() + ",</p>"
@@ -157,7 +157,7 @@ public class AnonymousMvcController {
             // Do not uncomment before production!
 
 //            String token = jwtService.generateEmailVerificationToken(user.getEmail());
-//            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/auth/reset-password?token=" + token;
+//            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/ui/auth/reset-password?token=" + token;
 //
 //
 //            String emailContent = "<p>Hello " + user.getUsername() + ",</p>"

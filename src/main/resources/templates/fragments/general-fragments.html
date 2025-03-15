@@ -92,7 +92,7 @@
 			<li>
 				<a
 						href="index.html"
-						th:href="@{/users/dashboard}"
+						th:href="@{/ui/users/dashboard}"
 						aria-label="Dashboard"
 						data-bs-placement="right"
 						data-bs-title="Dashboard"
@@ -119,7 +119,7 @@
 			<li>
 				<a
 						href="balance.html"
-						th:href="@{/users/balance}"
+						th:href="@{/ui/users/balance}"
 						aria-label="Balance"
 						data-bs-toggle="tooltip"
 						data-bs-title="Balance"
@@ -150,7 +150,7 @@
 			<li>
 				<a
 						href="card.html"
-						th:href="@{/users/cards}"
+						th:href="@{/ui/users/cards}"
 						aria-label="Card"
 						data-bs-toggle="tooltip"
 						data-bs-title="Card"
@@ -180,7 +180,7 @@
 			<li>
 				<a
 						href="transaction.html"
-						th:href="@{/users/transactions}"
+						th:href="@{/ui/users/transactions}"
 						aria-label="Transactions"
 						data-bs-toggle="tooltip"
 						data-bs-title="Transactions"
@@ -208,7 +208,7 @@
 			<li>
 				<a
 						href="recipients.html"
-						th:href="@{/users/recipients}"
+						th:href="@{/ui/users/recipients}"
 						aria-label="Recipients"
 						data-bs-toggle="tooltip"
 						data-bs-title="Recipients"
@@ -238,7 +238,7 @@
 			<li>
 				<a
 						href="stocks.html"
-						th:href="@{/users/stocks}"
+						th:href="@{/ui/users/stocks}"
 						aria-label="Stocks"
 						data-bs-toggle="tooltip"
 						data-bs-title="Stocks"
@@ -254,7 +254,7 @@
 			<li>
 				<a
 						href="admin-panel.html"
-						th:href="@{/admin}"
+						th:href="@{/ui/admin}"
 						th:if="${isAdmin}"
 						aria-label="Admin Panel"
 						data-bs-toggle="tooltip"
@@ -400,7 +400,7 @@
 		<div class="row g-0 align-items-center mt-2">
 			<div class="col text-truncate">
 				<div class="d-flex align-items-center profile">
-					<a href="#" title=""  th:href="@{/users/settings}">
+					<a href="#" title=""  th:href="@{/ui/users/settings}">
 					<img
 							src="../../static/images/profile_av.png"
 							th:src="@{/images/profile_av.png}"
@@ -838,7 +838,7 @@
 					<ul class="dropdown-menu dropdown-menu-end p-2 p-xl-3 shadow rounded-4"
 					    aria-labelledby="bd-theme-two">
 						<li class="mb-1" th:if="${#authentication != null}">
-							<a class="dropdown-item rounded-pill" href="settings.html" th:href="@{/users/settings}">
+							<a class="dropdown-item rounded-pill" href="settings.html" th:href="@{/ui/users/settings}">
 								<svg class="avatar xs me-2 opacity-50 theme-icon" xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
 									<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
 									<path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"></path>
@@ -848,7 +848,7 @@
 							</a>
 						</li>
 						<li class="mb-1" th:if="${#authentication != null}">
-							<a class="dropdown-item rounded-pill" href="#" th:href="@{/auth/logout}">
+							<a class="dropdown-item rounded-pill" href="#" th:href="@{/ui/auth/logout}">
 								<svg class="avatar xs me-2 opacity-50 theme-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
 								     stroke="currentColor" Stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
 									<path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"/>
@@ -859,7 +859,7 @@
 							</a>
 						</li>
 						<li class="mb-1" th:if="${#authentication == null}">
-							<a class="dropdown-item rounded-pill" href="login.html" th:href="@{/auth/login}">
+							<a class="dropdown-item rounded-pill" href="login.html" th:href="@{/ui/auth/login}">
 								<svg class="avatar xs me-2 opacity-50 theme-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
 								     stroke="currentColor" Stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
 									<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>

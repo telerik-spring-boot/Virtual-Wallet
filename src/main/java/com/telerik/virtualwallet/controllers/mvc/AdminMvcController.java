@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/ui/admin")
 public class AdminMvcController {
 
     private final AdminService adminService;

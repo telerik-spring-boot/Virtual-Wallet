@@ -5,14 +5,17 @@ import com.telerik.virtualwallet.exceptions.*;
 import com.telerik.virtualwallet.helpers.CardMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.Card;
+import com.telerik.virtualwallet.models.StockData;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.card.CardCreateDTO;
 import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.stock.StockResponse;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.CardTransferCreateDTO;
 import com.telerik.virtualwallet.services.card.CardService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
+import com.telerik.virtualwallet.services.stock.StockService;
 import com.telerik.virtualwallet.services.user.UserService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/ui/users")
 public class UserMvcController {
 
     private final UserService userService;
@@ -43,15 +46,17 @@ public class UserMvcController {
     private final CardService cardService;
     private final CardMapper cardMapper;
     private final WalletService walletService;
+    private final StockService stockService;
 
     @Autowired
-    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, CardService cardService, CardMapper cardMapper, WalletService walletService) {
+    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, CardService cardService, CardMapper cardMapper, WalletService walletService, StockService stockService) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.jwtService = jwtService;
         this.cardService = cardService;
         this.cardMapper = cardMapper;
         this.walletService = walletService;
+        this.stockService = stockService;
     }
 
     @ModelAttribute("isAdmin")
@@ -268,4 +273,5 @@ public class UserMvcController {
 
         return "admin-panel";
     }
+
 }
