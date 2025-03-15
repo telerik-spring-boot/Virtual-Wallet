@@ -114,7 +114,7 @@ public class TransactionMapper {
         transactionsWrapper.setSender("**** **** **** " + transfer.getSenderCard().getNumber().substring(12));
         transactionsWrapper.setMessage("No Message");
         transactionsWrapper.setReceiverWalletId(transfer.getReceiverWallet().getId());
-        transactionsWrapper.setTransactionCategory("Deposit");
+        transactionsWrapper.setTransactionCategory("Top Up");
         transactionsWrapper.setTransactionTime(transfer.getCreatedAt());
 
         return transactionsWrapper;
