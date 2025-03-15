@@ -62,6 +62,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade= CascadeType.ALL, orphanRemoval = true)
     private List<Stock> stocks = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade= CascadeType.ALL, orphanRemoval = true)
+    private List<Investment> investments = new ArrayList<>();
+
 
     @OneToOne( cascade = CascadeType.ALL)
     @JoinColumn(name="main_wallet_id", nullable=false)
@@ -101,6 +105,14 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public List<Investment> getInvestments() {
+        return investments;
+    }
+
+    public void setInvestments(List<Investment> investments) {
+        this.investments = investments;
     }
 
     public void setUsername(String username) {
@@ -185,6 +197,10 @@ public class User {
 
     public void sellStock(Stock stock){
         this.stocks.remove(stock);
+    }
+
+    public void addInvestment(Investment investment){
+        this.investments.add(investment);
     }
 
     public String getFullName() {
