@@ -1172,13 +1172,11 @@
             const purchaseYear = purchaseDate.getFullYear();
 
             const monthDiff = currentMonth - purchaseMonth + (currentYear - purchaseYear) * 12;
-			console.log(investment.totalValue);
             if (monthDiff >= 0 && monthDiff < 12) {
                 investmentCounts[11 - monthDiff] += investment.totalOrderValue;
             }
         });
 
-        console.log(investmentCounts);
 
         let formattedLabels = monthLabels.map(dateStr => {
             let date = new Date(dateStr);
