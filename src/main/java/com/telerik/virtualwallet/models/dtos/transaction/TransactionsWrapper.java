@@ -1,6 +1,5 @@
 package com.telerik.virtualwallet.models.dtos.transaction;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.telerik.virtualwallet.models.enums.Currency;
 
 import java.math.BigDecimal;

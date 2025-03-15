@@ -3,16 +3,17 @@ package com.telerik.virtualwallet.services.admin;
 import com.telerik.virtualwallet.exceptions.AdminRoleManagementException;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.exceptions.InvalidSortParameterException;
+import com.telerik.virtualwallet.models.Investment;
 import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.Transfer;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import com.telerik.virtualwallet.repositories.role.RoleRepository;
+import com.telerik.virtualwallet.repositories.transaction.InvestmentRepository;
 import com.telerik.virtualwallet.repositories.transaction.TransactionRepository;
 import com.telerik.virtualwallet.repositories.transaction.TransferRepository;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
 import com.telerik.virtualwallet.services.picture.PictureService;
-import com.telerik.virtualwallet.services.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -32,13 +33,15 @@ public class AdminServiceImpl implements AdminService{
     private final TransactionRepository transactionRepository;
     private final TransferRepository transferRepository;
     private final PictureService pictureService;
+    private final InvestmentRepository investmentRepository;
 
-    public AdminServiceImpl(UserRepository userRepository, TransferRepository transferRepository, RoleRepository roleRepository, TransactionRepository transactionRepository, PictureService pictureService){
+    public AdminServiceImpl(UserRepository userRepository, TransferRepository transferRepository, RoleRepository roleRepository, TransactionRepository transactionRepository, PictureService pictureService, InvestmentRepository investmentRepository){
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.transactionRepository = transactionRepository;
         this.pictureService = pictureService;
         this.transferRepository = transferRepository;
+        this.investmentRepository = investmentRepository;
     }
 
 
@@ -66,6 +69,11 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public List<Transaction> getAllTransactions() {
         return transactionRepository.getAllTransactionsWithWallets();
+    }
+
+    @Override
+    public List<Investment> getAllInvestments() {
+        return investmentRepository.getAllInvestments();
     }
 
     @Override

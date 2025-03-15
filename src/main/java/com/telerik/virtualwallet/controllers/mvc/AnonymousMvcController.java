@@ -50,7 +50,7 @@ public class AnonymousMvcController {
     @GetMapping("/login")
     public String getLogin(Authentication authentication) {
         if(authentication != null){
-            return "redirect:/users/dashboard";
+            return "redirect:/ui/users/dashboard";
         }
 
         return "login";
@@ -63,24 +63,24 @@ public class AnonymousMvcController {
 
         if (!user.getVerification().isEmailVerified()) {
             new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-            return "redirect:/auth/login?error=email";
+            return "redirect:/ui/auth/login?error=email";
         }
 
         if (user.isBlocked()) {
             new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-            return "redirect:/auth/login?error=block";
+            return "redirect:/ui/auth/login?error=block";
         }
 
         user.setLastOnline(LocalDateTime.now());
         userService.update(user);
 
-        return "redirect:/users/dashboard";
+        return "redirect:/ui/users/dashboard";
     }
 
     @GetMapping("/register")
     public String getRegister(Authentication authentication, Model model){
         if(authentication != null){
-            return "redirect:/users/dashboard";
+            return "redirect:/ui/users/dashboard";
         }
         model.addAttribute("register", new RegisterDTO());
         return "register";
@@ -115,7 +115,7 @@ public class AnonymousMvcController {
 
             redirectAttributes.addFlashAttribute("registerSuccess", true);
 
-            return "redirect:/auth/login";
+            return "redirect:/ui/auth/login";
 
         }  catch (DuplicateEntityException e) {
             if(e.getMessage().contains("username")){
@@ -134,7 +134,7 @@ public class AnonymousMvcController {
     @GetMapping("/request-password")
     public String getRequestPassword(Authentication authentication, Model model){
         if(authentication != null){
-            return "redirect:/users/dashboard";
+            return "redirect:/ui/users/dashboard";
         }
 
         model.addAttribute("user", new UserRetrieveDTO());
@@ -170,7 +170,7 @@ public class AnonymousMvcController {
 
             redirectAttributes.addFlashAttribute("requestPasswordSuccess", true);
 
-            return "redirect:/auth/login";
+            return "redirect:/ui/auth/login";
         } catch (EntityNotFoundException e) {
             bindingResult.rejectValue("username", "error.retrieve", e.getMessage());
             return "request-password";
@@ -185,12 +185,12 @@ public class AnonymousMvcController {
         try {
             if (jwtService.isTokenExpired(token)) {
                 redirectAttributes.addFlashAttribute("passwordFail", true);
-                return "redirect:/auth/login";
+                return "redirect:/ui/auth/login";
             }
 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("passwordFail", true);
-            return "redirect:/auth/login";
+            return "redirect:/ui/auth/login";
         }
 
         model.addAttribute("token", token);
@@ -233,7 +233,7 @@ public class AnonymousMvcController {
 
             redirectAttributes.addFlashAttribute("changeSuccess", true);
 
-            return "redirect:/auth/login";
+            return "redirect:/ui/auth/login";
 
         } catch (Exception e) {
             bindingResult.rejectValue("password", "error.reset", e.getMessage());
@@ -253,7 +253,7 @@ public class AnonymousMvcController {
         try {
             if (jwtService.isTokenExpired(token)) {
                 redirectAttributes.addFlashAttribute("emailFail", true);
-                return "redirect:/auth/login";
+                return "redirect:/ui/auth/login";
             }
 
             String email = jwtService.extractSubject(token);
@@ -261,10 +261,10 @@ public class AnonymousMvcController {
             userService.verifyEmail(email);
 
             redirectAttributes.addFlashAttribute("emailSuccess", true);
-            return "redirect:/auth/login";
+            return "redirect:/ui/auth/login";
         }catch(Exception e){
             redirectAttributes.addFlashAttribute("emailFail", true);
-            return "redirect:/auth/login";
+            return "redirect:/ui/auth/login";
         }
 
     }

@@ -2,16 +2,15 @@ package com.telerik.virtualwallet.helpers;
 
 import com.telerik.virtualwallet.models.*;
 import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
-import com.telerik.virtualwallet.models.dtos.transaction.TransactionCreateDTO;
-import com.telerik.virtualwallet.models.dtos.transaction.TransactionDisplayDTO;
-import com.telerik.virtualwallet.models.dtos.transaction.TransactionsWrapper;
-import com.telerik.virtualwallet.models.dtos.transaction.TransferDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.*;
 import com.telerik.virtualwallet.services.transactionCategory.TransactionCategoryService;
 import com.telerik.virtualwallet.services.user.UserService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -138,5 +137,39 @@ public class TransactionMapper {
         transactionsWrapper.setTransactionTime(transaction.getCreatedAt());
 
         return transactionsWrapper;
+    }
+
+    public List<InvestmentDTO> investmentToInvestmentDTO(Investment investment){
+
+        List<InvestmentDTO> investments = new ArrayList<>();
+
+        String [] symbols = investment.getSymbols().split(",");
+        String [] quantities = investment.getQuantities().split(",");
+        String [] values = investment.getStockValues().split(",");
+
+        for(int i = 0; i<symbols.length; i++){
+            InvestmentDTO investmentDTO = new InvestmentDTO();
+
+            investmentDTO.setId(investment.getId());
+
+            investmentDTO.setPurchasedAt(investment.getPurchasedAt());
+
+            investmentDTO.setUsername(investment.getUser().getUsername());
+
+            investmentDTO.setSymbol(symbols[i]);
+
+            investmentDTO.setQuantity(Double.parseDouble(quantities[i]));
+
+            investmentDTO.setValue(Double.parseDouble(values[i]));
+
+            investmentDTO.setTotalOrderValue(investment.getTotalValue());
+
+            investmentDTO.setType(investment.getType());
+
+            investments.add(investmentDTO);
+        }
+
+
+        return investments;
     }
 }

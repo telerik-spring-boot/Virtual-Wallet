@@ -508,6 +508,8 @@
 							<button id="usersTab" class="btn btn-outline-primary rounded-pill me-2"> Users </button>
 
 							<button id="transfersTab" class="btn btn-outline-info rounded-pill ms-2 info-btn"> Transfers </button>
+
+							<button id="investmentsTab" class="btn btn-outline-warning rounded-pill ms-2 info-btn"> Investments </button>
 						</div>
 						<table id="usersTable"
 						       class="table align-middle table-hover dataTable table-body table-responsive w-100 border rounded-4">
@@ -810,6 +812,116 @@
 							</tbody>
 						</table>
 
+						<table id="investmentsTable"
+						       class="table align-middle table-hover dataTable table-body table-responsive w-100 border rounded-4">
+
+							<thead>
+							<tr class="small text-muted text-uppercase">
+
+								<th class="border-end">From</th>
+								<th class="border-end">Symbol</th>
+								<th class="border-end">Quantity</th>
+								<th class="border-end">Price</th>
+								<th class="border-end">Direction</th>
+								<th class="border-end">Date</th>
+								<th>More</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr class="row-selectable" th:each="investment : ${investments}">
+
+								<td class="border-end border-top">
+                                                       <span class="d-flex align-items-center">
+
+	                                                       <img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
+	                                                            class="avatar rounded-circle d-none d-sm-inline-block"
+	                                                            onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
+	                                                            th:src="@{/ui/uploads/picture{username}3.jpg(username=${investment.username})}"/>
+                                                            <span class="flex-fill ms-2">
+                                                                 <span class="h6 mb-0" th:text="${investment.username}"> Username </span>
+                                                            </span>
+                                                       </span>
+								</td>
+								<td class="border-end border-top" th:text="${investment.symbol}"> Symbol </td>
+								<td class="border-end border-top" th:text="${investment.quantity}">Quantity</td>
+								<td class="border-end border-top" th:text="${investment.value} + ' USD'">Price</td>
+								<td class="border-end border-top" th:text="${investment.type}">Direction</td>
+								<td class="border-end border-top" th:text="${#temporals.format(investment.purchasedAt, 'yyyy-MM-dd HH:mm:ss')}"> Date </td>
+								<td class="border-top">
+									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
+									   data-bs-toggle="offcanvas"
+									   th:href="'#offcanvas_invstdetails_' + ${investment.id}"
+									   title="More Action">
+										<svg aria-hidden="true" class="w-6 h-6"
+										     fill="none" viewBox="0 0 24 24"
+										     width="24" xmlns="http://www.w3.org/2000/svg">
+											<path d="M6 12h.01m6 0h.01m5.99 0h.01" stroke="currentColor"
+											      stroke-linecap="round"
+											      stroke-width="3"/>
+										</svg>
+
+									</a>
+								</td>
+								<!-- start: Transection details rate -->
+								<div aria-labelledby="offcanvas_invstdetails_" class="offcanvas offcanvas-end" th:id="'offcanvas_invstdetails_' + ${investment.id}"  tabindex="-1">
+									<div class="offcanvas-header">
+										<h5 class="offcanvas-title">Investment Details</h5>
+										<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+									</div>
+									<div class="offcanvas-body px-0">
+										<div class="mb-4 p-3 bg-light">
+											<h6 class="text-muted mb-0">Value</h6>
+										</div>
+										<div class="mb-4 px-3">
+											<h3 th:text="${investment.value} + ' USD'">500.00</h3>
+										</div>
+										<div class="mb-4 p-3 bg-light">
+											<h6 class="text-muted mb-0">To</h6>
+										</div>
+										<div class="mb-4 px-3">
+											<div class="d-flex align-items-center mb-3">
+
+
+												<img alt="wallet" src="../static/images/stock-icons/nyse.png"
+												     class="avatar rounded-4 d-none d-sm-inline-block"
+												     th:src="@{/images/stock-icons/nyse.png}">
+
+												<div class="flex-fill ms-3">
+													<div class="h6 mb-0"  > New York Stock Exchange </div>
+												</div>
+											</div>
+										</div>
+										<div class="mb-4 p-3 bg-light">
+											<h6 class="text-muted mb-0 pt-3">Details</h6>
+										</div>
+										<div class="mb-4 px-3">
+											<div class="border-bottom py-3">
+												<small class="text-muted">Payment Type</small>
+												<div class="h6 mb-0 pt-3">Investment</div>
+											</div>
+											<div class="border-bottom py-3">
+												<small class="text-muted">Order Total Value</small>
+												<div class="h6 mb-0 pt-3" th:text="${investment.getTotalOrderValue()} + ' USD'"></div>
+											</div>
+											<div class="border-bottom py-3">
+												<small class="text-muted">Status</small>
+												<div class="h6 mb-0 pt-3">Complete</div>
+											</div>
+											<div class="border-bottom py-3">
+												<small class="text-muted">Transaction Id</small>
+												<div class="h6 mb-0 pt-3" th:text="'NVF253688' + ${investment.id}">NVF25680222</div>
+											</div>
+											<div class="border-bottom py-3">
+												<small class="text-muted">Date &amp; Time</small>
+												<div class="h6 mb-0 pt-3" th:text="${#temporals.format(investment.purchasedAt, 'yyyy-MM-dd HH:mm:ss')}">Feb 05, 2024 At 18:20</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</tr>
+							</tbody>
+						</table>
+
 					</div>
 				</div>
 			</div>
@@ -852,6 +964,25 @@
             responsive: true,
         });
 
+        let investmentsTable = $('#investmentsTable').DataTable({
+            responsive: true,
+            "columnDefs": [
+                {
+                    "targets": 3,
+                    "render": function (data, type, row) {
+
+                        if (type === 'display') {
+                            return data;
+                        }
+
+                        let num = data.match(/[-+]?[0-9]*\.?[0-9]+/);
+                        return num ? parseFloat(num[0]) : data;
+                    },
+                    "orderDataType": "numeric"
+                }
+            ]
+        });
+
         let transfersTable = $('#transfersTable').DataTable({
             responsive: true,
             "columnDefs": [
@@ -875,20 +1006,35 @@
         });
 
         $('#transfersTable_wrapper').hide();
+        $('#investmentsTable_wrapper').hide();
 
         $('#usersTab').on('click', function () {
             $(this).addClass('active');
             $('#transfersTab').removeClass('active');
+            $('#investmentsTab').removeClass('active');
             $('#usersTable_wrapper').show();
             $('#transfersTable_wrapper').hide();
+            $('#investmentsTable_wrapper').hide();
             usersTable.columns.adjust().responsive.recalc();
+        });
+
+        $('#investmentsTab').on('click', function () {
+            $(this).addClass('active');
+            $('#transfersTab').removeClass('active');
+            $('#usersTab').removeClass('active');
+            $('#investmentsTable_wrapper').show();
+            $('#usersTable_wrapper').hide();
+            $('#transfersTable_wrapper').hide();
+            investmentsTable.columns.adjust().responsive.recalc();
         });
 
         $('#transfersTab').on('click', function () {
             $(this).addClass('active');
             $('#usersTab').removeClass('active');
+            $('#investmentsTab').removeClass('active');
             $('#transfersTable_wrapper').show();
             $('#usersTable_wrapper').hide();
+            $('#investmentsTable_wrapper').hide();
             transfersTable.columns.adjust().responsive.recalc();
         });
     });
@@ -1002,6 +1148,9 @@
 
         var transactions = /*[[${transactions}]]*/[];
 
+        var investments = /*[[${investments}]]*/[];
+
+
 
 
         let depositCounts = Array(12).fill(0);
@@ -1015,6 +1164,21 @@
 
 
 
+        let investmentCounts = Array(12).fill(0);
+
+        investments.forEach((investment) => {
+            const purchaseDate = new Date(investment.purchasedAt);
+            const purchaseMonth = purchaseDate.getMonth();
+            const purchaseYear = purchaseDate.getFullYear();
+
+            const monthDiff = currentMonth - purchaseMonth + (currentYear - purchaseYear) * 12;
+			console.log(investment.totalValue);
+            if (monthDiff >= 0 && monthDiff < 12) {
+                investmentCounts[11 - monthDiff] += investment.totalOrderValue;
+            }
+        });
+
+        console.log(investmentCounts);
 
         let formattedLabels = monthLabels.map(dateStr => {
             let date = new Date(dateStr);
@@ -1079,8 +1243,8 @@
                     data: transferCounts,
                 },
                 {
-                    name: "Trading Volume",
-                    data: [234, 100, 34, 444, 232, 444, 434, 1, 0, 344, 44, 33],
+                    name: "Investments",
+                    data: investmentCounts,
                 },
             ],
             xaxis: {

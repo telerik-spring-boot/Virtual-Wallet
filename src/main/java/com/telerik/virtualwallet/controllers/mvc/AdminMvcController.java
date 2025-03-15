@@ -36,7 +36,12 @@ public class AdminMvcController {
 
         model.addAttribute("users", adminService.getAllUsersMvc().stream().map(userMapper::userToUserDisplayMvcDTO).toList());
 
+        model.addAttribute("investments", adminService.getAllInvestments().stream()
+                .flatMap(investment -> transactionMapper.investmentToInvestmentDTO(investment).stream())
+                .toList());
+
         List<TransactionsWrapper> transactions = new ArrayList<>(adminService.getAllTransactions().stream().map(transactionMapper::transactionToTransactionWrapper).toList());
+
 
         transactions.addAll(adminService.getAllTransfers().stream().map(transactionMapper::transferToTransactionWrapper).toList());
 
@@ -57,7 +62,7 @@ public class AdminMvcController {
 
         adminService.giveAdminRights(userId);
 
-        return "redirect:/admin";
+        return "redirect:/ui/admin";
 
     }
 
@@ -66,7 +71,7 @@ public class AdminMvcController {
 
         adminService.revokeAdminRights(userId);
 
-        return "redirect:/admin";
+        return "redirect:/ui/admin";
 
 
     }
@@ -79,7 +84,7 @@ public class AdminMvcController {
 
         adminService.blockUser(userToBlock);
 
-        return "redirect:/admin";
+        return "redirect:/ui/admin";
 
 
     }
@@ -91,7 +96,7 @@ public class AdminMvcController {
 
         adminService.unblockUser(userToBlock);
 
-        return "redirect:/admin";
+        return "redirect:/ui/admin";
 
     }
 
@@ -100,7 +105,7 @@ public class AdminMvcController {
 
         adminService.approveUserPictureVerification(username);
 
-        return "redirect:/admin";
+        return "redirect:/ui/admin";
 
 
     }
@@ -110,7 +115,7 @@ public class AdminMvcController {
 
         adminService.rejectUserPictureVerification(username);
 
-        return "redirect:/admin";
+        return "redirect:/ui/admin";
 
 
     }

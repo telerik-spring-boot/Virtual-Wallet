@@ -79,22 +79,22 @@ public class SecurityConfig{
                 .securityMatcher("/ui/**")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").denyAll()
-                        .requestMatchers("/auth/login", "/auth/register", "/auth/verify-email**", "/auth/logout","/auth/request-password", "/auth/reset-password**").permitAll()
+                        .requestMatchers("/ui/auth/login", "/ui/auth/register", "/ui/auth/verify-email**", "/ui/auth/logout","/ui/auth/request-password", "/ui/auth/reset-password**").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/uploads/**","/bundles/**","/vendor/**","/fonts/**","/images/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/ui/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
                 .formLogin(form -> form
-                        .loginPage("/auth/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/auth/extraChecks", true)
-                        .failureUrl("/auth/login?error=details"))
+                        .loginPage("/ui/auth/login")
+                        .loginProcessingUrl("/ui/login")
+                        .defaultSuccessUrl("/ui/auth/extraChecks", true)
+                        .failureUrl("/ui/auth/login?error=details"))
                 .logout(logout -> logout
-                        .logoutUrl("/auth/logout")
-                        .logoutSuccessUrl("/auth/login"))
+                        .logoutUrl("/ui/auth/logout")
+                        .logoutSuccessUrl("/ui/auth/login"))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

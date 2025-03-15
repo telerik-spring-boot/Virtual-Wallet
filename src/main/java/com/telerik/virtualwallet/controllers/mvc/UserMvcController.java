@@ -5,11 +5,9 @@ import com.telerik.virtualwallet.exceptions.*;
 import com.telerik.virtualwallet.helpers.CardMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.Card;
-import com.telerik.virtualwallet.models.StockData;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.card.CardCreateDTO;
 import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
-import com.telerik.virtualwallet.models.dtos.stock.StockResponse;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.CardTransferCreateDTO;
@@ -118,7 +116,7 @@ public class UserMvcController {
 
             return "settings";
         } catch (UnauthorizedOperationException e) {
-            return "redirect:/auth/login";
+            return "redirect:/ui/auth/login";
         }
     }
 
@@ -128,7 +126,7 @@ public class UserMvcController {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            return "redirect:/users/settings";
+            return "redirect:/ui/users/settings";
         }
 
         try {
@@ -139,12 +137,12 @@ public class UserMvcController {
 
             redirectAttributes.addFlashAttribute("successUpdate", true);
 
-            return "redirect:/users/settings";
+            return "redirect:/ui/users/settings";
 
         } catch (DuplicateEntityException e) {
             bindingResult.reject("duplicateEntityError", e.getMessage());
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            return "redirect:/users/settings";
+            return "redirect:/ui/users/settings";
         }
     }
 
@@ -156,7 +154,7 @@ public class UserMvcController {
         new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
 
         redirectAttributes.addFlashAttribute("userDeleted", true);
-        return "redirect:/auth/login";
+        return "redirect:/ui/auth/login";
 
     }
 
@@ -196,7 +194,7 @@ public class UserMvcController {
         try {
             walletService.addFundsToWallet(user.getMainWallet().getId(), cardId, cardTransferCreateDTO.getAmount());
 
-            return "redirect:/users/dashboard";
+            return "redirect:/ui/users/dashboard";
 
         } catch (EntityNotFoundException | InsufficientFundsException e) {
             bindingResult.rejectValue("amount", "card.number", e.getMessage());
@@ -248,7 +246,7 @@ public class UserMvcController {
 
             cardService.addCard(authentication.getName(), card);
 
-            return "redirect:/users/cards";
+            return "redirect:/ui/users/cards";
         } catch (DuplicateEntityException e) {
             bindingResult.rejectValue("cardNumber", "card.number", e.getMessage());
 

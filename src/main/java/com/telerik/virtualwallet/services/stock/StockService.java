@@ -1,7 +1,7 @@
 package com.telerik.virtualwallet.services.stock;
 
 import com.telerik.virtualwallet.models.StockData;
-import com.telerik.virtualwallet.models.dtos.stock.StockResponse;
+import com.telerik.virtualwallet.models.StockResponse;
 
 import java.util.List;
 import java.util.Map;

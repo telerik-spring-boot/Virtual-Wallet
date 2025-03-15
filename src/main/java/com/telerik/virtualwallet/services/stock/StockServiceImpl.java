@@ -3,6 +3,7 @@ package com.telerik.virtualwallet.services.stock;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.telerik.virtualwallet.models.StockData;
+import com.telerik.virtualwallet.models.StockResponse;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -31,12 +32,12 @@ public class StockServiceImpl implements StockService{
     }
 
     @Override
-    public List<StockData> getStockPrices(List<String> symbols) {
+    public List<StockData> getStockPricesShort(List<String> symbols) {
         List<StockData> stocks= new ArrayList<>();
 
         String symbolsStr = String.join(",", symbols);
 
-        String url = String.format("%s?symbol=%s&apikey=%s", baseUrl, symbolsStr, apiKey);
+        String url = String.format("%s" +"price?symbol=%s&apikey=%s", baseUrl, symbolsStr, apiKey);
 
         String jsonResponse = restTemplate.getForObject(url, String.class);
 
@@ -69,5 +70,25 @@ public class StockServiceImpl implements StockService{
         }
 
         return stocks;
+    }
+
+
+    @Override
+    public  Map<String, StockResponse>  getStockPricesDetailed(List<String> symbols) {
+
+        String symbolsStr = String.join(",", symbols);
+
+        String url = String.format("%s" +"time_series?symbol=%s&interval=30min&apikey=%s", baseUrl, symbolsStr, apiKey);
+
+        String jsonResponse = restTemplate.getForObject(url, String.class);
+
+        try {
+
+            return objectMapper.readValue(jsonResponse, new TypeReference<>() {});
+
+        }catch(Exception e){
+            throw new RuntimeException("Failed to get stock data", e);
+        }
+
     }
 }
