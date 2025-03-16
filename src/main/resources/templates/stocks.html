@@ -641,8 +641,11 @@
                     date = date.replace(" ", "T");
                 }
 
+                let utcDate = new Date(date + "Z");
+                let localDate = new Date(utcDate.getTime() - utcDate.getTimezoneOffset() * 60000);
+
                 return {
-                    x: new Date(date).getTime(),
+                    x: new Date(localDate).getTime(),
                     y: [data.open, data.high, data.low, data.close]
                 };
             })
@@ -675,7 +678,6 @@
     });
 
 
-    let currentChart;
 
     function renderChart(symbol) {
 
@@ -687,7 +689,15 @@
             chartContainer.innerHTML = "";
 
 
-            console.log (selectedStock.data);
+
+            let minDate = new Date(selectedStock.data[0].x);
+
+            minDate.setHours(13, 25, 0, 0);
+
+            let maxDate = new Date(selectedStock.data[0].x);
+
+            maxDate.setHours(20, 0, 0, 0);
+
 
             document.querySelector(".card-title").textContent = symbol;
 
@@ -713,7 +723,9 @@
                     type: "datetime",
                     labels: {
                         format: 'dd MMM yyyy HH:mm',
-                    }
+                    },
+	                min : minDate.getTime(),
+	                max : maxDate.getTime(),
                 },
                 yaxis: {
                     tooltip: { enabled: true },
@@ -724,7 +736,18 @@
                     }
                 },
                 tooltip: {
-                    theme: "dark"
+                    theme: "dark",
+                    x: {
+                        formatter: function (value) {
+                            let date = new Date(value);
+                            return date.toLocaleString();
+                        }
+                    },
+                    y: {
+                        formatter: function (value) {
+                            return value.toFixed(2);
+                        }
+                    }
                 }
             };
 

@@ -6,6 +6,7 @@ import com.telerik.virtualwallet.exceptions.InsufficientFundsException;
 import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
 import com.telerik.virtualwallet.models.*;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderDTO;
+import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
 import com.telerik.virtualwallet.services.stock.StockService;
 import com.telerik.virtualwallet.services.picture.PictureService;
@@ -91,6 +92,11 @@ public class UserServiceImpl implements UserService{
         }
 
         return user;
+    }
+
+    @Override
+    public void processStockOrderMvc(StockOrderMvcDTO stockOrder, String username) {
+
     }
 
     @Override
