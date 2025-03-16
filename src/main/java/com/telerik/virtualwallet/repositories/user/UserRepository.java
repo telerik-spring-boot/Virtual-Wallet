@@ -26,7 +26,7 @@ public interface UserRepository {
 
     User getUserWithStocks(String username);
 
-    User getUserWithStocksAndWallets(String username);
+    User getUserWithStocksAndWalletsAndInvestments(String username);
 
     User getUserWithWallets(String username);
 

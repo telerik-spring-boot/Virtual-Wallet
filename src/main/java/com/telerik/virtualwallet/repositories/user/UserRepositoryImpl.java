@@ -2,6 +2,7 @@ package com.telerik.virtualwallet.repositories.user;
 
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -172,14 +173,19 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public User getUserWithStocksAndWallets(String username) {
+    public User getUserWithStocksAndWalletsAndInvestments(String username) {
         try(Session session = sessionFactory.openSession()){
 
-            Query<User> query = session.createQuery("from User u LEFT JOIN FETCH u.stocks LEFT JOIN FETCH u.wallets WHERE u.username = :username", User.class);
+            Query<User> query = session.createQuery("from User u LEFT JOIN FETCH u.wallets WHERE u.username = :username", User.class);
 
             query.setParameter("username", username);
 
-            return query.uniqueResult();
+            User user = query.uniqueResult();
+
+            Hibernate.initialize(user.getInvestments());
+            Hibernate.initialize(user.getStocks());
+
+            return user;
         }
     }
 

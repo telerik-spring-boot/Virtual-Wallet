@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -216,7 +217,7 @@ public class UserServiceImpl implements UserService{
     }
 
     private void processStockTransaction(String username, int walletId, List<StockOrderDTO> orderList, boolean isPurchase) {
-        User user = userRepository.getUserWithStocksAndWallets(username);
+        User user = userRepository.getUserWithStocksAndWalletsAndInvestments(username);
 
         if (user == null) {
             throw new EntityNotFoundException("User", "username", username);
@@ -228,6 +229,7 @@ public class UserServiceImpl implements UserService{
 
         List<String> symbols = new ArrayList<>();
         List<Double> quantities = new ArrayList<>();
+
 
         for(StockOrderDTO order : orderList){
             symbols.add(order.getSymbol());
@@ -282,6 +284,10 @@ public class UserServiceImpl implements UserService{
                 user.addStock(new Stock(stockData.getSymbol(), quantity, stockData.getPrice(), LocalDateTime.now(), user));
             }
         }
+
+        addInvestment(user, stocks, quantities, totalStockValue, "BUY");
+
+
     }
 
     private void handleStockSale(User user, Wallet wallet, List<StockData> stocks, List<Double> quantities) {
@@ -309,7 +315,19 @@ public class UserServiceImpl implements UserService{
             }
         }
 
+
         wallet.setBalance(wallet.getBalance().add(BigDecimal.valueOf(totalBalanceToReceive)));
+
+        addInvestment(user, stocks, quantities, totalBalanceToReceive, "SELL");
+    }
+
+    private void addInvestment(User user, List<StockData> stocks, List<Double> quantities, double totalBalanceToReceive, String type) {
+        user.addInvestment(new Investment(user, LocalDateTime.now(),
+                stocks.stream().map(StockData::getSymbol).collect(Collectors.joining(",")),
+                quantities.stream().map(String::valueOf).collect(Collectors.joining(",")),
+                stocks.stream().map(stock -> String.valueOf(stock.getPrice())).collect(Collectors.joining(",")),
+                totalBalanceToReceive,
+                type));
     }
 
     private Wallet walletRequirementsVerification(User user, int walletId){

@@ -407,7 +407,7 @@ public class UserServiceTests {
         // Arrange
         User user = createMockUser();
 
-        Mockito.when(mockUserRepository.getUserWithStocksAndWallets(user.getUsername()))
+        Mockito.when(mockUserRepository.getUserWithStocksAndWalletsAndInvestments(user.getUsername()))
                 .thenReturn(null);
 
         // Assert
@@ -423,7 +423,7 @@ public class UserServiceTests {
         User user = createMockUser();
         user.setBlocked(true);
 
-        Mockito.when(mockUserRepository.getUserWithStocksAndWallets(user.getUsername()))
+        Mockito.when(mockUserRepository.getUserWithStocksAndWalletsAndInvestments(user.getUsername()))
                 .thenReturn(user);
 
         // Assert
@@ -439,7 +439,7 @@ public class UserServiceTests {
         User user = createMockUser();
         user.setVerification(new Verification());
 
-        Mockito.when(mockUserRepository.getUserWithStocksAndWallets(user.getUsername()))
+        Mockito.when(mockUserRepository.getUserWithStocksAndWalletsAndInvestments(user.getUsername()))
                 .thenReturn(user);
 
         // Assert
@@ -466,7 +466,7 @@ public class UserServiceTests {
         user.setVerification(verification);
         user.setWallets(Set.of(wallet));
 
-        Mockito.when(mockUserRepository.getUserWithStocksAndWallets(user.getUsername()))
+        Mockito.when(mockUserRepository.getUserWithStocksAndWalletsAndInvestments(user.getUsername()))
                 .thenReturn(user);
 
         // Assert
@@ -493,7 +493,7 @@ public class UserServiceTests {
         user.setVerification(verification);
         user.setWallets(Set.of(wallet));
 
-        Mockito.when(mockUserRepository.getUserWithStocksAndWallets(user.getUsername()))
+        Mockito.when(mockUserRepository.getUserWithStocksAndWalletsAndInvestments(user.getUsername()))
                 .thenReturn(user);
 
         // Assert
@@ -521,7 +521,7 @@ public class UserServiceTests {
         user.setVerification(verification);
         user.setWallets(Set.of(wallet));
 
-        Mockito.when(mockUserRepository.getUserWithStocksAndWallets(user.getUsername()))
+        Mockito.when(mockUserRepository.getUserWithStocksAndWalletsAndInvestments(user.getUsername()))
                 .thenReturn(user);
 
         // Assert
@@ -549,7 +549,7 @@ public class UserServiceTests {
         user.setVerification(verification);
         user.setWallets(Set.of(wallet));
 
-        Mockito.when(mockUserRepository.getUserWithStocksAndWallets(user.getUsername()))
+        Mockito.when(mockUserRepository.getUserWithStocksAndWalletsAndInvestments(user.getUsername()))
                 .thenReturn(user);
 
         // Act
@@ -582,7 +582,7 @@ public class UserServiceTests {
         user.setVerification(verification);
         user.setWallets(Set.of(wallet));
 
-        Mockito.when(mockUserRepository.getUserWithStocksAndWallets(user.getUsername()))
+        Mockito.when(mockUserRepository.getUserWithStocksAndWalletsAndInvestments(user.getUsername()))
                 .thenReturn(user);
 
         // Act
@@ -616,7 +616,7 @@ public class UserServiceTests {
         user.setVerification(verification);
         user.setWallets(Set.of(wallet));
 
-        Mockito.when(mockUserRepository.getUserWithStocksAndWallets(user.getUsername()))
+        Mockito.when(mockUserRepository.getUserWithStocksAndWalletsAndInvestments(user.getUsername()))
                 .thenReturn(user);
 
         // Act
@@ -651,7 +651,7 @@ public class UserServiceTests {
         user.setVerification(verification);
         user.setWallets(Set.of(wallet));
 
-        Mockito.when(mockUserRepository.getUserWithStocksAndWallets(user.getUsername()))
+        Mockito.when(mockUserRepository.getUserWithStocksAndWalletsAndInvestments(user.getUsername()))
                 .thenReturn(user);
 
         // Act

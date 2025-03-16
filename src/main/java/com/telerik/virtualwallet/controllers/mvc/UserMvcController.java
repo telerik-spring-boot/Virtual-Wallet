@@ -234,6 +234,7 @@ public class UserMvcController {
     @PostMapping("/cards/new")
     public String handleNewCardForm(Model model, @Valid @ModelAttribute("card") CardCreateDTO cardCreateDTO,
                                     BindingResult bindingResult, Authentication authentication) {
+
         model.addAttribute("formSubmitted", true);
 
 
@@ -271,5 +272,7 @@ public class UserMvcController {
 
         return "admin-panel";
     }
+
+
 
 }
