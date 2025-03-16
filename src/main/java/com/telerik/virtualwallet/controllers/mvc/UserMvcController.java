@@ -3,11 +3,15 @@ package com.telerik.virtualwallet.controllers.mvc;
 
 import com.telerik.virtualwallet.exceptions.*;
 import com.telerik.virtualwallet.helpers.CardMapper;
+import com.telerik.virtualwallet.helpers.StockMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.Card;
+import com.telerik.virtualwallet.models.Stock;
+import com.telerik.virtualwallet.models.StockResponse;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.card.CardCreateDTO;
 import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.CardTransferCreateDTO;
@@ -32,7 +36,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/ui/users")
@@ -262,8 +269,41 @@ public class UserMvcController {
 
 
     @GetMapping("/stocks")
-    public String getStocks() {
+    public String getStocksView(Model model, Authentication authentication) {
+
+
+        Map<String, StockResponse> stocks = stockService.getStockPricesDetailed(); // Map<String, StockData>
+
+
+        StockOrderMvcDTO stockOrder = new StockOrderMvcDTO();
+
+        for (Map.Entry<String, StockResponse> entry : stocks.entrySet()) {
+            String symbol = entry.getKey();
+            StockResponse stockResponse = entry.getValue();
+
+            stockOrder.getSymbols().add(symbol);
+            stockOrder.getPrices().add(stockResponse.getValues().get(0).getClose());
+            stockOrder.getDirections().add(0);
+            stockOrder.getQuantities().add(0.0);
+        }
+
+
+        model.addAttribute("stocks", stocks);
+        model.addAttribute("stockOrder", stockOrder);
+
+
+        model.addAttribute("userStocks", userService.getUserWithStocks(authentication.getName()).getStocks()
+                .stream().collect(Collectors.toMap(Stock::getStockSymbol, Stock::getQuantity)));
+
         return "stocks";
+    }
+
+    @PostMapping("/stocks")
+    public String handleStockOrder(@ModelAttribute("stockOrder") StockOrderMvcDTO stockOrder, RedirectAttributes redirectAttributes) {
+
+        System.out.println(stockOrder);
+
+        return "redirect:/ui/users/stocks";
     }
 
     @GetMapping("/admin")

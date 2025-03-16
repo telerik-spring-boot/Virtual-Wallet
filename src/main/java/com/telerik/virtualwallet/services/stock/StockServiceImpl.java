@@ -78,7 +78,7 @@ public class StockServiceImpl implements StockService{
 
         String symbolsStr = String.join(",", symbols);
 
-        String url = String.format("%s" +"time_series?symbol=%s&interval=30min&apikey=%s", baseUrl, symbolsStr, apiKey);
+        String url = String.format("%s" +"time_series?symbol=%s&interval=5min&outputsize=77&apikey=%s", baseUrl, symbolsStr, apiKey);
 
         String jsonResponse = restTemplate.getForObject(url, String.class);
 
@@ -90,5 +90,11 @@ public class StockServiceImpl implements StockService{
             throw new RuntimeException("Failed to get stock data", e);
         }
 
+    }
+
+    @Override
+    public Map<String, StockResponse> getStockPricesDetailed() {
+
+        return getStockPricesDetailed(List.of("AAPL,TSLA"));
     }
 }

@@ -10,4 +10,6 @@ public interface StockService {
     List<StockData> getStockPricesShort(List<String> symbols);
 
     Map<String, StockResponse> getStockPricesDetailed(List<String> symbols);
+
+    Map<String, StockResponse> getStockPricesDetailed();
 }

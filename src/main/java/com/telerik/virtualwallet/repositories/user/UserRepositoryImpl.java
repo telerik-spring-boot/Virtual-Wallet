@@ -176,12 +176,15 @@ public class UserRepositoryImpl implements UserRepository{
     public User getUserWithStocksAndWalletsAndInvestments(String username) {
         try(Session session = sessionFactory.openSession()){
 
-            Query<User> query = session.createQuery("from User u LEFT JOIN FETCH u.wallets LEFT JOIN FETCH u.stocks LEFT JOIN FETCH u.investments WHERE u.username = :username", User.class);
+            Query<User> query = session.createQuery("from User u JOIN FETCH u.wallets LEFT JOIN FETCH u.stocks WHERE u.username = :username", User.class);
 
             query.setParameter("username", username);
 
+            User user = query.uniqueResult();
 
-            return query.uniqueResult();
+            Hibernate.initialize(user.getInvestments());
+
+            return user;
         }
     }
 

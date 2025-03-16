@@ -59,8 +59,8 @@ public class SecurityConfig{
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint(securityExceptionHandler) // Handles 401 Unauthorized
-                        .accessDeniedHandler(securityExceptionHandler) // Handles 403 Forbidden
+                        .authenticationEntryPoint(securityExceptionHandler)
+                        .accessDeniedHandler(securityExceptionHandler)
                 )
                 .sessionManagement( session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

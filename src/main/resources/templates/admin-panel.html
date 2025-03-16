@@ -1155,7 +1155,7 @@
 
         let depositCounts = Array(12).fill(0);
         let transferCounts = Array(12).fill(0);
-        let monthLabels = Array(12).fill(0);
+        let monthLabels = [];
 
 
         const currentDate = new Date();
@@ -1163,6 +1163,10 @@
         const currentYear = currentDate.getFullYear();
 
 
+        for (let i = 0; i < 12; i++) {
+            let month = new Date(currentYear, currentMonth - i, 1);
+            monthLabels.unshift(month);
+        }
 
         let investmentCounts = Array(12).fill(0);
 

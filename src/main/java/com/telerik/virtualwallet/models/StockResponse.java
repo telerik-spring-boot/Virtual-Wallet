@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)  // Ignore extra fields
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StockResponse {
 
     private List<StockValue> values;
