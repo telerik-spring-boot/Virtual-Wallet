@@ -64,7 +64,7 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade= CascadeType.ALL, orphanRemoval = true)
-    private List<Investment> investments = new ArrayList<>();
+    private Set<Investment> investments;
 
 
     @OneToOne( cascade = CascadeType.ALL)
@@ -107,11 +107,11 @@ public class User {
         return username;
     }
 
-    public List<Investment> getInvestments() {
+    public Set<Investment> getInvestments() {
         return investments;
     }
 
-    public void setInvestments(List<Investment> investments) {
+    public void setInvestments(Set<Investment> investments) {
         this.investments = investments;
     }
 
