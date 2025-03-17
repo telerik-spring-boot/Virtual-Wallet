@@ -7,10 +7,10 @@ import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
 import com.telerik.virtualwallet.models.*;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderDTO;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;
-import com.telerik.virtualwallet.repositories.user.UserRepository;
-import com.telerik.virtualwallet.services.stock.StockService;
-import com.telerik.virtualwallet.services.picture.PictureService;
 import com.telerik.virtualwallet.models.enums.Currency;
+import com.telerik.virtualwallet.repositories.user.UserRepository;
+import com.telerik.virtualwallet.services.picture.PictureService;
+import com.telerik.virtualwallet.services.stock.StockService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final StockService stockService;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
     private final WalletService walletService;
 
 
-    public UserServiceImpl(UserRepository userRepository, StockService stockService, PictureService pictureService, WalletService walletService){
+    public UserServiceImpl(UserRepository userRepository, StockService stockService, PictureService pictureService, WalletService walletService) {
         this.userRepository = userRepository;
         this.stockService = stockService;
         this.pictureService = pictureService;
@@ -97,6 +97,41 @@ public class UserServiceImpl implements UserService{
     @Override
     public void processStockOrderMvc(StockOrderMvcDTO stockOrder, String username) {
 
+        User user = userRepository.getUserWithStocksAndWalletsAndInvestments(username);
+
+        if (user == null) {
+            throw new EntityNotFoundException("User", "username", username);
+        }
+
+
+        checkIfVerifiedAndNotBlocked(user);
+
+        List<StockData> stocksToBuy = new ArrayList<>();
+        List<StockData> stocksToSell = new ArrayList<>();
+        List<Double> buyQuantities = new ArrayList<>();
+        List<Double> sellQuantities = new ArrayList<>();
+
+        for (int i = 0; i < stockOrder.getDirections().size(); i++) {
+            if (stockOrder.getDirections().get(i) == -1) {
+                stocksToSell.add(new StockData(stockOrder.getSymbols().get(i), stockOrder.getPrices().get(i)));
+                sellQuantities.add(stockOrder.getQuantities().get(i));
+            }
+
+            if (stockOrder.getDirections().get(i) == 1) {
+                stocksToBuy.add(new StockData(stockOrder.getSymbols().get(i), stockOrder.getPrices().get(i)));
+                buyQuantities.add(stockOrder.getQuantities().get(i));
+            }
+        }
+
+        if(!stocksToBuy.isEmpty()) {
+            handleStockPurchase(user, user.getMainWallet(), stocksToBuy, buyQuantities);
+        }
+
+        if(!stocksToSell.isEmpty()) {
+            handleStockSale(user, user.getMainWallet(), stocksToSell, sellQuantities);
+        }
+
+        userRepository.update(user);
     }
 
     @Override
@@ -114,7 +149,7 @@ public class UserServiceImpl implements UserService{
 
         User user = userRepository.getByEmail(email);
 
-        if(user == null){
+        if (user == null) {
             throw new EntityNotFoundException("User", "email", email);
         }
 
@@ -128,7 +163,7 @@ public class UserServiceImpl implements UserService{
         List<User> dbUsers = userRepository.getByAnyUniqueField(user.getUsername(), user.getEmail(), user.getPhoneNumber());
 
 
-        if(!dbUsers.isEmpty()){
+        if (!dbUsers.isEmpty()) {
             appropriateThrow(user, dbUsers.get(0));
         }
 
@@ -146,12 +181,12 @@ public class UserServiceImpl implements UserService{
     public void update(User user) {
         List<User> dbUsers = userRepository.getByAnyUniqueField(user.getUsername(), user.getEmail(), user.getPhoneNumber());
 
-        if(!dbUsers.isEmpty()){
-            for(User dbUser : dbUsers){
-                if(dbUser.getId() == user.getId()){
-                    if(!user.getUsername().equals(dbUser.getUsername()))
+        if (!dbUsers.isEmpty()) {
+            for (User dbUser : dbUsers) {
+                if (dbUser.getId() == user.getId()) {
+                    if (!user.getUsername().equals(dbUser.getUsername()))
                         throw new UnauthorizedOperationException("Username modification is not allowed.");
-                }else appropriateThrow(user, dbUser);
+                } else appropriateThrow(user, dbUser);
             }
         }
 
@@ -172,8 +207,8 @@ public class UserServiceImpl implements UserService{
 
 
         List<Integer> walletsToDelete = new ArrayList<>();
-        for(Wallet wallet : wallets) {
-            if(wallet.getUsers().size() == 1){
+        for (Wallet wallet : wallets) {
+            if (wallet.getUsers().size() == 1) {
                 walletsToDelete.add(wallet.getId());
             }
         }
@@ -189,13 +224,13 @@ public class UserServiceImpl implements UserService{
 
     private static void appropriateThrow(User user, User dbUser) {
 
-        if(dbUser.getEmail().equalsIgnoreCase(user.getEmail())){
+        if (dbUser.getEmail().equalsIgnoreCase(user.getEmail())) {
             throw new DuplicateEntityException("User", "email", user.getEmail());
         }
-        if(dbUser.getUsername().equalsIgnoreCase(user.getUsername())){
+        if (dbUser.getUsername().equalsIgnoreCase(user.getUsername())) {
             throw new DuplicateEntityException("User", "username", user.getUsername());
         }
-        if(dbUser.getPhoneNumber().equalsIgnoreCase(user.getPhoneNumber())){
+        if (dbUser.getPhoneNumber().equalsIgnoreCase(user.getPhoneNumber())) {
             throw new DuplicateEntityException("User", "Phone Number", user.getPhoneNumber());
         }
 
@@ -229,7 +264,9 @@ public class UserServiceImpl implements UserService{
             throw new EntityNotFoundException("User", "username", username);
         }
 
+
         checkIfVerifiedAndNotBlocked(user);
+
 
         Wallet walletToUse = walletRequirementsVerification(user, walletId);
 
@@ -237,7 +274,7 @@ public class UserServiceImpl implements UserService{
         List<Double> quantities = new ArrayList<>();
 
 
-        for(StockOrderDTO order : orderList){
+        for (StockOrderDTO order : orderList) {
             symbols.add(order.getSymbol());
             quantities.add(order.getQuantity());
         }
@@ -247,7 +284,7 @@ public class UserServiceImpl implements UserService{
 
         // dummy data for testing
         List<StockData> stocks = new ArrayList<>();
-        for(StockOrderDTO order : orderList){
+        for (StockOrderDTO order : orderList) {
             stocks.add(new StockData(order.getSymbol(), 100));
         }
 
@@ -259,6 +296,7 @@ public class UserServiceImpl implements UserService{
 
         userRepository.update(user);
     }
+
 
     private void handleStockPurchase(User user, Wallet wallet, List<StockData> stocks, List<Double> quantities) {
         double totalStockValue = IntStream.range(0, stocks.size())
@@ -336,30 +374,30 @@ public class UserServiceImpl implements UserService{
                 type));
     }
 
-    private Wallet walletRequirementsVerification(User user, int walletId){
+    private Wallet walletRequirementsVerification(User user, int walletId) {
 
         Wallet walletToUse = user.getWallets().stream()
                 .filter(wallet -> wallet.getId() == walletId)
                 .findFirst()
                 .orElse(null);
 
-        if(walletToUse == null){
+        if (walletToUse == null) {
             throw new EntityNotFoundException("Wallet", "walletId", walletId);
         }
 
-        if(!walletToUse.getCurrency().toString().equalsIgnoreCase("USD")){
+        if (!walletToUse.getCurrency().toString().equalsIgnoreCase("USD")) {
             throw new UnauthorizedOperationException("You can only use USD account for stock operations.");
         }
 
         return walletToUse;
     }
 
-    private void checkIfVerifiedAndNotBlocked(User user){
-        if(user.isBlocked()){
+    private void checkIfVerifiedAndNotBlocked(User user) {
+        if (user.isBlocked()) {
             throw new UnauthorizedOperationException("You are unable to make transactions due to being blocked.");
         }
 
-        if(!(user.getVerification().isEmailVerified() && user.getVerification().isPicturesVerified())){
+        if (!(user.getVerification().isEmailVerified() && user.getVerification().isPicturesVerified())) {
             throw new UnauthorizedOperationException("You are unable to make transactions due to being not verified.");
         }
     }

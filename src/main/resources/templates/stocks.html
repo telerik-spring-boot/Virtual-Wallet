@@ -550,7 +550,7 @@
 								</td>
 								<td class="border" th:text="${#temporals.format(stock.value.values[0].getDatetime(), 'yyyy-MM-dd HH:mm:ss')}">7 March 2025</td>
 
-								<td class="border" id="amount" th:text="${userStocks[stock.key] != null ? userStocks[stock.key] : 0}">0</td>
+								<td class="border user-stock" th:text="${userStocks[stock.key] != null ? userStocks[stock.key] : 0}">0</td>
 
 								<input type="hidden" th:field="*{prices[__${iterStat.index}__]}"
 								       th:value="${stock.value.values[0].close}"/>
@@ -566,12 +566,12 @@
 										<input type="hidden"  th:field="*{directions[__${iterStat.index}__]}"/>
 
 										<button type="button"
-										        class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn"
+										        class="btn btn-outline-primary flex-fill me-2 btn-toggle green-btn btn-buy"
 										        title="Buy">
 											Buy
 										</button>
 										<button type="button"
-										        class="btn btn-outline-danger flex-fill btn-toggle red-btn"
+										        class="btn btn-outline-danger flex-fill btn-toggle red-btn btn-sell"
 										        title="Sell"
 										        th:classappend="${userStocks[stock.key] == null ? 'disabled' : ''}">
 											Sell
@@ -601,7 +601,7 @@
 								<td class="border-top no-hover"></td>
 								<td class="border-top no-hover" colspan="2">
 									<div class="d-flex align-items-center text-center">
-										<button type="submit" class="btn btn-outline-secondary text-dark flex-fill me-2"
+										<button type="submit" class="btn btn-outline-secondary text-dark flex-fill me-2" id="submit-order"
 										        title="Finish Order">
 											Finish Order
 										</button>
@@ -614,8 +614,46 @@
 			</div>
 		</div>
 	</div>
+	<div aria-hidden="true" aria-labelledby="successModalLabel" class="modal fade" id="successModal"
+	     tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="successModalLabel">Success</h5>
+					<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+				</div>
+				<div class="modal-body">
+					<span th:if="${orderSuccess}" th:text="#{stock-order.success}"  style="text-transform: none;"> </span>
+
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div aria-hidden="true" aria-labelledby="failureModalLabel" class="modal fade" id="failureModal"
+	     tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="failureModalLabel">Failure</h5>
+					<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+				</div>
+				<div class="modal-body">
+					<span th:if="${orderFail}" th:text="#{stock-order.failure}"  style="text-transform: none;"> </span>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" th:src="'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js'"></script>
 
 <div th:replace="~{fragments/general-fragments :: exchange-rate}"></div>
 
@@ -624,6 +662,17 @@
 <script src="../static/bundles/dataTables.bundle.js" th:src="@{/bundles/dataTables.bundle.js}"></script>
 
 <link rel="stylesheet" href="../static/vendor/dataTables.css" th:href="@{/vendor/dataTables.css}"/>
+
+
+<script th:if="${orderSuccess}" type="text/javascript">
+    let modal = new bootstrap.Modal(document.getElementById('successModal'));
+    modal.show();
+</script>
+
+<script th:if="${orderFail}" type="text/javascript">
+    let modal = new bootstrap.Modal(document.getElementById('failureModal'));
+    modal.show();
+</script>
 
 
 <script th:inline="javascript">
@@ -773,19 +822,36 @@
     });
 
 
+
     document.addEventListener('DOMContentLoaded', function () {
         const buttons = document.querySelectorAll('.btn-toggle');
+        const submitButton = document.getElementById('submit-order');
 
+        function checkToggleButtons() {
+            let isActive = false;
 
+            buttons.forEach(button => {
+
+                if (button.classList.contains('active')) {
+                    isActive = true;
+                }
+            });
+
+            submitButton.disabled = !isActive;
+        }
 
         buttons.forEach(button => {
             button.addEventListener('click', function () {
                 const row = this.closest('tr');
                 const directionInput = row.querySelector("input[name^='directions']");
+                const amountInputField = row.querySelector('input[type="number"]');
+                const userStockCell = row.querySelector('.user-stock');
+                const userStockAmount = parseFloat(userStockCell.textContent) || 0;
 
                 if (this.classList.contains('active')) {
                     this.classList.remove('active');
                     directionInput.value = 0;
+                    amountInputField.removeAttribute('max');
                 } else {
 
                     const rowButtons = row.querySelectorAll('.btn-toggle');
@@ -798,11 +864,42 @@
 
                     if (this.classList.contains('btn-outline-primary')) {
                         directionInput.value = 1;
+                        amountInputField.removeAttribute('max');
                     } else if (this.classList.contains('btn-outline-danger')) {
                         directionInput.value = -1;
+                        amountInputField.max = userStockAmount;
                     }
                 }
+
+                checkToggleButtons();
             });
+        });
+        checkToggleButtons();
+
+        const inputFields = document.querySelectorAll('input[type="number"]')
+
+        inputFields.forEach(input => {
+            const row = input.closest('tr');
+            const buyButton = row.querySelector('.btn-buy');
+            const sellButton = row.querySelector('.btn-sell');
+
+            function toggleButtonsBasedOnInput() {
+                const value = parseFloat(input.value);
+                const stockQuantity = parseFloat(row.querySelector('.user-stock').textContent);
+
+
+                if (value >= 0.01) {
+                    buyButton.disabled = false;
+                    sellButton.disabled = stockQuantity <= 0;
+                } else {
+                    buyButton.disabled = true;
+                    sellButton.disabled = true;
+                }
+            }
+
+            input.addEventListener('input', toggleButtonsBasedOnInput);
+
+            toggleButtonsBasedOnInput();
         });
     });
 

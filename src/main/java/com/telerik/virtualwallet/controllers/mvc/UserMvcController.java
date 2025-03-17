@@ -299,15 +299,15 @@ public class UserMvcController {
     }
 
     @PostMapping("/stocks")
-    public String handleStockOrder(@ModelAttribute("stockOrder") StockOrderMvcDTO stockOrder, RedirectAttributes redirectAttributes,  Authentication authentication) {
+    public String handleStockOrder(@Valid @ModelAttribute("stockOrder") StockOrderMvcDTO stockOrder, RedirectAttributes redirectAttributes,  Authentication authentication) {
 
         try {
             userService.processStockOrderMvc(stockOrder, authentication.getName());
 
-            redirectAttributes.addFlashAttribute("successOrder", true);
+            redirectAttributes.addFlashAttribute("orderSuccess", true);
 
         } catch (InsufficientFundsException | EntityNotFoundException e) {
-            redirectAttributes.addFlashAttribute("errors", e.getMessage());
+            redirectAttributes.addFlashAttribute("orderFail", e.getMessage());
         }
 
         return "redirect:/ui/users/stocks";
