@@ -49,6 +49,7 @@ public class WalletMapper {
                 .map(userMapper::userToUserDisplayForWalletDTO).toList();
 
         dto.setWalletHolders(walletHoldersUsernames);
+        dto.setCreator(userMapper.userToUserDisplayForWalletDTO(wallet.getCreator()));
         dto.setBalance(wallet.getBalance());
         dto.setCurrency(wallet.getCurrency().toString());
         dto.setId(wallet.getId());

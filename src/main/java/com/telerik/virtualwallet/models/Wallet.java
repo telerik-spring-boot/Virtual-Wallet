@@ -24,6 +24,14 @@ public class Wallet {
     @Column(name = "currency")
     private Currency currency;
 
+    @ManyToOne
+    @JoinTable(
+            name = "wallet_creators",
+            joinColumns = @JoinColumn(name = "wallet_id"),
+            inverseJoinColumns = @JoinColumn(name = "creator_id")
+    )
+    private User creator;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -36,10 +44,11 @@ public class Wallet {
     public Wallet() {
     }
 
-    public Wallet(int id, BigDecimal balance, Currency currency, Set<User> users) {
+    public Wallet(int id, BigDecimal balance, Currency currency, User creator, Set<User> users) {
         this.id = id;
         this.balance = balance;
         this.currency = currency;
+        this.creator = creator;
         this.users = users;
     }
 
@@ -75,4 +84,11 @@ public class Wallet {
         this.users = users;
     }
 
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
 }

@@ -251,6 +251,7 @@ public class UserServiceImpl implements UserService {
 
         wallet.setBalance(BigDecimal.ZERO);
         wallet.setCurrency(Currency.USD);
+        wallet.setCreator(user);
 
         user.getWallets().add(wallet);
         user.setMainWallet(wallet);

@@ -37,6 +37,14 @@ CREATE TABLE virtual_wallet.users
     FOREIGN KEY (main_wallet_id) REFERENCES virtual_wallet.wallets (wallet_id)
 );
 
+CREATE TABLE virtual_wallet.wallet_creators
+(
+    wallet_id  INT NOT NULL PRIMARY KEY,
+    creator_id INT NOT NULL,
+    FOREIGN KEY (wallet_id) REFERENCES virtual_wallet.wallets (wallet_id) ON DELETE CASCADE,
+    FOREIGN KEY (creator_id) REFERENCES virtual_wallet.users (user_id) ON DELETE CASCADE
+);
+
 CREATE TABLE virtual_wallet.roles
 (
     role_id   INT AUTO_INCREMENT PRIMARY KEY,

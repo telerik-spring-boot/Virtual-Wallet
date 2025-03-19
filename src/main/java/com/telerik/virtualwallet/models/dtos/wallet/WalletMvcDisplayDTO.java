@@ -17,15 +17,18 @@ public class WalletMvcDisplayDTO {
 
     public String currency;
 
+    public UserDisplayForWalletDTO creator;
+
     public int id;
 
     public WalletMvcDisplayDTO() {
     }
 
-    public WalletMvcDisplayDTO(List<UserDisplayForWalletDTO> walletHolders, BigDecimal balance, String currency, int id) {
+    public WalletMvcDisplayDTO(List<UserDisplayForWalletDTO> walletHolders, BigDecimal balance, String currency, UserDisplayForWalletDTO creator, int id) {
         this.walletHolders = walletHolders;
         this.balance = balance;
         this.currency = currency;
+        this.creator = creator;
         this.id = id;
     }
 
@@ -59,5 +62,13 @@ public class WalletMvcDisplayDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public UserDisplayForWalletDTO getCreator() {
+        return creator;
+    }
+
+    public void setCreator(UserDisplayForWalletDTO creator) {
+        this.creator = creator;
     }
 }

@@ -38,6 +38,20 @@ VALUES ('Alice Johnson', 'alice', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIU
        ('Jack Russel', 'jack444', '$2a$12$id0a4ReIhm/E4VTspyGDuu/3VEcPVZJOBkOirknGWaDhCfjvdjBvu', 'jack@example.com',
         '+1234567899', 10);
 
+-- Insert Wallet Creators
+INSERT INTO virtual_wallet.wallet_creators (wallet_id,creator_id)
+VALUES (1, 1),
+       (2, 2),
+       (3, 3),
+       (4, 4),
+       (5, 5),
+       (6, 6),
+       (7, 7),
+       (8, 8),
+       (9, 9),
+       (10, 10);
+
+
 -- Insert Admins (Making first two users admins)
 
 INSERT INTO virtual_wallet.roles(role_name)

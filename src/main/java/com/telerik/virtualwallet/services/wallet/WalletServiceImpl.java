@@ -93,6 +93,7 @@ public class WalletServiceImpl implements WalletService {
         }
 
         wallet.getUsers().add(user);
+        wallet.setCreator(user);
         walletRepository.addWallet(wallet);
 
     }
