@@ -100,28 +100,47 @@ public class UserMvcController {
                 .toList();
 
         model.addAttribute("wallets", wallets);
+        model.addAttribute("loggedUsername", authentication.getName());
         return "wallets";
     }
 
     @GetMapping("/wallets/{walletId}/add/{username}")
     public String addUserToWallet(@PathVariable int walletId, @PathVariable String username,
-                                  Model model, Authentication authentication, RedirectAttributes redirectAttributes) {
+                                  Authentication authentication, RedirectAttributes redirectAttributes) {
 
         if (!walletSecurityService.isUserWalletHolder(walletId, authentication.getName())) {
             return "404";
         }
 
         try {
-
             walletService.addUserToWallet(walletId, username);
 
+            redirectAttributes.addFlashAttribute("addingSuccess", true);
             return "redirect:/ui/users/wallets";
         } catch (DuplicateEntityException | EntityNotFoundException | UnauthorizedOperationException e) {
-            redirectAttributes.addFlashAttribute("errors", e.getMessage());
+            redirectAttributes.addFlashAttribute("addingErrors", e.getMessage());
             return "redirect:/ui/users/wallets";
         }
+    }
 
+    @GetMapping("/wallets/{walletId}/remove/{username}")
+    public String removeUserToWallet(@PathVariable int walletId, @PathVariable String username,
+                                  Authentication authentication, RedirectAttributes redirectAttributes) {
 
+        if (!walletSecurityService.isUserWalletHolder(walletId, authentication.getName())) {
+            return "404";
+        }
+
+        try {
+            walletService.removeUserFromWallet(walletId, username);
+
+            redirectAttributes.addFlashAttribute("removalSuccess", true);
+            return "redirect:/ui/users/wallets";
+        } catch (DuplicateEntityException | EntityNotFoundException |
+                 UnauthorizedOperationException | InconsistentOperationException e) {
+            redirectAttributes.addFlashAttribute("removalErrors", e.getMessage());
+            return "redirect:/ui/users/wallets";
+        }
     }
 
     @GetMapping("/cards")

@@ -171,8 +171,26 @@
                 <h6 class="text-muted mb-0">Wallet Holders</h6>
             </div>
             <div class="mb-4 px-3">
-                <div th:each = "holder : ${wallet.walletHolders}" class="card mb-2">
-                    <div class="card-body">
+
+                <div class="card mb-2">
+                    <div class="card-body" >
+                        <div class="d-flex">
+                            <div class="avatar rounded-circle no-thumbnail">
+                                <img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
+                                     class="avatar rounded-circle d-none d-sm-inline-block"
+                                     onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
+                                     th:src="@{/ui/uploads/picture{username}3.jpg(username=${wallet.creator.username})}"/></div>
+                            <div class="mx-2">
+                                <h6 class="mb-0" th:text="${wallet.creator.username}">Balance</h6>
+                                <span class="text-muted" th:text="${wallet.creator.fullName}">Send, receive, and spend money</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div th:if="${ wallet.walletHolders.size()>1}" th:each = "holder : ${wallet.walletHolders}" class="card mb-2">
+                    <div class="card-body" th:if="${holder.username != wallet.creator.username}">
                         <div class="d-flex">
                             <div class="avatar rounded-circle no-thumbnail">
                                 <img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
@@ -183,29 +201,74 @@
                                 <h6 class="mb-0" th:text="${holder.username}">Balance</h6>
                                 <span class="text-muted" th:text="${holder.fullName}">Send, receive, and spend money</span>
                             </div>
-                            <div class="ms-auto form-check">
-                                <input class="form-check-input" type="radio" name="selectType" value=""
-                                       id="Makers">
+                            <div class="ms-auto form-check"
+                                 th:if="${holder.username != wallet.creator.username and loggedUsername == wallet.creator.username}">
+                                <input class="form-check-input" type="radio" th:name="selectType"
+                                       th:value="${holder.username}" id="radio_${holder.username}" />
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex">
-                            <div class="avatar rounded-circle no-thumbnail"><i class="fa fa-university"></i>
-                            </div>
-                            <div class="mx-2">
-                                <h6 class="mb-0">Pocket</h6>
-                                <span class="text-muted">Set aside money for whenever</span>
-                            </div>
-                            <div class="ms-auto form-check">
-                                <input class="form-check-input" type="radio" name="selectType" value=""
-                                       id="Makers-one">
-                            </div>
-                        </div>
-                    </div>
+
+                <!-- Hidden input field to store the selected username -->
+                <input type="hidden" id="selectedUsername_${wallet.id}" name="selectType" />
+
+                <!-- Hidden input field to store the current wallet ID -->
+                <input type="hidden" name="walletId" id="walletId_${wallet.id}" th:value="${wallet.id}" />
+
+
+                <div class="d-flex px-3" th:if="${loggedUsername == wallet.creator.username and wallet.walletHolders.size()>1}">
+                    <a id="removeLink_${wallet.id}" href="#" class="btn w-100 me-1 py-2 btn-dark">Remove from wallet</a>
                 </div>
+
+
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        document.querySelectorAll('input[name="selectType"]').forEach(function(radioButton) {
+                            radioButton.addEventListener('change', function() {
+                                console.log("Radio Button Selected: ", this.value);
+
+                                // Get the closest card element
+                                var cardElement = this.closest('.card');
+
+                                // Get the walletId using the name attribute and filter by wallet.id
+                                var walletIdInput = cardElement.querySelector('input[name="walletId"]');
+
+                                if (walletIdInput) {
+                                    // If the hidden input is found, get its value
+                                    var walletId = walletIdInput.value;
+
+                                    // Update the hidden input with the selected username
+                                    var selectedUsername = this.value;
+                                    document.getElementById('selectedUsername_' + walletId).value = selectedUsername;
+
+                                    // Log the updated values
+                                    console.log("Wallet ID: ", walletId);
+                                    console.log("Selected Username: ", selectedUsername);
+
+                                    // Get the remove link element
+                                    var removeLink = document.getElementById('removeLink_' + walletId);
+
+                                    // Update the href dynamically
+                                    removeLink.href = '/ui/users/wallets/' + walletId + '/remove/' + selectedUsername;
+
+                                    // Log the updated remove link href
+                                    console.log("Updated Remove Link Href: ", removeLink.href);
+                                } else {
+                                    // Log an error if walletId input is not found
+                                    console.error("Error: walletId input not found!");
+                                }
+                            });
+                        });
+                    });
+
+                </script>
+
+
+
+
+
             </div>
             <div class="mb-4 p-3 bg-light">
                 <h6 class="text-muted mb-0">Select Currency</h6>
@@ -260,7 +323,7 @@
                 </select>
             </div>
             <div class="d-flex px-3">
-                <a th:href="@{/ui/users/wallets/1/add/bober}" class="btn w-100 me-1 py-2 btn-dark">Confirm</a>
+                <a th:href="@{/ui/users/wallets/1/add/charlie}" class="btn w-100 me-1 py-2 btn-dark">Confirm</a>
             </div>
         </div>
     </div>
