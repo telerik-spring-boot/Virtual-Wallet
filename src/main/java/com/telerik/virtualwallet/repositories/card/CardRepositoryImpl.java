@@ -52,7 +52,7 @@ public class CardRepositoryImpl implements CardRepository {
     @Override
     public void addCard(Card card) {
 
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(card);
             session.getTransaction().commit();
@@ -63,7 +63,7 @@ public class CardRepositoryImpl implements CardRepository {
     @Override
     public void updateCard(Card card) {
 
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.merge(card);
             session.getTransaction().commit();
@@ -74,7 +74,7 @@ public class CardRepositoryImpl implements CardRepository {
     @Override
     public void deleteCard(int cardId) {
 
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             Card card = session.get(Card.class, cardId);
@@ -110,16 +110,12 @@ public class CardRepositoryImpl implements CardRepository {
             Query<Long> query = session.createQuery
                     ("SELECT COUNT(c) FROM Card c WHERE c.number = :cardNumber " +
                                     "AND c.user.username = :username " +
-                                    "AND c.cvv = :cvv AND c.holder = :holder " +
-                                    "AND c.expiryMonth = :expiryMonth AND c.expiryYear = :expiryYear",
+                                    "AND c.id !=: cardId",
                             Long.class);
 
             query.setParameter("cardNumber", card.getNumber());
-            query.setParameter("cvv", card.getCvv());
-            query.setParameter("holder", card.getHolder());
-            query.setParameter("expiryMonth", card.getExpiryMonth());
-            query.setParameter("expiryYear", card.getExpiryYear());
             query.setParameter("username", username);
+            query.setParameter("cardId", card.getId());
 
             Long count = query.uniqueResult();
 

@@ -3,7 +3,6 @@ package com.telerik.virtualwallet.controllers.mvc;
 
 import com.telerik.virtualwallet.exceptions.*;
 import com.telerik.virtualwallet.helpers.CardMapper;
-import com.telerik.virtualwallet.helpers.StockMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.Stock;
@@ -17,6 +16,7 @@ import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.CardTransferCreateDTO;
 import com.telerik.virtualwallet.services.card.CardService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
+import com.telerik.virtualwallet.services.security.CardSecurityService;
 import com.telerik.virtualwallet.services.stock.StockService;
 import com.telerik.virtualwallet.services.user.UserService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,9 +51,10 @@ public class UserMvcController {
     private final CardMapper cardMapper;
     private final WalletService walletService;
     private final StockService stockService;
+    private final CardSecurityService cardSecurityService;
 
     @Autowired
-    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, CardService cardService, CardMapper cardMapper, WalletService walletService, StockService stockService) {
+    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, CardService cardService, CardMapper cardMapper, WalletService walletService, StockService stockService, CardSecurityService cardSecurityService) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.jwtService = jwtService;
@@ -62,6 +62,7 @@ public class UserMvcController {
         this.cardMapper = cardMapper;
         this.walletService = walletService;
         this.stockService = stockService;
+        this.cardSecurityService = cardSecurityService;
     }
 
     @ModelAttribute("isAdmin")
@@ -94,12 +95,14 @@ public class UserMvcController {
 
         User user = userService.getByUsername(authentication.getName());
 
-        loadUserCardList(model,authentication);
+        loadUserCardList(model, authentication);
+
         model.addAttribute("user", user);
         model.addAttribute("requestURI", request.getRequestURI());
 
         return "card";
     }
+
 
     @GetMapping("/recipients")
     public String getRecipients() {
@@ -267,6 +270,81 @@ public class UserMvcController {
         }
     }
 
+    @GetMapping("/cards/{cardId}/delete")
+    public String deleteCardById(@PathVariable int cardId, Authentication authentication, RedirectAttributes redirectAttributes) {
+
+        if (!cardSecurityService.isUserCardHolder(cardId, authentication.getName())) {
+            return "404";
+        }
+
+        try {
+            cardService.deleteCard(cardId);
+
+            redirectAttributes.addFlashAttribute("successDelete", true);
+
+            return "redirect:/ui/users/cards";
+        } catch (EntityNotFoundException e) {
+            return "404";
+        }
+    }
+
+    @GetMapping("/cards/{cardId}/update")
+    public String updateCardByForm(@PathVariable int cardId, Authentication authentication, Model model, HttpServletRequest request) {
+
+        if (!cardSecurityService.isUserCardHolder(cardId, authentication.getName())) {
+            return "404";
+        }
+
+        try {
+
+            Card card = cardService.getCardById(cardId);
+
+            model.addAttribute("card", new CardCreateDTO(card.getNumber(), card.getHolder(),
+                    card.getCvv(), card.getExpiryMonth(), card.getExpiryYear()));
+            model.addAttribute("requestURI", request.getRequestURI());
+
+            return "card-update";
+        } catch (EntityNotFoundException e) {
+            return "404";
+        }
+
+    }
+
+    @PostMapping("/cards/{cardId}/update")
+    public String handleUpdateCardByForm(@PathVariable int cardId, @Valid @ModelAttribute("card") CardCreateDTO cardCreateDTO,
+                                         BindingResult bindingResult, Model model,
+                                         RedirectAttributes redirectAttributes) {
+
+        model.addAttribute("formSubmitted", true);
+
+
+        if (bindingResult.hasErrors()) {
+            return "card-update";
+        }
+
+
+        try {
+            Card card = cardMapper.createDtoToCard(cardId, cardCreateDTO);
+
+            cardService.updateCard(card);
+
+            redirectAttributes.addFlashAttribute("successUpdate", true);
+
+            return "redirect:/ui/users/cards";
+        } catch (DuplicateEntityException e) {
+            bindingResult.rejectValue("cardNumber", "card.number", e.getMessage());
+
+            return "card-update";
+        } catch (ExpiredCardException e) {
+            bindingResult.rejectValue("expiryMonth", "card.month", e.getMessage());
+            bindingResult.rejectValue("expiryYear", "card.year", e.getMessage());
+
+            return "card-update";
+        }
+
+
+    }
+
 
     @GetMapping("/stocks")
     public String getStocksView(Model model, Authentication authentication) {
@@ -299,7 +377,7 @@ public class UserMvcController {
     }
 
     @PostMapping("/stocks")
-    public String handleStockOrder(@Valid @ModelAttribute("stockOrder") StockOrderMvcDTO stockOrder, RedirectAttributes redirectAttributes,  Authentication authentication) {
+    public String handleStockOrder(@Valid @ModelAttribute("stockOrder") StockOrderMvcDTO stockOrder, RedirectAttributes redirectAttributes, Authentication authentication) {
 
         try {
             userService.processStockOrderMvc(stockOrder, authentication.getName());
@@ -319,7 +397,6 @@ public class UserMvcController {
 
         return "admin-panel";
     }
-
 
 
 }

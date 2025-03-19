@@ -46,9 +46,9 @@ public class CardServiceImpl implements CardService {
 
         List<Card> cards = cardRepository.getCardsByUsername(username);
 
-        if (cards.isEmpty()) {
-            throw new EntityNotFoundException(String.format(NO_CARDS_FOUND_MESSAGE, username));
-        }
+//        if (cards.isEmpty()) {
+//            throw new EntityNotFoundException(String.format(NO_CARDS_FOUND_MESSAGE, username));
+//        }
 
         return cards;
     }

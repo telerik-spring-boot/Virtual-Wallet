@@ -57,7 +57,7 @@ CREATE TABLE virtual_wallet.user_roles
 CREATE TABLE virtual_wallet.cards
 (
     card_id      INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    card_number  VARCHAR(16)        NOT NULL UNIQUE,
+    card_number  VARCHAR(16)        NOT NULL,
     card_holder  VARCHAR(30)        NOT NULL,
     expiry_month CHAR(2)            NOT NULL CHECK (expiry_month BETWEEN '01' AND '12'),
     expiry_year  CHAR(2)            NOT NULL CHECK (expiry_year BETWEEN '00' AND '99'),
