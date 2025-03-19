@@ -4,6 +4,7 @@ package com.telerik.virtualwallet.controllers.mvc;
 import com.telerik.virtualwallet.exceptions.*;
 import com.telerik.virtualwallet.helpers.CardMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
+import com.telerik.virtualwallet.helpers.WalletMapper;
 import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.Stock;
 import com.telerik.virtualwallet.models.StockResponse;
@@ -14,6 +15,7 @@ import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.CardTransferCreateDTO;
+import com.telerik.virtualwallet.models.dtos.wallet.WalletMvcDisplayDTO;
 import com.telerik.virtualwallet.services.card.CardService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
 import com.telerik.virtualwallet.services.security.CardSecurityService;
@@ -50,17 +52,19 @@ public class UserMvcController {
     private final CardService cardService;
     private final CardMapper cardMapper;
     private final WalletService walletService;
+    private final WalletMapper walletMapper;
     private final StockService stockService;
     private final CardSecurityService cardSecurityService;
 
     @Autowired
-    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, CardService cardService, CardMapper cardMapper, WalletService walletService, StockService stockService, CardSecurityService cardSecurityService) {
+    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, CardService cardService, CardMapper cardMapper, WalletService walletService, WalletMapper walletMapper, StockService stockService, CardSecurityService cardSecurityService) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.jwtService = jwtService;
         this.cardService = cardService;
         this.cardMapper = cardMapper;
         this.walletService = walletService;
+        this.walletMapper = walletMapper;
         this.stockService = stockService;
         this.cardSecurityService = cardSecurityService;
     }
@@ -85,9 +89,15 @@ public class UserMvcController {
         return "index";
     }
 
-    @GetMapping("/balance")
-    public String getBalance() {
-        return "balance";
+    @GetMapping("/wallets")
+    public String getBalance(Authentication authentication, Model model) {
+
+        List<WalletMvcDisplayDTO> wallets = walletService.getWalletsByUsername(authentication.getName()).stream()
+                .map(walletMapper::walletToMvcDto)
+                .toList();
+
+        model.addAttribute("wallets", wallets);
+        return "wallets";
     }
 
     @GetMapping("/cards")

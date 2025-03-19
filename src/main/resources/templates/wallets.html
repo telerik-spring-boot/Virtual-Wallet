@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/general-fragments :: head('YNPay :: Wallets')}"></head>
+
+<body data-theme="theme-AppleGreen" class="svgstroke-a">
+<main class="container-fluid px-0">
+    <!-- start: page menu link -->
+    <div th:replace="~{fragments/general-fragments :: sidebar}"></div>
+    <div class="content">
+        <!-- start: page header -->
+        <div th:replace="~{fragments/general-fragments :: main-header('Wallets')}"></div>
+        <!-- start: page header area -->
+        <div class="px-xl-5 px-lg-4 px-3 py-2 page-header flex-wrap">
+            <ol class="breadcrumb mb-0 bg-transparent mb-3 mb-sm-0">
+                <li class="breadcrumb-item"><a class="text-muted" href="index.html" title="home"
+                                               th:href="@{/ui/users/dashboard}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" title="Wallets">Wallets</li>
+            </ol>
+            <ul class="list-unstyled action row g-2 mb-0">
+                <li class="col-sm-4 col-6">
+                    <div>
+                        <input type="date" name="filter" class="form-control" value="">
+                    </div>
+                </li>
+                <li class="dropdown col-sm-4 col-6">
+                    <a href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"
+                       class="btn border  rounded fw-medium w-100">
+                        <svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg" width="18"
+                             viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path
+                                    d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z">
+                            </path>
+                        </svg>
+                        Filter
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end p-2 p-xl-3 shadow rounded-4"
+                         style="width: 300px;">
+                        <h6>Filter Options</h6>
+                        <div class="row g-3 mt-3">
+                            <div class="col-12">
+                                <label class="form-label small text-muted">Sorted by:</label>
+                                <input type="search" class="form-control" placeholder="Search">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small text-muted">Status:</label>
+                                <select class="form-select">
+                                    <option selected="">Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small text-muted">Notifications:</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch">
+                                    <label class="form-check-label">Enabled</label>
+                                </div>
+                            </div>
+                            <div class="col-12 text-end mt-4">
+                                <button type="reset" class="btn btn-sm btn-light me-1">Reset</button>
+                                <button type="submit" class="btn btn-sm btn-primary">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="col-sm-4 col-12">
+                    <a href="#offcanvas_balance" data-bs-toggle="offcanvas" aria-expanded="false"
+                       title="exchange" class="btn btn-dark fw-medium w-100">Create a new Wallet</a>
+                </li>
+            </ul>
+        </div>
+        <!-- start: page body area -->
+        <div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
+            <div class="row g-3 mb-3 row-deck">
+                <div th:each="wallet : ${wallets}" class="col-12 col-md-6 col-xl-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0" th:text="'IBAN33YNPAY68477732491843244' + ${wallet.id}">First
+                                Wallet</h6>
+                            <div class="card-action">
+                                <div>
+                                    <a href="#" class="card-fullscreen" data-bs-toggle="tooltip"
+                                       aria-label="Card Full Screen"
+                                       data-bs-original-title="Card Full Screen">
+                                        <svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg"
+                                             width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-linecap="round"
+                                             stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path
+                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9">
+                                            </path>
+                                            <path d="M7 20l10 0"></path>
+                                            <path d="M9 16l0 4"></path>
+                                            <path d="M15 16l0 4"></path>
+                                            <path d="M17 4h4v4"></path>
+                                            <path d="M16 9l5 -5"></path>
+                                        </svg>
+                                    </a>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="me-2">
+                                        <!-- US Dollar -->
+                                        <img th:if="${wallet.currency == 'USD'}"
+                                             th:src="@{/images/flags/1x1/um.svg}"
+                                             alt="USD Flag" class="img-fluid rounded-circle avatar sm">
+
+                                        <img th:if="${wallet.currency == 'EUR'}"
+                                             th:src="@{/images/flags/1x1/eu.svg}"
+                                             alt="EUR Flag" class="img-fluid rounded-circle avatar sm">
+
+                                        <img th:if="${wallet.currency == 'GBP'}"
+                                             th:src="@{/images/flags/1x1/gb.svg}"
+                                             alt="GBP Flag" class="img-fluid rounded-circle avatar sm">
+
+                                    </div>
+                                    <h6 class="card-title mb-0 me-auto"
+                                        th:if="${wallet.currency == 'USD'}">
+                                        US Dollar</h6>
+                                    <h6 class="card-title mb-0 me-auto"
+                                        th:if="${wallet.currency == 'EUR'}">
+                                        Euro</h6>
+                                    <h6 class="card-title mb-0 me-auto"
+                                        th:if="${wallet.currency == 'GBP'}">
+                                        British Pound</h6>
+
+                                </div>
+                                <div class="card-body">
+                                    <h2>
+                                        <span th:if="${wallet.currency == 'USD'}">$
+                                        </span>
+                                        <span th:if="${wallet.currency == 'EUR'}">€</span>
+                                        <span th:if="${wallet.currency == 'GBP'}">£</span>
+                                        <span th:text="${wallet.balance}"></span>
+                                    </h2>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <a type="button" class="btn me-1 btn-grey-outline w-100"
+                               th:href="'#sideModal' + ${wallet.id}" data-bs-toggle="offcanvas" aria-expanded="false">
+                                Details
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</main>
+<!-- start: Add New Balance -->
+<div th:each="wallet : ${wallets}">
+    <div class="offcanvas offcanvas-end" tabindex="-1" th:id="'sideModal' + ${wallet.id}"
+         aria-labelledby="offcanvas_balance">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" th:text="'IBAN33YNPAY68477732491843244' + ${wallet.id}">Add New Balance</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body px-0">
+            <div class="mb-4 p-3 bg-light">
+                <h6 class="text-muted mb-0">Wallet Holders</h6>
+            </div>
+            <div class="mb-4 px-3">
+                <div th:each = "holder : ${wallet.walletHolders}" class="card mb-2">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="avatar rounded-circle no-thumbnail">
+                                <img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
+                                                                                 class="avatar rounded-circle d-none d-sm-inline-block"
+                                                                                 onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
+                                                                                 th:src="@{/ui/uploads/picture{username}3.jpg(username=${holder.username})}"/></div>
+                            <div class="mx-2">
+                                <h6 class="mb-0" th:text="${holder.username}">Balance</h6>
+                                <span class="text-muted" th:text="${holder.fullName}">Send, receive, and spend money</span>
+                            </div>
+                            <div class="ms-auto form-check">
+                                <input class="form-check-input" type="radio" name="selectType" value=""
+                                       id="Makers">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="avatar rounded-circle no-thumbnail"><i class="fa fa-university"></i>
+                            </div>
+                            <div class="mx-2">
+                                <h6 class="mb-0">Pocket</h6>
+                                <span class="text-muted">Set aside money for whenever</span>
+                            </div>
+                            <div class="ms-auto form-check">
+                                <input class="form-check-input" type="radio" name="selectType" value=""
+                                       id="Makers-one">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-4 p-3 bg-light">
+                <h6 class="text-muted mb-0">Select Currency</h6>
+            </div>
+            <div class="mb-4 px-3">
+                <select id="country1" name="country" data-placeholder="Select a country" data-dynamic-select=""
+                        class="form-select">
+                    <option value="United States Dollar" data-img="../static/images/flags/1x1/um.svg"
+                            th:data-img="@{/images/flags/1x1/um.svg}">United States
+                        Dollar
+                    </option>
+                    <option value="Afghan Afghani" data-img="../static/images/flags/1x1/af.svg"
+                            th:data-img="@{/images/flags/1x1/af.svg}">Afghan Afghani
+                    </option>
+                    <option value="Albanian Lek" data-img="../static/images/flags/1x1/al.svg"
+                            th:data-img="@{/images/flags/1x1/al.svg}">Albanian Lek
+                    </option>
+                    <option value="Algerian Dinar" data-img="../static/images/flags/1x1/ad.svg"
+                            th:data-img="@{/images/flags/1x1/ad.svg}">Algerian Dinar
+                    </option>
+                    <option value="Argentine Peso" data-img="../static/images/flags/1x1/ar.svg"
+                            th:data-img="@{/images/flags/1x1/ar.svg}">Argentine Peso
+                    </option>
+                    <option value="Argentine Peso" data-img="../static/images/flags/1x1/ad.svg"
+                            th:data-img="@{/images/flags/1x1/ad.svg}">Armenian Dram
+                    </option>
+                    <option value="Armenian Dram" data-img="../static/images/flags/1x1/ad.svg"
+                            th:data-img="@{/images/flags/1x1/ad.svg}">Armenian Dram
+                    </option>
+                    <option value="Aruban Florin" data-img="../static/images/flags/1x1/af.svg"
+                            th:data-img="@{/images/flags/1x1/af.svg}">Aruban Florin
+                    </option>
+                    <option value="Australian Dollar" data-img="../static/images/flags/1x1/au.svg"
+                            th:data-img="@{/images/flags/1x1/au.svg}">Australian Dollar
+                    </option>
+                    <option value="Azerbaijani Manat" data-img="../static/images/flags/1x1/az.svg"
+                            th:data-img="@{/images/flags/1x1/az.svg}">Azerbaijani Manat
+                    </option>
+                    <option value="Bahamian Dollar" data-img="../static/images/flags/1x1/bd.svg"
+                            th:data-img="@{/images/flags/1x1/bd.svg}">Bahamian Dollar
+                    </option>
+                    <option value="Indian Rupis" data-img="../static/images/flags/1x1/in.svg"
+                            th:data-img="@{/images/flags/1x1/in.svg}">Indian Rupis
+                    </option>
+                    <option value="Singapore Dollar" data-img="../static/images/flags/1x1/si.svg"
+                            th:data-img="@{/images/flags/1x1/si.svg}">Singapore Dollar
+                    </option>
+                    <option value="United States Dollar" data-img="../static/images/flags/1x1/un.svg"
+                            th:data-img="@{/images/flags/1x1/un.svg}">United States
+                        Dollar
+                    </option>
+                </select>
+            </div>
+            <div class="d-flex px-3">
+                <button type="button" class="btn w-100 me-1 py-2 btn-dark">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- start: exchange rate -->
+<div th:replace="~{fragments/general-fragments :: exchange-rate}"></div>
+
+<!--============== active class js =============-->
+<th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+<script>
+    $(document).ready(function () {
+        // Stacked Area
+        var options = {
+            chart: {
+                height: 200,
+                type: 'area',
+                stacked: true,
+                toolbar: {
+                    show: false,
+                },
+                events: {
+                    selection: function (chart, e) {
+                        console.log(new Date(e.xaxis.min))
+                    }
+                },
+            },
+            colors: ['#e4bd51'],
+            dataLabels: {
+                enabled: false
+            },
+
+            series: [
+                {
+                    name: 'Central',
+                    data: generateDayWiseTimeSeries(new Date('14 Aug 2024 GMT').getTime(), 10, {
+                        min: 20,
+                        max: 48
+                    })
+                }
+            ],
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    opacityFrom: 0.6,
+                    opacityTo: 0.8,
+                }
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'right',
+                show: true,
+            },
+            xaxis: {
+                type: 'datetime',
+            },
+            grid: {
+                yaxis: {
+                    lines: {
+                        show: false,
+                    }
+                },
+                padding: {
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0
+                },
+            },
+            stroke: {
+                show: true,
+                curve: 'smooth',
+                width: 2,
+            },
+        }
+        var chart = new ApexCharts(document.querySelector("#movement-apex"), options);
+        chart.render();
+
+        function generateDayWiseTimeSeries(baseval, count, yrange) {
+            var i = 0;
+            var series = [];
+            while (i < count) {
+                var x = baseval;
+                var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+
+                series.push([x, y]);
+                baseval += 86400000;
+                i++;
+            }
+            return series;
+        }
+    });
+</script>
+
+
+</body>
+
+</html>

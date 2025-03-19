@@ -24,7 +24,7 @@ public class DummyBankController {
     public static boolean getRandomBooleanWith80PercentChance() {
 
         Random random = new Random();
-        return random.nextDouble() < 0.1;
+        return random.nextDouble() < 0.8;
 
     }
 }

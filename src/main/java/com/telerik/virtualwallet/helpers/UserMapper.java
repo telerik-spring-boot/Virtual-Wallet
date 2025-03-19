@@ -128,4 +128,14 @@ public class UserMapper {
 
         return dto;
     }
+
+    public UserDisplayForWalletDTO userToUserDisplayForWalletDTO(User user){
+
+        UserDisplayForWalletDTO dto = new UserDisplayForWalletDTO();
+
+        dto.setFullName(user.getFullName());
+        dto.setUsername(user.getUsername());
+
+        return dto;
+    }
 }
