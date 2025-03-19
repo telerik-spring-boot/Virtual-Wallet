@@ -19,6 +19,7 @@ import com.telerik.virtualwallet.models.dtos.wallet.WalletMvcDisplayDTO;
 import com.telerik.virtualwallet.services.card.CardService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
 import com.telerik.virtualwallet.services.security.CardSecurityService;
+import com.telerik.virtualwallet.services.security.WalletSecurityService;
 import com.telerik.virtualwallet.services.stock.StockService;
 import com.telerik.virtualwallet.services.user.UserService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
@@ -55,9 +56,10 @@ public class UserMvcController {
     private final WalletMapper walletMapper;
     private final StockService stockService;
     private final CardSecurityService cardSecurityService;
+    private final WalletSecurityService walletSecurityService;
 
     @Autowired
-    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, CardService cardService, CardMapper cardMapper, WalletService walletService, WalletMapper walletMapper, StockService stockService, CardSecurityService cardSecurityService) {
+    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, CardService cardService, CardMapper cardMapper, WalletService walletService, WalletMapper walletMapper, StockService stockService, CardSecurityService cardSecurityService, WalletSecurityService walletSecurityService) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.jwtService = jwtService;
@@ -67,6 +69,7 @@ public class UserMvcController {
         this.walletMapper = walletMapper;
         this.stockService = stockService;
         this.cardSecurityService = cardSecurityService;
+        this.walletSecurityService = walletSecurityService;
     }
 
     @ModelAttribute("isAdmin")
@@ -98,6 +101,27 @@ public class UserMvcController {
 
         model.addAttribute("wallets", wallets);
         return "wallets";
+    }
+
+    @GetMapping("/wallets/{walletId}/add/{username}")
+    public String addUserToWallet(@PathVariable int walletId, @PathVariable String username,
+                                  Model model, Authentication authentication, RedirectAttributes redirectAttributes) {
+
+        if (!walletSecurityService.isUserWalletHolder(walletId, authentication.getName())) {
+            return "404";
+        }
+
+        try {
+
+            walletService.addUserToWallet(walletId, username);
+
+            return "redirect:/ui/users/wallets";
+        } catch (DuplicateEntityException | EntityNotFoundException | UnauthorizedOperationException e) {
+            redirectAttributes.addFlashAttribute("errors", e.getMessage());
+            return "redirect:/ui/users/wallets";
+        }
+
+
     }
 
     @GetMapping("/cards")

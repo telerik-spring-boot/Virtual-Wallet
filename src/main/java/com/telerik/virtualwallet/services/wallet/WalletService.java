@@ -20,9 +20,9 @@ public interface WalletService {
 
     void addFundsToWallet(int walletId, int cardId, BigDecimal amount);
 
-    void addUserToWallet(int walletId, int userIdToAdd);
+    void addUserToWallet(int walletId, String usernameToAdd);
 
-    void removeUserFromWallet(int walletId, int userIdToRemove);
+    void removeUserFromWallet(int walletId, String usernameToRemove);
 
     void deleteWallet(int walletId);
 

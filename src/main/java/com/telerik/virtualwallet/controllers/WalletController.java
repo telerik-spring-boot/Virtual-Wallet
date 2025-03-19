@@ -101,19 +101,20 @@ public class WalletController {
     }
 
     @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
-    @PostMapping("/{walletId}/users/{userId}")
-    public ResponseEntity<WalletPrivateDisplayDTO> addUserToWallet(@PathVariable int walletId, @PathVariable int userId) {
+    @PostMapping("/{walletId}/users/{username}")
+    public ResponseEntity<WalletPrivateDisplayDTO> addUserToWallet(@PathVariable int walletId, @PathVariable String username) {
 
-        walletService.addUserToWallet(walletId, userId);
+        walletService.addUserToWallet(walletId, username);
         return ResponseEntity.ok(walletMapper.walletToPrivateDto(walletService.getWalletById(walletId)));
 
     }
 
     @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
-    @DeleteMapping("/{walletId}/users/{userId}")
-    public ResponseEntity<WalletPrivateDisplayDTO> removeUserFromWallet(@PathVariable int walletId, @PathVariable int userId) {
+    @DeleteMapping("/{walletId}/users/{username}")
+    public ResponseEntity<WalletPrivateDisplayDTO> removeUserFromWallet(@PathVariable int walletId,
+                                                                        @PathVariable String username) {
 
-        walletService.removeUserFromWallet(walletId, userId);
+        walletService.removeUserFromWallet(walletId, username);
         return ResponseEntity.ok(walletMapper.walletToPrivateDto(walletService.getWalletById(walletId)));
 
     }

@@ -74,7 +74,11 @@ public class WalletRepositoryImpl implements WalletRepository {
 
         try (Session session = sessionFactory.openSession()) {
             Query<Wallet> query = session.createQuery(
-                    "FROM Wallet w JOIN FETCH w.users u where u.username = :username", Wallet.class);
+                    "SELECT DISTINCT w FROM Wallet w " +
+                            "JOIN w.users u " +
+                            "JOIN FETCH w.users " +
+                            "WHERE u.username = :username", Wallet.class
+            );
             query.setParameter("username", username);
             return query.list();
         }
