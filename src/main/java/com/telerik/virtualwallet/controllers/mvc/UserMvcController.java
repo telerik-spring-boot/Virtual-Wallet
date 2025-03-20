@@ -403,7 +403,7 @@ public class UserMvcController {
     public String getStocksView(Model model, Authentication authentication) {
 
 
-        Map<String, StockResponse> stocks = stockService.getStockPricesDetailed(); // Map<String, StockData>
+        Map<String, StockResponse> stocks = stockService.getStockPricesDetailed();
 
 
         StockOrderMvcDTO stockOrder = new StockOrderMvcDTO();

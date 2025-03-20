@@ -423,7 +423,7 @@
 								     onerror="this.onerror=null; this.src='/images/profile_av.png';"
 								     width="160"
 								     height="160"
-								     th:src="@{/uploads/picture{username}3.jpg(username=${userDisplay.username})}"/>
+								     th:src="@{/ui/uploads/picture{username}3.jpg(username=${userDisplay.username})}"/>
 
 								<div class="media-body ms-md-5 m-0 mt-4 mt-md-0 text-md-start text-center">
 									<h4 class="mt-3" th:text="${userDisplay.fullName}">Michelle Hughes</h4>
@@ -561,7 +561,7 @@
 								<img alt="avatar" src="../static/images/profile_av.png"
 								     class="avatar md rounded-circle"
 								     onerror="this.onerror=null; this.src='/images/profile_av.png';"
-								     th:src="@{/uploads/picture{username}3.jpg(username=${userDisplay.username})}"/>
+								     th:src="@{/ui/uploads/picture{username}3.jpg(username=${userDisplay.username})}"/>
 							</td>
 						</tr>
 						<tr style="height:55px!important;">
@@ -610,7 +610,7 @@
 
 				<!-- Profile Photo -->
 				<form class="text-center" enctype="multipart/form-data" method="post"
-				      th:action="@{/uploads/profile/{username}(username=${userDisplay.username})}">
+				      th:action="@{/ui/uploads/profile/{username}(username=${userDisplay.username})}">
 
 					<div class="m-3 image-container">
 						<input accept="image/jpeg, image/png, image/gif, image/bmp, image/webp"
@@ -625,7 +625,7 @@
 						     width="160"
 						     height="160"
 						     onerror="this.onerror=null; this.src='/images/profile_av.png';"
-						     th:src="@{/uploads/picture{username}3.jpg(username=${userDisplay.username})}"/>
+						     th:src="@{/ui/uploads/picture{username}3.jpg(username=${userDisplay.username})}"/>
 
 						<div class="overlay-text">Click to change picture</div>
 
@@ -674,7 +674,7 @@
 			</div>
 			<div class="modal-body">
 				<form class="text-center d-flex flex-column gap-3" enctype="multipart/form-data" method="post"
-				      th:action="@{/uploads/verification/{username}(username=${userDisplay.username})}">
+				      th:action="@{/ui/uploads/verification/{username}(username=${userDisplay.username})}">
 					<div class="row">
 
 						<div class="col-6 d-flex flex-column justify-content-between align-items-center">
