@@ -423,6 +423,7 @@
 								     onerror="this.onerror=null; this.src='/images/profile_av.png';"
 								     width="160"
 								     height="160"
+								     th:if="@{/ui/uploads/picture{username}3.jpg(username=${userDisplay.username})}"
 								     th:src="@{/ui/uploads/picture{username}3.jpg(username=${userDisplay.username})}"/>
 
 								<div class="media-body ms-md-5 m-0 mt-4 mt-md-0 text-md-start text-center">
@@ -561,6 +562,7 @@
 								<img alt="avatar" src="../static/images/profile_av.png"
 								     class="avatar md rounded-circle"
 								     onerror="this.onerror=null; this.src='/images/profile_av.png';"
+								     th:if="@{/ui/uploads/picture{username}3.jpg(username=${userDisplay.username})}"
 								     th:src="@{/ui/uploads/picture{username}3.jpg(username=${userDisplay.username})}"/>
 							</td>
 						</tr>
@@ -625,6 +627,7 @@
 						     width="160"
 						     height="160"
 						     onerror="this.onerror=null; this.src='/images/profile_av.png';"
+						     th:if="@{/ui/uploads/picture{username}3.jpg(username=${#authentication.name})}"
 						     th:src="@{/ui/uploads/picture{username}3.jpg(username=${userDisplay.username})}"/>
 
 						<div class="overlay-text">Click to change picture</div>

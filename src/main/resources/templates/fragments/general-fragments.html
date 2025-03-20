@@ -404,7 +404,9 @@
 						<img alt="avatar" src="../static/images/profile_av.png"
 						     class="avatar rounded-circle"
 						     onerror="this.onerror=null; this.src='/images/profile_av.png';"
-						     th:src="@{/ui/uploads/picture{username}3.jpg(username=${#authentication.name})}"/>
+						     th:if="@{/ui/uploads/picture{username}3.jpg(username=${#authentication.name})}"
+						     th:src="@{/ui/uploads/picture{username}3.jpg(username=${#authentication.name})}"
+						/>
 					</a>
 					<div class="ms-4 profile-text">
 						<p class="mb-0" th:text="${#authentication.name}">Kevin Gill</p>

@@ -547,6 +547,7 @@
 	                                                       <img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
 	                                                            class="avatar rounded-circle d-none d-sm-inline-block"
 	                                                            onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
+	                                                            th:if="@{/ui/uploads/picture{username}3.jpg(username=${user.username})}"
 	                                                            th:src="@{/ui/uploads/picture{username}3.jpg(username=${user.username})}"/>
                                                             <span class="flex-fill ms-2">
                                                                  <span class="h6 mb-0" th:text="${user.fullName}">Jony Doe</span>
@@ -584,6 +585,7 @@
 												<img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
 												     class="avatar rounded-circle d-none d-sm-inline-block"
 												     onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
+												     th:if="@{/ui/uploads/picture{username}3.jpg(username=${user.username})}"
 												     th:src="@{/ui/uploads/picture{username}3.jpg(username=${user.username})}"/>
 
 												<div class="flex-fill ms-3">
@@ -670,6 +672,7 @@
 																<img alt="preview1" src="../static/images/gallery/no-image.png"
 																     class="img-thumbnail mb-3"
 																     onerror="this.onerror=null; this.src='/images/gallery/no-image.png'"
+																     th:if="@{/ui/uploads/picture{username}1.jpg(username=${user.username})}"
 																     th:src="@{/ui/uploads/picture{username}1.jpg(username=${user.username})}"
 																     style="cursor:pointer;"
 																     onclick="showFullScreen(this)"/>
@@ -684,6 +687,7 @@
 																     onerror="this.onerror=null; this.src='/images/gallery/no-image.png'"
 																     onclick="showFullScreen(this)"
 																     style="cursor:pointer;"
+																     th:if="@{/ui/uploads/picture{username}2.jpg(username=${user.username})}"
 																     th:src="@{/ui/uploads/picture{username}2.jpg(username=${user.username})}"/>
 
 
@@ -849,6 +853,7 @@
 	                                                       <img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
 	                                                            class="avatar rounded-circle d-none d-sm-inline-block"
 	                                                            onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
+	                                                            th:if="@{/ui/uploads/picture{username}3.jpg(username=${investment.username})}"
 	                                                            th:src="@{/ui/uploads/picture{username}3.jpg(username=${investment.username})}"/>
                                                             <span class="flex-fill ms-2">
                                                                  <span class="h6 mb-0" th:text="${investment.username}"> Username </span>
