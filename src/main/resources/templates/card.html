@@ -152,6 +152,22 @@
           </div>
      </div>
 
+     <!-- Success Toast Notification -->
+     <div id="successToastAdd" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+          role="alert" aria-live="assertive" aria-atomic="true"
+          th:if="${successAdd}" style="z-index: 1050;">
+          <div class="toast-header bg-success rounded-2 text-white">
+               <strong class="text-end">Success</strong>
+               <button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+                       aria-label="Close"></button>
+          </div>
+          <div class="toast-body mt-2 ps-0">
+               <ul class="mb-0">
+                    <li> Card successfully saved to your account.</li>
+               </ul>
+          </div>
+     </div>
+
 
 
 
@@ -318,6 +334,12 @@
                let successToastUpload = document.getElementById('successToastDelete');
                if (successToastUpload) {
                     let toast = new bootstrap.Toast(successToastUpload, {delay: 5000});
+                    toast.show();
+               }
+
+               let successToastAdd = document.getElementById('successToastAdd');
+               if (successToastAdd) {
+                    let toast = new bootstrap.Toast(successToastAdd, {delay: 5000});
                     toast.show();
                }
 
