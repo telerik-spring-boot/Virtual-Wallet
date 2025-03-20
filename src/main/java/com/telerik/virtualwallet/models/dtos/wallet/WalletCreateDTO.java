@@ -8,10 +8,18 @@ public class WalletCreateDTO {
     @Pattern(regexp = "^(EUR|GBP|USD)$", message = "Currency must be one of the following: EUR, GBP, USD")
     private Currency currency;
 
+    public WalletCreateDTO(Currency currency) {
+        this.currency = currency;
+    }
+
     public WalletCreateDTO() {
     }
 
     public Currency getCurrency() {
         return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 }

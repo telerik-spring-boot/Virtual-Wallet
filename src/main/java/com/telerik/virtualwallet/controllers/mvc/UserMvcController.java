@@ -15,7 +15,9 @@ import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.CardTransferCreateDTO;
+import com.telerik.virtualwallet.models.dtos.wallet.WalletCreateDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletMvcDisplayDTO;
+import com.telerik.virtualwallet.models.enums.Currency;
 import com.telerik.virtualwallet.services.card.CardService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
 import com.telerik.virtualwallet.services.security.CardSecurityService;
@@ -121,6 +123,33 @@ public class UserMvcController {
             redirectAttributes.addFlashAttribute("addingErrors", e.getMessage());
             return "redirect:/ui/users/wallets";
         }
+    }
+
+    @GetMapping("/wallets/new")
+    public String createNewWalletForm( Model model,HttpServletRequest request) {
+        model.addAttribute("requestURI", request.getRequestURI());
+        return "wallet-create";
+    }
+
+    @PostMapping("/wallets/new")
+    public String handleCreateNewWallet(@RequestParam("selectedCurrency") String selectedCurrency,
+                                        Authentication authentication,
+                                        RedirectAttributes redirectAttributes) {
+
+        try{
+
+            WalletCreateDTO wallet = new WalletCreateDTO(Currency.valueOf(selectedCurrency));
+            walletService.createWallet(authentication.getName(),walletMapper.createDtoToWallet(wallet));
+
+            redirectAttributes.addFlashAttribute("creationSuccess", true);
+
+            return "redirect:/ui/users/wallets";
+        }catch (UnauthorizedOperationException e)
+        {
+            redirectAttributes.addFlashAttribute("creationErrors", e.getMessage());
+            return "redirect:/ui/users/wallets";
+        }
+
     }
 
     @GetMapping("/wallets/{walletId}/remove/{username}")
@@ -296,7 +325,8 @@ public class UserMvcController {
 
     @PostMapping("/cards/new")
     public String handleNewCardForm(Model model, @Valid @ModelAttribute("card") CardCreateDTO cardCreateDTO,
-                                    BindingResult bindingResult, Authentication authentication) {
+                                    BindingResult bindingResult, Authentication authentication,
+                                    RedirectAttributes redirectAttributes) {
 
         model.addAttribute("formSubmitted", true);
 
@@ -309,6 +339,8 @@ public class UserMvcController {
             Card card = cardMapper.createDtoToCard(cardCreateDTO);
 
             cardService.addCard(authentication.getName(), card);
+
+            redirectAttributes.addFlashAttribute("successAdd", true);
 
             return "redirect:/ui/users/cards";
         } catch (DuplicateEntityException e) {

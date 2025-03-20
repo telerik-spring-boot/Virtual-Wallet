@@ -18586,7 +18586,8 @@ body.layout-border .rightbar {
 
 .dynamic-select .dynamic-select-header .dynamic-select-option-text, .dynamic-select .dynamic-select-option .dynamic-select-option-text {
     box-sizing: border-box;
-    flex: 1;
+    flex: none; /* Override flex: 1 to prevent expansion */
+    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
