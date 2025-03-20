@@ -27,7 +27,7 @@ public class WalletServiceImpl implements WalletService {
     private static final String WALLET_WITH_NO_USERS_EXCEPTION = "A wallet has to be managed by at least one user.";
     private static final String WALLET_ALREADY_MAIN_MESSAGE = "Wallet with id %d is already the main wallet for user %s.";
     private static final String USER_WITH_NO_WALLETS_EXCEPTION = "A user has to manage at least one wallet.";
-    private static final String MAXIMUM_WALLET_SIZE_MESSAGE = "A user cannot have more than ten wallets.";
+    private static final String MAXIMUM_WALLET_SIZE_MESSAGE = "You cannot have more than 10 wallets.";
 
     private final WalletRepository walletRepository;
     private final CardService cardService;

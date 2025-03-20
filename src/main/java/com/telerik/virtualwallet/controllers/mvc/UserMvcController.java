@@ -106,8 +106,8 @@ public class UserMvcController {
         return "wallets";
     }
 
-    @GetMapping("/wallets/{walletId}/add/{username}")
-    public String addUserToWallet(@PathVariable int walletId, @PathVariable String username,
+    @PostMapping("/wallets/{walletId}/add")
+    public String addUserToWallet(@PathVariable int walletId, @RequestParam String username,
                                   Authentication authentication, RedirectAttributes redirectAttributes) {
 
         if (!walletSecurityService.isUserWalletHolder(walletId, authentication.getName())) {
@@ -117,12 +117,13 @@ public class UserMvcController {
         try {
             walletService.addUserToWallet(walletId, username);
 
-            redirectAttributes.addFlashAttribute("addingSuccess", true);
+            redirectAttributes.addFlashAttribute("addingSuccess", username);
             return "redirect:/ui/users/wallets";
         } catch (DuplicateEntityException | EntityNotFoundException | UnauthorizedOperationException e) {
             redirectAttributes.addFlashAttribute("addingErrors", e.getMessage());
             return "redirect:/ui/users/wallets";
         }
+
     }
 
     @GetMapping("/wallets/new")
@@ -151,7 +152,7 @@ public class UserMvcController {
         }
 
     }
-
+//Add preauthorize
     @GetMapping("/wallets/{walletId}/remove/{username}")
     public String removeUserToWallet(@PathVariable int walletId, @PathVariable String username,
                                   Authentication authentication, RedirectAttributes redirectAttributes) {

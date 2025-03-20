@@ -16,55 +16,10 @@
                                                th:href="@{/ui/users/dashboard}">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page" title="Wallets">Wallets</li>
             </ol>
-            <ul class="list-unstyled action row g-2 mb-0">
-                <li class="col-sm-4 col-6">
-                    <div>
-                        <input type="date" name="filter" class="form-control" value="">
-                    </div>
-                </li>
-                <li class="dropdown col-sm-4 col-6">
-                    <a href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"
-                       class="btn border  rounded fw-medium w-100">
-                        <svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg" width="18"
-                             viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round"
-                             stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path
-                                    d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z">
-                            </path>
-                        </svg>
-                        Filter
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end p-2 p-xl-3 shadow rounded-4"
-                         style="width: 300px;">
-                        <h6>Filter Options</h6>
-                        <div class="row g-3 mt-3">
-                            <div class="col-12">
-                                <label class="form-label small text-muted">Sorted by:</label>
-                                <input type="search" class="form-control" placeholder="Search">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label small text-muted">Status:</label>
-                                <select class="form-select">
-                                    <option selected="">Choose...</option>
-                                    <option>...</option>
-                                </select>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label small text-muted">Notifications:</label>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch">
-                                    <label class="form-check-label">Enabled</label>
-                                </div>
-                            </div>
-                            <div class="col-12 text-end mt-4">
-                                <button type="reset" class="btn btn-sm btn-light me-1">Reset</button>
-                                <button type="submit" class="btn btn-sm btn-primary">Apply</button>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="col-sm-4 col-12">
+            <ul class="list-unstyled action row g-2 mb-0 ">
+
+
+                <li class="col-sm-12 col-12">
                     <a th:href="@{/ui/users/wallets/new}" href="card-add.html" class="btn btn-dark w-100">Add Wallet
                     </a>
                 </li>
@@ -174,60 +129,70 @@
             <div class="mb-4 px-3">
 
                 <div class="card mb-2">
-                    <div class="card-body" >
+                    <div class="card-body">
                         <div class="d-flex">
                             <div class="avatar rounded-circle no-thumbnail">
                                 <img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
                                      class="avatar rounded-circle d-none d-sm-inline-block"
                                      onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
-                                     th:src="@{/ui/uploads/picture{username}3.jpg(username=${wallet.creator.username})}"/></div>
+                                     th:src="@{/ui/uploads/picture{username}3.jpg(username=${wallet.creator.username})}"/>
+                            </div>
                             <div class="mx-2">
-                                <h6 class="mb-0" th:text="${wallet.creator.username}">Balance</h6>
-                                <span class="text-muted" th:text="${wallet.creator.fullName}">Send, receive, and spend money</span>
+                                <h6 class="mb-0">
+                                    <span th:text="${wallet.creator.username}">Balance</span>
+
+                                </h6>
+
+                                    <span class="text-muted" th:text="${wallet.creator.fullName}">Send, receive, and spend money</span>
+                                    <span class="text-muted" th:if="${wallet.walletHolders.size()>1}"
+                                          style="font-style: italic !important;"> (Wallet Admin)</span>
+
                             </div>
                         </div>
                     </div>
                 </div>
 
 
-                <div th:if="${ wallet.walletHolders.size()>1}" th:each = "holder : ${wallet.walletHolders}" class="card mb-2">
+                <div th:if="${ wallet.walletHolders.size()>1}" th:each="holder : ${wallet.walletHolders}"
+                     class="card mb-2">
                     <div class="card-body" th:if="${holder.username != wallet.creator.username}">
                         <div class="d-flex">
                             <div class="avatar rounded-circle no-thumbnail">
                                 <img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
-                                                                                 class="avatar rounded-circle d-none d-sm-inline-block"
-                                                                                 onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
-                                                                                 th:src="@{/ui/uploads/picture{username}3.jpg(username=${holder.username})}"/></div>
+                                     class="avatar rounded-circle d-none d-sm-inline-block"
+                                     onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
+                                     th:src="@{/ui/uploads/picture{username}3.jpg(username=${holder.username})}"/></div>
                             <div class="mx-2">
                                 <h6 class="mb-0" th:text="${holder.username}">Balance</h6>
-                                <span class="text-muted" th:text="${holder.fullName}">Send, receive, and spend money</span>
+                                <span class="text-muted"
+                                      th:text="${holder.fullName}">Send, receive, and spend money</span>
                             </div>
                             <div class="ms-auto form-check"
                                  th:if="${holder.username != wallet.creator.username and loggedUsername == wallet.creator.username}">
                                 <input class="form-check-input" type="radio" th:name="selectType"
-                                       th:value="${holder.username}" id="radio_${holder.username}" />
+                                       th:value="${holder.username}" id="radio_${holder.username}"/>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Hidden input field to store the selected username -->
-                <input type="hidden" id="selectedUsername_${wallet.id}" name="selectType" />
+                <input type="hidden" id="selectedUsername_${wallet.id}" name="selectType"/>
 
                 <!-- Hidden input field to store the current wallet ID -->
-                <input type="hidden" name="walletId" id="walletId_${wallet.id}" th:value="${wallet.id}" />
+                <input type="hidden" name="walletId" id="walletId_${wallet.id}" th:value="${wallet.id}"/>
 
 
-                <div class="d-flex px-3" th:if="${loggedUsername == wallet.creator.username and wallet.walletHolders.size()>1}">
+                <div class="d-flex px-3"
+                     th:if="${loggedUsername == wallet.creator.username and wallet.walletHolders.size()>1}">
                     <a id="removeLink_${wallet.id}" href="#" class="btn w-100 me-1 py-2 btn-dark">Remove from wallet</a>
                 </div>
 
 
-
                 <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        document.querySelectorAll('input[name="selectType"]').forEach(function(radioButton) {
-                            radioButton.addEventListener('change', function() {
+                    document.addEventListener("DOMContentLoaded", function () {
+                        document.querySelectorAll('input[name="selectType"]').forEach(function (radioButton) {
+                            radioButton.addEventListener('change', function () {
                                 console.log("Radio Button Selected: ", this.value);
 
                                 // Get the closest card element
@@ -267,68 +232,90 @@
                 </script>
 
 
-
-
-
             </div>
             <div class="mb-4 p-3 bg-light">
-                <h6 class="text-muted mb-0">Select Currency</h6>
+                <h6 class="text-muted mb-0">Add User to Wallet</h6>
             </div>
-            <div class="mb-4 px-3">
-                <select id="country1" name="country" data-placeholder="Select a country" data-dynamic-select=""
-                        class="form-select">
-                    <option value="United States Dollar" data-img="../static/images/flags/1x1/um.svg"
-                            th:data-img="@{/images/flags/1x1/um.svg}">United States
-                        Dollar
-                    </option>
-                    <option value="Afghan Afghani" data-img="../static/images/flags/1x1/af.svg"
-                            th:data-img="@{/images/flags/1x1/af.svg}">Afghan Afghani
-                    </option>
-                    <option value="Albanian Lek" data-img="../static/images/flags/1x1/al.svg"
-                            th:data-img="@{/images/flags/1x1/al.svg}">Albanian Lek
-                    </option>
-                    <option value="Algerian Dinar" data-img="../static/images/flags/1x1/ad.svg"
-                            th:data-img="@{/images/flags/1x1/ad.svg}">Algerian Dinar
-                    </option>
-                    <option value="Argentine Peso" data-img="../static/images/flags/1x1/ar.svg"
-                            th:data-img="@{/images/flags/1x1/ar.svg}">Argentine Peso
-                    </option>
-                    <option value="Argentine Peso" data-img="../static/images/flags/1x1/ad.svg"
-                            th:data-img="@{/images/flags/1x1/ad.svg}">Armenian Dram
-                    </option>
-                    <option value="Armenian Dram" data-img="../static/images/flags/1x1/ad.svg"
-                            th:data-img="@{/images/flags/1x1/ad.svg}">Armenian Dram
-                    </option>
-                    <option value="Aruban Florin" data-img="../static/images/flags/1x1/af.svg"
-                            th:data-img="@{/images/flags/1x1/af.svg}">Aruban Florin
-                    </option>
-                    <option value="Australian Dollar" data-img="../static/images/flags/1x1/au.svg"
-                            th:data-img="@{/images/flags/1x1/au.svg}">Australian Dollar
-                    </option>
-                    <option value="Azerbaijani Manat" data-img="../static/images/flags/1x1/az.svg"
-                            th:data-img="@{/images/flags/1x1/az.svg}">Azerbaijani Manat
-                    </option>
-                    <option value="Bahamian Dollar" data-img="../static/images/flags/1x1/bd.svg"
-                            th:data-img="@{/images/flags/1x1/bd.svg}">Bahamian Dollar
-                    </option>
-                    <option value="Indian Rupis" data-img="../static/images/flags/1x1/in.svg"
-                            th:data-img="@{/images/flags/1x1/in.svg}">Indian Rupis
-                    </option>
-                    <option value="Singapore Dollar" data-img="../static/images/flags/1x1/si.svg"
-                            th:data-img="@{/images/flags/1x1/si.svg}">Singapore Dollar
-                    </option>
-                    <option value="United States Dollar" data-img="../static/images/flags/1x1/un.svg"
-                            th:data-img="@{/images/flags/1x1/un.svg}">United States
-                        Dollar
-                    </option>
-                </select>
-            </div>
-            <div class="d-flex px-3">
-                <a th:href="@{/ui/users/wallets/1/add/charlie}" class="btn w-100 me-1 py-2 btn-dark">Confirm</a>
-            </div>
+
+            <!-- Form to submit the username -->
+
+            <form th:action="@{/ui/users/wallets/{walletId}/add(walletId=${wallet.id})}" method="post" class="px-3">
+                    <input type="text" name="username" class="form-control me-2" placeholder="Enter username" required />
+                <br>
+                    <button type="submit" class="btn w-100 py-2 btn-dark">Add to Wallet</button>
+                </form>
+
+
+
         </div>
     </div>
 </div>
+
+<!-- Success Toast Notification -->
+<div id="successToastCreate" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+     role="alert" aria-live="assertive" aria-atomic="true"
+     th:if="${creationSuccess}" style="z-index: 1050;">
+    <div class="toast-header bg-success rounded-2 text-white">
+        <strong class="text-end">Success</strong>
+        <button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+    </div>
+    <div class="toast-body mt-2 ps-0">
+        <ul class="mb-0">
+            <li> Wallet created successfully.</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Success Toast Notification -->
+<div id="addingSuccess" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+     role="alert" aria-live="assertive" aria-atomic="true"
+     th:if="${addingSuccess != null and addingSuccess.trim() != ''}" style="z-index: 1050;">
+    <div class="toast-header bg-success rounded-2 text-white">
+        <strong class="text-end">Success</strong>
+        <button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+    </div>
+    <div class="toast-body mt-2 ps-0">
+        <ul class="mb-0">
+            <li th:text="'User ' + ${addingSuccess} + ' successfully added to wallet.'"> User added successfully.</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Success Toast Notification -->
+<div id="addingErrors" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+     role="alert" aria-live="assertive" aria-atomic="true"
+     th:if="${addingErrors != null and addingErrors.trim() != ''}" style="z-index: 1050;">
+    <div class="toast-header bg-danger rounded-2 text-white">
+        <strong class="text-end">Error</strong>
+        <button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+    </div>
+    <div class="toast-body mt-2 ps-0">
+        <ul class="mb-0">
+            <li th:text="${addingErrors}"> User added successfully.</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Error Toast Notification -->
+<div id="failToastCreate" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+     role="alert" aria-live="assertive" aria-atomic="true"
+     th:if="${creationErrors != null and creationErrors.trim() != ''}" style="z-index: 1050;">
+    <div class="toast-header bg-danger rounded-2 text-white">
+        <strong class="text-end">Error</strong>
+        <button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+    </div>
+    <div class="toast-body mt-2 ps-0">
+        <ul class="mb-0">
+            <li th:text="${creationErrors}"> Wallet created successfully.</li>
+        </ul>
+    </div>
+</div>
+
+
 <!-- start: exchange rate -->
 <div th:replace="~{fragments/general-fragments :: exchange-rate}"></div>
 
@@ -415,7 +402,42 @@
             }
             return series;
         }
+
+
     });
+</script>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+        let successToastCreateAlert = document.getElementById('successToastCreate');
+        if (successToastCreateAlert) {
+            let toast = new bootstrap.Toast(successToastCreateAlert, {delay: 5000});
+            toast.show();
+        }
+
+        let failToastCreateAlert = document.getElementById('failToastCreate');
+        if (failToastCreateAlert) {
+            let toast = new bootstrap.Toast(failToastCreateAlert, {delay: 5000});
+            toast.show();
+        }
+
+        let addingSuccess = document.getElementById('addingSuccess');
+        if (addingSuccess) {
+            let toast = new bootstrap.Toast(addingSuccess, {delay: 5000});
+            toast.show();
+        }
+
+        let addingErrors = document.getElementById('addingErrors');
+        if (addingErrors) {
+            let toast = new bootstrap.Toast(addingErrors, {delay: 5000});
+            toast.show();
+        }
+    });
+
+
 </script>
 
 
