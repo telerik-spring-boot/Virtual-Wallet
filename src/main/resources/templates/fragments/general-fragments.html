@@ -401,16 +401,16 @@
 			<div class="col text-truncate">
 				<div class="d-flex align-items-center profile">
 					<a href="#" title=""  th:href="@{/ui/users/settings}">
-					<img
-							src="../../static/images/profile_av.png"
-							th:src="@{/images/profile_av.png}"
-							alt="Avatar"
-							class="rounded-circle avatar"
-					/>
+						<img alt="avatar" src="../static/images/profile_av.png"
+						     class="avatar rounded-circle"
+						     onerror="this.onerror=null; this.src='/images/profile_av.png';"
+						     th:if="@{/ui/uploads/picture{username}3.jpg(username=${#authentication.name})}"
+						     th:src="@{/ui/uploads/picture{username}3.jpg(username=${#authentication.name})}"
+						/>
 					</a>
-					<div class="ms-3 profile-text">
-						<p class="small mb-0">Kevin Gill</p>
-						<p class="mb-0 small">kevin.gill@gmail.com</p>
+					<div class="ms-4 profile-text">
+						<p class="mb-0" th:text="${#authentication.name}">Kevin Gill</p>
+						<p class="mb-0" th:text="${isAdmin ? 'Administrator' : 'User'}">User</p>
 					</div>
 				</div>
 			</div>
