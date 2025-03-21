@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -49,6 +50,12 @@ public class TransactionServiceImpl implements TransactionService {
         pageableHelper(pageable);
 
         return transactionRepository.getAllTransactionsWithWalletsByUsername(options, pageable, username);
+    }
+
+    @Override
+    public List<Transaction> getTransactionsByUsername(String username) {
+
+        return transactionRepository.getAllTransactionsWithWalletsByUsername(username);
     }
 
     @Override

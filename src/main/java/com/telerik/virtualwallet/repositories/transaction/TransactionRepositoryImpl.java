@@ -47,6 +47,26 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     @Override
+    public List<Transaction> getAllTransactionsWithWalletsByUsername(String username) {
+
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Transaction> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transaction t " +
+                                    "JOIN FETCH t.senderWallet sw " +
+                                    "JOIN FETCH sw.users s " +
+                                    "JOIN FETCH t.receiverWallet rw " +
+                                    "JOIN FETCH rw.users r " +
+                                    "WHERE (s.username = :username OR r.username = :username)",
+                            Transaction.class);
+
+            query.setParameter("username", username);
+
+            return query.list();
+        }
+    }
+
+    @Override
     public Page<Transaction> getAllTransactionsWithWallets(FilterTransactionsOptions options, Pageable pageable) {
 
         return getTransactionsWithFiltersHelper(options, pageable, -1,"");

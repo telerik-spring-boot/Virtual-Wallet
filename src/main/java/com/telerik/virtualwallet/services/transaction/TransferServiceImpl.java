@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.telerik.virtualwallet.services.transaction.TransactionServiceImpl.pageableHelper;
 
 @Service
@@ -38,6 +40,12 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
+    public List<Transfer> getAllTransfersByUsername(String username) {
+
+        return transferRepository.getAllTransfersByUsername(username);
+    }
+
+    @Override
     public Page<Transfer> getAllTransfersByWalletId(FilterTransferOptions options, Pageable pageable, int walletId) {
 
         pageableHelper(pageable);
@@ -51,7 +59,7 @@ public class TransferServiceImpl implements TransferService {
         Transfer transfer = transferRepository.getTransferById(transferId);
 
         if (transfer == null) {
-            throw new EntityNotFoundException("Transfer","id", transferId);
+            throw new EntityNotFoundException("Transfer", "id", transferId);
         }
 
         return transfer;

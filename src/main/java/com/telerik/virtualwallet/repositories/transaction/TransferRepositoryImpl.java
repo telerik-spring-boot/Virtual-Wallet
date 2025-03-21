@@ -58,6 +58,23 @@ public class TransferRepositoryImpl implements TransferRepository {
     }
 
     @Override
+    public List<Transfer> getAllTransfersByUsername(String username) {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Transfer> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transfer t " +
+                                    "JOIN FETCH t.receiverWallet rw " +
+                                    "JOIN FETCH rw.users r " +
+                                    "WHERE t.senderCard.user.username = :username",
+                            Transfer.class);
+            query.setParameter("username", username);
+
+            return query.list();
+
+        }
+    }
+
+    @Override
     public Transfer getTransferById(int id) {
 
         try (Session session = sessionFactory.openSession()) {

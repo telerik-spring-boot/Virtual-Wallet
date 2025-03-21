@@ -5,15 +5,19 @@ import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.exceptions.InsufficientFundsException;
 import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
+import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.Stock;
 import com.telerik.virtualwallet.models.StockResponse;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransactionsWrapper;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
 import com.telerik.virtualwallet.services.jwt.JwtService;
 import com.telerik.virtualwallet.services.stock.StockService;
+import com.telerik.virtualwallet.services.transaction.TransactionService;
+import com.telerik.virtualwallet.services.transaction.TransferService;
 import com.telerik.virtualwallet.services.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -43,13 +47,19 @@ public class UserMvcController {
     private final UserMapper userMapper;
     private final JwtService jwtService;
     private final StockService stockService;
+    private final TransferService transferService;
+    private final TransactionService transactionService;
+    private final TransactionMapper transactionMapper;
 
     @Autowired
-    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, StockService stockService) {
+    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, StockService stockService, TransferService transferService, TransactionService transactionService, TransactionMapper transactionMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.jwtService = jwtService;
         this.stockService = stockService;
+        this.transferService = transferService;
+        this.transactionService = transactionService;
+        this.transactionMapper = transactionMapper;
     }
 
     @ModelAttribute("isAdmin")
@@ -129,7 +139,18 @@ public class UserMvcController {
     }
 
     @GetMapping("/transactions")
-    public String getTransactions() {
+    public String getTransactions(Authentication authentication, Model model) {
+
+        List<TransactionsWrapper> transactions =
+                new ArrayList<>(transactionService.getTransactionsByUsername(authentication.getName())
+                        .stream().map(transactionMapper::transactionToTransactionWrapper).toList());
+
+
+        transactions.addAll(transferService.getAllTransfersByUsername(authentication.getName())
+                .stream().map(transactionMapper::transferToTransactionWrapper).toList());
+
+        model.addAttribute("transactions", transactions);
+
         return "transaction";
     }
 

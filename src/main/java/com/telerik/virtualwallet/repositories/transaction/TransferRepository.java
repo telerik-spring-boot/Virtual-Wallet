@@ -17,6 +17,8 @@ public interface TransferRepository {
 
     List<Transfer> getAllTransfersMvc();
 
+    List<Transfer> getAllTransfersByUsername(String username);
+
     Transfer getTransferById(int id);
 
     void createTransfer(Transfer transfer);
