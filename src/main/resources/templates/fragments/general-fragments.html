@@ -291,7 +291,7 @@
 
 			<li>
 				<a
-						href="help.html"
+						th:href="@{/ui/auth/contact}"
 						aria-label="Help & Support"
 						data-bs-toggle="tooltip"
 						data-bs-title="Help & Support"
@@ -392,9 +392,9 @@
 				<p class="lh-sm small text-muted">
 					Reach out to one of our experts for support.
 				</p>
-				<button class="btn btn-grey-outline w-100" type="button">
+				<a class="btn btn-grey-outline w-100" th:href="@{/ui/auth/contact}" type="button">
 					Contact Us
-				</button>
+				</a>
 			</div>
 		</div>
 		<div class="row g-0 align-items-center mt-2">
@@ -427,7 +427,7 @@
 				class="d-flex flex-wrap justify-content-start justify-content-sm-between align-items-center py-2 w-100"
 		>
 			<div>
-				<a href="index.html" title="logo" class="brand-icon d-sm-none">
+				<a th:href="@{/ui/users/dashboard}" title="logo" class="brand-icon d-sm-none">
 					<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="24"
