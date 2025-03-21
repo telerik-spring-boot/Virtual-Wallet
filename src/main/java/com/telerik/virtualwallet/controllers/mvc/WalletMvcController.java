@@ -20,6 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+import static com.telerik.virtualwallet.controllers.mvc.UserMvcController.populateIsAdminAttribute;
+
 @Controller
 @RequestMapping("/ui/wallets")
 public class WalletMvcController {
@@ -33,7 +35,13 @@ public class WalletMvcController {
         this.walletMapper = walletMapper;
     }
 
-    @GetMapping("/wallets")
+    @ModelAttribute("isAdmin")
+    public boolean populateIsAdmin() {
+        return populateIsAdminAttribute();
+
+    }
+
+    @GetMapping()
     public String getAllUserWallets(Authentication authentication, Model model) {
 
         List<WalletMvcDisplayDTO> wallets = walletService.getWalletsByUsername(authentication.getName()).stream()
@@ -45,13 +53,13 @@ public class WalletMvcController {
         return "wallets";
     }
 
-    @GetMapping("/wallets/new")
+    @GetMapping("/new")
     public String createNewWalletForm(Model model, HttpServletRequest request) {
         model.addAttribute("requestURI", request.getRequestURI());
         return "wallet-create";
     }
 
-    @PostMapping("/wallets/new")
+    @PostMapping("/new")
     public String handleCreateNewWallet(@RequestParam("selectedCurrency") String selectedCurrency,
                                         Authentication authentication,
                                         RedirectAttributes redirectAttributes) {
@@ -63,16 +71,16 @@ public class WalletMvcController {
 
             redirectAttributes.addFlashAttribute("creationSuccess", true);
 
-            return "redirect:/ui/users/wallets";
+            return "redirect:/ui/wallets";
         } catch (UnauthorizedOperationException e) {
             redirectAttributes.addFlashAttribute("creationErrors", e.getMessage());
-            return "redirect:/ui/users/wallets";
+            return "redirect:/ui/wallets";
         }
 
     }
 
     @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
-    @PostMapping("/wallets/{walletId}/add")
+    @PostMapping("/{walletId}/add")
     public String addUserToWallet(@PathVariable int walletId, @RequestParam String username,
                                   RedirectAttributes redirectAttributes) {
 
@@ -81,16 +89,16 @@ public class WalletMvcController {
             walletService.addUserToWallet(walletId, username);
 
             redirectAttributes.addFlashAttribute("addingSuccess", username);
-            return "redirect:/ui/users/wallets";
+            return "redirect:/ui/wallets";
         } catch (DuplicateEntityException | EntityNotFoundException | UnauthorizedOperationException e) {
             redirectAttributes.addFlashAttribute("addingErrors", e.getMessage());
-            return "redirect:/ui/users/wallets";
+            return "redirect:/ui/wallets";
         }
 
     }
 
     @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
-    @GetMapping("/wallets/{walletId}/remove")
+    @GetMapping("/{walletId}/remove")
     public String removeUserToWallet(@PathVariable int walletId, @RequestParam String username,
                                      RedirectAttributes redirectAttributes) {
 
@@ -98,11 +106,11 @@ public class WalletMvcController {
             walletService.removeUserFromWallet(walletId, username);
 
             redirectAttributes.addFlashAttribute("removalSuccess", username);
-            return "redirect:/ui/users/wallets";
+            return "redirect:/ui/wallets";
         } catch (DuplicateEntityException | EntityNotFoundException |
                  UnauthorizedOperationException | InconsistentOperationException e) {
             redirectAttributes.addFlashAttribute("removalErrors", e.getMessage());
-            return "redirect:/ui/users/wallets";
+            return "redirect:/ui/wallets";
         }
     }
 }

@@ -17,7 +17,7 @@
                     </ol>
                     <ul class="list-unstyled action d-flex align-items-center mb-0">
                          <li>
-                              <a th:href="@{/ui/users/cards/new}" href="card-add.html" class="btn btn-dark">Add Card</a>
+                              <a th:href="@{/ui/cards/new}" href="card-add.html" class="btn btn-dark">Add Card</a>
                          </li>
                     </ul>
                </div>
@@ -71,13 +71,10 @@
                                         <div class="d-flex justify-content-between align-items-center" style="gap: 1px;">
 
                                              <button onclick="toggleCardNumber(this)" class="btn me-1 btn-grey-outline w-100" >Show Details</button>
-                                             <a th:href="@{/ui/users/cards/{cardId}/update (cardId=${card.id})}"
+                                             <a th:href="@{/ui/cards/{cardId}/update (cardId=${card.id})}"
                                                 href="card-add.html" class="btn me-1 btn-grey-outline w-100">Update card
                                              </a>
 
-<!--                                                  <a th:href="@{/ui/users/cards/{cardId}/delete (cardId=${card.id})}"-->
-<!--                                                     href="card-add.html" class="btn me-1 btn-grey-outline w-100">Delete card-->
-<!--                                                  </a>-->
                                              <button type="button" class="btn me-1 btn-grey-outline w-100"
                                                      data-bs-toggle="modal"
                                                      th:attr="data-bs-target='#deleteModal' + ${card.id}">
@@ -112,7 +109,7 @@
                          </div>
                          <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                              <a th:href="@{/ui/users/cards/{cardId}/delete (cardId=${card.id})}"
+                              <a th:href="@{/ui/cards/{cardId}/delete (cardId=${card.id})}"
                                  class="btn btn-danger">Delete</a>
                          </div>
                     </div>

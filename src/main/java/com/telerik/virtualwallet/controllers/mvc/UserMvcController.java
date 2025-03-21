@@ -54,16 +54,7 @@ public class UserMvcController {
 
     @ModelAttribute("isAdmin")
     public boolean populateIsAdmin() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        List<String> roles = new ArrayList<>();
-        if (authentication != null && authentication.isAuthenticated()) {
-            roles = authentication.getAuthorities().stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .toList();
-        }
-
-        return roles.contains("ROLE_ADMIN");
+        return populateIsAdminAttribute();
 
     }
 
@@ -199,6 +190,19 @@ public class UserMvcController {
     public String getAdminPanel() {
 
         return "admin-panel";
+    }
+
+    public static boolean populateIsAdminAttribute() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        List<String> roles = new ArrayList<>();
+        if (authentication != null && authentication.isAuthenticated()) {
+            roles = authentication.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .toList();
+        }
+
+        return roles.contains("ROLE_ADMIN");
     }
 
 

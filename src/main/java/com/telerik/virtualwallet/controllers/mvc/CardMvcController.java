@@ -18,13 +18,18 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.telerik.virtualwallet.controllers.mvc.UserMvcController.populateIsAdminAttribute;
 
 @Controller
 @RequestMapping("/ui/cards")
@@ -43,7 +48,13 @@ public class CardMvcController {
         this.walletService = walletService;
     }
 
-    @GetMapping("/cards")
+    @ModelAttribute("isAdmin")
+    public boolean populateIsAdmin() {
+        return populateIsAdminAttribute();
+
+    }
+
+    @GetMapping()
     public String getCards(Authentication authentication, Model model, HttpServletRequest request) {
 
         User user = userService.getByUsername(authentication.getName());
@@ -56,7 +67,7 @@ public class CardMvcController {
         return "card";
     }
 
-    @GetMapping("/cards/new")
+    @GetMapping("/new")
     public String showNewCardForm(Model model, HttpServletRequest request) {
 
         model.addAttribute("card", new CardCreateDTO());
@@ -64,7 +75,7 @@ public class CardMvcController {
         return "card-add";
     }
 
-    @PostMapping("/cards/new")
+    @PostMapping("/new")
     public String handleNewCardForm(Model model, @Valid @ModelAttribute("card") CardCreateDTO cardCreateDTO,
                                     BindingResult bindingResult, Authentication authentication,
                                     RedirectAttributes redirectAttributes) {
@@ -83,7 +94,7 @@ public class CardMvcController {
 
             redirectAttributes.addFlashAttribute("successAdd", true);
 
-            return "redirect:/ui/users/cards";
+            return "redirect:/ui/cards";
         } catch (DuplicateEntityException e) {
             bindingResult.rejectValue("cardNumber", "card.number", e.getMessage());
 
@@ -97,7 +108,7 @@ public class CardMvcController {
     }
 
     @PreAuthorize("@cardSecurityService.isUserCardHolder(#cardId, authentication.name)")
-    @GetMapping("/cards/{cardId}/delete")
+    @GetMapping("/{cardId}/delete")
     public String deleteCardById(@PathVariable int cardId, RedirectAttributes redirectAttributes) {
 
         try {
@@ -105,14 +116,14 @@ public class CardMvcController {
 
             redirectAttributes.addFlashAttribute("successDelete", true);
 
-            return "redirect:/ui/users/cards";
+            return "redirect:/ui/cards";
         } catch (EntityNotFoundException e) {
             return "404";
         }
     }
 
     @PreAuthorize("@cardSecurityService.isUserCardHolder(#cardId, authentication.name)")
-    @GetMapping("/cards/{cardId}/update")
+    @GetMapping("/{cardId}/update")
     public String updateCardByForm(@PathVariable int cardId, Model model, HttpServletRequest request) {
 
         try {
@@ -130,7 +141,7 @@ public class CardMvcController {
 
     }
 
-    @PostMapping("/cards/{cardId}/update")
+    @PostMapping("/{cardId}/update")
     public String handleUpdateCardByForm(@PathVariable int cardId, @Valid @ModelAttribute("card") CardCreateDTO cardCreateDTO,
                                          BindingResult bindingResult, Model model,
                                          RedirectAttributes redirectAttributes) {
@@ -150,7 +161,7 @@ public class CardMvcController {
 
             redirectAttributes.addFlashAttribute("successUpdate", true);
 
-            return "redirect:/ui/users/cards";
+            return "redirect:/ui/cards";
         } catch (DuplicateEntityException e) {
             bindingResult.rejectValue("cardNumber", "card.number", e.getMessage());
 

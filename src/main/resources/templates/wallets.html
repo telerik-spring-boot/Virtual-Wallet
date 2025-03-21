@@ -20,7 +20,7 @@
 
 
                 <li class="col-sm-12 col-12">
-                    <a th:href="@{/ui/users/wallets/new}" href="card-add.html" class="btn btn-dark w-100">Add Wallet
+                    <a th:href="@{/ui/wallets/new}" href="card-add.html" class="btn btn-dark w-100">Add Wallet
                     </a>
                 </li>
 
@@ -152,7 +152,7 @@
                     </div>
                 </div>
 
-                <form th:action="@{/ui/users/wallets/{walletId}/remove(walletId=${wallet.id})}" method="get" >
+                <form th:action="@{/ui/wallets/{walletId}/remove(walletId=${wallet.id})}" method="get" >
                     <div th:if="${wallet.walletHolders.size() > 1}" th:each="holder : ${wallet.walletHolders}" class="card mb-2">
                         <div class="card-body" th:if="${holder.username != wallet.creator.username}">
                             <div class="d-flex align-items-center">
@@ -190,7 +190,7 @@
 
             <!-- Form to submit the username -->
 
-            <form th:action="@{/ui/users/wallets/{walletId}/add(walletId=${wallet.id})}" method="post" class="px-3">
+            <form th:action="@{/ui/wallets/{walletId}/add(walletId=${wallet.id})}" method="post" class="px-3">
                     <input type="text" name="username" class="form-control me-2" placeholder="Enter username" required />
                 <br>
                     <button type="submit" class="btn w-100 py-2 btn-dark">Add to Wallet</button>
