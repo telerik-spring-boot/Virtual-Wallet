@@ -97,13 +97,22 @@
                                 <div class="no-thumbnail rounded-circle border bg-white p-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="34" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor" stroke-linecap="round"
-                                         stroke-linejoin="round" class=" svg-stroke">
+                                         stroke-linejoin="round" class="svg-stroke">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                                        <path d="M16 19h6"></path>
-                                        <path d="M19 16v6"></path>
-                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+
+                                        <!-- Dollar sign ($) -->
+                                        <path d="M9 4v16"></path>
+                                        <path d="M12 9c0-2-2-3-4-3s-4 1-4 3 2 3 4 3 4 1 4 3-2 3-4 3-4-1-4-3"/>
+
+
+                                        <path d="M7 4v16"></path>
+
+
+                                        <!-- Arrow representing money transfer -->
+                                        <path d="M16 12h6"></path>
+                                        <path d="M20 10l3 2l-3 2"></path>
                                     </svg>
+
                                 </div>
                             </div>
                             <div class="mt-3 text-center mb-3">
@@ -113,10 +122,12 @@
                             </div>
 
                             <div class="d-flex justify-content-center">
-                                <button id="usersTab" class="btn btn-outline-primary rounded-pill me-2"> Username or phone number</button>
+                                <button id="usersTab" class="btn btn-outline-primary rounded-pill me-2"> Username or
+                                    phone number
+                                </button>
 
                                 <button id="walletsTab" class="btn btn-outline-info rounded-pill ms-2 info-btn">
-                                    Wallet Id
+                                    Wallet IBAN
                                 </button>
                             </div>
 
@@ -212,12 +223,12 @@
                             </div>
                             <!-- Wallet ID-->
                             <div class="mt-3 w-100" id="walletsForm">
-                                <form class="form-horizontal" >
+                                <form class="form-horizontal">
                                     <fieldset>
 
                                         <div class="mb-3">
                                             <label for="walletId" class="form-label"
-                                            >Wallet Id </label
+                                            >Wallet IBAN </label
                                             >
                                             <div class="input-group form-control p-0">
 

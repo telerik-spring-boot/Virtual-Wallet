@@ -44,11 +44,7 @@ public class WalletMvcController {
     @GetMapping()
     public String getAllUserWallets(Authentication authentication, Model model) {
 
-        List<WalletMvcDisplayDTO> wallets = walletService.getWalletsByUsername(authentication.getName()).stream()
-                .map(walletMapper::walletToMvcDto)
-                .toList();
-
-        model.addAttribute("wallets", wallets);
+        addAllUserWalletsToModel(authentication, model);
         model.addAttribute("loggedUsername", authentication.getName());
         return "wallets";
     }
@@ -112,5 +108,20 @@ public class WalletMvcController {
             redirectAttributes.addFlashAttribute("removalErrors", e.getMessage());
             return "redirect:/ui/wallets";
         }
+    }
+
+    @GetMapping("/transfer")
+    public String createTransferForm(Authentication authentication, Model model)
+    {
+        addAllUserWalletsToModel(authentication, model);
+        return "transfer-make";
+    }
+
+    private void addAllUserWalletsToModel(Authentication authentication, Model model) {
+        List<WalletMvcDisplayDTO> wallets = walletService.getWalletsByUsername(authentication.getName()).stream()
+                .map(walletMapper::walletToMvcDto)
+                .toList();
+
+        model.addAttribute("wallets", wallets);
     }
 }

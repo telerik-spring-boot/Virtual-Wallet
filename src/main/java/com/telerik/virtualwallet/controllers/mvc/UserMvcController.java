@@ -155,12 +155,6 @@ public class UserMvcController {
     }
 
 
-    @GetMapping("/transfer")
-    public String createTransfer() {
-        return "transfer-make";
-    }
-
-
     @GetMapping("/stocks")
     public String getStocksView(Model model, Authentication authentication) {
 
