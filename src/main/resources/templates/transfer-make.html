@@ -126,7 +126,7 @@
                                     phone number
                                 </button>
 
-                                <button id="walletsTab" class="btn btn-outline-info rounded-pill ms-2 info-btn">
+                                <button id="transfersTab" class="btn btn-outline-info rounded-pill ms-2 info-btn">
                                     Wallet IBAN
                                 </button>
                             </div>
@@ -405,7 +405,7 @@
         $('#usersTab').on('click', function () {
 // Activate Users button, deactivate Transfers button
             $(this).addClass('active');
-            $('#walletsTab').removeClass('active');
+            $('#transfersTab').removeClass('active');
 
 // Show Users form and hide Transfers form
             $('#usernameForm').show();
@@ -413,7 +413,7 @@
         });
 
 // When Transfers button is clicked
-        $('#walletsTab').on('click', function () {
+        $('#transfersTab').on('click', function () {
 // Activate Transfers button, deactivate Users button
             $(this).addClass('active');
             $('#usersTab').removeClass('active');
@@ -428,7 +428,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const usersTab = document.getElementById("usersTab");
-        const walletsTab = document.getElementById("walletsTab");
+        const transfersTab = document.getElementById("transfersTab");
         const usersForm = document.getElementById("usersForm");
         const walletsForm = document.getElementById("walletsForm");
 
@@ -440,13 +440,13 @@
             usersForm.style.display = "block";
             walletsForm.style.display = "none";
             usersTab.classList.add("active");
-            walletsTab.classList.remove("active");
+            transfersTab.classList.remove("active");
         });
 
-        walletsTab.addEventListener("click", function () {
+        transfersTab.addEventListener("click", function () {
             usersForm.style.display = "none";
             walletsForm.style.display = "block";
-            walletsTab.classList.add("active");
+            transfersTab.classList.add("active");
             usersTab.classList.remove("active");
         });
     });
