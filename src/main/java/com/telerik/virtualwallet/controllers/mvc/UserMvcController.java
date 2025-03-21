@@ -206,12 +206,7 @@ public class UserMvcController {
         return "redirect:/ui/users/stocks";
     }
 
-    @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String getAdminPanel() {
 
-        return "admin-panel";
-    }
 
     public static boolean populateIsAdminAttribute() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -225,6 +220,8 @@ public class UserMvcController {
 
         return roles.contains("ROLE_ADMIN");
     }
+
+
 
 
 }

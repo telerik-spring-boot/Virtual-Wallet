@@ -4,6 +4,7 @@ import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.User;
+import com.telerik.virtualwallet.models.dtos.ContactDTO;
 import com.telerik.virtualwallet.models.dtos.RegisterDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserPasswordUpdateDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserRetrieveDTO;
@@ -14,6 +15,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
@@ -25,9 +28,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/ui/auth")
@@ -127,6 +133,51 @@ public class AnonymousMvcController {
 
             return "register";
         }
+    }
+
+
+    @GetMapping("/contact")
+    public String getContact(Model model) {
+
+        model.addAttribute("contact", new ContactDTO());
+        return "contact";
+    }
+
+    @PostMapping("/contact")
+    public String handleContact(@Valid @ModelAttribute("contact") ContactDTO contactDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+
+        model.addAttribute("formSubmitted", true);
+
+        if (bindingResult.hasErrors()) {
+            return "contact";
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+        String formspreeUrl = "https://formspree.io/f/xblggzee";
+
+        Map<String, String> formData = new HashMap<>();
+
+        formData.put("name", contactDTO.getName());
+        formData.put("email", contactDTO.getEmail());
+        formData.put("message", contactDTO.getMessage());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", "application/json");
+
+        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(formData, headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(formspreeUrl, requestEntity, String.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                redirectAttributes.addFlashAttribute("success", "Your message has been sent successfully!");
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Failed to send message. Please try again.");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "An error occurred. Please try again.");
+        }
+
+        return "redirect:/ui/auth/contact";
     }
 
 
