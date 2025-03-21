@@ -2540,7 +2540,8 @@ textarea.form-control-lg {
 }
 
 .form-check-input[type="radio"] {
-    border-radius: 50%
+    border-radius: 50%;
+    border: 2px solid #9399a1;
 }
 
 .form-check-input:active {
@@ -14363,7 +14364,7 @@ button:focus:not(:focus-visible) {
 
 .c_radio > label input[type="radio"]:checked + .card:after, .c_radio > label input[type="checkbox"]:checked + .card:after {
     background: var(--primary-color);
-    border: 3px solid var(--bs-body-bg);
+    border: 5px solid var(--bs-body-bg);
     box-shadow: 0px 0px 0px 2px var(--primary-color);
     position: absolute;
     height: 1rem;
