@@ -18,6 +18,8 @@ public interface UserService {
 
     User getByUsername(String username);
 
+    User getByUsernameOrEmailOrPhoneNumberMVC(String uniqueField);
+
     User getUserWithStocks(String username);
 
     void processStockOrderMvc(StockOrderMvcDTO stockOrder, String username);

@@ -84,6 +84,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getByUsernameOrEmailOrPhoneNumberMVC(String uniqueField) {
+
+        List<User> foundUsers = userRepository.getByAnyUniqueField(uniqueField, "", uniqueField);
+
+        if (foundUsers.isEmpty()) {
+            throw new EntityNotFoundException("User", "username or phone number", uniqueField);
+        }
+
+        return foundUsers.get(0);
+    }
+
+    @Override
     public User getUserWithStocks(String username) {
         User user = userRepository.getUserWithStocks(username);
 
@@ -123,11 +135,11 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        if(!stocksToBuy.isEmpty()) {
+        if (!stocksToBuy.isEmpty()) {
             handleStockPurchase(user, user.getMainWallet(), stocksToBuy, buyQuantities);
         }
 
-        if(!stocksToSell.isEmpty()) {
+        if (!stocksToSell.isEmpty()) {
             handleStockSale(user, user.getMainWallet(), stocksToSell, sellQuantities);
         }
 
