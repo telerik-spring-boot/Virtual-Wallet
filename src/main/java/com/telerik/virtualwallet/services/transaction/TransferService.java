@@ -17,5 +17,9 @@ public interface TransferService {
 
     Page<Transfer> getAllTransfersByWalletId(FilterTransferOptions options, Pageable pageable, int walletId);
 
+    List<Transfer> getAllTransfersByWalletId(int walletId);
+
+    List<Transfer> getAllTransfersToYourWalletsByUsername(String username);
+
     Transfer getTransferById(int transferId);
 }

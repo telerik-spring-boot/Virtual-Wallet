@@ -23,7 +23,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -146,7 +145,7 @@ public class UserMvcController {
                         .stream().map(transactionMapper::transactionToTransactionWrapper).toList());
 
 
-        transactions.addAll(transferService.getAllTransfersByUsername(authentication.getName())
+        transactions.addAll(transferService.getAllTransfersToYourWalletsByUsername(authentication.getName())
                 .stream().map(transactionMapper::transferToTransactionWrapper).toList());
 
         model.addAttribute("transactions", transactions);

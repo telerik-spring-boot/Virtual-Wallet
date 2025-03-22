@@ -27,7 +27,8 @@ public class WalletServiceImpl implements WalletService {
     private static final String WALLET_WITH_NO_USERS_EXCEPTION = "A wallet has to be managed by at least one user.";
     private static final String WALLET_ALREADY_MAIN_MESSAGE = "Wallet with id %d is already the main wallet for user %s.";
     private static final String USER_WITH_NO_WALLETS_EXCEPTION = "A user has to manage at least one wallet.";
-    private static final String MAXIMUM_WALLET_SIZE_MESSAGE = "You cannot have more than 10 wallets.";
+    private static final String MAXIMUM_WALLET_SIZE_MESSAGE_YOU = "You cannot have more than 10 wallets.";
+    private static final String MAXIMUM_WALLET_SIZE_MESSAGE_USER = "User %s cannot have more than 10 wallets.";
 
     private final WalletRepository walletRepository;
     private final CardService cardService;
@@ -89,7 +90,7 @@ public class WalletServiceImpl implements WalletService {
         User user = userRepository.getUserWithWallets(username);
 
         if (user.getWallets().size() >= 10) {
-            throw new UnauthorizedOperationException(MAXIMUM_WALLET_SIZE_MESSAGE);
+            throw new UnauthorizedOperationException(MAXIMUM_WALLET_SIZE_MESSAGE_YOU);
         }
 
         wallet.getUsers().add(user);
@@ -163,7 +164,7 @@ public class WalletServiceImpl implements WalletService {
         }
 
         if (userToAdd.getWallets().size() >= 10) {
-            throw new UnauthorizedOperationException(MAXIMUM_WALLET_SIZE_MESSAGE);
+            throw new UnauthorizedOperationException(String.format(MAXIMUM_WALLET_SIZE_MESSAGE_USER,usernameToAdd));
         }
 
         wallet.getUsers().add(userToAdd);

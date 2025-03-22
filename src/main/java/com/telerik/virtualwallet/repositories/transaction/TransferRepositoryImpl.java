@@ -33,13 +33,30 @@ public class TransferRepositoryImpl implements TransferRepository {
     }
 
     @Override
-    public Page<Transfer> getAllTransfersByUsername(FilterTransferOptions options, Pageable pageable, String username) {
+    public Page<Transfer> getAllTransfersMadeByUserByUsername(FilterTransferOptions options, Pageable pageable, String username) {
         return getTransfersWithFiltersHelper(options, pageable, -1, username);
     }
 
     @Override
     public Page<Transfer> getAllTransfersByWalletId(FilterTransferOptions options, Pageable pageable, int walletId) {
         return getTransfersWithFiltersHelper(options, pageable, walletId, "");
+    }
+
+    @Override
+    public List<Transfer> getAllTransfersByWalletId(int walletId) {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Transfer> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transfer t " +
+                                    "JOIN FETCH t.receiverWallet rw " +
+                                    "JOIN FETCH rw.users r " +
+                                    "WHERE rw.id =: walletId",
+                            Transfer.class);
+            query.setParameter("walletId", walletId);
+
+            return query.list();
+
+        }
     }
 
     @Override
@@ -58,7 +75,7 @@ public class TransferRepositoryImpl implements TransferRepository {
     }
 
     @Override
-    public List<Transfer> getAllTransfersByUsername(String username) {
+    public List<Transfer> getAllTransfersMadeByUserByUsername(String username) {
         try (Session session = sessionFactory.openSession()) {
 
             Query<Transfer> query = session.createQuery
@@ -66,6 +83,23 @@ public class TransferRepositoryImpl implements TransferRepository {
                                     "JOIN FETCH t.receiverWallet rw " +
                                     "JOIN FETCH rw.users r " +
                                     "WHERE t.senderCard.user.username = :username",
+                            Transfer.class);
+            query.setParameter("username", username);
+
+            return query.list();
+
+        }
+    }
+
+    @Override
+    public List<Transfer> getAllTransfersToYourWalletsByUsername(String username) {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Transfer> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transfer t " +
+                                    "JOIN FETCH t.receiverWallet rw " +
+                                    "JOIN FETCH rw.users r " +
+                                    "WHERE r.username = :username",
                             Transfer.class);
             query.setParameter("username", username);
 

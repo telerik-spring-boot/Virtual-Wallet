@@ -36,13 +36,13 @@ public class TransferServiceImpl implements TransferService {
 
         pageableHelper(pageable);
 
-        return transferRepository.getAllTransfersByUsername(options, pageable, username);
+        return transferRepository.getAllTransfersMadeByUserByUsername(options, pageable, username);
     }
 
     @Override
     public List<Transfer> getAllTransfersByUsername(String username) {
 
-        return transferRepository.getAllTransfersByUsername(username);
+        return transferRepository.getAllTransfersMadeByUserByUsername(username);
     }
 
     @Override
@@ -51,6 +51,16 @@ public class TransferServiceImpl implements TransferService {
         pageableHelper(pageable);
 
         return transferRepository.getAllTransfersByWalletId(options, pageable, walletId);
+    }
+
+    @Override
+    public List<Transfer> getAllTransfersByWalletId(int walletId) {
+        return transferRepository.getAllTransfersByWalletId(walletId);
+    }
+
+    @Override
+    public List<Transfer> getAllTransfersToYourWalletsByUsername(String username) {
+        return transferRepository.getAllTransfersToYourWalletsByUsername(username);
     }
 
     @Override

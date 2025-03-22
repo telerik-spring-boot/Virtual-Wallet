@@ -11,13 +11,17 @@ public interface TransferRepository {
 
     Page<Transfer> getAllTransfers(FilterTransferOptions options, Pageable pageable);
 
-    Page<Transfer> getAllTransfersByUsername(FilterTransferOptions options, Pageable pageable, String username);
+    Page<Transfer> getAllTransfersMadeByUserByUsername(FilterTransferOptions options, Pageable pageable, String username);
 
     Page<Transfer> getAllTransfersByWalletId(FilterTransferOptions options, Pageable pageable, int walletId);
 
+    List<Transfer> getAllTransfersByWalletId(int walletId);
+
     List<Transfer> getAllTransfersMvc();
 
-    List<Transfer> getAllTransfersByUsername(String username);
+    List<Transfer> getAllTransfersMadeByUserByUsername(String username);
+
+    List<Transfer> getAllTransfersToYourWalletsByUsername(String username);
 
     Transfer getTransferById(int id);
 
