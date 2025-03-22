@@ -1,20 +1,28 @@
 package com.telerik.virtualwallet.controllers.mvc;
 
-import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
-import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
-import com.telerik.virtualwallet.exceptions.InconsistentOperationException;
-import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
+import com.telerik.virtualwallet.exceptions.*;
+import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.WalletMapper;
+import com.telerik.virtualwallet.models.User;
+import com.telerik.virtualwallet.models.Wallet;
+import com.telerik.virtualwallet.models.dtos.transaction.TransactionConfirmationMVCCreateDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransactionMVCUsernamePhoneCreateDTO;
+import com.telerik.virtualwallet.models.dtos.wallet.CardTransferCreateDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletCreateDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletMvcDisplayDTO;
 import com.telerik.virtualwallet.models.enums.Currency;
+import com.telerik.virtualwallet.models.enums.TransactionCategoryEnum;
+import com.telerik.virtualwallet.services.transaction.TransactionService;
+import com.telerik.virtualwallet.services.user.UserService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,11 +36,17 @@ public class WalletMvcController {
 
     private final WalletService walletService;
     private final WalletMapper walletMapper;
+    private final UserService userService;
+    private final TransactionService transactionService;
+    private final TransactionMapper transactionMapper;
 
     @Autowired
-    public WalletMvcController(WalletService walletService, WalletMapper walletMapper) {
+    public WalletMvcController(WalletService walletService, WalletMapper walletMapper, UserService userService, TransactionService transactionService, TransactionMapper transactionMapper) {
         this.walletService = walletService;
         this.walletMapper = walletMapper;
+        this.userService = userService;
+        this.transactionService = transactionService;
+        this.transactionMapper = transactionMapper;
     }
 
     @ModelAttribute("isAdmin")
@@ -111,10 +125,45 @@ public class WalletMvcController {
     }
 
     @GetMapping("/transfer")
-    public String createTransferForm(Authentication authentication, Model model)
-    {
+    public String createTransferForm(Authentication authentication, Model model) {
+        model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
         addAllUserWalletsToModel(authentication, model);
         return "transfer-make";
+    }
+
+    @GetMapping("/transfer/by_username/confirmation")
+    public String handleTransferByUsername(Model model, @RequestParam("walletId") int walletId,
+                                           Authentication authentication,
+                                           @Valid @ModelAttribute("usernameInput")
+                                           TransactionMVCUsernamePhoneCreateDTO dto,
+                                           BindingResult bindingResult,
+                                           HttpServletRequest request) {
+
+        model.addAttribute("formSubmitted", true);
+
+        if (bindingResult.hasErrors()) {
+            return "transfer-make";
+        }
+        try {
+            User receiver = userService.getByUsernameOrEmailOrPhoneNumberMVC(dto.getUsernameOrPhone());
+
+            Wallet receiverWallet = walletService
+                    .getReceiverWalletBySenderWalletIdAndReceiverUsernameMVC(walletId, receiver.getUsername());
+
+            TransactionConfirmationMVCCreateDTO confirmation = transactionMapper
+                    .handleConfirmationMVCDTOLogic(walletId, receiverWallet, receiver, dto.getAmount());
+
+            model.addAttribute("confirmation", confirmation);
+            model.addAttribute("transactionCategories", TransactionCategoryEnum.values());
+            model.addAttribute("requestURI", request.getRequestURI());
+
+            return "transfer-confirmation";
+
+        } catch (EntityNotFoundException e) {
+        }
+
+        return "redirect:/ui/wallets/transfer/confirmation";
+
     }
 
     private void addAllUserWalletsToModel(Authentication authentication, Model model) {

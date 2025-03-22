@@ -85,6 +85,32 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
+    public Wallet getReceiverWalletBySenderWalletIdAndReceiverUsernameMVC(int senderWalletId, String receiverUsername) {
+
+        Wallet senderWallet = getWalletById(senderWalletId);
+        User receiverUser = userRepository.getUserWithWallets(receiverUsername);
+        List<Wallet> receiverWallets = getWalletsByUsername(receiverUsername);
+
+        if (receiverUser.getMainWallet().getCurrency().equals(senderWallet.getCurrency())) {
+            return receiverUser.getMainWallet();
+        }
+
+        for (Wallet receiverWallet : receiverWallets) {
+
+            if (receiverWallet.getUsers().size() > 1) {
+                continue;
+            }
+            if (receiverWallet.getCurrency().equals(senderWallet.getCurrency())) {
+                return receiverWallet;
+            }
+        }
+
+        return receiverUser.getMainWallet();
+
+
+    }
+
+    @Override
     public void createWallet(String username, Wallet wallet) {
 
         User user = userRepository.getUserWithWallets(username);
@@ -164,7 +190,7 @@ public class WalletServiceImpl implements WalletService {
         }
 
         if (userToAdd.getWallets().size() >= 10) {
-            throw new UnauthorizedOperationException(String.format(MAXIMUM_WALLET_SIZE_MESSAGE_USER,usernameToAdd));
+            throw new UnauthorizedOperationException(String.format(MAXIMUM_WALLET_SIZE_MESSAGE_USER, usernameToAdd));
         }
 
         wallet.getUsers().add(userToAdd);

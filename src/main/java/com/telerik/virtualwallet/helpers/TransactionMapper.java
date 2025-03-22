@@ -9,8 +9,9 @@ import com.telerik.virtualwallet.services.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -20,6 +21,10 @@ public class TransactionMapper {
     private final WalletService walletService;
     private final TransactionCategoryService transactionCategoryService;
     private final CardMapper cardMapper;
+
+    private final BigDecimal EUR_TO_USD = BigDecimal.valueOf(1.09);
+    private final BigDecimal GBP_TO_USD = BigDecimal.valueOf(1.30);
+    private final BigDecimal GBP_TO_EUR = GBP_TO_USD.divide(EUR_TO_USD, RoundingMode.HALF_UP);
 
     @Autowired
     public TransactionMapper(UserService userService, WalletService walletService, TransactionCategoryService transactionCategoryService, CardMapper cardMapper) {
@@ -101,7 +106,7 @@ public class TransactionMapper {
     }
 
 
-    public TransactionsWrapper transferToTransactionWrapper(Transfer transfer){
+    public TransactionsWrapper transferToTransactionWrapper(Transfer transfer) {
         TransactionsWrapper transactionsWrapper = new TransactionsWrapper();
 
         transactionsWrapper.setTransactionId(transfer.getId());
@@ -120,7 +125,7 @@ public class TransactionMapper {
         return transactionsWrapper;
     }
 
-    public TransactionsWrapper transactionToTransactionWrapper(Transaction transaction){
+    public TransactionsWrapper transactionToTransactionWrapper(Transaction transaction) {
         TransactionsWrapper transactionsWrapper = new TransactionsWrapper();
 
         transactionsWrapper.setTransactionId(transaction.getId());
@@ -139,15 +144,15 @@ public class TransactionMapper {
         return transactionsWrapper;
     }
 
-    public List<InvestmentDTO> investmentToInvestmentDTO(Investment investment){
+    public List<InvestmentDTO> investmentToInvestmentDTO(Investment investment) {
 
         List<InvestmentDTO> investments = new ArrayList<>();
 
-        String [] symbols = investment.getSymbols().split(",");
-        String [] quantities = investment.getQuantities().split(",");
-        String [] values = investment.getStockValues().split(",");
+        String[] symbols = investment.getSymbols().split(",");
+        String[] quantities = investment.getQuantities().split(",");
+        String[] values = investment.getStockValues().split(",");
 
-        for(int i = 0; i<symbols.length; i++){
+        for (int i = 0; i < symbols.length; i++) {
             InvestmentDTO investmentDTO = new InvestmentDTO();
 
             investmentDTO.setId(investment.getId());
@@ -171,5 +176,73 @@ public class TransactionMapper {
 
 
         return investments;
+    }
+
+    public TransactionConfirmationMVCCreateDTO handleConfirmationMVCDTOLogic(int senderWalletId, Wallet receiverWallet,
+                                                                             User receiverUser, BigDecimal sendingAmount) {
+
+        TransactionConfirmationMVCCreateDTO dto = new TransactionConfirmationMVCCreateDTO();
+
+        Wallet senderWallet = walletService.getWalletById(senderWalletId);
+
+        dto.setWalletSenderId(senderWalletId);
+        dto.setWalletReceiverId(receiverWallet.getId());
+
+        dto.setReceiverCurrency(receiverWallet.getCurrency().toString());
+        dto.setSenderCurrency(senderWallet.getCurrency().toString());
+
+        dto.setReceiverFullName(receiverUser.getFullName());
+        dto.setSentAmount(sendingAmount.setScale(2, RoundingMode.HALF_UP));
+
+        if (dto.getReceiverCurrency().equals(dto.getSenderCurrency())) {
+
+            dto.setReceivedAmount(dto.getSentAmount());
+
+        } else {
+
+            switch (dto.getSenderCurrency()) {
+                case "USD" -> {
+
+                    if (dto.getReceiverCurrency().equals("EUR")) {
+                        BigDecimal USD_TO_EUR = BigDecimal.ONE.divide(EUR_TO_USD, 10, RoundingMode.HALF_UP);
+                        dto.setReceivedAmount(sendingAmount.multiply(USD_TO_EUR).setScale(2, RoundingMode.HALF_UP));
+                    }
+
+                    if (dto.getReceiverCurrency().equals("GBP")) {
+                        BigDecimal USD_TO_GBP = BigDecimal.ONE.divide(GBP_TO_USD, 10, RoundingMode.HALF_UP);
+                        dto.setReceivedAmount(sendingAmount.multiply(USD_TO_GBP).setScale(2, RoundingMode.HALF_UP));
+                    }
+                }
+                case "EUR" -> {
+
+                    if (dto.getReceiverCurrency().equals("USD")) {
+
+                        dto.setReceivedAmount(sendingAmount.multiply(EUR_TO_USD).setScale(2, RoundingMode.HALF_UP));
+                    }
+
+                    if (dto.getReceiverCurrency().equals("GBP")) {
+                        BigDecimal EUR_TO_GBP = BigDecimal.ONE.divide(GBP_TO_EUR, 10, RoundingMode.HALF_UP);
+                        dto.setReceivedAmount(sendingAmount.multiply(EUR_TO_GBP).setScale(2, RoundingMode.HALF_UP));
+                    }
+                }
+                case "GBP" -> {
+
+                    if (dto.getReceiverCurrency().equals("USD")) {
+
+                        dto.setReceivedAmount(sendingAmount.multiply(GBP_TO_USD).setScale(2, RoundingMode.HALF_UP));
+                    }
+
+                    if (dto.getReceiverCurrency().equals("EUR")) {
+
+                        dto.setReceivedAmount(sendingAmount.multiply(GBP_TO_EUR).setScale(2, RoundingMode.HALF_UP));
+                    }
+                }
+            }
+
+        }
+
+        return dto;
+
+
     }
 }

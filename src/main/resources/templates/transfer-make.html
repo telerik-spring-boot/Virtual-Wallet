@@ -132,7 +132,8 @@
                             </div>
 
                             <div class="mt-3 w-100" id="usersForm">
-                                <form class="form-horizontal" id="validateForm">
+                                <form class="form-horizontal" id="validateForm" action="#" method="get"
+                                      th:action="@{/ui/wallets/transfer/by_username/confirmation}">
                                     <fieldset>
                                         <div class="mb-3">
                                             <label for="usernameOrPhone" class="form-label"
@@ -146,15 +147,24 @@
                                                         required=""
                                                         id="usernameOrPhone"
                                                         maxlength="15"
+                                                        th:field="${usernameInput.usernameOrPhone}"
+                                                        th:classappend="${#fields.hasErrors('usernameInput.usernameOrPhone') ? 'is-invalid' : (formSubmitted != null ? 'is-valid' : '')}"
+                                                        th:title="${#fields.errors('usernameInput.usernameOrPhone')}"
 
                                                 >
                                             </div>
                                         </div>
                                         <!-- Card Holder-->
-                                        <div class="mb-3">
-                                            <label for="amountUser" class="form-label"
-                                            >Amount </label
-                                            >
+                                        <div class="mb-3 ">
+                                            <div class="d-flex justify-content-between">
+                                                <label for="amountUser" class="form-label"
+                                                >Amount </label
+                                                >
+                                                <p class="text-muted">Current balance:
+                                                    <span id="selectedWalletText">  N/A</span>
+                                                    <span id="selectedWalletBalance">N/A</span>
+                                                </p>
+                                            </div>
                                             <div class="input-group form-control p-0">
 
                                                 <input
@@ -164,6 +174,9 @@
                                                         id="amountUser"
                                                         maxlength="8"
                                                         oninput="this.value = validateAmount(this.value)"
+                                                        th:field="${usernameInput.amount}"
+                                                        th:classappend="${#fields.hasErrors('usernameInput.amount') ? 'is-invalid' : (formSubmitted != null ? 'is-valid' : '')}"
+                                                        th:title="${#fields.errors('usernameInput.amount')}"
                                                 >
                                             </div>
                                         </div>
@@ -189,28 +202,27 @@
 
                                         <!-- Card Number-->
                                         <div class="mb-3">
-                                            <label for="numberWallet" class="form-label">Select Wallet</label>
+                                            <label for="numberWallet" class="form-label">Select Wallet to send from</label>
                                             <div class="input-group form-control p-0">
                                                 <select class="form-control border-0 remove-pseudo" id="numberWallet"
                                                         name="walletId" required>
-                                                    <option value="4111111111111111">Wallet 1 (USD) - 4111 1111 1111
-                                                        1111
-                                                    </option>
-                                                    <option value="5500000000000004">Wallet 2 (EUR) - 5500 0000 0000
-                                                        0004
-                                                    </option>
-                                                    <option value="340000000000009">Wallet 3 (USD) - 3400 0000 0000
-                                                        009
+                                                    <option th:each="wallet : ${wallets}"
+                                                            th:value="${wallet.id}"
+                                                            th:text="'IBAN33YNPAY68477732491843244' + ${wallet.id}">
                                                     </option>
                                                 </select>
                                             </div>
                                         </div>
 
 
+
+
+
+
                                         <!-- Button -->
                                         <div class="form-group">
-                                            <a href="sign-in.html" class="btn btn-dark w-100">Confirm transfer
-                                            </a>
+                                            <button type="submit" class="btn btn-dark w-100">Proceed to confirmation
+                                            </button>
                                         </div>
                                         <div class="text-center mt-2">
                                             <span class="text-muted">By confirming transfer, you agree to our Terms and Conditions.</span>
@@ -336,6 +348,80 @@
 </footer>
 
 <th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+
+
+
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        let dropdown = document.getElementById("numberWallet");
+        let selectedText = document.getElementById("selectedWalletText");
+
+        // ✅ Inject wallets data properly as a JSON object in JavaScript
+        let wallets = /*[[${wallets}]]*/ [];
+
+
+        // ✅ Define a map of currency codes to their symbols
+        const currencySymbols = {
+            "EUR": "€",
+            "USD": "$",
+            "GBP": "£"
+
+        };
+
+        function updateCurrency() {
+            let selectedWalletId = dropdown.value; // Get selected wallet ID
+
+            // ✅ Ensure wallet.id is a string for comparison
+            let selectedWallet = wallets.find(wallet => wallet.id.toString() === selectedWalletId);
+
+            if (selectedWallet) {
+                // ✅ Get the currency symbol, fallback to currency code if not found
+                let symbol = currencySymbols[selectedWallet.currency] || selectedWallet.currency;
+                selectedText.textContent = symbol;
+            } else {
+                selectedText.textContent = "N/A";
+            }
+        }
+
+        // ✅ Set initial value on page load
+        updateCurrency();
+
+        // ✅ Update currency when dropdown selection changes
+        dropdown.addEventListener("change", updateCurrency);
+    });
+</script>
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        let dropdown = document.getElementById("numberWallet");
+        let selectedBalanceText = document.getElementById("selectedWalletBalance");
+
+        // ✅ Inject wallets data properly as a JSON object in JavaScript
+        let wallets = /*[[${wallets}]]*/ [];
+
+
+        function updateBalance() {
+            let selectedWalletId = dropdown.value; // Get selected wallet ID
+
+            // ✅ Ensure wallet.id is a string for comparison
+            let selectedWallet = wallets.find(wallet => wallet.id.toString() === selectedWalletId);
+
+            // ✅ Update the text with the correct balance
+            selectedBalanceText.textContent = selectedWallet ? selectedWallet.balance.toFixed(2) : "N/A";
+        }
+
+        // ✅ Set initial value on page load
+        updateBalance();
+
+        // ✅ Update balance when dropdown selection changes
+        dropdown.addEventListener("change", updateBalance);
+    });
+</script>
+
+
+
+
 
 <script>
     $(document).ready(function () {

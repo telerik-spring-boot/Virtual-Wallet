@@ -1,6 +1,5 @@
 package com.telerik.virtualwallet.services.wallet;
 
-import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
 
 import java.math.BigDecimal;
@@ -13,6 +12,8 @@ public interface WalletService {
     List<Wallet> getWalletsByUsername(String username);
 
     Wallet getWalletById(int walletId);
+
+    Wallet getReceiverWalletBySenderWalletIdAndReceiverUsernameMVC(int senderWalletId, String receiverUsername);
 
     void createWallet(String username, Wallet wallet);
 
