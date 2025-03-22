@@ -25,4 +25,6 @@ public interface WalletRepository {
     void deleteWallets(List<Integer> ids);
 
     boolean isUserWalletHolder(String username, int walletId);
+
+    boolean isUserWalletCreator(String username, int walletId);
 }

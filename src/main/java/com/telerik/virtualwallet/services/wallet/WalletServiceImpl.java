@@ -22,8 +22,8 @@ public class WalletServiceImpl implements WalletService {
 
     private static final String NO_WALLETS_MESSAGE = "No wallets are found.";
     private static final String NO_WALLETS_FOUND_MESSAGE = "No wallets associated with %s found.";
-    private static final String USER_ALREADY_WALLET_HOLDER_MESSAGE = "Wallet with id %d is already managed by a user %s.";
-    private static final String USER_NOT_WALLET_HOLDER_MESSAGE = "Wallet with id %d is not managed by user %s.";
+    private static final String USER_ALREADY_WALLET_HOLDER_MESSAGE = "Wallet is already managed by a user %s.";
+    private static final String USER_NOT_WALLET_HOLDER_MESSAGE = "Wallet is not managed by user %s.";
     private static final String WALLET_WITH_NO_USERS_EXCEPTION = "A wallet has to be managed by at least one user.";
     private static final String WALLET_ALREADY_MAIN_MESSAGE = "Wallet with id %d is already the main wallet for user %s.";
     private static final String USER_WITH_NO_WALLETS_EXCEPTION = "A user has to manage at least one wallet.";
@@ -151,11 +151,15 @@ public class WalletServiceImpl implements WalletService {
         Wallet wallet = walletRepository.getWalletWithUsersById(walletId);
         User userToAdd = userRepository.getUserWithWallets(usernameToAdd);
 
+        if (userToAdd == null) {
+            throw new EntityNotFoundException("User", "username", usernameToAdd);
+        }
+
         boolean userExists = wallet.getUsers().stream()
                 .anyMatch(user -> user.getId() == userToAdd.getId());
 
         if (userExists) {
-            throw new DuplicateEntityException(String.format(USER_ALREADY_WALLET_HOLDER_MESSAGE, walletId, usernameToAdd));
+            throw new DuplicateEntityException(String.format(USER_ALREADY_WALLET_HOLDER_MESSAGE, usernameToAdd));
         }
 
         if (userToAdd.getWallets().size() >= 10) {
@@ -179,11 +183,15 @@ public class WalletServiceImpl implements WalletService {
 
         User userToRemove = userRepository.getUserWithWallets(usernameToRemove);
 
+        if (userToRemove == null) {
+            throw new EntityNotFoundException("User", "username", usernameToRemove);
+        }
+
         User existingUser = wallet.getUsers().stream()
                 .filter(user -> user.getId() == userToRemove.getId())
                 .findFirst()
                 .orElseThrow(() ->
-                        new DuplicateEntityException(String.format(USER_NOT_WALLET_HOLDER_MESSAGE, walletId, usernameToRemove)));
+                        new DuplicateEntityException(String.format(USER_NOT_WALLET_HOLDER_MESSAGE, usernameToRemove)));
 
         if (userToRemove.getWallets().size() <= 1) {
             throw new InconsistentOperationException(USER_WITH_NO_WALLETS_EXCEPTION);

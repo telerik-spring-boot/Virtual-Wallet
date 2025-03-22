@@ -75,7 +75,7 @@ public class WalletMvcController {
 
     }
 
-    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    @PreAuthorize("@walletSecurityService.isUserWalletCreator(#walletId, authentication.name)")
     @PostMapping("/{walletId}/add")
     public String addUserToWallet(@PathVariable int walletId, @RequestParam String username,
                                   RedirectAttributes redirectAttributes) {
@@ -93,7 +93,7 @@ public class WalletMvcController {
 
     }
 
-    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    @PreAuthorize("@walletSecurityService.isUserWalletCreator(#walletId, authentication.name)")
     @GetMapping("/{walletId}/remove")
     public String removeUserToWallet(@PathVariable int walletId, @RequestParam String username,
                                      RedirectAttributes redirectAttributes) {

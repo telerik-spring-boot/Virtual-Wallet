@@ -151,4 +151,23 @@ public class WalletRepositoryImpl implements WalletRepository {
 
         }
     }
+
+    @Override
+    public boolean isUserWalletCreator(String username, int walletId) {
+
+        try (Session session = sessionFactory.openSession()) {
+            Query<Long> query = session.createQuery
+                    ("SELECT COUNT(w) FROM Wallet w JOIN w.users u " +
+                                    "WHERE w.id=:walletId AND w.creator.username = :username",
+                            Long.class);
+
+            query.setParameter("walletId", walletId);
+            query.setParameter("username", username);
+
+            Long count = query.uniqueResult();
+
+            return count > 0;
+
+        }
+    }
 }

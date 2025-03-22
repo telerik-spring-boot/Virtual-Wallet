@@ -184,13 +184,13 @@
 
 
             </div>
-            <div class="mb-4 p-3 bg-light">
+            <div th:if="${loggedUsername == wallet.creator.username}" class="mb-4 p-3 bg-light">
                 <h6 class="text-muted mb-0">Add User to Wallet</h6>
             </div>
 
             <!-- Form to submit the username -->
 
-            <form th:action="@{/ui/wallets/{walletId}/add(walletId=${wallet.id})}" method="post" class="px-3">
+            <form th:if="${loggedUsername == wallet.creator.username}" th:action="@{/ui/wallets/{walletId}/add(walletId=${wallet.id})}" method="post" class="px-3">
                     <input type="text" name="username" class="form-control me-2" placeholder="Enter username" required />
                 <br>
                     <button type="submit" class="btn w-100 py-2 btn-dark">Add to Wallet</button>
