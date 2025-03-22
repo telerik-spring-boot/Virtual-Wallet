@@ -19,4 +19,10 @@ public class WalletSecurityService {
         return walletRepository.isUserWalletHolder(username, walletId);
 
     }
+
+    public boolean isUserWalletCreator(int walletId, String username) {
+
+        return walletRepository.isUserWalletCreator(username, walletId);
+
+    }
 }
