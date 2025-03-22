@@ -15,212 +15,393 @@
                          <li class="breadcrumb-item"><a class="text-muted" href="index.html" title="home" th:href="@{/ui/users/dashboard}">Home</a></li>
                          <li class="breadcrumb-item active" aria-current="page" title="Balance">Transactions</li>
                     </ol>
-                    <ul class="list-unstyled action  mb-0 row g-2">
-                         <li class="col-sm-6 col-6">
-                              <div>
-                                   <input type="date" name="filter" class="form-control">
-                              </div>
-                         </li>
-                         <li class="dropdown col-sm-6 col-6">
-                              <a href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"
-                                   class="btn border  rounded fw-medium w-100">
-                                   <svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg" width="18"
-                                        viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path
-                                             d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z">
-                                        </path>
-                                   </svg>
-                                   Filter
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-end p-2 p-xl-3 shadow rounded-4"
-                                   style="width: 300px;">
-                                   <h6>Filter Options</h6>
-                                   <div class="row g-3 mt-3">
-                                        <div class="col-12">
-                                             <label class="form-label small text-muted">Sorted by:</label>
-                                             <input type="search" class="form-control" placeholder="Search">
-                                        </div>
-                                        <div class="col-12">
-                                             <label class="form-label small text-muted">Status:</label>
-                                             <select class="form-select">
-                                                  <option selected="">Choose...</option>
-                                                  <option>...</option>
-                                             </select>
-                                        </div>
-                                        <div class="col-12">
-                                             <label class="form-label small text-muted">Notifications:</label>
-                                             <div class="form-check form-switch">
-                                                  <input class="form-check-input" type="checkbox" role="switch">
-                                                  <label class="form-check-label">Enabled</label>
-                                             </div>
-                                        </div>
-                                        <div class="col-12 text-end mt-4">
-                                             <button type="reset" class="btn btn-sm btn-light me-1">Reset</button>
-                                             <button type="submit" class="btn btn-sm btn-primary">Apply</button>
-                                        </div>
-                                   </div>
-                              </div>
-                         </li>
-                    </ul>
+
                </div>
                <!-- start: page body area -->
                <div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
                     <div class="row">
                          <div class="col-12">
                               <div class="border p-4 rounded-2 rounded-4">
-                                   <div class="calendar-tab pb-4" style="--dynamic-color: var(--primary-color)">
-                                        <ul class="nav nav-pills text-muted text-uppercase" role="tablist">
+                                   <div
+                                           class="calendar-tab pb-4"
+                                           style="--dynamic-color: var(--primary-color)">
+
+                                        <ul
+                                                class="nav nav-pills text-muted text-uppercase"
+                                                role="tablist"
+                                        >
                                              <li class="nav-item">
                                                   Sun
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_1" type="button" role="tab">01</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_1"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       01
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Mon
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_2" type="button" role="tab">02</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_2"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       02
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Tue
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_3" type="button" role="tab">03</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_3"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       03
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Wed
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_4" type="button" role="tab">04</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_4"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       04
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Thu
-                                                  <button class="nav-link active" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_5" type="button" role="tab">05</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_5"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       05
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Fri
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_6" type="button" role="tab">06</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_6"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       06
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Sat
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_7" type="button" role="tab">07</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_7"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       07
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Sun
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_8" type="button" role="tab">08</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_8"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       08
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Mon
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_9" type="button" role="tab">09</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_9"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       09
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Tue
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_10" type="button" role="tab">10</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_10"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       10
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Wed
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_11" type="button" role="tab">11</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_11"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       11
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Thu
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_12" type="button" role="tab">12</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_12"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       12
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Fri
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_13" type="button" role="tab">13</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_13"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       13
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Sat
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_14" type="button" role="tab">14</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_14"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       14
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Sun
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_15" type="button" role="tab">15</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_15"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       15
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Sun
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_16" type="button" role="tab">16</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_16"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       16
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Mon
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_17" type="button" role="tab">17</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_17"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       17
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Tue
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_18" type="button" role="tab">18</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_18"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       18
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Wed
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_19" type="button" role="tab">19</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_19"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       19
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Thu
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_20" type="button" role="tab">20</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_20"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       20
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Fri
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_21" type="button" role="tab">21</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_21"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       21
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Sat
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_22" type="button" role="tab">22</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_22"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       22
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Sun
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_23" type="button" role="tab">23</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_23"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       23
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Mon
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_24" type="button" role="tab">24</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_24"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       24
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Tue
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_25" type="button" role="tab">25</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_25"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       25
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Wed
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_26" type="button" role="tab">26</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_26"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       26
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Thu
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_27" type="button" role="tab">27</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_27"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       27
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Fri
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_28" type="button" role="tab">28</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_28"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       28
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Sat
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_29" type="button" role="tab">29</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_29"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       29
+                                                  </button>
                                              </li>
                                              <li class="nav-item">
                                                   Sun
-                                                  <button class="nav-link" data-bs-toggle="pill"
-                                                       data-bs-target="#c_date_30" type="button" role="tab">30</button>
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_30"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       30
+                                                  </button>
+                                             </li>
+
+                                             <li class="nav-item">
+                                                  Mon
+                                                  <button
+                                                          class="nav-link disabled"
+                                                          data-bs-toggle="pill"
+                                                          data-bs-target="#c_date_31"
+                                                          type="button"
+                                                          role="tab"
+                                                  >
+                                                       31
+                                                  </button>
                                              </li>
                                         </ul>
                                    </div>
@@ -410,7 +591,27 @@
 
      <script src="../static/bundles/dataTables.bundle.js" th:src="@{/bundles/dataTables.bundle.js}"></script>
 
-     <script>
+     <script th:inline="javascript">
+
+          const conversionRates = {
+               EUR: 1.09,
+               GBP: 1.30,
+               USD: 1,
+          };
+
+          const today = new Date().getDate();
+
+          let allDates = document.querySelectorAll('.nav-link');
+
+
+          allDates.forEach(date => {
+               let dateNumber = parseInt(date.textContent);
+
+               if (dateNumber === today) {
+                    date.classList.add('active');
+               }
+          });
+
           document.addEventListener("DOMContentLoaded", function () {
                // Scroll handling for .calendar-tab .nav
                const scrollContainer = document.querySelector(".calendar-tab .nav");
@@ -420,20 +621,351 @@
                          scrollContainer.scrollLeft += evt.deltaY;
                     });
                }
-
           });
 
           $(document).ready(function () {
                // Initialize DataTable
-               $('.dataTable')
-                    .dataTable({
-                         responsive: true,
 
-                    });
+
+
+
+               let transfersTable = $('#transfersTable').DataTable({
+                    responsive: true,
+                    "columnDefs": [
+                         {
+                              "targets": 1,
+                              "render": function (data, type, row) {
+
+
+                                   if (type === 'display') {
+                                        return data;
+                                   }
+
+                                   let rate = conversionRates[data.slice(-3)];
+
+                                   let num = data.match(/[-+]?[0-9]*\.?[0-9]+/);
+                                   return num ? parseFloat(num[0]) * rate : data;
+                              },
+                              "orderDataType": "numeric"
+                         }
+                    ]
+               });
+
 
 
           });
+
+          $(document).ready(function () {
+
+               var users = /*[[${users}]]*/ [];
+
+               var monthLabels = [];
+               var createdCounts = Array(12).fill(0);
+               var verifiedCounts = Array(12).fill(0);
+
+               var now = new Date();
+               var currentYear = now.getFullYear();
+               var currentMonth = now.getMonth();
+
+
+               for (let i = 0; i < 12; i++) {
+                    let month = new Date(currentYear, currentMonth - i, 1);
+                    monthLabels.unshift(month);
+               }
+
+
+
+
+
+
+               let formattedLabels = monthLabels.map(dateStr => {
+                    let date = new Date(dateStr);
+                    return date.toLocaleString("en-US", { month: "short" }).slice(0, 3);
+               });
+
+
+               // Create the chart
+               var options = {
+                    chart: {
+                         height: 500,
+                         type: "line",
+                         toolbar: {
+                              show: false,
+                         },
+                    },
+                    colors: ["var(--theme-color2)", "var(--theme-color4)"],
+                    series: [
+                         {
+                              name: "Created Users",
+                              type: "column",
+                              data: createdCounts,
+                         },
+                         {
+                              name: "Verified Users",
+                              type: "line",
+                              data: verifiedCounts,
+                         },
+                    ],
+                    stroke: {
+                         width: [0, 4],
+                    },
+                    labels: formattedLabels,
+                    xaxis: {
+                         type: "category",
+                    },
+                    yaxis: [
+                         {
+                              title: {
+                                   text: "Registered Users",
+                              },
+                         },
+                         {
+                              opposite: true,
+                              title: {
+                                   text: "Verified Users",
+                              },
+                         },
+                    ],
+                    tooltip: {
+                         theme: "dark",
+                    },
+               };
+
+               var chart = new ApexCharts(
+                       document.querySelector("#apex-chart-line-column"),
+                       options
+               );
+               chart.render();
+          });
+
+          $(document).ready(function () {
+
+               var transactions = /*[[${transactions}]]*/[];
+
+               var investments = /*[[${investments}]]*/[];
+
+
+
+
+               let depositCounts = Array(12).fill(0);
+               let transferCounts = Array(12).fill(0);
+               let monthLabels = [];
+
+
+               const currentDate = new Date();
+               const currentMonth = currentDate.getMonth();
+               const currentYear = currentDate.getFullYear();
+
+
+               for (let i = 0; i < 12; i++) {
+                    let month = new Date(currentYear, currentMonth - i, 1);
+                    monthLabels.unshift(month);
+               }
+
+               let investmentCounts = Array(12).fill(0);
+
+
+
+
+               let formattedLabels = monthLabels.map(dateStr => {
+                    let date = new Date(dateStr);
+                    return date.toLocaleString("en-US", { month: "short" }).slice(0, 3);
+               });
+
+
+               transactions.forEach((transaction) => {
+
+                    const transactionDate = new Date(transaction.transactionTime);
+                    const transactionMonth = transactionDate.getMonth();
+                    const transactionYear = transactionDate.getFullYear();
+
+
+                    const conversionRate = conversionRates[transaction.currency];
+                    const amountInUSD = transaction.amount * conversionRate;
+
+                    const monthDiff = currentMonth - transactionMonth + (currentYear - transactionYear) * 12;
+
+                    if (monthDiff >= 0 && monthDiff < 12) {
+
+                         if (transaction.transactionType === "Deposit") {
+                              depositCounts[11 - monthDiff] += amountInUSD;
+                         } else if (transaction.transactionType === "Internal Transfer") {
+                              transferCounts[11 - monthDiff] += amountInUSD;
+                         }
+                    }
+               });
+
+               var options = {
+                    chart: {
+                         height: 500,
+                         type: "bar",
+                    },
+                    colors: [
+                         "var(--theme-color2)",
+                         "var(--theme-color3)",
+                         "var(--theme-color4)",
+                    ],
+                    plotOptions: {
+                         bar: {
+                              horizontal: false,
+                              columnWidth: "55%",
+                              endingShape: "rounded",
+                         },
+                    },
+                    dataLabels: {
+                         enabled: false,
+                    },
+                    stroke: {
+                         show: true,
+                         width: 2,
+                         colors: ["transparent"],
+                    },
+                    series: [
+                         {
+                              name: "Deposits",
+                              data: depositCounts,
+                         },
+                         {
+                              name: "Internal Transfers",
+                              data: transferCounts,
+                         },
+                         {
+                              name: "Investments",
+                              data: investmentCounts,
+                         },
+                    ],
+                    xaxis: {
+                         categories: formattedLabels,
+                    },
+                    yaxis: {
+                         labels:{
+                              formatter: function(val) {
+                                   return "$ " + val.toFixed(2); // Limits the decimal places to 2 for Y-axis labels
+                              },
+                         }
+                    },
+                    fill: {
+                         opacity: 1,
+                    },
+                    tooltip: {
+                         theme: "dark",
+                         y: {
+                              formatter: function (val) {
+                                   return "$ " + val.toFixed(2);
+                              },
+                         },
+                    },
+               };
+
+
+               var chart = new ApexCharts(
+                       document.querySelector("#apex-basic-column"),
+                       options
+               );
+               chart.render();
+          });
+
+          function showFullScreen(img) {
+               const fullScreenDiv = document.createElement("div");
+               fullScreenDiv.style.position = "fixed";
+               fullScreenDiv.style.top = "0";
+               fullScreenDiv.style.left = "0";
+               fullScreenDiv.style.width = "100vw";
+               fullScreenDiv.style.height = "100vh";
+               fullScreenDiv.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+               fullScreenDiv.style.display = "flex";
+               fullScreenDiv.style.justifyContent = "center";
+               fullScreenDiv.style.alignItems = "center";
+               fullScreenDiv.style.zIndex = "99999";
+
+               const fullScreenImg = document.createElement("img");
+               fullScreenImg.src = img.src;
+               fullScreenImg.style.maxWidth = "90%";
+               fullScreenImg.style.maxHeight = "90%";
+               fullScreenImg.style.borderRadius = "10px";
+               fullScreenImg.style.boxShadow = "0 4px 10px rgba(0,0,0,0.3)";
+
+               fullScreenDiv.appendChild(fullScreenImg);
+
+               fullScreenDiv.onclick = function() {
+                    document.body.removeChild(fullScreenDiv);
+               };
+
+               document.body.appendChild(fullScreenDiv);
+          }
      </script>
+
+<!--     <script>-->
+
+<!--          const conversionRates = {-->
+<!--               EUR: 1.09,-->
+<!--               GBP: 1.30,-->
+<!--               USD: 1,-->
+<!--          };-->
+
+<!--          -->
+
+<!--          const today = new Date().getDate();-->
+
+<!--          let allDates = document.querySelectorAll('.nav-link');-->
+
+
+<!--          allDates.forEach(date => {-->
+<!--               let dateNumber = parseInt(date.textContent);-->
+
+<!--               if (dateNumber === today) {-->
+<!--                    date.classList.add('active');-->
+<!--               }-->
+<!--          });-->
+
+<!--          document.addEventListener("DOMContentLoaded", function () {-->
+<!--               // Scroll handling for .calendar-tab .nav-->
+<!--               const scrollContainer = document.querySelector(".calendar-tab .nav");-->
+<!--               if (scrollContainer) {-->
+<!--                    scrollContainer.addEventListener("wheel", (evt) => {-->
+<!--                         evt.preventDefault();-->
+<!--                         scrollContainer.scrollLeft += evt.deltaY;-->
+<!--                    });-->
+<!--               }-->
+
+<!--          });-->
+
+<!--          $(document).ready(function () {-->
+<!--               var transactions = /*[[${transactions}]]*/[];-->
+<!--               // Initialize DataTable-->
+<!--               $('.dataTable')-->
+<!--                    .dataTable({-->
+<!--                         responsive: true,-->
+
+<!--                    });-->
+
+<!--               transactions.forEach((transaction) => {-->
+
+<!--                    const transactionDate = new Date(transaction.transactionTime);-->
+<!--                    const transactionMonth = transactionDate.getMonth();-->
+<!--                    const transactionYear = transactionDate.getFullYear();-->
+
+
+<!--                    const conversionRate = conversionRates[transaction.currency];-->
+<!--                    const amountInUSD = transaction.amount * conversionRate;-->
+
+<!--                    const monthDiff = currentMonth - transactionMonth + (currentYear - transactionYear) * 12;-->
+
+<!--                    if (monthDiff >= 0 && monthDiff < 12) {-->
+
+<!--                         if (transaction.transactionType === "Deposit") {-->
+<!--                              depositCounts[11 - monthDiff] += amountInUSD;-->
+<!--                         } else if (transaction.transactionType === "Internal Transfer") {-->
+<!--                              transferCounts[11 - monthDiff] += amountInUSD;-->
+<!--                         }-->
+<!--                    }-->
+<!--               });-->
+
+
+<!--          });-->
+<!--          -->
+<!--          -->
+<!--     </script>-->
 
 
 </body>
