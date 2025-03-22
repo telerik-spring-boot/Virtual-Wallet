@@ -729,7 +729,7 @@
 							</tr>
 							</thead>
 							<tbody>
-							<tr class="row-selectable" th:each="transaction : ${transactions}">
+							<tr class="row-selectable" th:each="transaction, iterStat: ${transactions}">
 
 								<td class="border-end border-top">
                                                        <span class="d-flex align-items-center">
@@ -756,7 +756,7 @@
 								<td class="border-top">
 									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
 									   data-bs-toggle="offcanvas"
-									   th:href="'#offcanvas_trdetails_' + ${transaction.transactionId}"
+									   th:href="'#offcanvas_trdetails_' + ${iterStat.index}"
 									   title="More Action">
 										<svg aria-hidden="true" class="w-6 h-6"
 										     fill="none" viewBox="0 0 24 24"
@@ -769,7 +769,7 @@
 									</a>
 								</td>
 								<!-- start: Transection details rate -->
-								<div aria-labelledby="offcanvas_trdetails" class="offcanvas offcanvas-end" th:id="'offcanvas_trdetails_' + ${transaction.transactionId}"  tabindex="-1">
+								<div aria-labelledby="offcanvas_trdetails" class="offcanvas offcanvas-end" th:id="'offcanvas_trdetails_' + ${iterStat.index}"  tabindex="-1">
 									<div class="offcanvas-header">
 										<h5 class="offcanvas-title">Transaction Details</h5>
 										<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
