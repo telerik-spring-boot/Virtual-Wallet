@@ -100,15 +100,31 @@
                                 </div>
                             </div>
                             <hr>
+
+
                             <a type="button" class="btn me-1 btn-grey-outline w-100 mb-2"
-                               th:href="'#sideModal' + ${wallet.id}" data-bs-toggle="offcanvas" aria-expanded="false">
-                                Details
-                            </a>
-                            <a type="button" class="btn me-1 btn-grey-outline w-100"
                                th:href="@{/ui/wallets/{id}/transactions(id=${wallet.id})}"
-                                aria-expanded="false">
+                               aria-expanded="false">
+                                <i class="fa fa-history fa-lg px-3"></i>
                                 Transaction history
                             </a>
+
+
+                            <a
+                                    th:href="@{/ui/wallets/transfer}" href="send-money.html"
+                                    class="btn me-1 btn-dark w-100 mb-2"
+                            >
+                                <i class="fa fa-long-arrow-up fa-lg px-3"></i>
+                                Send
+                            </a>
+
+
+                            <a type="button" class="btn me-1 btn-grey-outline w-100"
+                               th:href="'#sideModal' + ${wallet.id}" data-bs-toggle="offcanvas" aria-expanded="false">
+                                <i class="fa fa-info-circle fa-lg px-3"></i>
+                                Details
+                            </a>
+
                         </div>
 
                     </div>
@@ -148,17 +164,18 @@
 
                                 </h6>
 
-                                    <span class="text-muted" th:text="${wallet.creator.fullName}">Send, receive, and spend money</span>
-                                    <span class="text-muted" th:if="${wallet.walletHolders.size()>1}"
-                                          style="font-style: italic !important;"> (Wallet Admin)</span>
+                                <span class="text-muted" th:text="${wallet.creator.fullName}">Send, receive, and spend money</span>
+                                <span class="text-muted" th:if="${wallet.walletHolders.size()>1}"
+                                      style="font-style: italic !important;"> (Wallet Admin)</span>
 
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <form th:action="@{/ui/wallets/{walletId}/remove(walletId=${wallet.id})}" method="get" >
-                    <div th:if="${wallet.walletHolders.size() > 1}" th:each="holder : ${wallet.walletHolders}" class="card mb-2">
+                <form th:action="@{/ui/wallets/{walletId}/remove(walletId=${wallet.id})}" method="get">
+                    <div th:if="${wallet.walletHolders.size() > 1}" th:each="holder : ${wallet.walletHolders}"
+                         class="card mb-2">
                         <div class="card-body" th:if="${holder.username != wallet.creator.username}">
                             <div class="d-flex align-items-center">
                                 <div class="avatar rounded-circle no-thumbnail">
@@ -174,7 +191,7 @@
                                 <div class="ms-auto form-check"
                                      th:if="${holder.username != wallet.creator.username and loggedUsername == wallet.creator.username}">
                                     <input class="form-check-input" type="radio" th:name="username"
-                                           th:value="${holder.username}" id="radio_${holder.username}" required />
+                                           th:value="${holder.username}" id="radio_${holder.username}" required/>
                                 </div>
                             </div>
                         </div>
@@ -186,8 +203,6 @@
                 </form>
 
 
-
-
             </div>
             <div th:if="${loggedUsername == wallet.creator.username}" class="mb-4 p-3 bg-light">
                 <h6 class="text-muted mb-0">Add User to Wallet</h6>
@@ -195,12 +210,12 @@
 
             <!-- Form to submit the username -->
 
-            <form th:if="${loggedUsername == wallet.creator.username}" th:action="@{/ui/wallets/{walletId}/add(walletId=${wallet.id})}" method="post" class="px-3">
-                    <input type="text" name="username" class="form-control me-2" placeholder="Enter username" required />
+            <form th:if="${loggedUsername == wallet.creator.username}"
+                  th:action="@{/ui/wallets/{walletId}/add(walletId=${wallet.id})}" method="post" class="px-3">
+                <input type="text" name="username" class="form-control me-2" placeholder="Enter username" required/>
                 <br>
-                    <button type="submit" class="btn w-100 py-2 btn-dark">Add to Wallet</button>
-                </form>
-
+                <button type="submit" class="btn w-100 py-2 btn-dark">Add to Wallet</button>
+            </form>
 
 
         </div>
@@ -266,7 +281,8 @@
     </div>
     <div class="toast-body mt-2 ps-0">
         <ul class="mb-0">
-            <li th:text="'User ' + ${removalSuccess} + ' successfully removed from wallet.'"> User added successfully.</li>
+            <li th:text="'User ' + ${removalSuccess} + ' successfully removed from wallet.'"> User added successfully.
+            </li>
         </ul>
     </div>
 </div>
