@@ -215,8 +215,7 @@ public class WalletMvcController {
                                        @Valid @ModelAttribute("IBANInput")
                                        TransactionMVCIBANCreateDTO dto,
                                        BindingResult bindingResult,
-                                       HttpServletRequest request,
-                                       RedirectAttributes redirectAttributes) {
+                                       HttpServletRequest request) {
 
 
         if (bindingResult.hasErrors()) {
@@ -233,7 +232,7 @@ public class WalletMvcController {
             model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
             addAllUserWalletsToModel(authentication, model);
 
-            redirectAttributes.addFlashAttribute("wrongIBAN", true);
+            model.addAttribute("wrongIBAN", true);
             return "transfer-make";
         }
         try {

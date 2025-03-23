@@ -407,6 +407,20 @@
                             </ul>
                         </div>
 
+                        <div class="d-flex justify-content-center">
+                            <a id="usersTab" class="btn btn-outline-primary rounded-pill me-2"
+                            th:href="@{/ui/users/transactions}"
+                               th:classappend="${activeTab == 'all' ? 'active' : ''}"> All Transactions</a>
+
+                            <a id="transfersTab" class="btn btn-outline-info rounded-pill ms-2 info-btn"
+                               th:href="@{/ui/users/transactions/incoming}"
+                               th:classappend="${activeTab == 'in' ? 'active' : ''}"> Incoming </a>
+
+                            <a id="investmentsTab" class="btn btn-outline-warning rounded-pill ms-2 inv-btn"
+                               th:href="@{/ui/users/transactions/outgoing}"
+                               th:classappend="${activeTab == 'out' ? 'active' : ''}"> Outgoing </a>
+                        </div>
+
 
                         <table id="transfersTable"
                                class="table align-middle table-hover dataTable table-body table-responsive w-100 border rounded-4">
@@ -423,7 +437,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr class="row-selectable" th:each="transaction,iterStat : ${transactions}">
+                            <tr class="row-selectable"  th:each="transaction,iterStat : ${transactions}"
+                                >
 
                                 <td class="border-end border-top">
                                                        <span class="d-flex align-items-center">

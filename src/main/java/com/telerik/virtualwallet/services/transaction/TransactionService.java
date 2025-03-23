@@ -16,6 +16,10 @@ public interface TransactionService {
 
     List<Transaction> getTransactionsByUsername(String username);
 
+    List<Transaction> getIncomingTransactionsByUsername(String username);
+
+    List<Transaction> getOutgoingTransactionsByUsername(String username);
+
     Transaction getTransactionById(int id);
 
     Page<Transaction> getTransactionsByWalletId(FilterTransactionsOptions options, Pageable pageable, int walletId);

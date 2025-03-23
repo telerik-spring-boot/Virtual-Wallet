@@ -149,6 +149,37 @@ public class UserMvcController {
                 .stream().map(transactionMapper::transferToTransactionWrapper).toList());
 
         model.addAttribute("transactions", transactions);
+        model.addAttribute("activeTab","all");
+
+        return "transaction";
+    }
+
+    @GetMapping("/transactions/incoming")
+    public String getIncomingTransactions(Authentication authentication, Model model) {
+
+        List<TransactionsWrapper> transactions =
+                new ArrayList<>(transactionService.getIncomingTransactionsByUsername(authentication.getName())
+                        .stream().map(transactionMapper::transactionToTransactionWrapper).toList());
+
+
+        transactions.addAll(transferService.getAllTransfersToYourWalletsByUsername(authentication.getName())
+                .stream().map(transactionMapper::transferToTransactionWrapper).toList());
+
+        model.addAttribute("transactions", transactions);
+        model.addAttribute("activeTab","in");
+
+        return "transaction";
+    }
+
+    @GetMapping("/transactions/outgoing")
+    public String getOutgoingTransactions(Authentication authentication, Model model) {
+
+        List<TransactionsWrapper> transactions =
+                new ArrayList<>(transactionService.getOutgoingTransactionsByUsername(authentication.getName())
+                        .stream().map(transactionMapper::transactionToTransactionWrapper).toList());
+
+        model.addAttribute("transactions", transactions);
+        model.addAttribute("activeTab","out");
 
         return "transaction";
     }

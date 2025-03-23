@@ -59,6 +59,18 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public List<Transaction> getIncomingTransactionsByUsername(String username) {
+
+        return transactionRepository.getIncomingTransactionsWithWalletsByUsername(username);
+    }
+
+    @Override
+    public List<Transaction> getOutgoingTransactionsByUsername(String username) {
+
+        return transactionRepository.getOutgoingTransactionsWithWalletsByUsername(username);
+    }
+
+    @Override
     public Transaction getTransactionById(int id) {
 
         Transaction transaction = transactionRepository.getTransactionWithWalletsById(id);
