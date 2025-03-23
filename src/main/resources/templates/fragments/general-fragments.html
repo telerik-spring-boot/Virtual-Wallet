@@ -1029,11 +1029,12 @@
             let country2 = document.getElementById('country');
             let nestedElementTwo = country2.querySelector('.dynamic-select-selected');
             let nestedElementValueTwo = nestedElementTwo.querySelector('.dynamic-select-option-text').textContent.trim();
-
+            let rate = document.getElementById('rate');
             if(nestedElementValue !== nestedElementValueTwo) {
-                let rate = document.getElementById('rate');
 
                 rate.textContent= exchangeRates[nestedElementValue + '/' + nestedElementValueTwo].toFixed(2);
+            }else{
+                rate.textContent='1.00';
             }
 
         }
