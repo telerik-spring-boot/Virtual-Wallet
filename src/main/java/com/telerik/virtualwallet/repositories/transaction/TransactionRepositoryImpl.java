@@ -67,6 +67,101 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     @Override
+    public List<Transaction> getIncomingTransactionsWithWalletsByUsername(String username) {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Transaction> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transaction t " +
+                                    "JOIN FETCH t.senderWallet sw " +
+                                    "JOIN FETCH sw.users s " +
+                                    "JOIN FETCH t.receiverWallet rw " +
+                                    "JOIN FETCH rw.users r " +
+                                    "WHERE  r.username = :username",
+                            Transaction.class);
+
+            query.setParameter("username", username);
+
+            return query.list();
+        }
+    }
+
+    @Override
+    public List<Transaction> getOutgoingTransactionsWithWalletsByUsername(String username) {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Transaction> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transaction t " +
+                                    "JOIN FETCH t.senderWallet sw " +
+                                    "JOIN FETCH sw.users s " +
+                                    "JOIN FETCH t.receiverWallet rw " +
+                                    "JOIN FETCH rw.users r " +
+                                    "WHERE s.username = :username",
+                            Transaction.class);
+
+            query.setParameter("username", username);
+
+            return query.list();
+        }
+    }
+
+    @Override
+    public List<Transaction> getAllTransactionsWithWalletsByWalletId(int walletId) {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Transaction> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transaction t " +
+                                    "JOIN FETCH t.senderWallet sw " +
+                                    "JOIN FETCH sw.users s " +
+                                    "JOIN FETCH t.receiverWallet rw " +
+                                    "JOIN FETCH rw.users r " +
+                                    "WHERE (sw.id = :walletId OR rw.id = :walletId)",
+                            Transaction.class);
+
+            query.setParameter("walletId", walletId);
+
+            return query.list();
+        }
+    }
+
+    @Override
+    public List<Transaction> getIncomingTransactionsWithWalletsByWalletId(int walletId) {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Transaction> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transaction t " +
+                                    "JOIN FETCH t.senderWallet sw " +
+                                    "JOIN FETCH sw.users s " +
+                                    "JOIN FETCH t.receiverWallet rw " +
+                                    "JOIN FETCH rw.users r " +
+                                    "WHERE  rw.id = :walletId",
+                            Transaction.class);
+
+            query.setParameter("walletId", walletId);
+
+            return query.list();
+        }
+    }
+
+    @Override
+    public List<Transaction> getOutgoingTransactionsWithWalletsByWalletId(int walletId) {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Transaction> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transaction t " +
+                                    "JOIN FETCH t.senderWallet sw " +
+                                    "JOIN FETCH sw.users s " +
+                                    "JOIN FETCH t.receiverWallet rw " +
+                                    "JOIN FETCH rw.users r " +
+                                    "WHERE sw.id = :walletId",
+                            Transaction.class);
+
+            query.setParameter("walletId", walletId);
+
+            return query.list();
+        }
+    }
+
+    @Override
     public Page<Transaction> getAllTransactionsWithWallets(FilterTransactionsOptions options, Pageable pageable) {
 
         return getTransactionsWithFiltersHelper(options, pageable, -1,"");

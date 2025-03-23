@@ -409,15 +409,15 @@
 
                         <div class="d-flex justify-content-center">
                             <a id="usersTab" class="btn btn-outline-primary rounded-pill me-2"
-                            th:href="@{/ui/users/transactions}"
+                               th:href="@{/ui/wallets/{id}/transactions(id=${walletId})}"
                                th:classappend="${activeTab == 'all' ? 'active' : ''}"> All Transactions</a>
 
                             <a id="transfersTab" class="btn btn-outline-info rounded-pill ms-2 info-btn"
-                               th:href="@{/ui/users/transactions/incoming}"
+                               th:href="@{/ui/wallets/{id}/transactions/incoming(id=${walletId})}"
                                th:classappend="${activeTab == 'in' ? 'active' : ''}"> Incoming </a>
 
                             <a id="investmentsTab" class="btn btn-outline-warning rounded-pill ms-2 inv-btn"
-                               th:href="@{/ui/users/transactions/outgoing}"
+                               th:href="@{/ui/wallets/{id}/transactions/outgoing(id=${walletId})}"
                                th:classappend="${activeTab == 'out' ? 'active' : ''}"> Outgoing </a>
                         </div>
 
@@ -438,7 +438,7 @@
                             </thead>
                             <tbody>
                             <tr class="row-selectable"  th:each="transaction,iterStat : ${transactions}"
-                                >
+                            >
 
                                 <td class="border-end border-top">
                                                        <span class="d-flex align-items-center">

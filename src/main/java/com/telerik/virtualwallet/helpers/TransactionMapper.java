@@ -145,7 +145,7 @@ public class TransactionMapper {
 
         transactionsWrapper.setTransactionId(transaction.getId());
         transactionsWrapper.setAmount(transaction.getAmount());
-        transactionsWrapper.setCurrency(transaction.getReceiverWallet().getCurrency());
+        transactionsWrapper.setCurrency(transaction.getSenderWallet().getCurrency());
         transactionsWrapper.setReceivers(String.join(", ", transaction.getReceiverWallet().getUsers().stream()
                 .map(User::getUsername)
                 .toList()));

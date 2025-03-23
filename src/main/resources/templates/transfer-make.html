@@ -221,7 +221,8 @@
 
                                         <!-- Button -->
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-dark w-100">Proceed to confirmation
+                                            <button type="submit" class="btn btn-dark w-100" id="usernameSubmit"
+                                            >Proceed to confirmation
                                             </button>
                                         </div>
                                         <div class="text-center mt-2">
@@ -233,13 +234,18 @@
                                     </fieldset>
                                 </form>
                             </div>
+
+
+
+
                             <!-- Wallet ID-->
                             <div class="mt-3 w-100" id="walletsForm">
-                                <form class="form-horizontal">
+                                <form class="form-horizontal" id="validateForm2" action="#" method="get"
+                                      th:action="@{/ui/wallets/transfer/by_IBAN/confirmation}">
                                     <fieldset>
 
                                         <div class="mb-3">
-                                            <label for="walletId" class="form-label"
+                                            <label for="IBAN" class="form-label"
                                             >Wallet IBAN </label
                                             >
                                             <div class="input-group form-control p-0">
@@ -247,27 +253,39 @@
                                                 <input
                                                         type="text"
                                                         class="form-control border-0 remove-pseudo"
-                                                        id="walletId"
                                                         required=""
-                                                        maxlength="4"
-                                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                                        id="IBAN"
+                                                        maxlength="30"
+                                                        th:field="${IBANInput.IBAN}"
+                                                        th:classappend="${#fields.hasErrors('IBANInput.IBAN') ? 'is-invalid' : (formSubmitted != null ? 'is-valid' : '')}"
+                                                        th:title="${#fields.errors('IBANInput.IBAN')}"
+
                                                 >
                                             </div>
                                         </div>
                                         <!-- Card Holder-->
-                                        <div class="mb-3">
-                                            <label for="amount" class="form-label"
-                                            >Amount </label
-                                            >
+                                        <div class="mb-3 ">
+                                            <div class="d-flex justify-content-between">
+                                                <label for="amountUser" class="form-label"
+                                                >Amount </label
+                                                >
+                                                <p class="text-muted">Current balance:
+                                                    <span id="selectedWalletText2">  N/A</span>
+                                                    <span id="selectedWalletBalance2">N/A</span>
+                                                </p>
+                                            </div>
                                             <div class="input-group form-control p-0">
 
                                                 <input
                                                         type="text"
                                                         class="form-control border-0 remove-pseudo"
-                                                        id="amount"
                                                         required=""
+                                                        id="amountUser2"
                                                         maxlength="8"
                                                         oninput="this.value = validateAmount(this.value)"
+                                                        th:field="${IBANInput.amount}"
+                                                        th:classappend="${#fields.hasErrors('IBANInput.amount') ? 'is-invalid' : (formSubmitted != null ? 'is-valid' : '')}"
+                                                        th:title="${#fields.errors('IBANInput.amount')}"
                                                 >
                                             </div>
                                         </div>
@@ -293,18 +311,13 @@
 
                                         <!-- Card Number-->
                                         <div class="mb-3">
-                                            <label for="number" class="form-label">Select Wallet</label>
+                                            <label for="numberWallet" class="form-label">Select Wallet to send from</label>
                                             <div class="input-group form-control p-0">
-                                                <select class="form-control border-0 remove-pseudo" id="number"
+                                                <select class="form-control border-0 remove-pseudo" id="numberWallet2"
                                                         name="walletId" required>
-                                                    <option value="4111111111111111">Wallet 1 (USD) - 4111 1111 1111
-                                                        1111
-                                                    </option>
-                                                    <option value="5500000000000004">Wallet 2 (EUR) - 5500 0000 0000
-                                                        0004
-                                                    </option>
-                                                    <option value="340000000000009">Wallet 3 (USD) - 3400 0000 0000
-                                                        009
+                                                    <option th:each="wallet : ${wallets}"
+                                                            th:value="${wallet.id}"
+                                                            th:text="'IBAN33YNPAY68477732491843244' + ${wallet.id}">
                                                     </option>
                                                 </select>
                                             </div>
@@ -313,8 +326,9 @@
 
                                         <!-- Button -->
                                         <div class="form-group">
-                                            <a href="sign-in.html" class="btn btn-dark w-100">Confirm transfer
-                                            </a>
+                                            <button type="submit" class="btn btn-dark w-100" id="IBANSubmit"
+                                            >Proceed to confirmation
+                                            </button>
                                         </div>
                                         <div class="text-center mt-2">
                                             <span class="text-muted">By confirming transfer, you agree to our Terms and Conditions.</span>
@@ -334,6 +348,22 @@
         </div>
     </div>
 </main>
+
+<!-- Success Toast Notification -->
+<div id="wrongIBAN" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+     role="alert" aria-live="assertive" aria-atomic="true"
+     th:if="${wrongIBAN}" style="z-index: 1050;">
+    <div class="toast-header bg-danger rounded-2 text-white">
+        <strong class="text-end">Error</strong>
+        <button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+    </div>
+    <div class="toast-body mt-2 ps-0">
+        <ul class="mb-0">
+            <li th:text="${wrongIBAN}+'test'"> User added successfully.</li>
+        </ul>
+    </div>
+</div>
 <footer class="w-100 bg-body position-fixed bottom-0">
     <div class="container-fluid">
         <div class="d-flex align-items-center">
@@ -394,6 +424,46 @@
 
 <script th:inline="javascript">
     document.addEventListener("DOMContentLoaded", function () {
+        let dropdown2 = document.getElementById("numberWallet2");
+        let selectedText2 = document.getElementById("selectedWalletText2");
+
+        // ✅ Inject wallets data properly as a JSON object in JavaScript
+        let wallets = /*[[${wallets}]]*/ [];
+
+
+        // ✅ Define a map of currency codes to their symbols
+        const currencySymbols = {
+            "EUR": "€",
+            "USD": "$",
+            "GBP": "£"
+
+        };
+
+        function updateCurrency() {
+            let selectedWalletId2 = dropdown2.value; // Get selected wallet ID
+
+            // ✅ Ensure wallet.id is a string for comparison
+            let selectedWallet2 = wallets.find(wallet => wallet.id.toString() === selectedWalletId2);
+
+            if (selectedWallet2) {
+                // ✅ Get the currency symbol, fallback to currency code if not found
+                let symbol = currencySymbols[selectedWallet2.currency] || selectedWallet2.currency;
+                selectedText2.textContent = symbol;
+            } else {
+                selectedText2.textContent = "N/A";
+            }
+        }
+
+        // ✅ Set initial value on page load
+        updateCurrency();
+
+        // ✅ Update currency when dropdown selection changes
+        dropdown2.addEventListener("change", updateCurrency);
+    });
+</script>
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
         let dropdown = document.getElementById("numberWallet");
         let selectedBalanceText = document.getElementById("selectedWalletBalance");
 
@@ -416,6 +486,33 @@
 
         // ✅ Update balance when dropdown selection changes
         dropdown.addEventListener("change", updateBalance);
+    });
+</script>
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        let dropdown2 = document.getElementById("numberWallet2");
+        let selectedBalanceText2 = document.getElementById("selectedWalletBalance2");
+
+        // ✅ Inject wallets data properly as a JSON object in JavaScript
+        let wallets = /*[[${wallets}]]*/ [];
+
+
+        function updateBalance() {
+            let selectedWalletId2 = dropdown2.value; // Get selected wallet ID
+
+            // ✅ Ensure wallet.id is a string for comparison
+            let selectedWallet2 = wallets.find(wallet => wallet.id.toString() === selectedWalletId2);
+
+            // ✅ Update the text with the correct balance
+            selectedBalanceText2.textContent = selectedWallet2 ? selectedWallet2.balance.toFixed(2) : "N/A";
+        }
+
+        // ✅ Set initial value on page load
+        updateBalance();
+
+        // ✅ Update balance when dropdown selection changes
+        dropdown2.addEventListener("change", updateBalance);
     });
 </script>
 
@@ -545,7 +642,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         const amountInput = document.getElementById("amountUser");
         const balanceDisplay = document.getElementById("selectedWalletBalance");
-        const submitButton = document.querySelector("button[type='submit']");
+        const submitButton = document.getElementById("usernameSubmit"); // Use button's id here
         const walletDropdown = document.getElementById("numberWallet");
 
         function updateButtonState() {
@@ -567,6 +664,53 @@
         updateButtonState();
     });
 </script>
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const amountInput2 = document.getElementById("amountUser2");
+        const balanceDisplay2 = document.getElementById("selectedWalletBalance2");
+        const submitButton2 = document.getElementById("IBANSubmit"); // Use button's id here
+        const walletDropdown2 = document.getElementById("numberWallet2");
+
+        function updateButtonState() {
+            let balance = parseFloat(balanceDisplay2.textContent) || 0; // Get selected wallet balance
+            let amount = parseFloat(amountInput2.value) || 0; // Get entered amount
+
+            // Disable button if amount > balance OR amount <= 0
+            submitButton2.disabled = amount > balance || amount <= 0;
+        }
+
+        // Listen for changes in both the amount input and the wallet selection
+        amountInput2.addEventListener("input", updateButtonState);
+        walletDropdown2.addEventListener("change", function () {
+            // Wait a moment to ensure balance is updated before checking
+            setTimeout(updateButtonState, 100);
+        });
+
+        // Run on page load in case there's a pre-filled amount
+        updateButtonState();
+    });
+</script>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+
+
+        let wrongIBAN = document.getElementById('wrongIBAN');
+        if (wrongIBAN) {
+            let toast = new bootstrap.Toast(wrongIBAN, {delay: 5000});
+            toast.show();
+        }
+
+
+    });
+
+
+</script>
+
 
 
 
