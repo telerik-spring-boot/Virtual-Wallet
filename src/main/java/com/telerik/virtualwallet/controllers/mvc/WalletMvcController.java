@@ -3,11 +3,11 @@ package com.telerik.virtualwallet.controllers.mvc;
 import com.telerik.virtualwallet.exceptions.*;
 import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.WalletMapper;
+import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionConfirmationMVCCreateDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionMVCUsernamePhoneCreateDTO;
-import com.telerik.virtualwallet.models.dtos.wallet.CardTransferCreateDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletCreateDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletMvcDisplayDTO;
 import com.telerik.virtualwallet.models.enums.Currency;
@@ -131,6 +131,7 @@ public class WalletMvcController {
         return "transfer-make";
     }
 
+    @PreAuthorize("@walletSecurityService.isUserWalletCreator(#walletId, authentication.name)")
     @GetMapping("/transfer/by_username/confirmation")
     public String handleTransferByUsername(Model model, @RequestParam("walletId") int walletId,
                                            Authentication authentication,
@@ -139,7 +140,7 @@ public class WalletMvcController {
                                            BindingResult bindingResult,
                                            HttpServletRequest request) {
 
-        model.addAttribute("formSubmitted", true);
+//        model.addAttribute("formSubmitted", true);
 
         if (bindingResult.hasErrors()) {
             return "transfer-make";
@@ -160,9 +161,48 @@ public class WalletMvcController {
             return "transfer-confirmation";
 
         } catch (EntityNotFoundException e) {
+
+            bindingResult.rejectValue("usernameOrPhone", "card.number", e.getMessage());
+
+            addAllUserWalletsToModel(authentication, model);
+
+            return "transfer-make";
         }
 
-        return "redirect:/ui/wallets/transfer/confirmation";
+
+    }
+
+    @PostMapping("/transfer/by_username/confirmation")
+    public String handleTransferByUsernamePost(Model model,
+                                               Authentication authentication,
+                                               @Valid @ModelAttribute("confirmation")
+                                               TransactionConfirmationMVCCreateDTO confirmation,
+                                               BindingResult bindingResult,
+                                               RedirectAttributes redirectAttributes) {
+
+        model.addAttribute("formSubmitted", true);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("transactionCategories", TransactionCategoryEnum.values());
+            return "transfer-confirmation";
+        }
+        try {
+
+            Transaction transaction = transactionMapper.mvcDtoToTransaction(confirmation,authentication.getName());
+
+            transactionService.makeTransactionMVC(transaction, confirmation.getReceivedAmount());
+
+            return "redirect:/ui/users/dashboard";
+
+        } catch (InsufficientFundsException e) {
+            bindingResult.rejectValue("sentAmount", "card.number", e.getMessage());
+
+            redirectAttributes.addFlashAttribute("insufficientFunds", true);
+            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
+            addAllUserWalletsToModel(authentication, model);
+
+            return "transfer-confirmation";
+        }
 
     }
 

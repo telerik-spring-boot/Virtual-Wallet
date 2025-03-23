@@ -9,4 +9,6 @@ public interface TransactionCategoryRepository {
     List<TransactionCategory> getTransactionCategories();
 
     TransactionCategory getTransactionCategory(int id);
+
+    TransactionCategory getTransactionCategoryByName(String name);
 }

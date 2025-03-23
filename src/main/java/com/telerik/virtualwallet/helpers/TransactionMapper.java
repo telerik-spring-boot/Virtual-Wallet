@@ -84,6 +84,21 @@ public class TransactionMapper {
 
     }
 
+    public Transaction mvcDtoToTransaction(TransactionConfirmationMVCCreateDTO dto,String usernameSender) {
+        Transaction transaction = new Transaction();
+
+        transaction.setAmount(dto.getSentAmount());
+        transaction.setMessage(dto.getMessage());
+        transaction.setUserSender(userService.getByUsername(usernameSender));
+
+        transaction.setSenderWallet(walletService.getWalletById(dto.getWalletSenderId()));
+        transaction.setReceiverWallet(walletService.getWalletById(dto.getWalletReceiverId()));
+
+        transaction.setTransactionCategory(transactionCategoryService.getTransactionCategoryByName(dto.getTransactionCategory()));
+
+        return transaction;
+    }
+
     public TransferDisplayDTO transferToTransferDisplayDTO(Transfer transfer) {
         TransferDisplayDTO transferDisplayDTO = new TransferDisplayDTO();
 

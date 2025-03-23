@@ -30,8 +30,7 @@ public class TransactionConfirmationMVCCreateDTO {
     private String receiverCurrency;
 
     @NotNull(message = "Transaction category ID cannot be null.")
-    @Positive(message = "Transaction category ID must be greater than zero.")
-    private int transactionCategoryId;
+    private String transactionCategory;
 
     @NotBlank(message = "Message cannot be empty")
     @Size(min = 2, max = 50, message = "Message must be between 2 and 50 characters")
@@ -40,7 +39,7 @@ public class TransactionConfirmationMVCCreateDTO {
     public TransactionConfirmationMVCCreateDTO() {
     }
 
-    public TransactionConfirmationMVCCreateDTO(int walletReceiverId, int walletSenderId, String receiverFullName, BigDecimal sentAmount, BigDecimal receivedAmount, String senderCurrency, String receiverCurrency, int transactionCategoryId, String message) {
+    public TransactionConfirmationMVCCreateDTO(int walletReceiverId, int walletSenderId, String receiverFullName, BigDecimal sentAmount, BigDecimal receivedAmount, String senderCurrency, String receiverCurrency, String transactionCategory, String message) {
         this.walletReceiverId = walletReceiverId;
         this.walletSenderId = walletSenderId;
         this.receiverFullName = receiverFullName;
@@ -48,7 +47,7 @@ public class TransactionConfirmationMVCCreateDTO {
         this.receivedAmount = receivedAmount;
         this.senderCurrency = senderCurrency;
         this.receiverCurrency = receiverCurrency;
-        this.transactionCategoryId = transactionCategoryId;
+        this.transactionCategory = transactionCategory;
         this.message = message;
     }
 
@@ -84,12 +83,12 @@ public class TransactionConfirmationMVCCreateDTO {
         this.senderCurrency = senderCurrency;
     }
 
-    public int getTransactionCategoryId() {
-        return transactionCategoryId;
+    public String getTransactionCategory() {
+        return transactionCategory;
     }
 
-    public void setTransactionCategoryId(int transactionCategoryId) {
-        this.transactionCategoryId = transactionCategoryId;
+    public void setTransactionCategory(String transactionCategory) {
+        this.transactionCategory = transactionCategory;
     }
 
     public String getMessage() {

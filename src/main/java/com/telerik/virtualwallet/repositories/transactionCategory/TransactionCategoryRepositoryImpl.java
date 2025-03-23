@@ -37,4 +37,22 @@ public class TransactionCategoryRepositoryImpl implements TransactionCategoryRep
         }
 
     }
+
+    @Override
+    public TransactionCategory getTransactionCategoryByName(String name) {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<TransactionCategory> query = session.createQuery
+                    ("SELECT DISTINCT t FROM TransactionCategory t " +
+                                    "WHERE t.name = :name",
+                            TransactionCategory.class);
+            query.setParameter("name", name);
+
+            return query.uniqueResult();
+
+
+        }
+    }
+
+
 }

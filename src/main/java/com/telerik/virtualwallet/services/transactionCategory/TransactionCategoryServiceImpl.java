@@ -33,4 +33,15 @@ public class TransactionCategoryServiceImpl implements TransactionCategoryServic
 
         return transactionCategory;
     }
+
+    @Override
+    public TransactionCategory getTransactionCategoryByName(String name) {
+        TransactionCategory transactionCategory = transactionCategoryRepository.getTransactionCategoryByName(name);
+
+        if (transactionCategory == null) {
+            throw new EntityNotFoundException("Transaction category", "name", name);
+        }
+
+        return transactionCategory;
+    }
 }

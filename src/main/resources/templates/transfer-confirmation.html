@@ -211,7 +211,7 @@
                       <label for="number" class="form-label">Reason for payment</label>
                       <div class="input-group form-control p-0">
                         <select class="form-control border-0 remove-pseudo" id="number"
-                                name="category" required>
+                                th:field="${confirmation.transactionCategory}" required>
                           <option th:each="category : ${transactionCategories}"
                                   th:value="${category}"
                                   th:text="${category}">
@@ -240,10 +240,18 @@
                       </div>
                     </div>
 
+                    <input type="hidden" name="walletSenderId" th:value="${confirmation.walletSenderId}" />
+                    <input type="hidden" name="walletReceiverId" th:value="${confirmation.walletReceiverId}" />
+                    <input type="hidden" name="receiverFullName" th:value="${confirmation.receiverFullName}" />
+                    <input type="hidden" name="senderCurrency" th:value="${confirmation.senderCurrency}" />
+                    <input type="hidden" name="receiverCurrency" th:value="${confirmation.receiverCurrency}" />
+                    <input type="hidden" name="sentAmount" th:value="${confirmation.sentAmount}" />
+                    <input type="hidden" name="receivedAmount" th:value="${confirmation.receivedAmount}" />
+
                     <!-- Button -->
                     <div class="form-group">
-                      <a href="sign-in.html" class="btn btn-dark w-100">Send Transfer
-                      </a>
+                      <button type="submit" class="btn btn-dark w-100">Send Transfer
+                      </button>
                     </div>
                     <div class="text-center mt-2">
                       <span class="text-muted">This action cannot be reverted!</span>

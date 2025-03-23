@@ -423,6 +423,9 @@
 
 
 
+
+
+
 <script>
     $(document).ready(function () {
         $('#password').on('input', function () {
@@ -537,6 +540,35 @@
         });
     });
 </script>
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const amountInput = document.getElementById("amountUser");
+        const balanceDisplay = document.getElementById("selectedWalletBalance");
+        const submitButton = document.querySelector("button[type='submit']");
+        const walletDropdown = document.getElementById("numberWallet");
+
+        function updateButtonState() {
+            let balance = parseFloat(balanceDisplay.textContent) || 0; // Get selected wallet balance
+            let amount = parseFloat(amountInput.value) || 0; // Get entered amount
+
+            // Disable button if amount > balance OR amount <= 0
+            submitButton.disabled = amount > balance || amount <= 0;
+        }
+
+        // Listen for changes in both the amount input and the wallet selection
+        amountInput.addEventListener("input", updateButtonState);
+        walletDropdown.addEventListener("change", function () {
+            // Wait a moment to ensure balance is updated before checking
+            setTimeout(updateButtonState, 100);
+        });
+
+        // Run on page load in case there's a pre-filled amount
+        updateButtonState();
+    });
+</script>
+
+
 
 
 </body>

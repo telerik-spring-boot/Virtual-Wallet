@@ -106,6 +106,27 @@ public class TransactionServiceImpl implements TransactionService {
 
     }
 
+    @Transactional
+    @Override
+    public void makeTransactionMVC(Transaction transaction, BigDecimal receivedAmount) {
+
+        BigDecimal senderBalanceBefore = transaction.getSenderWallet().getBalance();
+        BigDecimal receiverBalanceBefore = transaction.getReceiverWallet().getBalance();
+
+        if (transaction.getAmount().compareTo(senderBalanceBefore) > 0) {
+            throw new InsufficientFundsException(INSUFFICIENT_BALANCE_MESSAGE);
+        }
+
+        transaction.getSenderWallet().setBalance(senderBalanceBefore.subtract(transaction.getAmount()));
+        transaction.getReceiverWallet().setBalance(receiverBalanceBefore.add(receivedAmount));
+
+        walletRepository.updateWallet(transaction.getSenderWallet());
+        walletRepository.updateWallet(transaction.getReceiverWallet());
+
+        transactionRepository.createTransaction(transaction);
+
+    }
+
     public static void pageableHelper(Pageable pageable) {
         Sort.Order sortOrder = pageable.getSort().iterator().next();
 
