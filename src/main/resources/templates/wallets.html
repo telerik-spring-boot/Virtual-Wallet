@@ -111,11 +111,11 @@
 
 
                             <a
-                                    th:href="@{/ui/wallets/transfer}" href="send-money.html"
+                                    th:href="@{/ui/wallets/{id}/top-up(id=${wallet.id})}"
                                     class="btn me-1 btn-dark w-100 mb-2"
                             >
                                 <i class="fa fa-long-arrow-up fa-lg px-3"></i>
-                                Send
+                                Top-up
                             </a>
 
 
