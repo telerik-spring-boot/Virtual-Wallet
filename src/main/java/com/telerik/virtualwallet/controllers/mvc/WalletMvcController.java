@@ -9,11 +9,13 @@ import com.telerik.virtualwallet.models.Wallet;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionConfirmationMVCCreateDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionMVCIBANCreateDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionMVCUsernamePhoneCreateDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransactionsWrapper;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletCreateDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletMvcDisplayDTO;
 import com.telerik.virtualwallet.models.enums.Currency;
 import com.telerik.virtualwallet.models.enums.TransactionCategoryEnum;
 import com.telerik.virtualwallet.services.transaction.TransactionService;
+import com.telerik.virtualwallet.services.transaction.TransferService;
 import com.telerik.virtualwallet.services.user.UserService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +29,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.telerik.virtualwallet.controllers.mvc.UserMvcController.populateIsAdminAttribute;
@@ -41,14 +44,16 @@ public class WalletMvcController {
     private final UserService userService;
     private final TransactionService transactionService;
     private final TransactionMapper transactionMapper;
+    private final TransferService transferService;
 
     @Autowired
-    public WalletMvcController(WalletService walletService, WalletMapper walletMapper, UserService userService, TransactionService transactionService, TransactionMapper transactionMapper) {
+    public WalletMvcController(WalletService walletService, WalletMapper walletMapper, UserService userService, TransactionService transactionService, TransactionMapper transactionMapper, TransferService transferService) {
         this.walletService = walletService;
         this.walletMapper = walletMapper;
         this.userService = userService;
         this.transactionService = transactionService;
         this.transactionMapper = transactionMapper;
+        this.transferService = transferService;
     }
 
     @ModelAttribute("isAdmin")
@@ -134,7 +139,7 @@ public class WalletMvcController {
         return "transfer-make";
     }
 
-    @PreAuthorize("@walletSecurityService.isUserWalletCreator(#walletId, authentication.name)")
+    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
     @GetMapping("/transfer/by_username/confirmation")
     public String handleTransferByUsername(Model model, @RequestParam("walletId") int walletId,
                                            Authentication authentication,
@@ -208,7 +213,7 @@ public class WalletMvcController {
 
     }
 
-    @PreAuthorize("@walletSecurityService.isUserWalletCreator(#walletId, authentication.name)")
+    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
     @GetMapping("/transfer/by_IBAN/confirmation")
     public String handleTransferByIBAN(Model model, @RequestParam("walletId") int walletId,
                                        Authentication authentication,
@@ -265,11 +270,11 @@ public class WalletMvcController {
 
     @PostMapping("/transfer/by_IBAN/confirmation")
     public String handleTransferByIBANPost(Model model,
-                                               Authentication authentication,
-                                               @Valid @ModelAttribute("confirmation")
-                                               TransactionConfirmationMVCCreateDTO confirmation,
-                                               BindingResult bindingResult,
-                                               RedirectAttributes redirectAttributes) {
+                                           Authentication authentication,
+                                           @Valid @ModelAttribute("confirmation")
+                                           TransactionConfirmationMVCCreateDTO confirmation,
+                                           BindingResult bindingResult,
+                                           RedirectAttributes redirectAttributes) {
 
         model.addAttribute("formSubmitted", true);
 
@@ -295,6 +300,59 @@ public class WalletMvcController {
             return "transfer-confirmation";
         }
 
+    }
+
+    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    @GetMapping("/{walletId}/transactions")
+    public String getTransactions(@PathVariable int walletId, Authentication authentication, Model model) {
+
+        List<TransactionsWrapper> transactions =
+                new ArrayList<>(transactionService.getTransactionsByWalletId(walletId)
+                        .stream().map(transactionMapper::transactionToTransactionWrapper).toList());
+
+
+        transactions.addAll(transferService.getAllTransfersToYourWalletsByUsername(authentication.getName())
+                .stream().map(transactionMapper::transferToTransactionWrapper).toList());
+
+        model.addAttribute("walletId", walletId);
+        model.addAttribute("transactions", transactions);
+        model.addAttribute("activeTab", "all");
+
+        return "transaction-wallet";
+    }
+
+    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    @GetMapping("/{walletId}/transactions/incoming")
+    public String getIncomingTransactions(@PathVariable int walletId, Authentication authentication, Model model) {
+
+        List<TransactionsWrapper> transactions =
+                new ArrayList<>(transactionService.getIncomingTransactionsByWalletId(walletId)
+                        .stream().map(transactionMapper::transactionToTransactionWrapper).toList());
+
+
+        transactions.addAll(transferService.getAllTransfersToYourWalletsByUsername(authentication.getName())
+                .stream().map(transactionMapper::transferToTransactionWrapper).toList());
+
+        model.addAttribute("walletId", walletId);
+        model.addAttribute("transactions", transactions);
+        model.addAttribute("activeTab", "in");
+
+        return "transaction-wallet";
+    }
+
+    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    @GetMapping("/{walletId}/transactions/outgoing")
+    public String getOutgoingTransactions(@PathVariable int walletId, Authentication authentication, Model model) {
+
+        List<TransactionsWrapper> transactions =
+                new ArrayList<>(transactionService.getOutgoingTransactionsByWalletId(walletId)
+                        .stream().map(transactionMapper::transactionToTransactionWrapper).toList());
+
+        model.addAttribute("walletId", walletId);
+        model.addAttribute("transactions", transactions);
+        model.addAttribute("activeTab", "out");
+
+        return "transaction-wallet";
     }
 
 

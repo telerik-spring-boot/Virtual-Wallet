@@ -100,9 +100,14 @@
                                 </div>
                             </div>
                             <hr>
-                            <a type="button" class="btn me-1 btn-grey-outline w-100"
+                            <a type="button" class="btn me-1 btn-grey-outline w-100 mb-2"
                                th:href="'#sideModal' + ${wallet.id}" data-bs-toggle="offcanvas" aria-expanded="false">
                                 Details
+                            </a>
+                            <a type="button" class="btn me-1 btn-grey-outline w-100"
+                               th:href="@{/ui/wallets/{id}/transactions(id=${wallet.id})}"
+                                aria-expanded="false">
+                                Transaction history
                             </a>
                         </div>
 
