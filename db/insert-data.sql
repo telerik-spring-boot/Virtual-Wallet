@@ -169,3 +169,8 @@ VALUES (50.00, 1, 1),
        (300.00, 8, 8),
        (75.25, 9, 9),
        (25.00, 10, 10);
+
+INSERT INTO virtual_wallet.exchange_rates(from_currency, to_currency, rate)
+VALUES ('EUR', 'USD', 1.09),
+       ('EUR', 'GBP', 0.84),
+       ('GBP', 'USD', 1.30);

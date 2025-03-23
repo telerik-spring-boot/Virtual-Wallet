@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS virtual_wallet.transaction_categories CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.stocks CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.verifications CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.investments CASCADE;
+DROP TABLE IF EXISTS virtual_wallet.exchange_rates CASCADE;
 
 CREATE TABLE virtual_wallet.wallets
 (
@@ -161,5 +162,12 @@ CREATE TABLE virtual_wallet.investments
     type         varchar(5)                          NOT NULL,
     FOREIGN KEY (user_id) REFERENCES virtual_wallet.users (user_id) ON DELETE CASCADE
 );
+
+CREATE TABLE virtual_wallet.exchange_rates(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    from_currency VARCHAR(30) NOT NULL,
+    to_currency VARCHAR(30) NOT NULL,
+    rate DECIMAL(15, 5) NOT NULL
+)
 
 

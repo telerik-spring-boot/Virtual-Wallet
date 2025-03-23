@@ -1,16 +1,16 @@
 package com.telerik.virtualwallet.controllers;
 
-import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.helpers.UserMapper;
+import com.telerik.virtualwallet.models.ExchangeRate;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.LoginDTO;
 import com.telerik.virtualwallet.models.dtos.RegisterDTO;
 import com.telerik.virtualwallet.services.email.EmailService;
+import com.telerik.virtualwallet.services.exchangeRate.ExchangeRateService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
 import com.telerik.virtualwallet.services.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
