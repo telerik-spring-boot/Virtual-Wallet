@@ -2,6 +2,8 @@ package com.telerik.virtualwallet.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "exchange_rates")
 public class ExchangeRate {
@@ -20,13 +22,17 @@ public class ExchangeRate {
     @Column(name="rate")
     private double rate;
 
+    @Column(name="updated_at")
+    private LocalDateTime updatedAt;
+
     public ExchangeRate() {
     }
 
-    public ExchangeRate(String fromCurrency, String toCurrency, double rate) {
+    public ExchangeRate(String fromCurrency, String toCurrency, double rate, LocalDateTime updatedAt) {
         this.fromCurrency = fromCurrency;
         this.toCurrency = toCurrency;
         this.rate = rate;
+        this.updatedAt = updatedAt;
     }
 
     public int getId() {
@@ -59,5 +65,13 @@ public class ExchangeRate {
 
     public void setRate(double rate) {
         this.rate = rate;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

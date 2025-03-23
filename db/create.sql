@@ -167,7 +167,8 @@ CREATE TABLE virtual_wallet.exchange_rates(
     id INT AUTO_INCREMENT PRIMARY KEY,
     from_currency VARCHAR(30) NOT NULL,
     to_currency VARCHAR(30) NOT NULL,
-    rate DECIMAL(15, 5) NOT NULL
+    rate DECIMAL(15, 5) NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 )
 
 

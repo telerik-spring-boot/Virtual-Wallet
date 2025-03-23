@@ -64,7 +64,6 @@ public class UserMvcController {
     @ModelAttribute("isAdmin")
     public boolean populateIsAdmin() {
         return populateIsAdminAttribute();
-
     }
 
     @GetMapping("/dashboard")

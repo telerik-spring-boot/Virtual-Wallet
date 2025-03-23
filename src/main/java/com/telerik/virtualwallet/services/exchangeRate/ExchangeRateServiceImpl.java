@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -56,6 +57,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 
         for(ExchangeRate exchangeRate : exchangeRatesOld){
             exchangeRate.setRate(Double.parseDouble(exchangeRates.get(String.format("%s/%s", exchangeRate.getFromCurrency(), exchangeRate.getToCurrency())).get("price")));
+            exchangeRate.setUpdatedAt(LocalDateTime.now());
         }
 
         exchangeRateRepository.saveAll(exchangeRatesOld);
