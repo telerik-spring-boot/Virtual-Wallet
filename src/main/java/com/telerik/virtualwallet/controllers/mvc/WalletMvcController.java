@@ -7,6 +7,7 @@ import com.telerik.virtualwallet.models.Transaction;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.Wallet;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionConfirmationMVCCreateDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.TransactionMVCIBANCreateDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionMVCUsernamePhoneCreateDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletCreateDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletMvcDisplayDTO;
@@ -34,6 +35,7 @@ import static com.telerik.virtualwallet.controllers.mvc.UserMvcController.popula
 @RequestMapping("/ui/wallets")
 public class WalletMvcController {
 
+    public static final String IBAN_WAS_NOT_RECOGNISED = "IBAN was not recognised.";
     private final WalletService walletService;
     private final WalletMapper walletMapper;
     private final UserService userService;
@@ -127,6 +129,7 @@ public class WalletMvcController {
     @GetMapping("/transfer")
     public String createTransferForm(Authentication authentication, Model model) {
         model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
+        model.addAttribute("IBANInput", new TransactionMVCIBANCreateDTO());
         addAllUserWalletsToModel(authentication, model);
         return "transfer-make";
     }
@@ -140,7 +143,6 @@ public class WalletMvcController {
                                            BindingResult bindingResult,
                                            HttpServletRequest request) {
 
-//        model.addAttribute("formSubmitted", true);
 
         if (bindingResult.hasErrors()) {
             return "transfer-make";
@@ -188,7 +190,7 @@ public class WalletMvcController {
         }
         try {
 
-            Transaction transaction = transactionMapper.mvcDtoToTransaction(confirmation,authentication.getName());
+            Transaction transaction = transactionMapper.mvcDtoToTransaction(confirmation, authentication.getName());
 
             transactionService.makeTransactionMVC(transaction, confirmation.getReceivedAmount());
 
@@ -205,6 +207,97 @@ public class WalletMvcController {
         }
 
     }
+
+    @PreAuthorize("@walletSecurityService.isUserWalletCreator(#walletId, authentication.name)")
+    @GetMapping("/transfer/by_IBAN/confirmation")
+    public String handleTransferByIBAN(Model model, @RequestParam("walletId") int walletId,
+                                       Authentication authentication,
+                                       @Valid @ModelAttribute("IBANInput")
+                                       TransactionMVCIBANCreateDTO dto,
+                                       BindingResult bindingResult,
+                                       HttpServletRequest request,
+                                       RedirectAttributes redirectAttributes) {
+
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
+            addAllUserWalletsToModel(authentication, model);
+
+            return "transfer-make";
+        }
+
+        if (!dto.getIBAN().toUpperCase().contains("IBAN33YNPAY68477732491843244")) {
+            bindingResult.rejectValue("IBAN", "card.number", IBAN_WAS_NOT_RECOGNISED);
+
+            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
+            addAllUserWalletsToModel(authentication, model);
+
+            redirectAttributes.addFlashAttribute("wrongIBAN", true);
+            return "transfer-make";
+        }
+        try {
+
+            String extractedId = dto.getIBAN().replaceFirst("IBAN33YNPAY68477732491843244", "");
+            int walletReceiverId = Integer.parseInt(extractedId);
+
+            Wallet receiverWallet = walletService.getWalletById(walletReceiverId);
+
+            TransactionConfirmationMVCCreateDTO confirmation = transactionMapper
+                    .handleConfirmationMVCDTOLogic(walletId, receiverWallet, receiverWallet.getCreator(), dto.getAmount());
+
+            model.addAttribute("confirmation", confirmation);
+            model.addAttribute("transactionCategories", TransactionCategoryEnum.values());
+            model.addAttribute("requestURI", request.getRequestURI());
+
+            return "transfer-confirmation";
+
+        } catch (NumberFormatException e) {
+
+            bindingResult.rejectValue("IBAN", "card.number", "Incorrect IBAN");
+
+            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
+            addAllUserWalletsToModel(authentication, model);
+
+            return "transfer-make";
+        }
+
+    }
+
+    @PostMapping("/transfer/by_IBAN/confirmation")
+    public String handleTransferByIBANPost(Model model,
+                                               Authentication authentication,
+                                               @Valid @ModelAttribute("confirmation")
+                                               TransactionConfirmationMVCCreateDTO confirmation,
+                                               BindingResult bindingResult,
+                                               RedirectAttributes redirectAttributes) {
+
+        model.addAttribute("formSubmitted", true);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("transactionCategories", TransactionCategoryEnum.values());
+            return "transfer-confirmation";
+        }
+        try {
+
+            Transaction transaction = transactionMapper.mvcDtoToTransaction(confirmation, authentication.getName());
+
+            transactionService.makeTransactionMVC(transaction, confirmation.getReceivedAmount());
+
+            return "redirect:/ui/users/dashboard";
+
+        } catch (InsufficientFundsException e) {
+            bindingResult.rejectValue("sentAmount", "card.number", e.getMessage());
+
+            redirectAttributes.addFlashAttribute("insufficientFunds", true);
+            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
+            addAllUserWalletsToModel(authentication, model);
+
+            return "transfer-confirmation";
+        }
+
+    }
+
 
     private void addAllUserWalletsToModel(Authentication authentication, Model model) {
         List<WalletMvcDisplayDTO> wallets = walletService.getWalletsByUsername(authentication.getName()).stream()
