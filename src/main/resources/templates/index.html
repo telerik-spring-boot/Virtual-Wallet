@@ -1,1365 +1,927 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="~{fragments/general-fragments :: head('YNPay :: Virtual Wallet')}"></head>
+<head th:replace="~{fragments/general-fragments :: head('YNPay :: Virtual Wallet')}"></head>
 
-  <body data-theme="theme-AppleGreen" class="svgstroke-a add-tooltip">
-    <main class="container-fluid px-0">
-      <!-- start: page menu link -->
-      <div th:replace="~{fragments/general-fragments :: sidebar}"> </div>
-      <div class="content">
+<body data-theme="theme-AppleGreen" class="svgstroke-a add-tooltip">
+<main class="container-fluid px-0">
+    <!-- start: page menu link -->
+    <div th:replace="~{fragments/general-fragments :: sidebar}"></div>
+    <div class="content">
         <!-- start: page header -->
         <div th:replace="~{fragments/general-fragments :: main-header('Dashboard')}"></div>
         <!-- start: page header area -->
         <div class="px-xl-5 px-lg-4 px-3 py-2">
-          <div class="row g-2 align-items-center">
-            <div class="col-sm-6">
-              <ol class="breadcrumb mb-0 bg-transparent">
-                <li class="breadcrumb-item">
-                  <a class="text-muted" href="index.html" title="home" th:href="@{/ui/users/dashboard}">Home</a>
-                </li>
-                <li
-                  class="breadcrumb-item active"
-                  aria-current="page"
-                  title="Dashboard"
+            <div class="row g-2 align-items-center">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb mb-0 bg-transparent">
+                        <li class="breadcrumb-item">
+                            <a class="text-muted" href="index.html" title="home"
+                               th:href="@{/ui/users/dashboard}">Home</a>
+                        </li>
+                        <li
+                                class="breadcrumb-item active"
+                                aria-current="page"
+                                title="Dashboard"
+                        >
+                            Dashboard
+                        </li>
+                    </ol>
+                </div>
+                <div
+                        class="col-sm-6 d-flex justify-content-center align-items-center"
                 >
-                  Dashboard
-                </li>
-              </ol>
+
+                </div>
             </div>
-            <div
-              class="col-sm-6 d-flex justify-content-center align-items-center"
-            >
-              <ul
-                class="list-unstyled action row justify-content-lg-end align-items-center mb-0 w-100"
-              >
-                <li class="col-6 col-xl-4 col-lg-4 ps-0">
-                  <div>
-                    <input
-                      type="date"
-                      name="filter"
-                      class="form-control"
-                      value=""
-                    />
-                  </div>
-                </li>
-                <li class="dropdown col-6 col-xl-3 col-lg-4 pe-0">
-                  <a
-                    href="#"
-                    data-bs-toggle="dropdown"
-                    data-bs-auto-close="outside"
-                    aria-expanded="false"
-                    class="btn border rounded fw-medium w-100"
-                  >
-                    <svg
-                      class="svg-stroke"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                      <path
-                        d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z"
-                      ></path>
-                    </svg>
-                    Filter
-                  </a>
-                  <div
-                    class="dropdown-menu dropdown-menu-end p-2 p-xl-3 shadow rounded-4"
-                    style="width: 300px"
-                  >
-                    <h6>Filter Options</h6>
-                    <div class="row g-3 mt-3">
-                      <div class="col-12">
-                        <label class="form-label small text-muted"
-                          >Sorted by:</label
-                        >
-                        <input
-                          type="search"
-                          class="form-control"
-                          placeholder="Search"
-                        />
-                      </div>
-                      <div class="col-12">
-                        <label class="form-label small text-muted"
-                          >Status:</label
-                        >
-                        <select class="form-select">
-                          <option selected="">Choose...</option>
-                          <option>...</option>
-                        </select>
-                      </div>
-                      <div class="col-12">
-                        <label class="form-label small text-muted"
-                          >Notifications:</label
-                        >
-                        <div class="form-check form-switch">
-                          <input
-                            class="form-check-input"
-                            type="checkbox"
-                            role="switch"
-                          />
-                          <label class="form-check-label">Enabled</label>
-                        </div>
-                      </div>
-                      <div class="col-12 text-end mt-4">
-                        <button type="reset" class="btn btn-sm btn-light me-1">
-                          Reset
-                        </button>
-                        <button type="submit" class="btn btn-sm btn-primary">
-                          Apply
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
         <!-- start: page body area -->
         <div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
-          <div class="row g-3 mb-3 row-deck">
-            <div class="col-md-6 col-lg-6 col-xl-4">
-              <div class="card">
-                <div class="card-header">
-                  <h6 class="card-title mb-0">My Wallet</h6>
-                  <div class="card-action">
-                    <div>
-                      <a
-                        href="#"
-                        class="card-fullscreen"
-                        data-bs-toggle="tooltip"
-                        aria-label="Card Full Screen"
-                        data-bs-original-title="Card Full Screen"
-                      >
-                        <svg
-                          class="svg-stroke"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path
-                            stroke="none"
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                          ></path>
-                          <path
-                            d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
-                          ></path>
-                          <path d="M7 20l10 0"></path>
-                          <path d="M9 16l0 4"></path>
-                          <path d="M15 16l0 4"></path>
-                          <path d="M17 4h4v4"></path>
-                          <path d="M16 9l5 -5"></path>
-                        </svg>
-                      </a>
-                      <a
-                        href="#"
-                        class="dropdown-toggle after-none"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        title="More Action"
-                      >
-                        <svg
-                          class="svg-stroke"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path
-                            stroke="none"
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                          ></path>
-                          <path
-                            d="M10 6h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3"
-                          ></path>
-                          <path
-                            d="M17 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"
-                          ></path>
-                        </svg>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-end shadow rounded-4 p-2"
-                      >
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-share"></i>
-                          Share
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-pencil"></i>
-                          Rename
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-link"></i>
-                          Copy Link Address
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-folder"></i>
-                          Move to
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-copy"></i>
-                          Copy to
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-edit"></i>
-                          Make Private
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-download"></i>
-                          Download
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill card-options-remove"
-                          data-toggle="card-remove"
-                        >
-                          <i class="me-2 fa fa-trash"></i>
-                          Delete
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div class="card">
-                    <div class="card-header">
-                      <div class="me-2">
-                        <img
-                          src="../static/images/flags/1x1/um.svg"
-                          th:src="@{/images/flags/1x1/um.svg}"
-                          alt="um"
-                          class="img-fluid rounded-circle avatar sm"
-                        />
-                      </div>
-                      <h6 class="card-title mb-0 me-auto">US Dollar</h6>
-                    </div>
-                    <div class="card-body">
-                      <h2>$65894</h2>
-                      <span class="badge bg-primary">+15%</span>
-                      <span class="text-muted">
-                        From previous period
-                        <i class="fa fa-level-up text-success"></i>
-                      </span>
-                      <!-- Success Alert -->
-                      <div class="alert alert-success mt-3 py-2" role="alert">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          fill="currentColor"
-                          class="bi bi-question-circle"
-                          viewBox="0 0 16 16"
-                        >
-                          <path
-                            d="M8 0a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14z"
-                          ></path>
-                          <path
-                            d="M8 4a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm0 3a2 2 0 0 0-1.995 1.85L6 9a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1c0-1.08-.64-2-1.5-2z"
-                          ></path>
-                        </svg>
-                        This is a success
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex m-3">
+            <div class="row g-3 mb-3 row-deck">
+                <div class="col-md-6 col-lg-6 col-xl-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0" th:text="'IBAN33YNPAY68477732491843244' + ${wallet.id}">My
+                                Wallet</h6>
+                            <div class="card-action">
+                                <div>
+                                    <a
+                                            href="#"
+                                            class="card-fullscreen"
+                                            data-bs-toggle="tooltip"
+                                            aria-label="Card Full Screen"
+                                            data-bs-original-title="Card Full Screen"
+                                    >
+                                        <svg
+                                                class="svg-stroke"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                        >
+                                            <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                            ></path>
+                                            <path
+                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
+                                            ></path>
+                                            <path d="M7 20l10 0"></path>
+                                            <path d="M9 16l0 4"></path>
+                                            <path d="M15 16l0 4"></path>
+                                            <path d="M17 4h4v4"></path>
+                                            <path d="M16 9l5 -5"></path>
+                                        </svg>
+                                    </a>
 
-                  <a
-                          th:href="@{/ui/cards/deposit}" href="deposit.html"
-                    class="btn mx-1 btn-grey-outline flex-grow-1"
-                  >
-                    <i class="fa fa-long-arrow-down fa-lg px-3"></i>
-                    Add
-                  </a>
 
-                  <a
-                          th:href="@{/ui/wallets/transfer}" href="send-money.html"
-                          class="btn mx-1 btn-dark flex-grow-1"
-                  >
-                    <i class="fa fa-long-arrow-up fa-lg px-3"></i>
-                    Send
-                  </a>
-
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-6 col-xl-4">
-              <div class="card">
-                <div class="card-header">
-                  <h6 class="card-title mb-0">Spending Summary</h6>
-                  <div class="card-action">
-                    <div>
-                      <!--============== full screen  =============-->
-                      <a
-                        href="#"
-                        class="card-fullscreen"
-                        data-bs-toggle="tooltip"
-                        aria-label="Card Full Screen"
-                        data-bs-original-title="Card Full Screen"
-                      >
-                        <svg
-                          class="svg-stroke"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path
-                            stroke="none"
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                          ></path>
-                          <path
-                            d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
-                          ></path>
-                          <path d="M7 20l10 0"></path>
-                          <path d="M9 16l0 4"></path>
-                          <path d="M15 16l0 4"></path>
-                          <path d="M17 4h4v4"></path>
-                          <path d="M16 9l5 -5"></path>
-                        </svg>
-                      </a>
-                      <!--============== dropdown =============-->
-                      <a
-                        href="#"
-                        class="dropdown-toggle after-none"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        title="More Action"
-                      >
-                        <svg
-                          class="svg-stroke"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path
-                            stroke="none"
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                          ></path>
-                          <path
-                            d="M10 6h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3"
-                          ></path>
-                          <path
-                            d="M17 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"
-                          ></path>
-                        </svg>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-end shadow rounded-4 p-2"
-                      >
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-share"></i>
-                          Share
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-pencil"></i>
-                          Rename
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-link"></i>
-                          Copy Link Address
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-folder"></i>
-                          Move to
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-copy"></i>
-                          Copy to
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-edit"></i>
-                          Make Private
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-download"></i>
-                          Download
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill card-options-remove"
-                          data-toggle="card-remove"
-                        >
-                          <i class="me-2 fa fa-trash"></i>
-                          Delete
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div id="chart-Spending" class="my-0"></div>
-                  <hr class="border my-0 py-0" />
-                  <div class="text-center my-2">
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input form-check-input-dark"
-                        type="radio"
-                        name="chartOptions"
-                        id="outcome"
-                        value="47"
-                        checked=""
-                      />
-                      <label class="form-check-label" for="outcome"
-                        >Outcome</label
-                      >
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input form-check-input-dark"
-                        type="radio"
-                        name="chartOptions"
-                        id="income"
-                        value="60"
-                      />
-                      <label class="form-check-label" for="income"
-                        >Income</label
-                      >
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input form-check-input-dark"
-                        type="radio"
-                        name="chartOptions"
-                        id="others"
-                        value="70"
-                      />
-                      <label class="form-check-label" for="others"
-                        >Others</label
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-6 col-xl-4">
-              <div class="card">
-                <div class="card-header">
-                  <h6 class="card-title mb-0">Card Details</h6>
-                  <div class="card-action">
-                    <div>
-                      <!--============== full srcen  =============-->
-                      <a
-                        href="#"
-                        class="card-fullscreen"
-                        data-bs-toggle="tooltip"
-                        aria-label="Card Full Screen"
-                        data-bs-original-title="Card Full Screen"
-                      >
-                        <svg
-                          class="svg-stroke"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path
-                            stroke="none"
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                          ></path>
-                          <path
-                            d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
-                          ></path>
-                          <path d="M7 20l10 0"></path>
-                          <path d="M9 16l0 4"></path>
-                          <path d="M15 16l0 4"></path>
-                          <path d="M17 4h4v4"></path>
-                          <path d="M16 9l5 -5"></path>
-                        </svg>
-                      </a>
-                      <!--============== dropdown =============-->
-                      <a
-                        href="#"
-                        class="dropdown-toggle after-none"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        title="More Action"
-                      >
-                        <svg
-                          class="svg-stroke"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path
-                            stroke="none"
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                          ></path>
-                          <path
-                            d="M10 6h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3"
-                          ></path>
-                          <path
-                            d="M17 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"
-                          ></path>
-                        </svg>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-end shadow rounded-4 p-2"
-                      >
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-share"></i>
-                          Share
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-pencil"></i>
-                          Rename
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-link"></i>
-                          Copy Link Address
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-folder"></i>
-                          Move to
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-copy"></i>
-                          Copy to
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-edit"></i>
-                          Make Private
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-download"></i>
-                          Download
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill card-options-remove"
-                          data-toggle="card-remove"
-                        >
-                          <i class="me-2 fa fa-trash"></i>
-                          Delete
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="card-body d-flex justify-content-center flex-column"
-                >
-                  <div class="card-wrapper align-self-center">
-                    <div class="cc visa">
-                      <div class="card-data">
-                        <div class="type">Debit</div>
-                        <div class="circuit">
-                          <i class="fa fa-cc-visa fa-2x"></i>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                      <div class="holder">
-                        <span class="name">Holder Name</span>
-                        <span class="number">1234 - 5678 - 9012 - 3456</span>
-                      </div>
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="me-2">
+                                        <img
+                                                src="../static/images/flags/1x1/um.svg"
+                                                th:src="@{/images/flags/1x1/um.svg}"
+                                                alt="um"
+                                                class="img-fluid rounded-circle avatar sm"
+                                        />
+                                    </div>
+                                    <h6 class="card-title mb-0 me-auto">US Dollar</h6>
+                                </div>
+                                <div class="card-body">
+                                    <h2 th:text="'$'+${wallet.balance}">$65894</h2>
+                                    <span th:if="${positiveBalanceChange}" class="badge bg-primary"
+                                          th:text="'+' + ${percentageBalanceChange} +'%'">+15%</span>
+                                    <span th:if="${!positiveBalanceChange}" class="badge bg-danger"
+                                          th:text="${percentageBalanceChange} +'%'">+15%</span>
+                                    <span class="text-muted">
+                        For this month
+                        <i th:if="${positiveBalanceChange}" class="fa fa-level-up text-success"></i>
+                                        <i th:if="${!positiveBalanceChange}" class="fa fa-level-down text-danger"></i>
+                      </span>
+                                    <!-- Success Alert -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-3">
+                            <div class="d-flex gap-2 w-80">
+
+                                <a
+                                        th:href="@{/ui/cards/deposit}" href="deposit.html"
+                                        class="btn btn-grey-outline flex-fill"
+                                >
+                                    <i class="fa fa-long-arrow-down fa-lg px-3"></i>
+                                    Deposit
+                                </a>
+
+                                <a
+                                        th:href="@{/ui/wallets/transfer}"
+                                        class="btn btn-dark flex-fill"
+                                >
+                                    <i class="fa fa-long-arrow-up fa-lg px-3"></i>
+                                    Send
+                                </a>
+                            </div>
+                            <a
+                                    th:href="@{/ui/wallets}"
+                                    href="transaction.html"
+                                    class="mt-3 btn btn-grey-outline w-100 fw-medium"
+                            >Show All</a>
+
+
+                        </div>
+
                     </div>
-                  </div>
-                  <div class="mt-3">
-                    <div class="d-flex justify-content-between mb-2">
-                      <span>Spending Limit</span>
-                      <span>2190.56</span>
-                    </div>
-                    <div
-                      class="progress"
-                      role="progressbar"
-                      aria-label="Example 1px high"
-                      aria-valuenow="25"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                      style="height: 2px"
-                    >
-                      <div class="progress-bar" style="width: 25%"></div>
-                    </div>
-                  </div>
                 </div>
-              </div>
+                <div class="col-md-6 col-lg-6 col-xl-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">Spending Summary</h6>
+                            <div class="card-action">
+                                <div>
+                                    <!--============== full screen  =============-->
+                                    <a
+                                            href="#"
+                                            class="card-fullscreen"
+                                            data-bs-toggle="tooltip"
+                                            aria-label="Card Full Screen"
+                                            data-bs-original-title="Card Full Screen"
+                                    >
+                                        <svg
+                                                class="svg-stroke"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                        >
+                                            <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                            ></path>
+                                            <path
+                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
+                                            ></path>
+                                            <path d="M7 20l10 0"></path>
+                                            <path d="M9 16l0 4"></path>
+                                            <path d="M15 16l0 4"></path>
+                                            <path d="M17 4h4v4"></path>
+                                            <path d="M16 9l5 -5"></path>
+                                        </svg>
+                                    </a>
+                                    <!--============== dropdown =============-->
+                                    <a
+                                            href="#"
+                                            class="dropdown-toggle after-none"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                            title="More Action"
+                                    >
+                                        <svg
+                                                class="svg-stroke"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                        >
+                                            <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                            ></path>
+                                            <path
+                                                    d="M10 6h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3"
+                                            ></path>
+                                            <path
+                                                    d="M17 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"
+                                            ></path>
+                                        </svg>
+                                    </a>
+                                    <div
+                                            class="dropdown-menu dropdown-menu-end shadow rounded-4 p-2"
+                                    >
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-share"></i>
+                                            Share
+                                        </a>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-pencil"></i>
+                                            Rename
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-link"></i>
+                                            Copy Link Address
+                                        </a>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-folder"></i>
+                                            Move to
+                                        </a>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-copy"></i>
+                                            Copy to
+                                        </a>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-edit"></i>
+                                            Make Private
+                                        </a>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-download"></i>
+                                            Download
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill card-options-remove"
+                                                data-toggle="card-remove"
+                                        >
+                                            <i class="me-2 fa fa-trash"></i>
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart-Spending" class="my-0"></div>
+                            <hr class="border my-0 py-0"/>
+                            <div class="text-center my-2">
+                                <div class="form-check form-check-inline">
+                                    <input
+                                            class="form-check-input form-check-input-dark"
+                                            type="radio"
+                                            name="chartOptions"
+                                            id="outcome"
+                                            value="47"
+                                            checked=""
+                                    />
+                                    <label class="form-check-label" for="outcome"
+                                    >Outcome</label
+                                    >
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                            class="form-check-input form-check-input-dark"
+                                            type="radio"
+                                            name="chartOptions"
+                                            id="income"
+                                            value="60"
+                                    />
+                                    <label class="form-check-label" for="income"
+                                    >Income</label
+                                    >
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                            class="form-check-input form-check-input-dark"
+                                            type="radio"
+                                            name="chartOptions"
+                                            id="others"
+                                            value="70"
+                                    />
+                                    <label class="form-check-label" for="others"
+                                    >Others</label
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">Saved Cards</h6>
+                            <div class="card-action">
+                                <div>
+                                    <!--============== full srcen  =============-->
+                                    <a
+                                            href="#"
+                                            class="card-fullscreen"
+                                            data-bs-toggle="tooltip"
+                                            aria-label="Card Full Screen"
+                                            data-bs-original-title="Card Full Screen"
+                                    >
+                                        <svg
+                                                class="svg-stroke"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                        >
+                                            <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                            ></path>
+                                            <path
+                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
+                                            ></path>
+                                            <path d="M7 20l10 0"></path>
+                                            <path d="M9 16l0 4"></path>
+                                            <path d="M15 16l0 4"></path>
+                                            <path d="M17 4h4v4"></path>
+                                            <path d="M16 9l5 -5"></path>
+                                        </svg>
+                                    </a>
+                                    <!--============== dropdown =============-->
+
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                                class="card-body d-flex justify-content-center flex-column"
+                        >
+                            <div class="card-wrapper align-self-center">
+                                <div class="cc visa">
+                                    <div class="card-data">
+                                        <div th:if="${card.expiryMonth.substring(0,1) == '0'}" class="type">Debit</div>
+                                        <div th:if="${card.expiryMonth.substring(0,1) == '1'}"  class="type">Credit</div>
+                                        <div class="circuit">
+                                            <i th:if="${card.getType()=='Visa'}" class="fa fa-cc-visa fa-2x"></i>
+                                            <i th:if="${card.getType()=='Mastercard'}" class="fa fa-cc-mastercard fa-2x"></i>
+                                            <i th:if="${card.getType()=='Amex'}" class="fa fa-cc-amex fa-2x"></i>
+                                        </div>
+                                    </div>
+                                    <div class="holder">
+                                        <span class="name" th:text="${card.cardHolder}">Holder Name</span>
+                                        <span class="number"th:text="${card.cardNumber}">1234 - 5678 - 9012 - 3456</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Deposited last month</span>
+                                    <span th:text="'$'+${depositsFromMainCard}">2190.56</span>
+                                </div>
+                                <div
+                                        class="progress"
+                                        role="progressbar"
+                                        aria-label="Example 1px high"
+                                        aria-valuenow="0.25"
+                                        aria-valuemin="0"
+                                        aria-valuemax="1"
+                                        style="height: 2px;"
+
+                                >
+                                    <div class="progress-bar" th:style="'width: ' + ${depositedFromMainPercentage} + '%'"></div>
+                                </div>
+                                <a
+                                        th:href="@{/ui/cards}"
+                                        href="transaction.html"
+                                        class="mt-3 btn btn-grey-outline w-100 fw-medium"
+                                >Show All</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="row g-3 mb-3 row-deck">
-            <div class="col-md-6 col-lg-12 col-xl-6">
-              <div class="card">
-                <div class="card-header">
-                  <h6 class="card-title mb-0">Budget Overview</h6>
-                  <div class="card-action">
-                    <div>
-                      <a
-                        href="#"
-                        class="card-fullscreen"
-                        data-bs-toggle="tooltip"
-                        title="Card Full Screen"
-                      >
-                        <svg
-                          class="svg-stroke"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path
-                            stroke="none"
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                          ></path>
-                          <path
-                            d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
-                          ></path>
-                          <path d="M7 20l10 0"></path>
-                          <path d="M9 16l0 4"></path>
-                          <path d="M15 16l0 4"></path>
-                          <path d="M17 4h4v4"></path>
-                          <path d="M16 9l5 -5"></path>
-                        </svg>
-                      </a>
-                      <a
-                        href="#"
-                        class="dropdown-toggle after-none"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        title="More Action"
-                      >
-                        <svg
-                          class="svg-stroke"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path
-                            stroke="none"
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                          ></path>
-                          <path
-                            d="M10 6h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3"
-                          ></path>
-                          <path
-                            d="M17 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"
-                          ></path>
-                        </svg>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-end shadow rounded-4 p-2"
-                      >
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-share"></i>
-                          Share
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-pencil"></i>
-                          Rename
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-link"></i>
-                          Copy Link Address
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-folder"></i>
-                          Move to
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-copy"></i>
-                          Copy to
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-edit"></i>
-                          Make Private
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-download"></i>
-                          Download
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill card-options-remove"
-                          data-toggle="card-remove"
-                        >
-                          <i class="me-2 fa fa-trash"></i>
-                          Delete
-                        </a>
-                      </div>
+            <div class="row g-3 mb-3 row-deck">
+                <div class="col-md-6 col-lg-12 col-xl-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">Budget Overview</h6>
+                            <div class="card-action">
+                                <div>
+                                    <a
+                                            href="#"
+                                            class="card-fullscreen"
+                                            data-bs-toggle="tooltip"
+                                            title="Card Full Screen"
+                                    >
+                                        <svg
+                                                class="svg-stroke"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                        >
+                                            <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                            ></path>
+                                            <path
+                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
+                                            ></path>
+                                            <path d="M7 20l10 0"></path>
+                                            <path d="M9 16l0 4"></path>
+                                            <path d="M15 16l0 4"></path>
+                                            <path d="M17 4h4v4"></path>
+                                            <path d="M16 9l5 -5"></path>
+                                        </svg>
+                                    </a>
+                                    <a
+                                            href="#"
+                                            class="dropdown-toggle after-none"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                            title="More Action"
+                                    >
+                                        <svg
+                                                class="svg-stroke"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                        >
+                                            <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                            ></path>
+                                            <path
+                                                    d="M10 6h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3"
+                                            ></path>
+                                            <path
+                                                    d="M17 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"
+                                            ></path>
+                                        </svg>
+                                    </a>
+                                    <div
+                                            class="dropdown-menu dropdown-menu-end shadow rounded-4 p-2"
+                                    >
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-share"></i>
+                                            Share
+                                        </a>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-pencil"></i>
+                                            Rename
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-link"></i>
+                                            Copy Link Address
+                                        </a>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-folder"></i>
+                                            Move to
+                                        </a>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-copy"></i>
+                                            Copy to
+                                        </a>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-edit"></i>
+                                            Make Private
+                                        </a>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill"
+                                        >
+                                            <i class="me-2 fa fa-download"></i>
+                                            Download
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a
+                                                href="javascript:void(0)"
+                                                class="dropdown-item rounded-pill card-options-remove"
+                                                data-toggle="card-remove"
+                                        >
+                                            <i class="me-2 fa fa-trash"></i>
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body row bg-light g-0">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center border-end">
+                                    <div class="avatar rounded-circle no-thumbnail">
+                                        <i class="fa fa-long-arrow-down fa-lg"></i>
+                                    </div>
+                                    <div class="flex-fill ms-3 text-truncate">
+                                        <div>Income</div>
+                                        <div><span class="fw-medium">$17,358</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center ms-3">
+                                    <div class="avatar rounded-circle no-thumbnail">
+                                        <i class="fa fa-long-arrow-up fa-lg"></i>
+                                    </div>
+                                    <div class="flex-fill ms-3 text-truncate">
+                                        <div>Expense</div>
+                                        <div><span class="fw-medium">$14,998</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="apex-basic-column"></div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-                <div class="card-body row bg-light g-0">
-                  <div class="col-6">
-                    <div class="d-flex align-items-center border-end">
-                      <div class="avatar rounded-circle no-thumbnail">
-                        <i class="fa fa-long-arrow-down fa-lg"></i>
-                      </div>
-                      <div class="flex-fill ms-3 text-truncate">
-                        <div>Income</div>
-                        <div><span class="fw-medium">$17,358</span></div>
-                      </div>
+                <div class="col-md-6 col-lg-12 col-xl-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">Recent Transaction</h6>
+                            <div class="card-action">
+                                <div>
+                                    <a
+                                            href="#"
+                                            class="card-fullscreen"
+                                            data-bs-toggle="tooltip"
+                                            title="Card Full Screen"
+                                    >
+                                        <svg
+                                                class="svg-stroke"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                        >
+                                            <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                            ></path>
+                                            <path
+                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
+                                            ></path>
+                                            <path d="M7 20l10 0"></path>
+                                            <path d="M9 16l0 4"></path>
+                                            <path d="M15 16l0 4"></path>
+                                            <path d="M17 4h4v4"></path>
+                                            <path d="M16 9l5 -5"></path>
+                                        </svg>
+                                    </a>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+
+
+
+                            <div th:each="transaction : ${transactions}" class="d-flex align-items-center mb-3">
+                                <img
+                                        class="avatar rounded"
+                                        src="../static/images/payment/bookmyshow.svg"
+                                        th:src="@{/images/payment/bookmyshow.svg}"
+                                        alt=""
+                                />
+                                <div class="flex-fill ms-3">
+                                    <div class="h6 mb-0">BookMyShow Monthly</div>
+                                    <small class="text-muted"
+                                    >Monthly BookMyShow Subscription</small
+                                    >
+                                </div>
+                                <div class="flex-end flex-column d-flex">
+                                    <small class="fw-medium">$4400</small>
+                                    <small class="text-muted">08/27</small>
+                                </div>
+                            </div>
+
+
+                            <a
+                                    href="transaction.html"
+                                    th:href="@{/ui/users/transactions}"
+                                    class="mt-3 btn btn-grey-outline w-100 fw-medium"
+                            >Show All</a
+                            >
+                        </div>
                     </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="d-flex align-items-center ms-3">
-                      <div class="avatar rounded-circle no-thumbnail">
-                        <i class="fa fa-long-arrow-up fa-lg"></i>
-                      </div>
-                      <div class="flex-fill ms-3 text-truncate">
-                        <div>Expense</div>
-                        <div><span class="fw-medium">$14,998</span></div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-                <div class="card-body">
-                  <div id="apex-basic-column"></div>
-                </div>
-              </div>
             </div>
-            <div class="col-md-6 col-lg-12 col-xl-6">
-              <div class="card">
-                <div class="card-header">
-                  <h6 class="card-title mb-0">Recent Transaction</h6>
-                  <div class="card-action">
-                    <div>
-                      <a
-                        href="#"
-                        class="card-fullscreen"
-                        data-bs-toggle="tooltip"
-                        title="Card Full Screen"
-                      >
-                        <svg
-                          class="svg-stroke"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path
-                            stroke="none"
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                          ></path>
-                          <path
-                            d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
-                          ></path>
-                          <path d="M7 20l10 0"></path>
-                          <path d="M9 16l0 4"></path>
-                          <path d="M15 16l0 4"></path>
-                          <path d="M17 4h4v4"></path>
-                          <path d="M16 9l5 -5"></path>
-                        </svg>
-                      </a>
-                      <a
-                        href="#"
-                        class="dropdown-toggle after-none"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        title="More Action"
-                      >
-                        <svg
-                          class="svg-stroke"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path
-                            stroke="none"
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                          ></path>
-                          <path
-                            d="M10 6h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3"
-                          ></path>
-                          <path
-                            d="M17 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"
-                          ></path>
-                        </svg>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-end shadow rounded-4 p-2"
-                      >
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-share"></i>
-                          Share
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-pencil"></i>
-                          Rename
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-link"></i>
-                          Copy Link Address
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-folder"></i>
-                          Move to
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-copy"></i>
-                          Copy to
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-edit"></i>
-                          Make Private
-                        </a>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill"
-                        >
-                          <i class="me-2 fa fa-download"></i>
-                          Download
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a
-                          href="javascript:void(0)"
-                          class="dropdown-item rounded-pill card-options-remove"
-                          data-toggle="card-remove"
-                        >
-                          <i class="me-2 fa fa-trash"></i>
-                          Delete
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div class="d-flex align-items-center mb-3">
-                    <img
-                      class="avatar rounded"
-                      src="../static/images/payment/netflix.svg"
-                      th:src="@{/images/payment/netflix.svg}"
-                      alt=""
-                    />
-                    <div class="flex-fill ms-3">
-                      <div class="h6 mb-0">Netflix Monthly</div>
-                      <small class="text-muted"
-                        >Monthly Netflix Subscription</small
-                      >
-                    </div>
-                    <div class="flex-end flex-column d-flex">
-                      <small class="fw-medium">$7400</small>
-                      <small class="text-muted">08/27</small>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center mb-3">
-                    <img
-                      class="avatar rounded"
-                      src="../static/images/payment/youtube.svg"
-                      th:src="@{/images/payment/youtube.svg}"
-                      alt=""
-                    />
-                    <div class="flex-fill ms-3">
-                      <div class="h6 mb-0">Youtube Monthly</div>
-                      <small class="text-muted"
-                        >Monthly Youtube Subscription</small
-                      >
-                    </div>
-                    <div class="flex-end flex-column d-flex">
-                      <small class="fw-medium">$1400</small>
-                      <small class="text-muted">08/27</small>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center mb-3">
-                    <img
-                      class="avatar rounded"
-                      src="../static/images/payment/amazon.svg"
-                      th:src="@{/images/payment/amazon.svg}"
-                      alt=""
-                    />
-                    <div class="flex-fill ms-3">
-                      <div class="h6 mb-0">Amazon Monthly</div>
-                      <small class="text-muted"
-                        >Monthly Amazon Subscription</small
-                      >
-                    </div>
-                    <div class="flex-end flex-column d-flex">
-                      <small class="fw-medium">$2400</small>
-                      <small class="text-muted">08/27</small>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center mb-3">
-                    <img
-                      class="avatar rounded"
-                      src="../static/images/payment/bookmyshow.svg"
-                      th:src="@{/images/payment/bookmyshow.svg}"
-                      alt=""
-                    />
-                    <div class="flex-fill ms-3">
-                      <div class="h6 mb-0">BookMyShow Monthly</div>
-                      <small class="text-muted"
-                        >Monthly BookMyShow Subscription</small
-                      >
-                    </div>
-                    <div class="flex-end flex-column d-flex">
-                      <small class="fw-medium">$4400</small>
-                      <small class="text-muted">08/27</small>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center mb-3">
-                    <img
-                      class="avatar rounded"
-                      src="../static/images/payment/mastercard.svg"
-                      th:src="@{/images/payment/mastercard.svg}"
-                      alt=""
-                    />
-                    <div class="flex-fill ms-3">
-                      <div class="h6 mb-0">Mastercard Monthly</div>
-                      <small class="text-muted"
-                        >Monthly Mastercard Charge</small
-                      >
-                    </div>
-                    <div class="flex-end flex-column d-flex">
-                      <small class="fw-medium">$200</small>
-                      <small class="text-muted">08/27</small>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center mb-3">
-                    <img
-                      class="avatar rounded"
-                      src="../static/images/payment/visa-card.svg"
-                      th:src="@{/images/payment/visa-card.svg}"
-                      alt=""
-                    />
-                    <div class="flex-fill ms-3">
-                      <div class="h6 mb-0">Visa Monthly</div>
-                      <small class="text-muted">Monthly Visa Charge</small>
-                    </div>
-                    <div class="flex-end flex-column d-flex">
-                      <small class="fw-medium">$200</small>
-                      <small class="text-muted">08/27</small>
-                    </div>
-                  </div>
-                  <a
-                    href="transaction.html"
-                    class="mt-3 btn btn-grey-outline w-100 fw-medium"
-                    >Show All</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </main>
-    <!-- start: exchange rate -->
-    <div th:replace="~{fragments/general-fragments :: exchange-rate}"> </div>
-    <!-- start: template setting, and more. -->
+    </div>
+</main>
+<!-- start: exchange rate -->
+<div th:replace="~{fragments/general-fragments :: exchange-rate}"></div>
+<!-- start: template setting, and more. -->
 
-    <!--============== active class js =============-->
-    <th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+<!--============== active class js =============-->
+<th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
 
-    <script>
-      // Basic Column
-      $(document).ready(function () {
+<script>
+    // Basic Column
+    $(document).ready(function () {
         var options = {
-          chart: {
-            height: 280,
-            type: "bar",
-          },
-          colors: ["var(--theme-color6)", "var(--theme-color3)"],
-          plotOptions: {
-            bar: {
-              horizontal: false,
-              columnWidth: "55%",
-              endingShape: "rounded",
+            chart: {
+                height: 280,
+                type: "bar",
             },
-          },
-          dataLabels: {
-            enabled: true,
-          },
-          stroke: {
-            show: true,
-            width: 2,
-            colors: ["transparent"],
-          },
-          series: [
-            {
-              name: "Revenue",
-              data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
+            colors: ["var(--theme-color6)", "var(--theme-color3)"],
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: "55%",
+                    endingShape: "rounded",
+                },
             },
-            {
-              name: "Free Cash Flow",
-              data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
+            dataLabels: {
+                enabled: true,
             },
-          ],
-          xaxis: {
-            categories: [
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ["transparent"],
+            },
+            series: [
+                {
+                    name: "Revenue",
+                    data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
+                },
+                {
+                    name: "Free Cash Flow",
+                    data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
+                },
             ],
-          },
-          yaxis: {
-            title: {
-              text: "$ (thousands)",
+            xaxis: {
+                categories: [
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                ],
             },
-          },
-          fill: {
-            opacity: 1,
-          },
-          tooltip: {
-            theme: "dark",
-            y: {
-              formatter: function (val) {
-                return "$ " + val + " thousands";
-              },
+            yaxis: {
+                title: {
+                    text: "$ (thousands)",
+                },
             },
-          },
+            fill: {
+                opacity: 1,
+            },
+            tooltip: {
+                theme: "dark",
+                y: {
+                    formatter: function (val) {
+                        return "$ " + val + " thousands";
+                    },
+                },
+            },
         };
 
         var chart = new ApexCharts(
-          document.querySelector("#apex-basic-column"),
-          options
+            document.querySelector("#apex-basic-column"),
+            options
         );
         chart.render();
-      });
+    });
 
-      $(document).ready(function () {
+    $(document).ready(function () {
         // Stacked Area
         var options = {
-          chart: {
-            height: 200,
-            type: "area",
-            stacked: true,
-            toolbar: {
-              show: false,
+            chart: {
+                height: 200,
+                type: "area",
+                stacked: true,
+                toolbar: {
+                    show: false,
+                },
+                events: {
+                    selection: function (chart, e) {
+                        console.log(new Date(e.xaxis.min));
+                    },
+                },
             },
-            events: {
-              selection: function (chart, e) {
-                console.log(new Date(e.xaxis.min));
-              },
+            colors: ["#e4bd51"],
+            dataLabels: {
+                enabled: false,
             },
-          },
-          colors: ["#e4bd51"],
-          dataLabels: {
-            enabled: false,
-          },
 
-          series: [
-            {
-              name: "Central",
-              data: generateDayWiseTimeSeries(
-                new Date("14 Aug 2024 GMT").getTime(),
-                10,
+            series: [
                 {
-                  min: 20,
-                  max: 48,
-                }
-              ),
-            },
-          ],
+                    name: "Central",
+                    data: generateDayWiseTimeSeries(
+                        new Date("14 Aug 2024 GMT").getTime(),
+                        10,
+                        {
+                            min: 20,
+                            max: 48,
+                        }
+                    ),
+                },
+            ],
 
-          fill: {
-            type: "gradient",
-            gradient: {
-              opacityFrom: 0.6,
-              opacityTo: 0.8,
+            fill: {
+                type: "gradient",
+                gradient: {
+                    opacityFrom: 0.6,
+                    opacityTo: 0.8,
+                },
             },
-          },
 
-          legend: {
-            position: "top",
-            horizontalAlign: "right",
-            show: true,
-          },
-          xaxis: {
-            type: "datetime",
-          },
-          grid: {
-            yaxis: {
-              lines: {
-                show: false,
-              },
+            legend: {
+                position: "top",
+                horizontalAlign: "right",
+                show: true,
             },
-            padding: {
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0,
+            xaxis: {
+                type: "datetime",
             },
-          },
-          stroke: {
-            show: true,
-            curve: "smooth",
-            width: 2,
-          },
+            grid: {
+                yaxis: {
+                    lines: {
+                        show: false,
+                    },
+                },
+                padding: {
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
+                },
+            },
+            stroke: {
+                show: true,
+                curve: "smooth",
+                width: 2,
+            },
         };
 
         var chart = new ApexCharts(
-          document.querySelector("#movement-apex"),
-          options
+            document.querySelector("#movement-apex"),
+            options
         );
         chart.render();
+
         function generateDayWiseTimeSeries(baseval, count, yrange) {
-          var i = 0;
-          var series = [];
-          while (i < count) {
-            var x = baseval;
-            var y =
-              Math.floor(Math.random() * (yrange.max - yrange.min + 1)) +
-              yrange.min;
+            var i = 0;
+            var series = [];
+            while (i < count) {
+                var x = baseval;
+                var y =
+                    Math.floor(Math.random() * (yrange.max - yrange.min + 1)) +
+                    yrange.min;
 
-            series.push([x, y]);
-            baseval += 86400000;
-            i++;
-          }
-          return series;
+                series.push([x, y]);
+                baseval += 86400000;
+                i++;
+            }
+            return series;
         }
-      });
+    });
 
-      //Spending Summary
-      var currentValue = 67; // Initial value for the radial bar (for "Outcome")
+    //Spending Summary
+    var currentValue = 67; // Initial value for the radial bar (for "Outcome")
 
-      var options = {
+    var options = {
         series: [currentValue], // Start with one value
         chart: {
-          height: 300,
-          type: "radialBar",
-          offsetY: -10,
+            height: 300,
+            type: "radialBar",
+            offsetY: -10,
         },
         colors: ["var(theme-color4),var(theme-color4)"],
         plotOptions: {
-          radialBar: {
-            startAngle: -135,
-            endAngle: 135,
-            dataLabels: {
-              name: {
-                show: true,
-                fontSize: "16px",
-                color: "var(theme-color4)",
-                offsetY: 40,
-                style: {
-                  fontWeight: "bold",
-                  textAnchor: "middle",
+            radialBar: {
+                startAngle: -135,
+                endAngle: 135,
+                dataLabels: {
+                    name: {
+                        show: true,
+                        fontSize: "16px",
+                        color: "var(theme-color4)",
+                        offsetY: 40,
+                        style: {
+                            fontWeight: "bold",
+                            textAnchor: "middle",
+                        },
+                    },
+                    value: {
+                        show: true,
+                        offsetY: 70,
+                        fontSize: "22px",
+                        color: "var(theme-color4)",
+                        formatter: function (val) {
+                            return val + "%";
+                        },
+                        style: {
+                            textAnchor: "middle",
+                        },
+                    },
                 },
-              },
-              value: {
-                show: true,
-                offsetY: 70,
-                fontSize: "22px",
-                color: "var(theme-color4)",
-                formatter: function (val) {
-                  return val + "%";
-                },
-                style: {
-                  textAnchor: "middle",
-                },
-              },
             },
-          },
         },
         fill: {
-          type: "gradient",
-          gradient: {
-            shade: "dark",
-            shadeIntensity: 0.15,
-            inverseColors: false,
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [0, 50, 65, 91],
-          },
+            type: "gradient",
+            gradient: {
+                shade: "dark",
+                shadeIntensity: 0.15,
+                inverseColors: false,
+                opacityFrom: 1,
+                opacityTo: 1,
+                stops: [0, 50, 65, 91],
+            },
         },
         stroke: {
-          dashArray: 4,
+            dashArray: 4,
         },
         labels: ["Spent"],
         tooltip: {
-          enabled: true,
-          style: {
-            fontSize: "12px",
-            background: "rgba(0,0,0,0.8)",
-            color: "#fff",
-          },
-          y: {
-            formatter: function (val) {
-              return val + "%"; // Format the tooltip value
+            enabled: true,
+            style: {
+                fontSize: "12px",
+                background: "rgba(0,0,0,0.8)",
+                color: "#fff",
             },
-          },
+            y: {
+                formatter: function (val) {
+                    return val + "%"; // Format the tooltip value
+                },
+            },
         },
-      };
-      var chart = new ApexCharts(
+    };
+    var chart = new ApexCharts(
         document.querySelector("#chart-Spending"),
         options
-      );
-      chart.render();
+    );
+    chart.render();
 
-      // Radio button behavior
-      const radios = document.querySelectorAll('input[name="chartOptions"]');
-      radios.forEach((radio) => {
+    // Radio button behavior
+    const radios = document.querySelectorAll('input[name="chartOptions"]');
+    radios.forEach((radio) => {
         radio.addEventListener("change", () => {
-          // Get the selected value
-          const value = radio.value;
-          // Update the chart series data with the selected value
-          currentValue = value;
-          options.series = [currentValue]; // Update the series to show only one value
-          chart.updateOptions(options); // Update the chart
+            // Get the selected value
+            const value = radio.value;
+            // Update the chart series data with the selected value
+            currentValue = value;
+            options.series = [currentValue]; // Update the series to show only one value
+            chart.updateOptions(options); // Update the chart
         });
-      });
-    </script>
-  </body>
+    });
+</script>
+</body>
 </html>

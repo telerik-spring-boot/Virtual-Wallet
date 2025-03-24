@@ -5,6 +5,7 @@ import com.telerik.virtualwallet.models.filters.FilterTransferOptions;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface TransferRepository {
@@ -24,6 +25,10 @@ public interface TransferRepository {
     List<Transfer> getAllTransfersToYourWalletsByUsername(String username);
 
     Transfer getTransferById(int id);
+
+    BigDecimal getBalanceChangeByWalletId(int walletId);
+
+    BigDecimal getBalanceChangeByWalletAndCardId(int walletId, int cardId);
 
     void createTransfer(Transfer transfer);
 

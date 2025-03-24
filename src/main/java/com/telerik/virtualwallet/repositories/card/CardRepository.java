@@ -10,6 +10,8 @@ public interface CardRepository {
 
     List<Card> getCardsByUsername(String username);
 
+    Card getFirstCardCreatedByUsername(String username);
+
     Card getCardById(int id);
 
     void addCard(Card card);

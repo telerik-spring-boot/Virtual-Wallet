@@ -1,5 +1,6 @@
 package com.telerik.virtualwallet.services.user;
 
+import com.telerik.virtualwallet.models.Investment;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderDTO;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;
@@ -21,6 +22,8 @@ public interface UserService {
     User getByUsernameOrEmailOrPhoneNumberMVC(String uniqueField);
 
     User getUserWithStocks(String username);
+
+    List<Investment> getInvestmentsByUsername(String username);
 
     void processStockOrderMvc(StockOrderMvcDTO stockOrder, String username);
 

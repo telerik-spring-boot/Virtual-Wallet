@@ -111,6 +111,12 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
+    public Wallet getmainWalletByUsername(String username) {
+
+        return walletRepository.getMainWalletByUsername(username);
+    }
+
+    @Override
     public void createWallet(String username, Wallet wallet) {
 
         User user = userRepository.getUserWithWallets(username);

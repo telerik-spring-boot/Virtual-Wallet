@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -193,6 +194,25 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
         }
 
+    }
+
+    @Override
+    public BigDecimal getBalanceChangeByWalletId(int walletId) {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<BigDecimal> query = session.createQuery(
+                    "SELECT COALESCE(SUM(CASE WHEN t.receiverWallet.id = :walletId THEN t.amount ELSE 0 END), 0) " +
+                            "- COALESCE(SUM(CASE WHEN t.senderWallet.id = :walletId THEN t.amount ELSE 0 END), 0) " +
+                            "FROM Transaction t " +
+                            "WHERE EXTRACT(MONTH FROM t.createdAt) = EXTRACT(MONTH FROM CURRENT_DATE) " +
+                            "AND EXTRACT(YEAR FROM t.createdAt) = EXTRACT(YEAR FROM CURRENT_DATE)",
+                    BigDecimal.class
+            );
+            query.setParameter("walletId", walletId);
+
+            return query.uniqueResult();
+
+        }
     }
 
 

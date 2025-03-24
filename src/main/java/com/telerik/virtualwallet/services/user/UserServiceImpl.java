@@ -8,6 +8,7 @@ import com.telerik.virtualwallet.models.*;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderDTO;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;
 import com.telerik.virtualwallet.models.enums.Currency;
+import com.telerik.virtualwallet.repositories.transaction.InvestmentRepository;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
 import com.telerik.virtualwallet.services.picture.PictureService;
 import com.telerik.virtualwallet.services.stock.StockService;
@@ -28,13 +29,15 @@ public class UserServiceImpl implements UserService {
     private final StockService stockService;
     private final PictureService pictureService;
     private final WalletService walletService;
+    private final InvestmentRepository investmentRepository;
 
 
-    public UserServiceImpl(UserRepository userRepository, StockService stockService, PictureService pictureService, WalletService walletService) {
+    public UserServiceImpl(UserRepository userRepository, StockService stockService, PictureService pictureService, WalletService walletService, InvestmentRepository investmentRepository) {
         this.userRepository = userRepository;
         this.stockService = stockService;
         this.pictureService = pictureService;
         this.walletService = walletService;
+        this.investmentRepository = investmentRepository;
     }
 
 
@@ -104,6 +107,12 @@ public class UserServiceImpl implements UserService {
         }
 
         return user;
+    }
+
+    @Override
+    public List<Investment> getInvestmentsByUsername(String username) {
+
+        return investmentRepository.getAllInvestmentsByUsername(username);
     }
 
     @Override

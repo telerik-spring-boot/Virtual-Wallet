@@ -41,6 +41,18 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
+    public Card getFirstCardCreatedByUsername(String username) {
+
+        try (Session session = sessionFactory.openSession()) {
+            Query<Card> query = session.createQuery(
+                    "from Card where user.username = :username order by id asc", Card.class);
+            query.setParameter("username", username);
+            query.setMaxResults(1);
+            return query.uniqueResult();
+        }
+    }
+
+    @Override
     public Card getCardById(int id) {
 
         try (Session session = sessionFactory.openSession()) {

@@ -2,6 +2,7 @@ package com.telerik.virtualwallet.repositories.wallet;
 
 import com.telerik.virtualwallet.models.Wallet;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface WalletRepository {

@@ -15,6 +15,8 @@ public interface WalletService {
 
     Wallet getReceiverWalletBySenderWalletIdAndReceiverUsernameMVC(int senderWalletId, String receiverUsername);
 
+    Wallet getmainWalletByUsername(String username);
+
     void createWallet(String username, Wallet wallet);
 
     void makeWalletMainWalletById(int walletId, String username);

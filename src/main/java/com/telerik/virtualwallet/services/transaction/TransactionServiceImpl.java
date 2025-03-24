@@ -102,6 +102,12 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public BigDecimal getBalanceChangeForTheCurrentMonthByWalletId(int walletId) {
+
+        return transactionRepository.getBalanceChangeByWalletId(walletId);
+    }
+
+    @Override
     public Page<Transaction> getTransactionsByWalletId(FilterTransactionsOptions options, Pageable pageable, int walletId) {
 
         pageableHelper(pageable);

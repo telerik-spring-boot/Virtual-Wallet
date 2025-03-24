@@ -416,9 +416,13 @@
                                th:href="@{/ui/users/transactions/incoming}"
                                th:classappend="${activeTab == 'in' ? 'active' : ''}"> Incoming </a>
 
-                            <a id="investmentsTab" class="btn btn-outline-warning rounded-pill ms-2 inv-btn"
+                            <a id="investmentsTab2" class="btn btn-outline-warning rounded-pill ms-2 inv-btn"
                                th:href="@{/ui/users/transactions/outgoing}"
                                th:classappend="${activeTab == 'out' ? 'active' : ''}"> Outgoing </a>
+
+                            <a id="investmentsTab" class="btn btn-outline-danger rounded-pill ms-2 inv-btn"
+                               th:href="@{/ui/users/investments}"
+                               th:classappend="${activeTab == 'investment' ? 'active' : ''}"> Investments </a>
                         </div>
 
 

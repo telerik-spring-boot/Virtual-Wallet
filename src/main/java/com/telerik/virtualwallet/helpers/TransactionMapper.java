@@ -194,24 +194,15 @@ public class TransactionMapper {
 
     public TransactionConfirmationMVCCreateDTO handleConfirmationMVCDTOLogic(int senderWalletId, Wallet receiverWallet,
                                                                              User receiverUser, BigDecimal sendingAmount) {
-        BigDecimal EUR_TO_USD = BigDecimal.valueOf(1.09);
-        BigDecimal GBP_TO_USD = BigDecimal.valueOf(1.30);
-        BigDecimal GBP_TO_EUR = GBP_TO_USD.divide(EUR_TO_USD, RoundingMode.HALF_UP);
 
         List<ExchangeRate> exchangeRates = exchangeRateService.getAllExchangeRates();
 
-        for (ExchangeRate exchangeRate : exchangeRates) {
-            if (exchangeRate.getFromCurrency().equals("EUR")
-                    && exchangeRate.getToCurrency().equals("USD")) {
-                EUR_TO_USD = BigDecimal.valueOf(exchangeRate.getRate());
-            } else if (exchangeRate.getFromCurrency().equals("GBP")
-                    && exchangeRate.getToCurrency().equals("USD")) {
-                GBP_TO_USD = BigDecimal.valueOf(exchangeRate.getRate());
-            } else if (exchangeRate.getFromCurrency().equals("EUR")
-                    && exchangeRate.getToCurrency().equals("GBP")) {
-                GBP_TO_EUR = BigDecimal.valueOf(1 / exchangeRate.getRate());
-            }
-        }
+
+        BigDecimal EUR_TO_USD = BigDecimal.valueOf(exchangeRates.get(0).getRate());
+        BigDecimal GBP_TO_USD = BigDecimal.valueOf(exchangeRates.get(2).getRate());
+        BigDecimal GBP_TO_EUR = BigDecimal.valueOf(1 / exchangeRates.get(1).getRate());
+
+
 
 
         TransactionConfirmationMVCCreateDTO dto = new TransactionConfirmationMVCCreateDTO();

@@ -16,7 +16,6 @@ import java.util.List;
 @Service
 public class CardServiceImpl implements CardService {
 
-    private static final String NO_CARDS_FOUND_MESSAGE = "No cards associated with %s found.";
     private static final String NO_CARDS_MESSAGE = "No cards are found.";
     private static final String EXPIRED_CARD_ERROR_MESSAGE = "Please insert an expiry date in the future.";
 
@@ -44,13 +43,13 @@ public class CardServiceImpl implements CardService {
     @Override
     public List<Card> getCardsByUsername(String username) {
 
-        List<Card> cards = cardRepository.getCardsByUsername(username);
+        return cardRepository.getCardsByUsername(username);
+    }
 
-//        if (cards.isEmpty()) {
-//            throw new EntityNotFoundException(String.format(NO_CARDS_FOUND_MESSAGE, username));
-//        }
+    @Override
+    public Card getFirstCardCreatedByUsername(String username) {
 
-        return cards;
+        return cardRepository.getFirstCardCreatedByUsername(username);
     }
 
     @Override

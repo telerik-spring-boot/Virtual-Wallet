@@ -28,6 +28,8 @@ public interface TransactionService {
 
     Transaction getTransactionById(int id);
 
+    BigDecimal getBalanceChangeForTheCurrentMonthByWalletId(int walletId);
+
     Page<Transaction> getTransactionsByWalletId(FilterTransactionsOptions options, Pageable pageable, int walletId);
 
     void makeTransaction(Transaction transaction);

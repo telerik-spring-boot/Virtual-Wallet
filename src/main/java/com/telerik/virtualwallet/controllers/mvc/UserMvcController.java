@@ -5,20 +5,26 @@ import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.exceptions.InsufficientFundsException;
 import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
+import com.telerik.virtualwallet.helpers.CardMapper;
 import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
+import com.telerik.virtualwallet.helpers.WalletMapper;
 import com.telerik.virtualwallet.models.Stock;
 import com.telerik.virtualwallet.models.StockResponse;
 import com.telerik.virtualwallet.models.User;
+import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionsWrapper;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
+import com.telerik.virtualwallet.models.dtos.wallet.WalletMvcDisplayDTO;
+import com.telerik.virtualwallet.services.card.CardService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
 import com.telerik.virtualwallet.services.stock.StockService;
 import com.telerik.virtualwallet.services.transaction.TransactionService;
 import com.telerik.virtualwallet.services.transaction.TransferService;
 import com.telerik.virtualwallet.services.user.UserService;
+import com.telerik.virtualwallet.services.wallet.WalletService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -33,7 +39,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,9 +58,13 @@ public class UserMvcController {
     private final TransferService transferService;
     private final TransactionService transactionService;
     private final TransactionMapper transactionMapper;
+    private final WalletService walletService;
+    private final WalletMapper walletMapper;
+    private final CardService cardService;
+    private final CardMapper cardMapper;
 
     @Autowired
-    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, StockService stockService, TransferService transferService, TransactionService transactionService, TransactionMapper transactionMapper) {
+    public UserMvcController(UserService userService, UserMapper userMapper, JwtService jwtService, StockService stockService, TransferService transferService, TransactionService transactionService, TransactionMapper transactionMapper, WalletService walletService, WalletMapper walletMapper, CardService cardService, CardMapper cardMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.jwtService = jwtService;
@@ -59,6 +72,10 @@ public class UserMvcController {
         this.transferService = transferService;
         this.transactionService = transactionService;
         this.transactionMapper = transactionMapper;
+        this.walletService = walletService;
+        this.walletMapper = walletMapper;
+        this.cardService = cardService;
+        this.cardMapper = cardMapper;
     }
 
     @ModelAttribute("isAdmin")
@@ -67,7 +84,51 @@ public class UserMvcController {
     }
 
     @GetMapping("/dashboard")
-    public String getOverview() {
+    public String getOverview(Model model, Authentication authentication) {
+
+        WalletMvcDisplayDTO wallet = walletMapper.walletToMvcDto
+                (walletService.getmainWalletByUsername(authentication.getName()));
+
+        BigDecimal allDeposits = transferService.getBalanceChangeForTheCurrentMonthByWalletId(wallet.getId());
+
+        BigDecimal balanceChange = allDeposits.add(transactionService
+                .getBalanceChangeForTheCurrentMonthByWalletId(wallet.getId()));
+
+        BigDecimal percentageBalanceChange = BigDecimal.valueOf(100).multiply(balanceChange
+                        .divide(wallet.getBalance().subtract(balanceChange), 4, RoundingMode.HALF_UP))
+                .setScale(2, RoundingMode.HALF_UP);
+
+        boolean positiveBalanceChange = balanceChange.compareTo(BigDecimal.ZERO) > 0;
+
+        CardDisplayDTO card = cardMapper.cardToCardDisplayDTO
+                (cardService.getFirstCardCreatedByUsername(authentication.getName()));
+
+        BigDecimal depositsFromMainCard = transferService
+                .getBalanceChangeForTheCurrentMonthByWalletAndCardId(wallet.getId(), card.getId());
+
+        BigDecimal depositedFromMainPercentage = BigDecimal.valueOf(100)
+                .multiply(depositsFromMainCard.divide(allDeposits, 2, RoundingMode.HALF_UP));
+
+
+        List<TransactionsWrapper> transactions =
+                new ArrayList<>(transactionService.getTransactionsByUsername(authentication.getName())
+                        .stream().map(transactionMapper::transactionToTransactionWrapper).toList());
+
+
+        transactions.addAll(transferService.getAllTransfersToYourWalletsByUsername(authentication.getName())
+                .stream().map(transactionMapper::transferToTransactionWrapper).toList());
+
+        List<TransactionsWrapper> sortedTransactions = transactions.stream()
+                .sorted(Comparator.comparing(TransactionsWrapper::getTransactionTime).reversed())
+                .limit(6).toList();
+
+        model.addAttribute("transactions", sortedTransactions);
+        model.addAttribute("depositsFromMainCard", depositsFromMainCard);
+        model.addAttribute("depositedFromMainPercentage", depositedFromMainPercentage);
+        model.addAttribute("percentageBalanceChange", percentageBalanceChange);
+        model.addAttribute("positiveBalanceChange", positiveBalanceChange);
+        model.addAttribute("wallet", wallet);
+        model.addAttribute("card", card);
         return "index";
     }
 
@@ -148,7 +209,7 @@ public class UserMvcController {
                 .stream().map(transactionMapper::transferToTransactionWrapper).toList());
 
         model.addAttribute("transactions", transactions);
-        model.addAttribute("activeTab","all");
+        model.addAttribute("activeTab", "all");
 
         return "transaction";
     }
@@ -165,7 +226,7 @@ public class UserMvcController {
                 .stream().map(transactionMapper::transferToTransactionWrapper).toList());
 
         model.addAttribute("transactions", transactions);
-        model.addAttribute("activeTab","in");
+        model.addAttribute("activeTab", "in");
 
         return "transaction";
     }
@@ -178,9 +239,22 @@ public class UserMvcController {
                         .stream().map(transactionMapper::transactionToTransactionWrapper).toList());
 
         model.addAttribute("transactions", transactions);
-        model.addAttribute("activeTab","out");
+        model.addAttribute("activeTab", "out");
 
         return "transaction";
+    }
+
+    @GetMapping("/investments")
+    public String getInvestmentsHistory(Authentication authentication, Model model) {
+
+        model.addAttribute("investments", userService.getInvestmentsByUsername(authentication.getName())
+                .stream()
+                .flatMap(investment -> transactionMapper.investmentToInvestmentDTO(investment).stream())
+                .toList());
+
+        model.addAttribute("activeTab", "investment");
+
+        return "investments";
     }
 
 
@@ -230,7 +304,6 @@ public class UserMvcController {
     }
 
 
-
     public static boolean populateIsAdminAttribute() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -243,8 +316,6 @@ public class UserMvcController {
 
         return roles.contains("ROLE_ADMIN");
     }
-
-
 
 
 }

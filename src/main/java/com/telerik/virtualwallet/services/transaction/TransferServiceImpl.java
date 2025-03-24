@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static com.telerik.virtualwallet.services.transaction.TransactionServiceImpl.pageableHelper;
@@ -56,6 +57,16 @@ public class TransferServiceImpl implements TransferService {
     @Override
     public List<Transfer> getAllTransfersByWalletId(int walletId) {
         return transferRepository.getAllTransfersByWalletId(walletId);
+    }
+
+    @Override
+    public BigDecimal getBalanceChangeForTheCurrentMonthByWalletId(int walletId) {
+        return transferRepository.getBalanceChangeByWalletId(walletId);
+    }
+
+    @Override
+    public BigDecimal getBalanceChangeForTheCurrentMonthByWalletAndCardId(int walletId, int cardId) {
+        return transferRepository.getBalanceChangeByWalletAndCardId(walletId, cardId);
     }
 
     @Override
