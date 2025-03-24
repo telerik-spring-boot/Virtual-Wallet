@@ -71,6 +71,10 @@ public class UserMvcController {
         return "index";
     }
 
+    @GetMapping("/faq")
+    public String getFAQ() {
+        return "faq";
+    }
 
     @GetMapping("/recipients")
     public String getRecipients() {

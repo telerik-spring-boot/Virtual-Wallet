@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/general-fragments :: head('YNPay :: Contact')}"></head>
+
+<body data-theme="theme-AppleGreen" class="svgstroke-a ">
+<nav class="navbar navbar-expand-md position-fixed top-0 w-100 body-color ">
+	<div class="container-fluid">
+		<a class="navbar-brand" th:href="@{/ui/users/dashboard}">
+			<img src="../static/images/favicon.ico" th:src="@{/images/favicon.ico}" alt="Logo" width="80" height="80"/>
+		</a>
+		<div class="d-none d-sm-block">
+			<ul class="list-unstyled d-none">
+				<li class="nav-item dropdown px-md-1">
+					<a class="dropdown-toggle gray-6" href="#" id="bd-theme-one" data-bs-toggle="dropdown"
+					   aria-expanded="false">
+						<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"
+						     class="theme-icon-active">
+							<use href="#sun-fill"></use>
+						</svg>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-end p-2 p-xl-3 shadow rounded-4"
+					    aria-labelledby="bd-theme-one">
+						<li class="mb-1">
+							<a class="dropdown-item rounded-pill" href="#" data-bs-theme-value="light">
+								<svg class="avatar xs me-2 opacity-50 theme-icon" fill="currentColor">
+									<use href="#sun-fill"></use>
+								</svg>
+								Light
+							</a>
+						</li>
+						<li class="mb-1">
+							<a class="dropdown-item rounded-pill active" href="#"
+							   data-bs-theme-value="dark">
+								<svg class="avatar xs me-2 opacity-50 theme-icon" fill="currentColor">
+									<use href="#moon-stars-fill"></use>
+								</svg>
+								Dark
+							</a>
+						</li>
+						<li class="mb-1">
+							<a class="dropdown-item rounded-pill" href="#" data-bs-theme-value="auto">
+								<svg class="avatar xs me-2 opacity-50 theme-icon" fill="currentColor">
+									<use href="#circle-half"></use>
+								</svg>
+								Auto
+							</a>
+						</li>
+					</ul>
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+					     viewBox="0 0 16 16" style="display: none;">
+						<symbol id="sun-fill" viewBox="0 0 16 16">
+							<path
+									d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z">
+							</path>
+						</symbol>
+						<symbol id="moon-stars-fill" viewBox="0 0 16 16">
+							<path
+									d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z">
+							</path>
+							<path
+									d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z">
+							</path>
+						</symbol>
+						<symbol id="circle-half" viewBox="0 0 16 16">
+							<path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path>
+						</symbol>
+					</svg>
+				</li>
+				<li class="nav-item dropdown px-md-1">
+					<a class="dropdown-toggle gray-6" href="#offcanvas_setting" data-bs-toggle="offcanvas"
+					   aria-expanded="false" title="template setting">
+						<svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+						     viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round"
+						     stroke-linejoin="round">
+							<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+							<path
+									d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+							</path>
+							<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+						</svg>
+					</a>
+				</li>
+			</ul>
+			<p class="text-muted justify-content-center border rounded-2 d-flex align-items-center"
+			   style="background: var(--bs-body-bg); height:2.5rem;">
+
+				<a class="fs-5 p-1"
+				   href="sign-in.html" th:href="@{/ui/users/dashboard}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="align-self-center pb-1"
+					     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M9 5l-7 7l7 7"></path>
+						<path d="M4 12h16"></path>
+					</svg>
+					Back
+				</a>
+			</p>
+		</div>
+	</div>
+</nav>
+<main class="container-fluid">
+	<div class="content ">
+		<!-- start: page body area -->
+		<div class="row justify-content-center align-items-center mt-5 py-5">
+			<div class="col-8 mt-5">
+				<div class="card">
+					<div class="card-body">
+						<div class="d-flex flex-column align-items-center">
+							<div class="no-thumbnail rounded-circle border bg-light p-2">
+								<div class="no-thumbnail rounded-circle border bg-white p-2">
+									<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="svg-stroke">
+										<text x="50%" y="50%" font-size="22" text-anchor="middle" dy=".3em" fill="currentColor">?</text>
+									</svg>
+								</div>
+							</div>
+							<div class="mt-3 text-center">
+								<h4 class="text-capitalize text-center fw-bold">Frequently Asked Questions</h4>
+								<span class="text-muted text-capitalize text-center" style="text-transform:none!important;">Here are some common questions related to your virtual wallet experience. If you need further assistance, feel free to contact us.</span>
+							</div>
+							<div class="mt-5 w-100">
+								<div class="accordion" id="faqAccordion">
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="faqOne">
+											<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+												How can I verify my email and ID for the virtual wallet?
+											</button>
+										</h2>
+										<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+											<div class="accordion-body">
+												To verify your email, simply follow the instructions sent to your email after registration. Once verified, you will need to submit your ID and a selfie for admin verification. After approval, you'll be able to make transactions.
+											</div>
+										</div>
+									</div>
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="faqTwo">
+											<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+												How can I make transfers between users?
+											</button>
+										</h2>
+										<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#faqAccordion">
+											<div class="accordion-body">
+												You can transfer funds to other users by using their IBAN, username, or phone number. Large transfers will require email confirmation for security purposes.
+											</div>
+										</div>
+									</div>
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="faqThree">
+											<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+												Can I buy stocks through the wallet app?
+											</button>
+										</h2>
+										<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="faqThree" data-bs-parent="#faqAccordion">
+											<div class="accordion-body">
+												Yes, you can buy stocks directly through the app, provided you have sufficient funds in your wallet. You can use the funds from your wallet to purchase stocks.
+											</div>
+										</div>
+									</div>
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="faqFour">
+											<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+												What should I do if I forget my password?
+											</button>
+										</h2>
+										<div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="faqFour" data-bs-parent="#faqAccordion">
+											<div class="accordion-body">
+												If you forget your password, you can easily reset it by clicking on the "Forgot Password" link on the login page. Follow the instructions to reset your password securely.
+											</div>
+										</div>
+									</div>
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="faqFive">
+											<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+												Can I hold multiple currencies in my wallet?
+											</button>
+										</h2>
+										<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="faqFive" data-bs-parent="#faqAccordion">
+											<div class="accordion-body">
+												Yes, you can hold multiple currencies in your wallet. However, your main wallet will always be in USD, and other currencies will be added as secondary wallets.
+											</div>
+										</div>
+									</div>
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="faqSix">
+											<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+												What are joint wallets and how do they work?
+											</button>
+										</h2>
+										<div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="faqSix" data-bs-parent="#faqAccordion">
+											<div class="accordion-body">
+												Joint wallets allow multiple users to share access to a single wallet. The creator of the joint wallet is the admin and has the authority to add or remove members from the wallet.
+											</div>
+										</div>
+									</div>
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="faqSeven">
+											<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+												How do I deposit money into my wallet?
+											</button>
+										</h2>
+										<div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="faqSeven" data-bs-parent="#faqAccordion">
+											<div class="accordion-body">
+												To deposit money into your wallet, navigate to the deposit section of the app. You can use various payment methods like bank transfer, credit card, or other supported payment systems.
+											</div>
+										</div>
+									</div>
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="faqEight">
+											<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+												Can I use my wallet balance for online purchases?
+											</button>
+										</h2>
+										<div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="faqEight" data-bs-parent="#faqAccordion">
+											<div class="accordion-body">
+												No, you can use the wallet balance only for internal transactions, or stocks purchases.
+											</div>
+										</div>
+									</div>
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="faqNine">
+											<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+												How can I view my transaction history?
+											</button>
+										</h2>
+										<div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="faqNine" data-bs-parent="#faqAccordion">
+											<div class="accordion-body">
+												You can view your transaction history by going to the "Transactions" section in the app. Here, you will see a list of all your past transfers, deposits, and investments, along with their details.
+											</div>
+										</div>
+									</div>
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="faqTen">
+											<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+												What happens if I forget to confirm a large transfer via email?
+											</button>
+										</h2>
+										<div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="faqTen" data-bs-parent="#faqAccordion">
+											<div class="accordion-body">
+												If you forget to confirm a large transfer via email, the transaction will not be processed.
+											</div>
+										</div>
+									</div>
+									<div class="accordion-item mb-3">
+										<h2 class="accordion-header" id="faqEleven">
+											<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+												How can I delete my account?
+											</button>
+										</h2>
+										<div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="faqEleven" data-bs-parent="#faqAccordion">
+											<div class="accordion-body">
+												To delete your account, you can contact our support team through the app's contact form. They will assist you with the process, including securely closing your account and handling any remaining balance.
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+<footer class="w-100 bg-body position-fixed bottom-0">
+	<div class="container-fluid">
+		<div class="d-flex align-items-center">
+			<div class="p-0 m-0">
+				<a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover text-reverse"
+				   href="#" th:href="@{/home}">
+					@2025 YNPay
+				</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+
+
+</body>
+
+</html>
