@@ -79,7 +79,7 @@ public class SecurityConfig{
                 .securityMatcher("/ui/**")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").denyAll()
-                        .requestMatchers("/ui/auth/login","/ui/auth/contact", "/ui/auth/register", "/ui/auth/verify-email**", "/ui/auth/logout","/ui/auth/request-password", "/ui/auth/reset-password**").permitAll()
+                        .requestMatchers("/ui/auth/login","/ui/auth/contact","/ui/auth/faq","/ui/auth/terms", "/ui/auth/register", "/ui/auth/verify-email**", "/ui/auth/logout","/ui/auth/request-password", "/ui/auth/reset-password**").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/uploads/**","/bundles/**","/vendor/**","/fonts/**","/images/**").permitAll()
                         .requestMatchers("/ui/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

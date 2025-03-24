@@ -10,7 +10,7 @@ import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.helpers.WalletMapper;
 import com.telerik.virtualwallet.models.Stock;
-import com.telerik.virtualwallet.models.StockResponse;
+import com.telerik.virtualwallet.models.api.StockResponse;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;

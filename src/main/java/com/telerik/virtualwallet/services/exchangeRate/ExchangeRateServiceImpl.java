@@ -1,8 +1,6 @@
 package com.telerik.virtualwallet.services.exchangeRate;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.telerik.virtualwallet.models.ExchangeRate;
-import com.telerik.virtualwallet.models.StockData;
 import com.telerik.virtualwallet.repositories.exchangeRate.ExchangeRateRepository;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;

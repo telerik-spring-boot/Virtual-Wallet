@@ -1,8 +1,8 @@
 package com.telerik.virtualwallet.controllers;
 
 
-import com.telerik.virtualwallet.models.StockData;
-import com.telerik.virtualwallet.models.StockResponse;
+import com.telerik.virtualwallet.models.api.StockData;
+import com.telerik.virtualwallet.models.api.StockResponse;
 import com.telerik.virtualwallet.services.stock.StockService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

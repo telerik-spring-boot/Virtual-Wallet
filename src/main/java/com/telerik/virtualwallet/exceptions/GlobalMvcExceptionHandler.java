@@ -43,9 +43,16 @@ public class GlobalMvcExceptionHandler {
     public String handleMethodNotSupported() {
         return "404";
     }
+
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleNotFound() {
+        return "404";
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleRuntimeException() {
         return "404";
     }
 }

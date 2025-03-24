@@ -65,7 +65,6 @@ public class UserController {
         this.cardMapper = cardMapper;
     }
 
-
     @PutMapping("/{username}")
     @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
     public ResponseEntity<UserDisplayDTO> updateUser(
