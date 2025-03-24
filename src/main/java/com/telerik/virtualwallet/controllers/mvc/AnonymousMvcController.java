@@ -62,8 +62,18 @@ public class AnonymousMvcController {
         return "login";
     }
 
+    @GetMapping("/faq")
+    public String getFAQ() {
+        return "faq";
+    }
+
+    @GetMapping("/terms")
+    public String getTermsAndConditions() {
+        return "terms";
+    }
+
     @GetMapping("/extraChecks")
-    public String getLogin(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+    public String getLogin(HttpServletRequest request, HttpServletResponse response) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getByUsername(userDetails.getUsername());
 
