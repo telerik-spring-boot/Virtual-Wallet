@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -165,13 +166,13 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     @Override
     public Page<Transaction> getAllTransactionsWithWallets(FilterTransactionsOptions options, Pageable pageable) {
 
-        return getTransactionsWithFiltersHelper(options, pageable, -1,"");
+        return getTransactionsWithFiltersHelper(options, pageable, -1, "");
 
     }
 
     @Override
     public Page<Transaction> getAllTransactionsWithWalletsByUsername(FilterTransactionsOptions options, Pageable pageable, String username) {
-        return getTransactionsWithFiltersHelper(options, pageable, -1,username);
+        return getTransactionsWithFiltersHelper(options, pageable, -1, username);
     }
 
 
@@ -215,11 +216,48 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         }
     }
 
+    @Override
+    public List<Transaction> getIncomingTransactionsForLastYearByWalletId(int walletId, LocalDateTime startOfMonth11MonthsAgo) {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Transaction> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transaction t " +
+                                    "WHERE t.receiverWallet.id=:walletId " +
+                                    "AND t.createdAt >= :startOfMonth11MonthsAgo",
+                            Transaction.class);
+
+            query.setParameter("walletId", walletId);
+            query.setParameter("startOfMonth11MonthsAgo", startOfMonth11MonthsAgo);
+
+            return query.list();
+
+        }
+    }
+
+    @Override
+    public List<Transaction> getOutgoingTransactionsForLastYearByWalletId(int walletId, LocalDateTime startOfMonth11MonthsAgo) {
+
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Transaction> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transaction t " +
+                                    "WHERE t.senderWallet.id=:walletId " +
+                                    "AND t.createdAt >= :startOfMonth11MonthsAgo",
+                            Transaction.class);
+
+            query.setParameter("walletId", walletId);
+            query.setParameter("startOfMonth11MonthsAgo", startOfMonth11MonthsAgo);
+
+            return query.list();
+
+        }
+    }
+
 
     @Override
     public Page<Transaction> getAllTransactionsWithWalletsByWalletId(FilterTransactionsOptions options, Pageable pageable, int walletId) {
 
-        return getTransactionsWithFiltersHelper(options, pageable, walletId,"");
+        return getTransactionsWithFiltersHelper(options, pageable, walletId, "");
 
     }
 
@@ -288,7 +326,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                 params.put("endTime", value);
             });
 
-            if(!username.isEmpty()){
+            if (!username.isEmpty()) {
                 filters.add("(s.username = :username OR r.username = :username)");
                 params.put("username", username);
             }
@@ -324,11 +362,11 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                             }
                         },
                         () ->
-                            options.getUsername().ifPresent(value -> {
-                                filters.add("(s.username LIKE :senderUsername OR r.username LIKE :receiverUsername)");
-                                params.put("senderUsername", "%" + value + "%");
-                                params.put("receiverUsername", "%" + value + "%");
-                            })
+                                options.getUsername().ifPresent(value -> {
+                                    filters.add("(s.username LIKE :senderUsername OR r.username LIKE :receiverUsername)");
+                                    params.put("senderUsername", "%" + value + "%");
+                                    params.put("receiverUsername", "%" + value + "%");
+                                })
                 );
 
             }

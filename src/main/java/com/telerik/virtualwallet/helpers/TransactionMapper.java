@@ -125,7 +125,8 @@ public class TransactionMapper {
 
         transactionsWrapper.setTransactionId(transfer.getId());
         transactionsWrapper.setAmount(transfer.getAmount());
-        transactionsWrapper.setCurrency(transfer.getReceiverWallet().getCurrency());
+        transactionsWrapper.setCurrency(transfer.getReceiverWallet().getCurrency().toString());
+        transactionsWrapper.setMainReceiver(transfer.getReceiverWallet().getCreator().getUsername());
         transactionsWrapper.setReceivers(String.join(", ", transfer.getReceiverWallet().getUsers().stream()
                 .map(User::getUsername)
                 .toList()));
@@ -144,7 +145,8 @@ public class TransactionMapper {
 
         transactionsWrapper.setTransactionId(transaction.getId());
         transactionsWrapper.setAmount(transaction.getAmount());
-        transactionsWrapper.setCurrency(transaction.getSenderWallet().getCurrency());
+        transactionsWrapper.setCurrency(transaction.getSenderWallet().getCurrency().toString());
+        transactionsWrapper.setMainReceiver(transaction.getReceiverWallet().getCreator().getUsername());
         transactionsWrapper.setReceivers(String.join(", ", transaction.getReceiverWallet().getUsers().stream()
                 .map(User::getUsername)
                 .toList()));
@@ -179,7 +181,7 @@ public class TransactionMapper {
 
             investmentDTO.setQuantity(Double.parseDouble(quantities[i]));
 
-            investmentDTO.setValue(Double.parseDouble(values[i]));
+            investmentDTO.setValue(Math.round(Double.parseDouble(values[i]) * 100.0) / 100.0);
 
             investmentDTO.setTotalOrderValue(investment.getTotalValue());
 

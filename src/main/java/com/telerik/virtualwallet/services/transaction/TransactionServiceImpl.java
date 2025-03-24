@@ -16,6 +16,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -108,6 +111,30 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public List<BigDecimal> getIncomingTransactionsForTheLastYearByWalletId(int walletId) {
+
+        LocalDateTime startOfMonth11MonthsAgo = LocalDateTime.now()
+                .minusMonths(11).withDayOfMonth(1).toLocalDate().atStartOfDay();
+
+        List<Transaction> transactions = transactionRepository
+                .getIncomingTransactionsForLastYearByWalletId(walletId, startOfMonth11MonthsAgo);
+
+        return getSumForLastTwelveMonths(transactions, LocalDateTime.now());
+    }
+
+    @Override
+    public List<BigDecimal> getOutgoingTransactionsForTheLastYearByWalletId(int walletId) {
+
+        LocalDateTime startOfMonth11MonthsAgo = LocalDateTime.now()
+                .minusMonths(11).withDayOfMonth(1).toLocalDate().atStartOfDay();
+
+        List<Transaction> transactions = transactionRepository
+                .getOutgoingTransactionsForLastYearByWalletId(walletId, startOfMonth11MonthsAgo);
+
+        return getSumForLastTwelveMonths(transactions, LocalDateTime.now());
+    }
+
+    @Override
     public Page<Transaction> getTransactionsByWalletId(FilterTransactionsOptions options, Pageable pageable, int walletId) {
 
         pageableHelper(pageable);
@@ -181,6 +208,30 @@ public class TransactionServiceImpl implements TransactionService {
         if (!type.equalsIgnoreCase("asc") && !type.equalsIgnoreCase("desc")) {
             throw new InvalidSortParameterException(type);
         }
+    }
+
+    private List<BigDecimal> getSumForLastTwelveMonths(List<Transaction> transactions, LocalDateTime now) {
+        List<BigDecimal> monthlySums = new ArrayList<>(Collections.nCopies(12, BigDecimal.ZERO));
+
+        transactions.forEach(transaction -> {
+            int monthIndex = getMonthIndex(transaction.getCreatedAt(), now);
+            monthlySums.set(monthIndex, monthlySums.get(monthIndex).add(transaction.getAmount()));
+        });
+
+        Collections.reverse(monthlySums);
+
+        return monthlySums;
+    }
+
+    private int getMonthIndex(LocalDateTime transactionDate, LocalDateTime currentDate) {
+        int transactionMonth = transactionDate.getMonthValue();
+        int currentMonth = currentDate.getMonthValue();
+
+        int monthIndex = currentMonth - transactionMonth;
+        if (monthIndex < 0) {
+            monthIndex += 12;
+        }
+        return monthIndex;
     }
 
 

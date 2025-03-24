@@ -30,6 +30,10 @@ public interface TransactionService {
 
     BigDecimal getBalanceChangeForTheCurrentMonthByWalletId(int walletId);
 
+    List<BigDecimal> getIncomingTransactionsForTheLastYearByWalletId(int walletId);
+
+    List<BigDecimal> getOutgoingTransactionsForTheLastYearByWalletId(int walletId);
+
     Page<Transaction> getTransactionsByWalletId(FilterTransactionsOptions options, Pageable pageable, int walletId);
 
     void makeTransaction(Transaction transaction);

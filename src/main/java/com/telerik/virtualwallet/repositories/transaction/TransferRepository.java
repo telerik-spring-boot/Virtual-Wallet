@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TransferRepository {
@@ -29,6 +30,8 @@ public interface TransferRepository {
     BigDecimal getBalanceChangeByWalletId(int walletId);
 
     BigDecimal getBalanceChangeByWalletAndCardId(int walletId, int cardId);
+
+    List<Transfer> getTransfersForLastYearByWalletId(int walletId, LocalDateTime startDate);
 
     void createTransfer(Transfer transfer);
 

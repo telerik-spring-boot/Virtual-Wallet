@@ -111,6 +111,7 @@
 
 
                             <a
+                                    th:if="${wallets.size()>1}"
                                     th:href="@{/ui/wallets/{id}/top-up(id=${wallet.id})}"
                                     class="btn me-1 btn-dark w-100 mb-2"
                             >

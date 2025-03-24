@@ -10,6 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.telerik.virtualwallet.services.transaction.TransactionServiceImpl.pageableHelper;
@@ -70,6 +73,18 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
+    public List<BigDecimal> getTransfersForTheLastYearByWalletId(int walletId) {
+
+        LocalDateTime startOfMonth11MonthsAgo = LocalDateTime.now()
+                .minusMonths(11).withDayOfMonth(1).toLocalDate().atStartOfDay();
+
+        List<Transfer> transfers = transferRepository
+                .getTransfersForLastYearByWalletId(walletId, startOfMonth11MonthsAgo);
+
+        return getSumForLastTwelveMonths(transfers, LocalDateTime.now());
+    }
+
+    @Override
     public List<Transfer> getAllTransfersToYourWalletsByUsername(String username) {
         return transferRepository.getAllTransfersToYourWalletsByUsername(username);
     }
@@ -84,5 +99,29 @@ public class TransferServiceImpl implements TransferService {
         }
 
         return transfer;
+    }
+
+    private List<BigDecimal> getSumForLastTwelveMonths(List<Transfer> transfers, LocalDateTime now) {
+        List<BigDecimal> monthlySums = new ArrayList<>(Collections.nCopies(12, BigDecimal.ZERO));
+
+        transfers.forEach(transfer -> {
+            int monthIndex = getMonthIndex(transfer.getCreatedAt(), now);
+            monthlySums.set(monthIndex, monthlySums.get(monthIndex).add(transfer.getAmount()));
+        });
+
+        Collections.reverse(monthlySums);
+
+        return monthlySums;
+    }
+
+    private int getMonthIndex(LocalDateTime transferDate, LocalDateTime currentDate) {
+        int transferMonth = transferDate.getMonthValue();
+        int currentMonth = currentDate.getMonthValue();
+
+        int monthIndex = currentMonth - transferMonth;
+        if (monthIndex < 0) {
+            monthIndex += 12;
+        }
+        return monthIndex;
     }
 }

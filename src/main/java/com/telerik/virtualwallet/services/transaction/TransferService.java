@@ -24,6 +24,8 @@ public interface TransferService {
 
     BigDecimal getBalanceChangeForTheCurrentMonthByWalletAndCardId(int walletId, int cardId);
 
+    List<BigDecimal> getTransfersForTheLastYearByWalletId(int walletId);
+
     List<Transfer> getAllTransfersToYourWalletsByUsername(String username);
 
     Transfer getTransferById(int transferId);

@@ -38,7 +38,7 @@
         <div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
             <div class="row g-3 mb-3 row-deck">
                 <div class="col-md-6 col-lg-6 col-xl-4">
-                    <div class="card">
+                    <div class="card d-flex flex-column">
                         <div class="card-header">
                             <h6 class="card-title mb-0" th:text="'IBAN33YNPAY68477732491843244' + ${wallet.id}">My
                                 Wallet</h6>
@@ -96,7 +96,7 @@
                                     <h6 class="card-title mb-0 me-auto">US Dollar</h6>
                                 </div>
                                 <div class="card-body">
-                                    <h2 th:text="'$'+${wallet.balance}">$65894</h2>
+                                    <h2 th:text="'$ '+${wallet.balance}">$65894</h2>
                                     <span th:if="${positiveBalanceChange}" class="badge bg-primary"
                                           th:text="'+' + ${percentageBalanceChange} +'%'">+15%</span>
                                     <span th:if="${!positiveBalanceChange}" class="badge bg-danger"
@@ -142,190 +142,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-xl-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">Spending Summary</h6>
-                            <div class="card-action">
-                                <div>
-                                    <!--============== full screen  =============-->
-                                    <a
-                                            href="#"
-                                            class="card-fullscreen"
-                                            data-bs-toggle="tooltip"
-                                            aria-label="Card Full Screen"
-                                            data-bs-original-title="Card Full Screen"
-                                    >
-                                        <svg
-                                                class="svg-stroke"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="20"
-                                                height="20"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                        >
-                                            <path
-                                                    stroke="none"
-                                                    d="M0 0h24v24H0z"
-                                                    fill="none"
-                                            ></path>
-                                            <path
-                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
-                                            ></path>
-                                            <path d="M7 20l10 0"></path>
-                                            <path d="M9 16l0 4"></path>
-                                            <path d="M15 16l0 4"></path>
-                                            <path d="M17 4h4v4"></path>
-                                            <path d="M16 9l5 -5"></path>
-                                        </svg>
-                                    </a>
-                                    <!--============== dropdown =============-->
-                                    <a
-                                            href="#"
-                                            class="dropdown-toggle after-none"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                            title="More Action"
-                                    >
-                                        <svg
-                                                class="svg-stroke"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="20"
-                                                height="20"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                        >
-                                            <path
-                                                    stroke="none"
-                                                    d="M0 0h24v24H0z"
-                                                    fill="none"
-                                            ></path>
-                                            <path
-                                                    d="M10 6h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3"
-                                            ></path>
-                                            <path
-                                                    d="M17 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"
-                                            ></path>
-                                        </svg>
-                                    </a>
-                                    <div
-                                            class="dropdown-menu dropdown-menu-end shadow rounded-4 p-2"
-                                    >
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-share"></i>
-                                            Share
-                                        </a>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-pencil"></i>
-                                            Rename
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-link"></i>
-                                            Copy Link Address
-                                        </a>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-folder"></i>
-                                            Move to
-                                        </a>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-copy"></i>
-                                            Copy to
-                                        </a>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-edit"></i>
-                                            Make Private
-                                        </a>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-download"></i>
-                                            Download
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill card-options-remove"
-                                                data-toggle="card-remove"
-                                        >
-                                            <i class="me-2 fa fa-trash"></i>
-                                            Delete
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div id="chart-Spending" class="my-0"></div>
-                            <hr class="border my-0 py-0"/>
-                            <div class="text-center my-2">
-                                <div class="form-check form-check-inline">
-                                    <input
-                                            class="form-check-input form-check-input-dark"
-                                            type="radio"
-                                            name="chartOptions"
-                                            id="outcome"
-                                            value="47"
-                                            checked=""
-                                    />
-                                    <label class="form-check-label" for="outcome"
-                                    >Outcome</label
-                                    >
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input
-                                            class="form-check-input form-check-input-dark"
-                                            type="radio"
-                                            name="chartOptions"
-                                            id="income"
-                                            value="60"
-                                    />
-                                    <label class="form-check-label" for="income"
-                                    >Income</label
-                                    >
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input
-                                            class="form-check-input form-check-input-dark"
-                                            type="radio"
-                                            name="chartOptions"
-                                            id="others"
-                                            value="70"
-                                    />
-                                    <label class="form-check-label" for="others"
-                                    >Others</label
-                                    >
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-4">
-                    <div class="card">
+                    <div class="card ">
                         <div class="card-header">
                             <h6 class="card-title mb-0">Saved Cards</h6>
                             <div class="card-action">
@@ -376,21 +193,23 @@
                                 <div class="cc visa">
                                     <div class="card-data">
                                         <div th:if="${card.expiryMonth.substring(0,1) == '0'}" class="type">Debit</div>
-                                        <div th:if="${card.expiryMonth.substring(0,1) == '1'}"  class="type">Credit</div>
+                                        <div th:if="${card.expiryMonth.substring(0,1) == '1'}" class="type">Credit</div>
                                         <div class="circuit">
                                             <i th:if="${card.getType()=='Visa'}" class="fa fa-cc-visa fa-2x"></i>
-                                            <i th:if="${card.getType()=='Mastercard'}" class="fa fa-cc-mastercard fa-2x"></i>
+                                            <i th:if="${card.getType()=='Mastercard'}"
+                                               class="fa fa-cc-mastercard fa-2x"></i>
                                             <i th:if="${card.getType()=='Amex'}" class="fa fa-cc-amex fa-2x"></i>
                                         </div>
                                     </div>
                                     <div class="holder">
                                         <span class="name" th:text="${card.cardHolder}">Holder Name</span>
-                                        <span class="number"th:text="${card.cardNumber}">1234 - 5678 - 9012 - 3456</span>
+                                        <span class="number"
+                                              th:text="${card.cardNumber}">1234 - 5678 - 9012 - 3456</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <div class="d-flex justify-content-between mb-2">
+                                <div class="d-flex justify-content-between mb-3">
                                     <span>Deposited last month</span>
                                     <span th:text="'$'+${depositsFromMainCard}">2190.56</span>
                                 </div>
@@ -404,7 +223,8 @@
                                         style="height: 2px;"
 
                                 >
-                                    <div class="progress-bar" th:style="'width: ' + ${depositedFromMainPercentage} + '%'"></div>
+                                    <div class="progress-bar"
+                                         th:style="'width: ' + ${depositedFromMainPercentage} + '%'"></div>
                                 </div>
                                 <a
                                         th:href="@{/ui/cards}"
@@ -412,6 +232,92 @@
                                         class="mt-3 btn btn-grey-outline w-100 fw-medium"
                                 >Show All</a>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">Investments</h6>
+                            <div class="card-action">
+                                <div>
+                                    <a
+                                            href="#"
+                                            class="card-fullscreen"
+                                            data-bs-toggle="tooltip"
+                                            title="Card Full Screen"
+                                    >
+                                        <svg
+                                                class="svg-stroke"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                        >
+                                            <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                            ></path>
+                                            <path
+                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
+                                            ></path>
+                                            <path d="M7 20l10 0"></path>
+                                            <path d="M9 16l0 4"></path>
+                                            <path d="M15 16l0 4"></path>
+                                            <path d="M17 4h4v4"></path>
+                                            <path d="M16 9l5 -5"></path>
+                                        </svg>
+                                    </a>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+
+                            <div th:each="investment : ${investments}" class="d-flex align-items-center mb-3">
+
+
+                                <img
+                                        class="rounded-circle d-none d-sm-inline-block"
+                                        src="../static/images/stock-icons/AAPL.png"
+                                        th:src="@{/images/stock-icons/{symbol}.png(symbol=${investment.symbol})}"
+                                        alt=""
+                                        width="25px"
+                                        height="30px"
+                                />
+
+                                <div class="flex-fill ms-3">
+
+
+                                    <div class="h6 mb-0" th:text="${investment.symbol}">BookMyShow Monthly</div>
+                                    <small class="text-muted" th:text="${investment.type}">
+                                        Internal Transfer</small
+                                    >
+
+                                </div>
+                                <div class="d-flex flex-column align-items-end text-end">
+                                    <span>
+                                        <small class="fw-medium" th:text="'$'">$4400</small>
+                                        <small class="fw-medium" th:text="${investment.value}">$4400</small>
+                                    </span>
+                                    <small class="text-muted"
+                                           th:text="${#temporals.format(investment.purchasedAt, 'dd/MM')}">08/27</small>
+                                </div>
+                            </div>
+
+
+                            <a
+                                    href="transaction.html"
+                                    th:href="@{/ui/users/investments}"
+                                    class="mt-auto btn btn-grey-outline w-100 fw-medium"
+                            >Show All</a
+                            >
                         </div>
                     </div>
                 </div>
@@ -462,93 +368,8 @@
                                             aria-expanded="false"
                                             title="More Action"
                                     >
-                                        <svg
-                                                class="svg-stroke"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="20"
-                                                height="20"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                        >
-                                            <path
-                                                    stroke="none"
-                                                    d="M0 0h24v24H0z"
-                                                    fill="none"
-                                            ></path>
-                                            <path
-                                                    d="M10 6h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3"
-                                            ></path>
-                                            <path
-                                                    d="M17 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"
-                                            ></path>
-                                        </svg>
+
                                     </a>
-                                    <div
-                                            class="dropdown-menu dropdown-menu-end shadow rounded-4 p-2"
-                                    >
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-share"></i>
-                                            Share
-                                        </a>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-pencil"></i>
-                                            Rename
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-link"></i>
-                                            Copy Link Address
-                                        </a>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-folder"></i>
-                                            Move to
-                                        </a>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-copy"></i>
-                                            Copy to
-                                        </a>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-edit"></i>
-                                            Make Private
-                                        </a>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill"
-                                        >
-                                            <i class="me-2 fa fa-download"></i>
-                                            Download
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a
-                                                href="javascript:void(0)"
-                                                class="dropdown-item rounded-pill card-options-remove"
-                                                data-toggle="card-remove"
-                                        >
-                                            <i class="me-2 fa fa-trash"></i>
-                                            Delete
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -560,7 +381,7 @@
                                     </div>
                                     <div class="flex-fill ms-3 text-truncate">
                                         <div>Income</div>
-                                        <div><span class="fw-medium">$17,358</span></div>
+                                        <div><span class="fw-medium" th:text="'$ '+${incomeSum}">$17,358</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -570,8 +391,8 @@
                                         <i class="fa fa-long-arrow-up fa-lg"></i>
                                     </div>
                                     <div class="flex-fill ms-3 text-truncate">
-                                        <div>Expense</div>
-                                        <div><span class="fw-medium">$14,998</span></div>
+                                        <div>Expenses</div>
+                                        <div><span class="fw-medium" th:text="'$ '+${expenseSum}">$14,998</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -624,26 +445,36 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body">
-
+                        <div class="card-body d-flex flex-column">
 
 
                             <div th:each="transaction : ${transactions}" class="d-flex align-items-center mb-3">
-                                <img
-                                        class="avatar rounded"
-                                        src="../static/images/payment/bookmyshow.svg"
-                                        th:src="@{/images/payment/bookmyshow.svg}"
-                                        alt=""
-                                />
+                                <span>
+		                                                       <img alt="Profile Picture"
+                                                                    src="../static/images/xs/avatar1.jpg"
+                                                                    class="avatar rounded-circle d-none d-sm-inline-block"
+                                                                    onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
+                                                                    th:if="@{/ui/uploads/picture{username}3.jpg(username=${transaction.mainReceiver})}"
+                                                                    th:src="@{/ui/uploads/picture{username}3.jpg(username=${transaction.mainReceiver})}"/>
+	                                                       </span>
                                 <div class="flex-fill ms-3">
-                                    <div class="h6 mb-0">BookMyShow Monthly</div>
-                                    <small class="text-muted"
-                                    >Monthly BookMyShow Subscription</small
+                                    <div class="h6 mb-0" th:text="${transaction.mainReceiver}">BookMyShow Monthly</div>
+                                    <small class="text-muted" th:if="${transaction.transactionType !=  'Deposit'}">
+                                        Internal Transfer</small
+                                    >
+                                    <small class="text-muted" th:if="${transaction.transactionType ==  'Deposit'}">
+                                        Deposit</small
                                     >
                                 </div>
-                                <div class="flex-end flex-column d-flex">
-                                    <small class="fw-medium">$4400</small>
-                                    <small class="text-muted">08/27</small>
+                                <div class="d-flex flex-column align-items-end text-end">
+                                    <span>
+                                        <small class="fw-medium" th:if="${transaction.currency=='USD'}" th:text="'$'">$4400</small>
+                                        <small class="fw-medium" th:if="${transaction.currency=='EUR'}" th:text="'€'">$4400</small>
+                                        <small class="fw-medium" th:if="${transaction.currency=='GBP'}" th:text="'£'">$4400</small>
+                                        <small class="fw-medium" th:text="${transaction.amount}">$4400</small>
+                                    </span>
+                                    <small class="text-muted"
+                                           th:text="${#temporals.format(transaction.transactionTime, 'dd/MM')}">08/27</small>
                                 </div>
                             </div>
 
@@ -651,7 +482,7 @@
                             <a
                                     href="transaction.html"
                                     th:href="@{/ui/users/transactions}"
-                                    class="mt-3 btn btn-grey-outline w-100 fw-medium"
+                                    class="mt-auto btn btn-grey-outline w-100 fw-medium"
                             >Show All</a
                             >
                         </div>
@@ -668,9 +499,33 @@
 <!--============== active class js =============-->
 <th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
 
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var incomeData = /*[[${income}]]*/ [] ;
+    var expenseData = /*[[${expense}]]*/ [] ;
+
+    /*]]>*/
+</script>
+
 <script>
+
+    const getLast12Months = () => {
+        const months = [];
+        const date = new Date();
+        const formatter = new Intl.DateTimeFormat('en', { month: 'short' }); // "Jan", "Feb", etc.
+
+        for (let i = 11; i >= 0; i--) {
+            const pastDate = new Date(date.getFullYear(), date.getMonth() - i, 1);
+            months.push(formatter.format(pastDate));
+        }
+
+        return months;
+    };
     // Basic Column
     $(document).ready(function () {
+
+
+
         var options = {
             chart: {
                 height: 280,
@@ -685,7 +540,7 @@
                 },
             },
             dataLabels: {
-                enabled: true,
+                enabled: false,
             },
             stroke: {
                 show: true,
@@ -694,30 +549,21 @@
             },
             series: [
                 {
-                    name: "Revenue",
-                    data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
+                    name: "Income",
+                    data: incomeData,
                 },
                 {
-                    name: "Free Cash Flow",
-                    data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
+                    name: "Expenses",
+                    data: expenseData,
                 },
+
             ],
             xaxis: {
-                categories: [
-                    "Feb",
-                    "Mar",
-                    "Apr",
-                    "May",
-                    "Jun",
-                    "Jul",
-                    "Aug",
-                    "Sep",
-                    "Oct",
-                ],
+                categories: getLast12Months(),
             },
             yaxis: {
                 title: {
-                    text: "$ (thousands)",
+                    text: "USD ($)",
                 },
             },
             fill: {
@@ -727,7 +573,7 @@
                 theme: "dark",
                 y: {
                     formatter: function (val) {
-                        return "$ " + val + " thousands";
+                        return "$ " + val;
                     },
                 },
             },

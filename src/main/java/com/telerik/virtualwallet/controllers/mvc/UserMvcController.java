@@ -10,10 +10,11 @@ import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.helpers.WalletMapper;
 import com.telerik.virtualwallet.models.Stock;
-import com.telerik.virtualwallet.models.api.StockResponse;
 import com.telerik.virtualwallet.models.User;
+import com.telerik.virtualwallet.models.api.StockResponse;
 import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;
+import com.telerik.virtualwallet.models.dtos.transaction.InvestmentDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionsWrapper;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
@@ -41,11 +42,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/ui/users")
@@ -121,6 +120,34 @@ public class UserMvcController {
         List<TransactionsWrapper> sortedTransactions = transactions.stream()
                 .sorted(Comparator.comparing(TransactionsWrapper::getTransactionTime).reversed())
                 .limit(6).toList();
+
+        model.addAttribute("investments", userService.getInvestmentsByUsername(authentication.getName())
+                .stream()
+                .flatMap(investment -> transactionMapper.investmentToInvestmentDTO(investment).stream())
+                .sorted(Comparator.comparing(InvestmentDTO::getPurchasedAt).reversed())
+                .limit(4).toList());
+
+        List<BigDecimal> inTransfers = transactionService
+                .getIncomingTransactionsForTheLastYearByWalletId(wallet.getId());
+
+        List<BigDecimal> deposits = transferService
+                .getTransfersForTheLastYearByWalletId(wallet.getId());
+
+        List<BigDecimal> income = IntStream.range(0, deposits.size())
+                .mapToObj(i -> inTransfers.get(i).add(deposits.get(i)))
+                .collect(Collectors.toList());
+
+        List<BigDecimal> expense = transactionService
+                .getOutgoingTransactionsForTheLastYearByWalletId(wallet.getId());
+
+        model.addAttribute("income", income);
+        model.addAttribute("expense", expense);
+        model.addAttribute("incomeSum", income.stream()
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
+        model.addAttribute("expenseSum", expense.stream()
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
+
+
 
         model.addAttribute("transactions", sortedTransactions);
         model.addAttribute("depositsFromMainCard", depositsFromMainCard);

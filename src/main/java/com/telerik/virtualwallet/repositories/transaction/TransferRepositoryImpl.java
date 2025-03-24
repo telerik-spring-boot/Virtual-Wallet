@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -162,6 +163,25 @@ public class TransferRepositoryImpl implements TransferRepository {
             query.setParameter("cardId", cardId);
 
             return query.uniqueResult();
+
+        }
+    }
+
+    @Override
+    public List<Transfer> getTransfersForLastYearByWalletId(int walletId, LocalDateTime startOfMonth11MonthsAgo) {
+
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Transfer> query = session.createQuery
+                    ("SELECT DISTINCT t FROM Transfer t " +
+                                    "WHERE t.receiverWallet.id=:walletId " +
+                                    "AND t.createdAt >= :startOfMonth11MonthsAgo",
+                            Transfer.class);
+
+            query.setParameter("walletId", walletId);
+            query.setParameter("startOfMonth11MonthsAgo", startOfMonth11MonthsAgo);
+
+            return query.list();
 
         }
     }

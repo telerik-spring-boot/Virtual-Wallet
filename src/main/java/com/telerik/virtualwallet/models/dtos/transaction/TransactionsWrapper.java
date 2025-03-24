@@ -13,6 +13,8 @@ public class TransactionsWrapper {
 
     private String receivers;
 
+    private String mainReceiver;
+
     private int receiverWalletId;
 
     private String transactionCategory;
@@ -21,7 +23,7 @@ public class TransactionsWrapper {
 
     private BigDecimal amount;
 
-    private Currency currency;
+    private String currency;
 
     private String message;
 
@@ -30,15 +32,18 @@ public class TransactionsWrapper {
     public TransactionsWrapper() {
     }
 
-    public TransactionsWrapper( int transactionId,  int receiverWalletId, String receivers, BigDecimal amount, String transactionType, String transactionCategory, Currency currency, String message) {
+    public TransactionsWrapper(int transactionId, String sender, String receivers, String mainReceiver, int receiverWalletId, String transactionCategory, String transactionType, BigDecimal amount, String currency, String message, LocalDateTime transactionTime) {
         this.transactionId = transactionId;
-        this.receiverWalletId = receiverWalletId;
+        this.sender = sender;
         this.receivers = receivers;
-        this.amount = amount;
-        this.transactionType = transactionType;
+        this.mainReceiver = mainReceiver;
+        this.receiverWalletId = receiverWalletId;
         this.transactionCategory = transactionCategory;
+        this.transactionType = transactionType;
+        this.amount = amount;
         this.currency = currency;
         this.message = message;
+        this.transactionTime = transactionTime;
     }
 
     public int getTransactionId() {
@@ -65,11 +70,11 @@ public class TransactionsWrapper {
         this.message = message;
     }
 
-    public Currency getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
 
@@ -119,5 +124,13 @@ public class TransactionsWrapper {
 
     public void setSender(String sender) {
         this.sender = sender;
+    }
+
+    public String getMainReceiver() {
+        return mainReceiver;
+    }
+
+    public void setMainReceiver(String mainReceiver) {
+        this.mainReceiver = mainReceiver;
     }
 }

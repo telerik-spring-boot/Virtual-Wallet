@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TransactionRepository {
@@ -31,6 +32,10 @@ public interface TransactionRepository {
     Transaction getTransactionWithWalletsById(int id);
 
     BigDecimal getBalanceChangeByWalletId(int walletId);
+
+    List<Transaction> getIncomingTransactionsForLastYearByWalletId(int walletId, LocalDateTime startDate);
+
+    List<Transaction> getOutgoingTransactionsForLastYearByWalletId(int walletId,LocalDateTime startDate);
 
     Page<Transaction> getAllTransactionsWithWalletsByWalletId(FilterTransactionsOptions options, Pageable pageable, int walletId);
 
