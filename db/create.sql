@@ -172,7 +172,7 @@ CREATE TABLE virtual_wallet.exchange_rates(
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
-CREATE TABLE virtual_wallet.articleResponses(
+CREATE TABLE virtual_wallet.articles(
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(256) NOT NULL,
     description TEXT NOT NULL,

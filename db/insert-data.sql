@@ -177,7 +177,7 @@ VALUES ('EUR', 'USD', 1.09),
 
 
 
-INSERT INTO virtual_wallet.articleResponses(title, description, url)
+INSERT INTO virtual_wallet.articles(title, description, url)
 VALUES ('The No. 1 mistake I see job seekers making in 2025, says career expert: It can ‘destroy your chances’', 'Here''s what to do instead to help you stand out and land the role, says Jeremy Schifeling, founder of The Job Insiders and author of \"Career Coach GPT.\"', 'https://www.cnbc.com/2025/03/24/the-no-1-mistake-job-seekers-are-making-in-2025-it-can-destroy-your-chances.html'),
        ('What''s hot in ETFs? Bond funds are in demand as investors flee the Nasdaq ''QQQ''', 'There have been strong inflows into fixed income, especially ultrashort funds. Precious metal funds have seen surprisingly light inflows.', 'https://www.cnbc.com/2025/03/24/etf-conference-draws-2000-managers-and-advisors-to-air-latest-trends.html'),
        ('Gain influence at work by building ''social fitness,'' researchers say: 2 easy strategies to get better', 'Building social endurance can help you gain influence and get ahead at work, workplace experts and performance coaches Henna Pryor and Shane Hatton say.', 'https://www.cnbc.com/2025/03/24/gain-influence-at-work-by-building-social-fitness-easy-strategies.html'),
