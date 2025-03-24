@@ -304,14 +304,14 @@ public class WalletMvcController {
 
     @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
     @GetMapping("/{walletId}/transactions")
-    public String getTransactions(@PathVariable int walletId, Authentication authentication, Model model) {
+    public String getTransactions(@PathVariable int walletId, Model model) {
 
         List<TransactionsWrapper> transactions =
                 new ArrayList<>(transactionService.getTransactionsByWalletId(walletId)
                         .stream().map(transactionMapper::transactionToTransactionWrapper).toList());
 
 
-        transactions.addAll(transferService.getAllTransfersToYourWalletsByUsername(authentication.getName())
+        transactions.addAll(transferService.getAllTransfersByWalletId(walletId)
                 .stream().map(transactionMapper::transferToTransactionWrapper).toList());
 
         model.addAttribute("walletId", walletId);
@@ -323,14 +323,14 @@ public class WalletMvcController {
 
     @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
     @GetMapping("/{walletId}/transactions/incoming")
-    public String getIncomingTransactions(@PathVariable int walletId, Authentication authentication, Model model) {
+    public String getIncomingTransactions(@PathVariable int walletId, Model model) {
 
         List<TransactionsWrapper> transactions =
                 new ArrayList<>(transactionService.getIncomingTransactionsByWalletId(walletId)
                         .stream().map(transactionMapper::transactionToTransactionWrapper).toList());
 
 
-        transactions.addAll(transferService.getAllTransfersToYourWalletsByUsername(authentication.getName())
+        transactions.addAll(transferService.getAllTransfersByWalletId(walletId)
                 .stream().map(transactionMapper::transferToTransactionWrapper).toList());
 
         model.addAttribute("walletId", walletId);
@@ -342,7 +342,7 @@ public class WalletMvcController {
 
     @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
     @GetMapping("/{walletId}/transactions/outgoing")
-    public String getOutgoingTransactions(@PathVariable int walletId, Authentication authentication, Model model) {
+    public String getOutgoingTransactions(@PathVariable int walletId, Model model) {
 
         List<TransactionsWrapper> transactions =
                 new ArrayList<>(transactionService.getOutgoingTransactionsByWalletId(walletId)
@@ -355,6 +355,90 @@ public class WalletMvcController {
         return "transaction-wallet";
     }
 
+    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    @GetMapping("/{walletId}/top-up")
+    public String topUpWalletFromAnotherWallet(@PathVariable int walletId, Authentication authentication,
+                                               Model model, HttpServletRequest request) {
+
+        model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
+        model.addAttribute("requestURI", request.getRequestURI());
+        addAllUserWalletsToModel(authentication, model);
+        return "transfer-make-internal";
+    }
+
+    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    @GetMapping("/{walletId}/top-up/confirm")
+    public String walletTopUpConfirmation(Model model, @PathVariable int walletId,
+                                           @RequestParam("senderWalletId") int senderWalletId,
+                                           Authentication authentication,
+                                           @ModelAttribute("usernameInput")
+                                           TransactionMVCUsernamePhoneCreateDTO dto,
+                                           BindingResult bindingResult,
+                                           HttpServletRequest request) {
+
+
+        if (bindingResult.hasErrors()) {
+            return "transfer-make-internal";
+        }
+        try {
+            User receiverUser = userService.getByUsername(authentication.getName());
+
+            Wallet receiverWallet = walletService.getWalletById(walletId);
+
+            TransactionConfirmationMVCCreateDTO confirmation = transactionMapper
+                    .handleConfirmationMVCDTOLogic(senderWalletId, receiverWallet, receiverUser, dto.getAmount());
+
+            model.addAttribute("confirmation", confirmation);
+            model.addAttribute("transactionCategories", TransactionCategoryEnum.values());
+            model.addAttribute("requestURI", request.getRequestURI());
+
+            return "transfer-confirmation-internal";
+
+        } catch (EntityNotFoundException e) {
+
+            bindingResult.rejectValue("usernameOrPhone", "card.number", e.getMessage());
+
+            addAllUserWalletsToModel(authentication, model);
+
+            return "transfer-make-internal";
+        }
+
+
+    }
+
+    @PostMapping("/{walletId}/top-up/confirm")
+    public String handleWalletTopUpConfirmation(Model model, @PathVariable int walletId,
+                                               Authentication authentication,
+                                               @Valid @ModelAttribute("confirmation")
+                                               TransactionConfirmationMVCCreateDTO confirmation,
+                                               BindingResult bindingResult,
+                                               RedirectAttributes redirectAttributes) {
+
+        model.addAttribute("formSubmitted", true);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("transactionCategories", TransactionCategoryEnum.values());
+            return "transfer-confirmation-internal";
+        }
+        try {
+
+            Transaction transaction = transactionMapper.mvcDtoToTransaction(confirmation, authentication.getName());
+
+            transactionService.makeTransactionMVC(transaction, confirmation.getReceivedAmount());
+
+            return "redirect:/ui/wallets";
+
+        } catch (InsufficientFundsException e) {
+            bindingResult.rejectValue("sentAmount", "card.number", e.getMessage());
+
+            redirectAttributes.addFlashAttribute("insufficientFunds", true);
+            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
+            addAllUserWalletsToModel(authentication, model);
+
+            return "transfer-confirmation-internal";
+        }
+
+    }
 
     private void addAllUserWalletsToModel(Authentication authentication, Model model) {
         List<WalletMvcDisplayDTO> wallets = walletService.getWalletsByUsername(authentication.getName()).stream()

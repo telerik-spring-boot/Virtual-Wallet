@@ -3,6 +3,7 @@ package com.telerik.virtualwallet.helpers;
 import com.telerik.virtualwallet.models.*;
 import com.telerik.virtualwallet.models.dtos.card.CardDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.*;
+import com.telerik.virtualwallet.services.exchangeRate.ExchangeRateService;
 import com.telerik.virtualwallet.services.transactionCategory.TransactionCategoryService;
 import com.telerik.virtualwallet.services.user.UserService;
 import com.telerik.virtualwallet.services.wallet.WalletService;
@@ -21,17 +22,15 @@ public class TransactionMapper {
     private final WalletService walletService;
     private final TransactionCategoryService transactionCategoryService;
     private final CardMapper cardMapper;
-
-    private final BigDecimal EUR_TO_USD = BigDecimal.valueOf(1.09);
-    private final BigDecimal GBP_TO_USD = BigDecimal.valueOf(1.30);
-    private final BigDecimal GBP_TO_EUR = GBP_TO_USD.divide(EUR_TO_USD, RoundingMode.HALF_UP);
+    private final ExchangeRateService exchangeRateService;
 
     @Autowired
-    public TransactionMapper(UserService userService, WalletService walletService, TransactionCategoryService transactionCategoryService, CardMapper cardMapper) {
+    public TransactionMapper(UserService userService, WalletService walletService, TransactionCategoryService transactionCategoryService, CardMapper cardMapper, ExchangeRateService exchangeRateService) {
         this.userService = userService;
         this.walletService = walletService;
         this.transactionCategoryService = transactionCategoryService;
         this.cardMapper = cardMapper;
+        this.exchangeRateService = exchangeRateService;
     }
 
     public TransactionDisplayDTO transactionToTransactionDisplayDTO(Transaction transaction) {
@@ -84,7 +83,7 @@ public class TransactionMapper {
 
     }
 
-    public Transaction mvcDtoToTransaction(TransactionConfirmationMVCCreateDTO dto,String usernameSender) {
+    public Transaction mvcDtoToTransaction(TransactionConfirmationMVCCreateDTO dto, String usernameSender) {
         Transaction transaction = new Transaction();
 
         transaction.setAmount(dto.getSentAmount());
@@ -195,6 +194,25 @@ public class TransactionMapper {
 
     public TransactionConfirmationMVCCreateDTO handleConfirmationMVCDTOLogic(int senderWalletId, Wallet receiverWallet,
                                                                              User receiverUser, BigDecimal sendingAmount) {
+        BigDecimal EUR_TO_USD = BigDecimal.valueOf(1.09);
+        BigDecimal GBP_TO_USD = BigDecimal.valueOf(1.30);
+        BigDecimal GBP_TO_EUR = GBP_TO_USD.divide(EUR_TO_USD, RoundingMode.HALF_UP);
+
+        List<ExchangeRate> exchangeRates = exchangeRateService.getAllExchangeRates();
+
+        for (ExchangeRate exchangeRate : exchangeRates) {
+            if (exchangeRate.getFromCurrency().equals("EUR")
+                    && exchangeRate.getToCurrency().equals("USD")) {
+                EUR_TO_USD = BigDecimal.valueOf(exchangeRate.getRate());
+            } else if (exchangeRate.getFromCurrency().equals("GBP")
+                    && exchangeRate.getToCurrency().equals("USD")) {
+                GBP_TO_USD = BigDecimal.valueOf(exchangeRate.getRate());
+            } else if (exchangeRate.getFromCurrency().equals("EUR")
+                    && exchangeRate.getToCurrency().equals("GBP")) {
+                GBP_TO_EUR = BigDecimal.valueOf(1 / exchangeRate.getRate());
+            }
+        }
+
 
         TransactionConfirmationMVCCreateDTO dto = new TransactionConfirmationMVCCreateDTO();
 
