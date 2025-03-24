@@ -174,3 +174,12 @@ INSERT INTO virtual_wallet.exchange_rates(from_currency, to_currency, rate)
 VALUES ('EUR', 'USD', 1.09),
        ('EUR', 'GBP', 0.84),
        ('GBP', 'USD', 1.30);
+
+
+
+INSERT INTO virtual_wallet.articles(title, description, url)
+VALUES ('The No. 1 mistake I see job seekers making in 2025, says career expert: It can ‘destroy your chances’', 'Here''s what to do instead to help you stand out and land the role, says Jeremy Schifeling, founder of The Job Insiders and author of \"Career Coach GPT.\"', 'https://www.cnbc.com/2025/03/24/the-no-1-mistake-job-seekers-are-making-in-2025-it-can-destroy-your-chances.html'),
+       ('What''s hot in ETFs? Bond funds are in demand as investors flee the Nasdaq ''QQQ''', 'There have been strong inflows into fixed income, especially ultrashort funds. Precious metal funds have seen surprisingly light inflows.', 'https://www.cnbc.com/2025/03/24/etf-conference-draws-2000-managers-and-advisors-to-air-latest-trends.html'),
+       ('Gain influence at work by building ''social fitness,'' researchers say: 2 easy strategies to get better', 'Building social endurance can help you gain influence and get ahead at work, workplace experts and performance coaches Henna Pryor and Shane Hatton say.', 'https://www.cnbc.com/2025/03/24/gain-influence-at-work-by-building-social-fitness-easy-strategies.html'),
+       ('The ''fatal mistake'' most people make starting a business, says Stanford professor who co-founded 4 startups: I''ve ''seen this a million times''', 'Not finding out what prospective customers want and need is a crucial mistake that often dooms founders to failure, says entrepreneurship expert Steve Blank.', 'https://www.cnbc.com/2025/03/24/steve-blank-most-people-make-this-fatal-mistake-starting-a-business.html'),
+       ('Tax revenue collected by the IRS set to plummet, report says', 'IRS officials are expecting tax revenue to drop by more than 10% by April 15, the Washington Post reported.', 'https://www.cnbc.com/2025/03/24/tax-revenue-collected-by-the-irs-set-to-plummet-report-says.html');

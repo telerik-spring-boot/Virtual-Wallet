@@ -15,6 +15,7 @@ DROP TABLE IF EXISTS virtual_wallet.stocks CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.verifications CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.investments CASCADE;
 DROP TABLE IF EXISTS virtual_wallet.exchange_rates CASCADE;
+DROP TABLE IF EXISTS virtual_wallet.articles CASCADE;
 
 CREATE TABLE virtual_wallet.wallets
 (
@@ -169,6 +170,14 @@ CREATE TABLE virtual_wallet.exchange_rates(
     to_currency VARCHAR(30) NOT NULL,
     rate DECIMAL(15, 5) NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
-)
+);
+
+CREATE TABLE virtual_wallet.articles(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(256) NOT NULL,
+    description TEXT NOT NULL,
+    url VARCHAR(256) NOT NULL,
+    published_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
 
 
