@@ -1009,10 +1009,17 @@
 
 <th:block th:fragment="scripts">
 
-	<script th:inline="javascript">
+	<!--============== active class js =============-->
+	<script src="../../static/js/active-class.js" th:src="@{/js/active-class.js}"></script>
+	<!--[ FintechWeb template vender js ]-->
+	<script src="../../static/bundles/libscripts.bundle.js" th:src="@{/bundles/libscripts.bundle.js}"></script>
+	<script src="../../static/bundles/dynamicselect.js" th:src="@{/bundles/dynamicselect.js}"></script>
+	<!-- Template page js -->
+	<script src="../../static/js/main.js" th:src="@{/js/main.js}" defer></script>
+
+	<script th:inline="javascript" th:if="${#authorization.expression('isAuthenticated()')}">
         let exchangeRatesData = /*[[${exchangeRates}]]*/ {};
 
-        console.log(exchangeRatesData);
         let exchangeRates = {};
 
         exchangeRatesData.forEach(function(rate) {
@@ -1031,7 +1038,6 @@
             let nestedElementValueTwo = nestedElementTwo.querySelector('.dynamic-select-option-text').textContent.trim();
             let rate = document.getElementById('rate');
             if(nestedElementValue !== nestedElementValueTwo) {
-
                 rate.textContent= exchangeRates[nestedElementValue + '/' + nestedElementValueTwo].toFixed(2);
             }else{
                 rate.textContent='1.00';
@@ -1047,13 +1053,6 @@
         });
 
 	</script>
-	<!--============== active class js =============-->
-	<script src="../../static/js/active-class.js" th:src="@{/js/active-class.js}"></script>
-	<!--[ FintechWeb template vender js ]-->
-	<script src="../../static/bundles/libscripts.bundle.js" th:src="@{/bundles/libscripts.bundle.js}"></script>
-	<script src="../../static/bundles/dynamicselect.js" th:src="@{/bundles/dynamicselect.js}"></script>
-	<!-- Template page js -->
-	<script src="../../static/js/main.js" th:src="@{/js/main.js}" defer></script>
 </th:block>
 
 </body>

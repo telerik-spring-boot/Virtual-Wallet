@@ -233,7 +233,7 @@
                                                             </div>
                                                             <!-- Button -->
                                                             <div class="form-group">
-                                                                 <button  class="btn btn-dark w-100" type="submit">Sign In</button>
+                                                                 <button  class="btn btn-dark w-100" type="submit" id="submitLoginButton">Sign In</button>
                                                             </div>
                                                        </fieldset>
                                                   </form>
@@ -338,6 +338,61 @@
      </script>
 
      <th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"
+             th:src="'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js'"></script>
+
+     <script th:inline="javascript">
+          document.addEventListener("DOMContentLoaded", function () {
+
+               const rememberPasswordBtn = document.getElementById("flexCheckDefault");
+               const usernameField = document.getElementById("username");
+               const passwordField = document.getElementById("password");
+               const submitLoginButton = document.getElementById("submitLoginButton");
+
+
+               const encryptionKey = 'some-very-hard-key-to-break';
+
+               submitLoginButton.addEventListener("click", function () {
+
+                    if (rememberPasswordBtn.checked) {
+                         const username = usernameField.value;
+                         const password = passwordField.value;
+
+                         if (username && password) {
+
+                              const encryptedUsername = CryptoJS.AES.encrypt(username, encryptionKey).toString();
+                              const encryptedPassword = CryptoJS.AES.encrypt(password, encryptionKey).toString();
+
+
+                              localStorage.setItem("iconu", encryptedUsername);
+                              sessionStorage.setItem("iconp", encryptedPassword);
+
+                              alert("Your credentials will be remembered!");
+                         } else {
+                              alert("Please enter both username and password.");
+                         }
+                    } else {
+
+                         localStorage.removeItem("iconu");
+                         sessionStorage.removeItem("iconp");
+                    }
+               });
+
+               const savedEncryptedUsername = localStorage.getItem("iconu");
+               const savedEncryptedPassword = sessionStorage.getItem("iconp");
+
+               if (savedEncryptedUsername && savedEncryptedPassword) {
+                    const decryptedUsername = CryptoJS.AES.decrypt(savedEncryptedUsername, encryptionKey).toString(CryptoJS.enc.Utf8);
+                    const decryptedPassword = CryptoJS.AES.decrypt(savedEncryptedPassword, encryptionKey).toString(CryptoJS.enc.Utf8);
+
+                    usernameField.value = decryptedUsername;
+                    passwordField.value = decryptedPassword;
+
+                    rememberPasswordBtn.checked = true;
+               }
+          });
+     </script>
 </body>
 
 </html>
