@@ -1,4 +1,4 @@
-package com.telerik.virtualwallet.models;
+package com.telerik.virtualwallet.models.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

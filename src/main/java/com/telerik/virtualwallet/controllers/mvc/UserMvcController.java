@@ -8,7 +8,7 @@ import com.telerik.virtualwallet.exceptions.UnauthorizedOperationException;
 import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.Stock;
-import com.telerik.virtualwallet.models.StockResponse;
+import com.telerik.virtualwallet.models.api.StockResponse;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionsWrapper;

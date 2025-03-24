@@ -2,8 +2,8 @@ package com.telerik.virtualwallet.services.stock;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.telerik.virtualwallet.models.StockData;
-import com.telerik.virtualwallet.models.StockResponse;
+import com.telerik.virtualwallet.models.api.StockData;
+import com.telerik.virtualwallet.models.api.StockResponse;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

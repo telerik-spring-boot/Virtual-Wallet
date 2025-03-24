@@ -467,7 +467,7 @@
 			>
 
 				<!--[ Start:: notification ]-->
-				<li class="nav-item dropdown px-md-1 d-none d-md-inline-flex">
+				<li class="nav-item dropdown px-md-1 d-md-inline-flex">
 					<a
 							class="dropdown-toggle gray-6"
 							href="#"
@@ -508,186 +508,42 @@
 								<h4 class="mb-0 text-gradient title-font">
 									Notifications
 								</h4>
-								<a href="#" class="btn btn-link" title="view all"
-								>View all</a
-								>
 							</div>
 							<ul
 									class="card-body p-0 list-unstyled mb-0 custom_scroll ps-2"
-									style="height: 400px"
+									style="height: 400px;"
 							>
-								<li class="pe-2">
+
+								<li class="pe-2" th:each="article : ${articles}">
 									<a
 											class="d-flex p-lg-3 p-2 rounded-3"
-											href="javascript:void(0);"
+											th:href="${article.url}"
 									>
-										<div class="avatar sm">
+										<div class="avatar sm w-25 h-50 align-self-center">
+
 											<svg
 													class="svg-stroke"
 													xmlns="http://www.w3.org/2000/svg"
 													viewBox="0 0 24 24"
-													stroke="currentColor"
-													fill="none"
+													stroke="none"
+													fill="currentColor"
 													stroke-linecap="round"
 													stroke-linejoin="round"
 											>
-												<path
-														stroke="none"
-														d="M0 0h24v24H0z"
-														fill="none"
-												></path>
-												<path
-														d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3"
-												></path>
+												<g id="surface1">
+													<path  d="M 7.851562 13.632812 C 7.769531 13.632812 7.691406 13.59375 7.640625 13.527344 L 6.0625 11.402344 L 6.0625 13.367188 C 6.0625 13.515625 5.945312 13.632812 5.800781 13.632812 C 5.65625 13.632812 5.535156 13.515625 5.535156 13.367188 L 5.535156 10.605469 C 5.535156 10.492188 5.609375 10.390625 5.71875 10.355469 C 5.824219 10.320312 5.945312 10.355469 6.011719 10.449219 L 7.589844 12.570312 L 7.589844 10.605469 C 7.589844 10.457031 7.707031 10.339844 7.851562 10.339844 C 8 10.339844 8.117188 10.457031 8.117188 10.605469 L 8.117188 13.367188 C 8.117188 13.484375 8.042969 13.582031 7.9375 13.617188 C 7.910156 13.628906 7.882812 13.632812 7.851562 13.632812 Z M 7.851562 13.632812 "/>
+													<path   d="M 10.710938 12.25 C 10.855469 12.25 10.976562 12.132812 10.976562 11.988281 C 10.976562 11.839844 10.855469 11.722656 10.710938 11.722656 L 9.582031 11.722656 L 9.582031 10.867188 L 10.710938 10.867188 C 10.855469 10.867188 10.976562 10.75 10.976562 10.605469 C 10.976562 10.457031 10.855469 10.339844 10.710938 10.339844 L 9.316406 10.339844 C 9.171875 10.339844 9.054688 10.457031 9.054688 10.605469 L 9.054688 13.367188 C 9.054688 13.515625 9.171875 13.632812 9.316406 13.632812 L 10.710938 13.632812 C 10.855469 13.632812 10.976562 13.515625 10.976562 13.367188 C 10.976562 13.222656 10.855469 13.105469 10.710938 13.105469 L 9.582031 13.105469 L 9.582031 12.25 Z M 10.710938 12.25 "/>
+													<path  d="M 14.472656 13.632812 C 14.359375 13.632812 14.257812 13.558594 14.222656 13.453125 L 13.5625 11.445312 L 12.902344 13.453125 C 12.863281 13.5625 12.765625 13.640625 12.636719 13.632812 C 12.519531 13.625 12.421875 13.542969 12.394531 13.429688 L 11.75 10.664062 C 11.714844 10.523438 11.804688 10.378906 11.945312 10.347656 C 12.085938 10.3125 12.230469 10.402344 12.261719 10.542969 L 12.695312 12.394531 L 13.3125 10.523438 C 13.347656 10.414062 13.449219 10.339844 13.5625 10.339844 C 13.675781 10.339844 13.777344 10.414062 13.8125 10.523438 L 14.429688 12.394531 L 14.863281 10.542969 C 14.894531 10.402344 15.035156 10.3125 15.179688 10.347656 C 15.320312 10.378906 15.40625 10.523438 15.375 10.664062 L 14.730469 13.429688 C 14.703125 13.542969 14.601562 13.625 14.484375 13.632812 C 14.480469 13.632812 14.476562 13.632812 14.472656 13.632812 Z M 14.472656 13.632812 "/>
+													<path   d="M 17.21875 13.632812 L 16.1875 13.632812 C 16.042969 13.632812 15.921875 13.515625 15.921875 13.367188 C 15.921875 13.222656 16.042969 13.105469 16.1875 13.105469 L 17.21875 13.105469 C 17.453125 13.105469 17.644531 12.914062 17.644531 12.679688 C 17.644531 12.441406 17.453125 12.25 17.21875 12.25 L 16.878906 12.25 C 16.351562 12.25 15.921875 11.820312 15.921875 11.296875 C 15.921875 10.769531 16.351562 10.339844 16.878906 10.339844 L 17.675781 10.339844 C 17.820312 10.339844 17.9375 10.457031 17.9375 10.605469 C 17.9375 10.75 17.820312 10.867188 17.675781 10.867188 L 16.878906 10.867188 C 16.640625 10.867188 16.449219 11.058594 16.449219 11.296875 C 16.449219 11.53125 16.640625 11.722656 16.878906 11.722656 L 17.21875 11.722656 C 17.746094 11.722656 18.171875 12.152344 18.171875 12.679688 C 18.171875 13.203125 17.746094 13.632812 17.21875 13.632812 Z M 17.21875 13.632812 "/>
+													<path   d="M 22.976562 8.667969 C 21.523438 3.855469 17.03125 0.507812 11.988281 0.507812 C 6.941406 0.507812 2.449219 3.855469 1 8.667969 C 0.503906 8.777344 0.132812 9.21875 0.132812 9.746094 L 0.132812 14.226562 C 0.132812 14.753906 0.503906 15.195312 1 15.304688 C 2.449219 20.117188 6.941406 23.464844 11.988281 23.464844 C 17.03125 23.464844 21.523438 20.117188 22.976562 15.304688 C 23.46875 15.195312 23.839844 14.753906 23.839844 14.226562 L 23.839844 9.746094 C 23.839844 9.21875 23.46875 8.777344 22.976562 8.667969 Z M 1.558594 8.640625 C 1.933594 7.472656 2.496094 6.394531 3.210938 5.445312 L 6.832031 5.445312 C 6.476562 6.402344 6.195312 7.476562 6.003906 8.640625 Z M 7.40625 5.445312 L 11.722656 5.445312 L 11.722656 8.640625 L 6.539062 8.640625 C 6.734375 7.472656 7.03125 6.394531 7.40625 5.445312 Z M 12.25 1.046875 C 13.855469 1.191406 15.335938 2.644531 16.347656 4.917969 L 12.25 4.917969 Z M 11.722656 4.917969 L 7.625 4.917969 C 8.640625 2.644531 10.117188 1.191406 11.722656 1.046875 Z M 12.25 5.445312 L 16.566406 5.445312 C 16.941406 6.394531 17.238281 7.472656 17.433594 8.640625 L 12.25 8.640625 Z M 17.96875 8.640625 C 17.777344 7.480469 17.492188 6.40625 17.125 5.445312 L 20.765625 5.445312 C 21.476562 6.394531 22.039062 7.472656 22.414062 8.640625 Z M 20.339844 4.917969 L 16.914062 4.917969 C 16.214844 3.28125 15.28125 2.015625 14.21875 1.265625 C 16.621094 1.773438 18.773438 3.074219 20.339844 4.917969 Z M 9.703125 1.28125 C 8.648438 2.023438 7.730469 3.28125 7.042969 4.917969 L 3.632812 4.917969 C 5.1875 3.089844 7.320312 1.792969 9.703125 1.28125 Z M 22.414062 15.332031 C 22.039062 16.503906 21.476562 17.578125 20.765625 18.527344 L 17.140625 18.527344 C 17.496094 17.570312 17.777344 16.5 17.96875 15.332031 Z M 16.566406 18.527344 L 12.25 18.527344 L 12.25 15.332031 L 17.433594 15.332031 C 17.238281 16.503906 16.941406 17.578125 16.566406 18.527344 Z M 11.722656 22.925781 C 10.117188 22.78125 8.640625 21.328125 7.625 19.054688 L 11.722656 19.054688 Z M 12.25 19.054688 L 16.347656 19.054688 C 15.332031 21.328125 13.855469 22.78125 12.25 22.925781 Z M 11.722656 18.527344 L 7.40625 18.527344 C 7.03125 17.578125 6.734375 16.503906 6.539062 15.332031 L 11.722656 15.332031 Z M 6.003906 15.332031 C 6.195312 16.5 6.476562 17.570312 6.832031 18.527344 L 3.210938 18.527344 C 2.496094 17.578125 1.933594 16.503906 1.558594 15.332031 Z M 3.632812 19.054688 L 7.042969 19.054688 C 7.730469 20.691406 8.648438 21.949219 9.703125 22.695312 C 7.320312 22.179688 5.1875 20.882812 3.632812 19.054688 Z M 14.269531 22.695312 C 15.324219 21.949219 16.242188 20.691406 16.929688 19.054688 L 20.339844 19.054688 C 18.785156 20.882812 16.652344 22.179688 14.269531 22.695312 Z M 23.3125 14.226562 C 23.3125 14.546875 23.054688 14.808594 22.734375 14.808594 L 1.238281 14.808594 C 0.917969 14.808594 0.660156 14.546875 0.660156 14.226562 L 0.660156 9.746094 C 0.660156 9.425781 0.917969 9.167969 1.238281 9.167969 L 22.734375 9.167969 C 23.054688 9.167969 23.3125 9.425781 23.3125 9.746094 Z M 23.3125 14.226562 "/>
+												</g>
 											</svg>
 										</div>
-										<div class="flex-fill ms-3">
+										<div class="flex-fill w-75 h-100">
                             <span class="d-flex justify-content-between">
-                              <small class="text-primary">Holiday Sale</small>
-                              <small class="text-muted">11:30 AM Today</small>
+                              <small class="text-info w-75 mx-4 h-100" th:text="${article.title}">Reports</small>
+                              <small class="text-muted w-25 h-100"  th:text="${#temporals.format(article.publishedOn, 'yyyy-MM-dd HH:mm:ss')}">04:00 PM Today</small>
                             </span>
-											<p class="mb-0 mt-1">
-												Your New Campaign sale live on themeforest and our
-												store is approved.
-											</p>
-										</div>
-									</a>
-								</li>
-								<li class="pe-2">
-									<a
-											class="d-flex p-lg-3 p-2 rounded-3"
-											href="javascript:void(0);"
-									>
-										<div class="avatar sm">
-											<svg
-													class="svg-stroke"
-													xmlns="http://www.w3.org/2000/svg"
-													viewBox="0 0 24 24"
-													stroke="currentColor"
-													fill="none"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-											>
-												<path
-														stroke="none"
-														d="M0 0h24v24H0z"
-														fill="none"
-												></path>
-												<path
-														d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.697"
-												></path>
-												<path d="M18 14v4h4"></path>
-												<path d="M18 11v-4a2 2 0 0 0 -2 -2h-2"></path>
-												<path
-														d="M8 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"
-												></path>
-												<path
-														d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"
-												></path>
-												<path d="M8 11h4"></path>
-												<path d="M8 15h3"></path>
-											</svg>
-										</div>
-										<div class="flex-fill ms-3">
-                            <span class="d-flex justify-content-between">
-                              <small class="text-info">Reports</small>
-                              <small class="text-muted">04:00 PM Today</small>
-                            </span>
-											<p class="mb-0 mt-1">
-												Website visits from Twitter is 27% higher than
-												last week.
-											</p>
-										</div>
-									</a>
-								</li>
-								<li class="pe-2">
-									<a
-											class="d-flex p-lg-3 p-2 rounded-3 align-items-start"
-											href="javascript:void(0);"
-									>
-										<img
-												class="avatar sm rounded-circle"
-												src="../static/images/xs/avatar4.jpg"
-												th:src="@{/images/xs/avatar4.jpg}"
-												alt="avatar"
-										/>
-										<div class="flex-fill ms-3">
-                            <span class="d-flex justify-content-between">
-                              <small class="text-warning">HTML Code</small>
-                              <small class="text-muted">1day</small>
-                            </span>
-											<p class="mb-0 mt-1">
-												Update new code in github and share deteail
-											</p>
-										</div>
-									</a>
-								</li>
-								<li class="pe-2">
-									<div class="d-flex p-lg-3 p-2 rounded-3">
-										<img
-												class="avatar sm rounded-circle"
-												src="../static/images/xs/avatar1.jpg"
-												th:src="@{/images/xs/avatar1.jpg}"
-												alt="avatar"
-										/>
-										<div class="flex-fill ms-3">
-                            <span class="d-flex justify-content-between">
-                              <small class="text-success">New Request</small>
-                              <small class="text-muted">1day</small>
-                            </span>
-											<p class="mb-0 mt-1">
-												<strong>Tina Harris</strong>
-												is requesting to upgrade Plan
-											</p>
-											<div class="mt-2">
-												<a
-														href="#"
-														class="btn btn-sm bg-accent text-white"
-												>Accept</a
-												>
-												<a href="#" class="btn btn-sm btn-dark text-white"
-												>Decline</a
-												>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li class="pe-2">
-									<a
-											class="d-flex p-lg-3 p-2 rounded-3"
-											href="javascript:void(0);"
-									>
-										<div class="avatar sm">
-											<svg
-													class="svg-stroke"
-													xmlns="http://www.w3.org/2000/svg"
-													viewBox="0 0 24 24"
-													stroke="currentColor"
-													fill="none"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-											>
-												<path
-														stroke="none"
-														d="M0 0h24v24H0z"
-														fill="none"
-												></path>
-												<path
-														d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"
-												></path>
-												<path d="M12 8v4"></path>
-												<path d="M12 16h.01"></path>
-											</svg>
-										</div>
-										<div class="flex-fill ms-3">
-                            <span class="d-flex justify-content-between">
-                              <small class="text-danger">Error 404</small>
-                              <small class="text-muted">Yesterday</small>
-                            </span>
-											<p class="mb-0 mt-1">
-												FintechWeb admin template on website analytics
-												configurations
-											</p>
 										</div>
 									</a>
 								</li>
@@ -998,7 +854,9 @@
 
 				<div class="border-bottom py-3">
 					<small class="text-muted mb-3">Updated At</small>
-					<div class="h6 mb-0 pt-3" th:text="${#temporals.format(exchangeRates[0].updatedAt, 'yyyy-MM-dd HH:mm:ss')}"> 12:22:20 UTC </div>
+					<div class="h6 mb-0 pt-3"
+					     th:text="${#temporals.format(exchangeRates[0].updatedAt, 'yyyy-MM-dd HH:mm:ss')}"> 12:22:20 UTC
+					</div>
 				</div>
 
 			</div>
@@ -1022,7 +880,7 @@
 
         let exchangeRates = {};
 
-        exchangeRatesData.forEach(function(rate) {
+        exchangeRatesData.forEach(function (rate) {
             let key = rate.fromCurrency + '/' + rate.toCurrency;
             exchangeRates[key] = rate.rate;
             exchangeRates[rate.toCurrency + '/' + rate.fromCurrency] = 1 / rate.rate;
@@ -1037,10 +895,10 @@
             let nestedElementTwo = country2.querySelector('.dynamic-select-selected');
             let nestedElementValueTwo = nestedElementTwo.querySelector('.dynamic-select-option-text').textContent.trim();
             let rate = document.getElementById('rate');
-            if(nestedElementValue !== nestedElementValueTwo) {
-                rate.textContent= exchangeRates[nestedElementValue + '/' + nestedElementValueTwo].toFixed(2);
-            }else{
-                rate.textContent='1.00';
+            if (nestedElementValue !== nestedElementValueTwo) {
+                rate.textContent = exchangeRates[nestedElementValue + '/' + nestedElementValueTwo].toFixed(2);
+            } else {
+                rate.textContent = '1.00';
             }
 
         }
