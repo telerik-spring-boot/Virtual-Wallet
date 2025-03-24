@@ -7,4 +7,6 @@ import java.util.List;
 public interface InvestmentRepository {
 
     List<Investment> getAllInvestments();
+
+    List<Investment> getAllInvestmentsByUsername(String username);
 }
