@@ -218,8 +218,6 @@ public class TransactionServiceImpl implements TransactionService {
             monthlySums.set(monthIndex, monthlySums.get(monthIndex).add(transaction.getAmount()));
         });
 
-        Collections.reverse(monthlySums);
-
         return monthlySums;
     }
 
@@ -231,7 +229,7 @@ public class TransactionServiceImpl implements TransactionService {
         if (monthIndex < 0) {
             monthIndex += 12;
         }
-        return monthIndex;
+        return 11 - monthIndex;
     }
 
 

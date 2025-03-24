@@ -109,8 +109,6 @@ public class TransferServiceImpl implements TransferService {
             monthlySums.set(monthIndex, monthlySums.get(monthIndex).add(transfer.getAmount()));
         });
 
-        Collections.reverse(monthlySums);
-
         return monthlySums;
     }
 
@@ -122,6 +120,6 @@ public class TransferServiceImpl implements TransferService {
         if (monthIndex < 0) {
             monthIndex += 12;
         }
-        return monthIndex;
+        return 11 - monthIndex;
     }
 }
