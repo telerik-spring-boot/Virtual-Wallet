@@ -24,85 +24,6 @@
 					Settings
 				</li>
 			</ol>
-			<ul class="list-unstyled action mb-0 row g-2">
-				<li class="col-sm-6 col-6">
-					<div>
-						<input class="form-control" name="filter" type="date"/>
-					</div>
-				</li>
-				<li class="dropdown col-sm-6 col-6">
-					<a
-							aria-expanded="false"
-							class="btn border rounded fw-medium w-100"
-							data-bs-auto-close="outside"
-							data-bs-toggle="dropdown"
-							href="#"
-					>
-						<svg
-								class="svg-stroke"
-								fill="none"
-								stroke="currentColor"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								viewBox="0 0 24 24"
-								width="18"
-								xmlns="http://www.w3.org/2000/svg"
-						>
-							<path d="M0 0h24v24H0z" fill="none" stroke="none"></path>
-							<path
-									d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z"
-							></path>
-						</svg>
-						Filter
-					</a>
-					<div
-							class="dropdown-menu dropdown-menu-end p-2 p-xl-3 shadow rounded-4"
-							style="width: 300px"
-					>
-						<h6>Filter Options</h6>
-						<div class="row g-3 mt-3">
-							<div class="col-12">
-								<label class="form-label small text-muted"
-								>Sorted by:</label
-								>
-								<input
-										class="form-control"
-										placeholder="Search"
-										type="search"
-								/>
-							</div>
-							<div class="col-12">
-								<label class="form-label small text-muted">Status:</label>
-								<select class="form-select">
-									<option selected="">Choose...</option>
-									<option>...</option>
-								</select>
-							</div>
-							<div class="col-12">
-								<label class="form-label small text-muted"
-								>Notifications:</label
-								>
-								<div class="form-check form-switch">
-									<input
-											class="form-check-input"
-											role="switch"
-											type="checkbox"
-									/>
-									<label class="form-check-label">Enabled</label>
-								</div>
-							</div>
-							<div class="col-12 text-end mt-4">
-								<button class="btn btn-sm btn-light me-1" type="reset">
-									Reset
-								</button>
-								<button class="btn btn-sm btn-primary" type="submit">
-									Apply
-								</button>
-							</div>
-						</div>
-					</div>
-				</li>
-			</ul>
 		</div>
 		<!-- start: page body area -->
 		<div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
@@ -114,52 +35,16 @@
 							<div class="dropdown card-action">
 								<a href="#" class="card-fullscreen" data-bs-toggle="tooltip"
 								   title="Card Full Screen">
-									<svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg" width="20"
-									     height="20" viewBox="0 0 24 24" stroke="currentColor" fill="none"
-									     stroke-linecap="round" stroke-linejoin="round">
+									<svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
 										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-										<path
-												d="M3 16m0 1a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1z">
-										</path>
-										<path d="M4 12v-6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-6">
-										</path>
-										<path d="M12 8h4v4"></path>
-										<path d="M16 8l-5 5"></path>
+										<path d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"></path>
+										<path d="M7 20l10 0"></path>
+										<path d="M9 16l0 4"></path>
+										<path d="M15 16l0 4"></path>
+										<path d="M17 4h4v4"></path>
+										<path d="M16 9l5 -5"></path>
 									</svg>
 								</a>
-								<a href="#" class="dropdown-toggle after-none" data-bs-toggle="dropdown"
-								   aria-expanded="false" title="More Action">
-									<svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg" width="20"
-									     height="20" viewBox="0 0 24 24" stroke="currentColor" fill="none"
-									     stroke-linecap="round" stroke-linejoin="round">
-										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-										<path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
-										<path d="M8 12l0 .01"></path>
-										<path d="M12 12l0 .01"></path>
-										<path d="M16 12l0 .01"></path>
-									</svg>
-								</a>
-								<div class="dropdown-menu dropdown-menu-end shadow rounded-4 p-2">
-									<a href="javascript:void(0)" class="dropdown-item rounded-pill"><i
-											class="me-2 fa fa-share"></i>Share</a>
-									<a href="javascript:void(0)" class="dropdown-item rounded-pill"><i
-											class="me-2 fa fa-pencil"></i>Rename</a>
-									<div class="dropdown-divider"></div>
-									<a href="javascript:void(0)" class="dropdown-item rounded-pill"><i
-											class="me-2 fa fa-link"></i>Copy Link Address</a>
-									<a href="javascript:void(0)" class="dropdown-item rounded-pill"><i
-											class="me-2 fa fa-folder"></i>Move to</a>
-									<a href="javascript:void(0)" class="dropdown-item rounded-pill"><i
-											class="me-2 fa fa-copy"></i>Copy to</a>
-									<a href="javascript:void(0)" class="dropdown-item rounded-pill"><i
-											class="me-2 fa fa-edit"></i>Make Private</a>
-									<a href="javascript:void(0)" class="dropdown-item rounded-pill"><i
-											class="me-2 fa fa-download"></i>Download</a>
-									<div class="dropdown-divider"></div>
-									<a href="javascript:void(0)"
-									   class="dropdown-item rounded-pill card-options-remove"
-									   data-toggle="card-remove"><i class="me-2 fa fa-trash"></i>Delete</a>
-								</div>
 							</div>
 							<div
 									class="d-flex align-items-md-start align-items-center flex-column flex-md-row mt-4 w-100">
@@ -289,61 +174,6 @@
 </main>
 
 
-<!-- Export Modal -->
-<div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exportModalLabel">Export Data</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="table-responsive custom_scroll">
-					<table class="table table-hover">
-						<tbody>
-						<tr>
-							<th class="align-content-center"> Profile Photo</th>
-							<td class="text-end align-content-center">
-
-								<img alt="avatar" src="../static/images/profile_av.png"
-								     class="avatar md rounded-circle"
-								     onerror="this.onerror=null; this.src='/images/profile_av.png';"
-								     th:if="@{/ui/uploads/picture{username}3.jpg(username=${userDisplay.username})}"
-								     th:src="@{/ui/uploads/picture{username}3.jpg(username=${userDisplay.username})}"/>
-							</td>
-						</tr>
-						<tr style="height:55px!important;">
-
-							<th class="border-top align-content-center">Full Name</th>
-							<td class="text-end border-top align-content-center">Liza Meliza</td>
-						</tr>
-						<tr style="height:55px!important;">
-							<th class="align-content-center">Username</th>
-							<td class="text-end align-content-center">lizameliza</td>
-						</tr>
-						<tr style="height:55px!important;">
-							<th class="align-content-center">Email Address</th>
-							<td class="text-end align-content-center">doeliza@gmail.com</td>
-						</tr>
-						<tr style="height:55px!important;">
-							<th class="align-content-center">Phone Number</th>
-							<td class="text-end align-content-center">12345678</td>
-						</tr>
-						<tr style="height:55px!important;">
-							<th class="align-content-center"> Status</th>
-							<td class="text-end align-content-center"> Verified</td>
-						</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-grey-outline">Download</button>
-			</div>
-		</div>
-	</div>
-</div>
 
 <!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
