@@ -183,8 +183,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.getSenderWallet().setBalance(senderBalanceBefore.subtract(transaction.getAmount()));
         transaction.getReceiverWallet().setBalance(receiverBalanceBefore.add(receivedAmount));
 
-        walletRepository.updateWallet(transaction.getSenderWallet());
-        walletRepository.updateWallet(transaction.getReceiverWallet());
+        walletRepository.updateWallets(transaction.getSenderWallet(), transaction.getReceiverWallet());
 
         transactionRepository.createTransaction(transaction);
 

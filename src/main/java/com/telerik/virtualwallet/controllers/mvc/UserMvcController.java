@@ -90,75 +90,20 @@ public class UserMvcController {
 
         BigDecimal allDeposits = transferService.getBalanceChangeForTheCurrentMonthByWalletId(wallet.getId());
 
-        BigDecimal balanceChange = allDeposits.add(transactionService
-                .getBalanceChangeForTheCurrentMonthByWalletId(wallet.getId()));
+        loadDashboardMainWalletStats(model, allDeposits, wallet);
 
-        BigDecimal percentageBalanceChange = BigDecimal.valueOf(100).multiply(balanceChange
-                        .divide(wallet.getBalance().subtract(balanceChange), 4, RoundingMode.HALF_UP))
-                .setScale(2, RoundingMode.HALF_UP);
+        loadDashboardCardInfo(model, authentication, wallet, allDeposits);
 
-        boolean positiveBalanceChange = balanceChange.compareTo(BigDecimal.ZERO) > 0;
+        loadDashboardTransactions(model, authentication);
 
-        CardDisplayDTO card = cardMapper.cardToCardDisplayDTO
-                (cardService.getFirstCardCreatedByUsername(authentication.getName()));
+        loadDashboardInvestments(model, authentication);
 
-        BigDecimal depositsFromMainCard = transferService
-                .getBalanceChangeForTheCurrentMonthByWalletAndCardId(wallet.getId(), card.getId());
+        loadDashboardIncomeExpenseChart(model, wallet);
 
-        BigDecimal depositedFromMainPercentage = BigDecimal.valueOf(100)
-                .multiply(depositsFromMainCard.divide(allDeposits, 2, RoundingMode.HALF_UP));
-
-
-        List<TransactionsWrapper> transactions =
-                new ArrayList<>(transactionService.getTransactionsByUsername(authentication.getName())
-                        .stream().map(transactionMapper::transactionToTransactionWrapper).toList());
-
-
-        transactions.addAll(transferService.getAllTransfersToYourWalletsByUsername(authentication.getName())
-                .stream().map(transactionMapper::transferToTransactionWrapper).toList());
-
-        List<TransactionsWrapper> sortedTransactions = transactions.stream()
-                .sorted(Comparator.comparing(TransactionsWrapper::getTransactionTime).reversed())
-                .limit(6).toList();
-
-        model.addAttribute("investments", userService.getInvestmentsByUsername(authentication.getName())
-                .stream()
-                .flatMap(investment -> transactionMapper.investmentToInvestmentDTO(investment).stream())
-                .sorted(Comparator.comparing(InvestmentDTO::getPurchasedAt).reversed())
-                .limit(4).toList());
-
-        List<BigDecimal> inTransfers = transactionService
-                .getIncomingTransactionsForTheLastYearByWalletId(wallet.getId());
-
-        List<BigDecimal> deposits = transferService
-                .getTransfersForTheLastYearByWalletId(wallet.getId());
-
-        List<BigDecimal> income = IntStream.range(0, deposits.size())
-                .mapToObj(i -> inTransfers.get(i).add(deposits.get(i)))
-                .collect(Collectors.toList());
-
-        List<BigDecimal> expense = transactionService
-                .getOutgoingTransactionsForTheLastYearByWalletId(wallet.getId());
-
-        model.addAttribute("income", income);
-        model.addAttribute("expense", expense);
-        model.addAttribute("incomeSum", income.stream()
-                .reduce(BigDecimal.ZERO, BigDecimal::add));
-        model.addAttribute("expenseSum", expense.stream()
-                .reduce(BigDecimal.ZERO, BigDecimal::add));
-
-
-
-        model.addAttribute("transactions", sortedTransactions);
-        model.addAttribute("depositsFromMainCard", depositsFromMainCard);
-        model.addAttribute("depositedFromMainPercentage", depositedFromMainPercentage);
-        model.addAttribute("percentageBalanceChange", percentageBalanceChange);
-        model.addAttribute("positiveBalanceChange", positiveBalanceChange);
         model.addAttribute("wallet", wallet);
-        model.addAttribute("card", card);
+
         return "index";
     }
-
 
     @GetMapping("/recipients")
     public String getRecipients() {
@@ -342,6 +287,82 @@ public class UserMvcController {
         }
 
         return roles.contains("ROLE_ADMIN");
+    }
+
+    private void loadDashboardMainWalletStats(Model model, BigDecimal allDeposits, WalletMvcDisplayDTO wallet) {
+        BigDecimal balanceChange = allDeposits.add(transactionService
+                .getBalanceChangeForTheCurrentMonthByWalletId(wallet.getId()));
+
+        BigDecimal percentageBalanceChange = BigDecimal.valueOf(100).multiply(balanceChange
+                        .divide(wallet.getBalance().subtract(balanceChange), 4, RoundingMode.HALF_UP))
+                .setScale(2, RoundingMode.HALF_UP);
+
+        boolean positiveBalanceChange = balanceChange.compareTo(BigDecimal.ZERO) > 0;
+
+        model.addAttribute("percentageBalanceChange", percentageBalanceChange);
+        model.addAttribute("positiveBalanceChange", positiveBalanceChange);
+    }
+
+    private void loadDashboardIncomeExpenseChart(Model model, WalletMvcDisplayDTO wallet) {
+        List<BigDecimal> inTransfers = transactionService
+                .getIncomingTransactionsForTheLastYearByWalletId(wallet.getId());
+
+        List<BigDecimal> deposits = transferService
+                .getTransfersForTheLastYearByWalletId(wallet.getId());
+
+        List<BigDecimal> income = IntStream.range(0, deposits.size())
+                .mapToObj(i -> inTransfers.get(i).add(deposits.get(i)))
+                .collect(Collectors.toList());
+
+        List<BigDecimal> expense = transactionService
+                .getOutgoingTransactionsForTheLastYearByWalletId(wallet.getId());
+
+        model.addAttribute("income", income);
+        model.addAttribute("expense", expense);
+        model.addAttribute("incomeSum", income.stream()
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
+        model.addAttribute("expenseSum", expense.stream()
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
+    }
+
+    private void loadDashboardCardInfo(Model model, Authentication authentication, WalletMvcDisplayDTO wallet, BigDecimal allDeposits) {
+        CardDisplayDTO card = cardMapper.cardToCardDisplayDTO
+                (cardService.getFirstCardCreatedByUsername(authentication.getName()));
+
+        BigDecimal depositsFromMainCard = transferService
+                .getBalanceChangeForTheCurrentMonthByWalletAndCardId(wallet.getId(), card.getId());
+
+        BigDecimal depositedFromMainPercentage = BigDecimal.valueOf(100)
+                .multiply(depositsFromMainCard.divide(allDeposits, 2, RoundingMode.HALF_UP));
+
+
+        model.addAttribute("depositsFromMainCard", depositsFromMainCard);
+        model.addAttribute("depositedFromMainPercentage", depositedFromMainPercentage);
+        model.addAttribute("card", card);
+    }
+
+    private void loadDashboardInvestments(Model model, Authentication authentication) {
+        model.addAttribute("investments", userService.getInvestmentsByUsername(authentication.getName())
+                .stream()
+                .flatMap(investment -> transactionMapper.investmentToInvestmentDTO(investment).stream())
+                .sorted(Comparator.comparing(InvestmentDTO::getPurchasedAt).reversed())
+                .limit(4).toList());
+    }
+
+    private void loadDashboardTransactions(Model model, Authentication authentication) {
+        List<TransactionsWrapper> transactions =
+                new ArrayList<>(transactionService.getTransactionsByUsername(authentication.getName())
+                        .stream().map(transactionMapper::transactionToTransactionWrapper).toList());
+
+
+        transactions.addAll(transferService.getAllTransfersToYourWalletsByUsername(authentication.getName())
+                .stream().map(transactionMapper::transferToTransactionWrapper).toList());
+
+        List<TransactionsWrapper> sortedTransactions = transactions.stream()
+                .sorted(Comparator.comparing(TransactionsWrapper::getTransactionTime).reversed())
+                .limit(6).toList();
+
+        model.addAttribute("transactions", sortedTransactions);
     }
 
 

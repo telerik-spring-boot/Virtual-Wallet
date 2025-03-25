@@ -108,6 +108,16 @@ public class WalletRepositoryImpl implements WalletRepository {
     }
 
     @Override
+    public void updateWallets(Wallet sender, Wallet receiver) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.merge(sender);
+            session.merge(receiver);
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
     public void deleteWallet(int id) {
 
         try (Session session = sessionFactory.openSession()) {
