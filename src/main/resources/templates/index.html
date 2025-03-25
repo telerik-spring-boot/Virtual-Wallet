@@ -491,6 +491,24 @@
             </div>
         </div>
     </div>
+
+    <div aria-hidden="true" aria-labelledby="successModalLabel" class="modal fade" id="successModal"
+         tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <div class="modal-body">
+                    <span th:if="${userReferralSent}" th:text="#{referral.success}"  style="text-transform: none;"> </span>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <!-- start: exchange rate -->
 <div th:replace="~{fragments/general-fragments :: exchange-rate}"></div>
@@ -505,6 +523,11 @@
     var expenseData = /*[[${expense}]]*/ [] ;
 
     /*]]>*/
+</script>
+
+<script th:if="${userReferralSent}" type="text/javascript">
+    var modal = new bootstrap.Modal(document.getElementById('successModal'));
+    modal.show();
 </script>
 
 <script>

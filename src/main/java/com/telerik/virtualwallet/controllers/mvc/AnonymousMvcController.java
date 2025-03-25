@@ -7,6 +7,7 @@ import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.ContactDTO;
 import com.telerik.virtualwallet.models.dtos.RegisterDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserPasswordUpdateDTO;
+import com.telerik.virtualwallet.models.dtos.user.UserReferDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserRetrieveDTO;
 import com.telerik.virtualwallet.services.email.EmailService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
@@ -18,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,7 +46,7 @@ public class AnonymousMvcController {
     private final JwtService jwtService;
 
     @Autowired
-    public AnonymousMvcController(UserService userService, UserMapper userMapper, EmailService emailService, JwtService jwtService){
+    public AnonymousMvcController(UserService userService, UserMapper userMapper, EmailService emailService, JwtService jwtService) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.emailService = emailService;
@@ -55,7 +56,7 @@ public class AnonymousMvcController {
 
     @GetMapping("/login")
     public String getLogin(Authentication authentication) {
-        if(authentication != null){
+        if (authentication != null) {
             return "redirect:/ui/users/dashboard";
         }
 
@@ -94,26 +95,40 @@ public class AnonymousMvcController {
     }
 
     @GetMapping("/register")
-    public String getRegister(Authentication authentication, Model model){
-        if(authentication != null){
+    public String getRegister(Authentication authentication, Model model, @RequestParam(required = false) String token) {
+        if (authentication != null) {
             return "redirect:/ui/users/dashboard";
         }
+
+        String username = "";
+        if (token != null) {
+            if (jwtService.isTokenExpired(token)) {
+                return "redirect:/ui/auth/login";
+            }
+
+            username = jwtService.extractSubject(token);
+
+        }
+        model.addAttribute("referrerUsername", username);
         model.addAttribute("register", new RegisterDTO());
         return "register";
     }
 
     @PostMapping("/register")
-    public String handleRegister(@Valid @ModelAttribute("register") RegisterDTO registerDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes,  HttpServletRequest request){
+    public String handleRegister(@Valid @ModelAttribute("register") RegisterDTO registerDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request, @ModelAttribute("referrerUsername") String username) {
         model.addAttribute("formSubmitted", true);
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "register";
         }
 
-        try{
+        try {
             User user = userMapper.dtoToUser(registerDTO);
 
-            userService.create(user);
+            if (!username.isEmpty()) {
+                userService.createWithReferral(user, userService.getByUsername(username));
+            } else
+                userService.create(user);
 
 
             // Do not uncomment before production!
@@ -133,12 +148,12 @@ public class AnonymousMvcController {
 
             return "redirect:/ui/auth/login";
 
-        }  catch (DuplicateEntityException e) {
-            if(e.getMessage().contains("username")){
+        } catch (DuplicateEntityException e) {
+            if (e.getMessage().contains("username")) {
                 bindingResult.rejectValue("username", "username.register", e.getMessage());
-            }else if(e.getMessage().contains("email")){
+            } else if (e.getMessage().contains("email")) {
                 bindingResult.rejectValue("emailAddress", "email.register", e.getMessage());
-            }else
+            } else
                 bindingResult.rejectValue("phoneNumber", "phone.register", e.getMessage());
 
             return "register";
@@ -191,10 +206,9 @@ public class AnonymousMvcController {
     }
 
 
-    //TODO
     @GetMapping("/request-password")
-    public String getRequestPassword(Authentication authentication, Model model){
-        if(authentication != null){
+    public String getRequestPassword(Authentication authentication, Model model) {
+        if (authentication != null) {
             return "redirect:/ui/users/dashboard";
         }
 
@@ -305,8 +319,6 @@ public class AnonymousMvcController {
     }
 
 
-
-
     @GetMapping("/verify-email")
     public String verifyEmail(@RequestParam String token, RedirectAttributes redirectAttributes) {
 
@@ -323,9 +335,56 @@ public class AnonymousMvcController {
 
             redirectAttributes.addFlashAttribute("emailSuccess", true);
             return "redirect:/ui/auth/login";
-        }catch(Exception e){
+        } catch (Exception e) {
             redirectAttributes.addFlashAttribute("emailFail", true);
             return "redirect:/ui/auth/login";
+        }
+
+    }
+
+    @GetMapping("/refer")
+    public String getReferralView(Model model) {
+
+        model.addAttribute("user", new UserReferDTO());
+        return "refer";
+    }
+
+    @PostMapping("/refer")
+    public String handleReferral(@Valid @ModelAttribute("user") UserReferDTO userReferDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+
+        model.addAttribute("formSubmitted", true);
+
+        if (bindingResult.hasErrors()) {
+            return "refer";
+        }
+
+        try {
+
+//            // Do not uncomment before production!
+//
+//            String referrerUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+//
+//            String token = jwtService.generateUsernameReferralToken(referrerUsername);
+//            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/ui/auth/register?token=" + token;
+//
+//
+//            String emailContent = "<p>Hello " + userReferDTO.getEmailAddress() + ",</p>"
+//                    + "<p>You're being referred by " + referrerUsername + " to join our platform. We're excited to have you on board!</p>"
+//                    + "<p>To get started, please click the link below to complete your registration:</p>"
+//                    + "<a href='" + verificationUrl + "'>Register</a>"
+//                    + "<p>If you did not intend to sign up or received this message by mistake, please ignore this email.</p>"
+//                    + "<p>Thank you,</p>"
+//                    + "<p>The YNPay Team</p>";
+//
+//            emailService.send(userReferDTO.getEmailAddress(), "Referral", emailContent);
+
+
+            redirectAttributes.addFlashAttribute("userReferralSent", true);
+
+            return "redirect:/ui/users/dashboard";
+        } catch (EntityNotFoundException e) {
+            bindingResult.rejectValue("emailAddress", "error.retrieve", e.getMessage());
+            return "refer";
         }
 
     }

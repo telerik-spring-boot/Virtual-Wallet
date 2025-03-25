@@ -182,20 +182,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(User user) {
-        List<User> dbUsers = userRepository.getByAnyUniqueField(user.getUsername(), user.getEmail(), user.getPhoneNumber());
+        createUser(user, null);
+
+    }
 
 
-        if (!dbUsers.isEmpty()) {
-            appropriateThrow(user, dbUsers.get(0));
-        }
-
-
-        setDefaultVerification(user);
-        setDefaultWallet(user);
-
-
-        userRepository.create(user);
-
+    @Override
+    public void createWithReferral(User user, User referrer) {
+        createUser(user, referrer);
     }
 
 
@@ -238,7 +232,7 @@ public class UserServiceImpl implements UserService {
 
         pictureService.delete(username);
 
-        userRepository.delete(userToDelete.getId());
+        userRepository.delete(userToDelete);
 
         walletService.deleteWallets(walletsToDelete);
 
@@ -423,6 +417,29 @@ public class UserServiceImpl implements UserService {
         if (!(user.getVerification().isEmailVerified() && user.getVerification().isPicturesVerified())) {
             throw new UnauthorizedOperationException("You are unable to make transactions due to being not verified.");
         }
+    }
+
+    private void createUser(User user, User referrer) {
+        List<User> dbUsers = userRepository.getByAnyUniqueField(user.getUsername(), user.getEmail(), user.getPhoneNumber());
+
+
+        if (!dbUsers.isEmpty()) {
+            appropriateThrow(user, dbUsers.get(0));
+        }
+
+        setDefaultVerification(user);
+        setDefaultWallet(user);
+
+        if(referrer != null){
+            Referral referral = new Referral();
+
+            referral.setReferrer(referrer);
+            referral.setReferee(user);
+
+            user.setReferredBy(referral);
+        }
+
+        userRepository.create(user);
     }
 
 

@@ -385,7 +385,7 @@ public class UserServiceTests {
 
         // Assert
         Mockito.verify(mockUserRepository, Mockito.times(1))
-                .delete(user.getId());
+                .delete(user);
     }
 
     @Test
@@ -399,7 +399,7 @@ public class UserServiceTests {
         // Assert
         Assertions.assertThrows(EntityNotFoundException.class, () -> userService.delete(user.getUsername()));
         Mockito.verify(mockUserRepository, Mockito.times(0))
-                .delete(user.getId());
+                .delete(user);
     }
 
     @Test

@@ -55,6 +55,14 @@ public class JwtService {
                 .compact();
     }
 
+    public String generateUsernameReferralToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setExpiration(Date.from(Instant.now().plus(24, ChronoUnit.HOURS)))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     public String extractSubject(String token) {
         return extractClaim(token, Claims::getSubject);
     }

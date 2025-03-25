@@ -11,17 +11,17 @@ public class Verification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private int id;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name="email_verified")
+    @Column(name = "email_verified")
     private boolean emailVerified;
 
-    @Column(name="pictures_verified")
+    @Column(name = "pictures_verified")
     private boolean picturesVerified;
 
     @Column(name = "verified_at")
@@ -35,7 +35,10 @@ public class Verification {
         this.verifiedAt = verifiedAt;
     }
 
-    public Verification() {};
+    public Verification() {
+    }
+
+    ;
 
     public int getId() {
         return id;

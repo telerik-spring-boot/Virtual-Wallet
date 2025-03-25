@@ -17,6 +17,7 @@ import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.InvestmentDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionsWrapper;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
+import com.telerik.virtualwallet.models.dtos.user.UserReferDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletMvcDisplayDTO;
 import com.telerik.virtualwallet.services.card.CardService;
@@ -81,6 +82,8 @@ public class UserMvcController {
     public boolean populateIsAdmin() {
         return populateIsAdminAttribute();
     }
+
+
 
     @GetMapping("/dashboard")
     public String getOverview(Model model, Authentication authentication) {
