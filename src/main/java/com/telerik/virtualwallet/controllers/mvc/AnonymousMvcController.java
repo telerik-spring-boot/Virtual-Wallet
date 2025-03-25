@@ -95,7 +95,7 @@ public class AnonymousMvcController {
     }
 
     @GetMapping("/register")
-    public String getRegister(Authentication authentication, Model model, @RequestParam(required = false) String token) {
+    public String getRegister(Authentication authentication, Model model, @RequestParam(required = false) String token, HttpServletRequest request) {
 
         if (authentication != null) {
             return "redirect:/ui/users/dashboard";
@@ -114,14 +114,21 @@ public class AnonymousMvcController {
 
         model.addAttribute("referrerUsername", username);
         model.addAttribute("register", new RegisterDTO());
+
+        String queryString = request.getQueryString();
+        String currentURI = queryString == null ? request.getRequestURI() : request.getRequestURI() + "?" + queryString;
+
+        model.addAttribute("currentURI", currentURI);
+
         return "register";
     }
 
     @PostMapping("/register")
-    public String handleRegister(@Valid @ModelAttribute("register") RegisterDTO registerDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request, @ModelAttribute("referrerUsername") String username) {
+    public String handleRegister( @Valid @ModelAttribute("register") RegisterDTO registerDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request, @ModelAttribute("referrerUsername") String username) {
         model.addAttribute("formSubmitted", true);
 
         if (bindingResult.hasErrors()) {
+
             return "register";
         }
 
