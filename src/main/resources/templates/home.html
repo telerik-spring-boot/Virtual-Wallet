@@ -141,9 +141,9 @@
             <p class="lead fw-normal text-white-50 mb-4">Your all-in-one digital finance platform for <strong>fast, secure, and seamless transactions.</strong>
               Send and receive money instantly, own multiple wallets, and even trade stocks – all in one place.</p>
             <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
-              <a class="btn btn-primary btn-lg px-4 me-sm-3" th:if="${isLoggedIn}" th:href="@{/ui/user/dashboard}" >Sign up</a>
-              <a class="btn btn-primary btn-lg px-4 me-sm-3" th:if="${!isLoggedIn}" th:href="@{/ui/auth/register}" >Sign up</a>
-              <a class="btn btn-outline-light btn-lg px-4" th:if="${!isLoggedIn}" th:href="@{/ui/auth/login}">Log in</a>
+              <a class="btn btn-primary btn-lg px-4 me-sm-3" th:if="${isLoggedIn!=null}" th:href="@{/ui/users/dashboard}" >Dashboard</a>
+              <a class="btn btn-primary btn-lg px-4 me-sm-3" th:if="${isLoggedIn==null}" th:href="@{/ui/auth/register}" >Sign up</a>
+              <a class="btn btn-outline-light btn-lg px-4" th:if="${isLoggedIn==null}" th:href="@{/ui/auth/login}">Log in</a>
             </div>
           </div>
         </div>
