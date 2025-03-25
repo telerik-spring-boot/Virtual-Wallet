@@ -137,12 +137,12 @@
       <div class="row gx-5 align-items-center justify-content-center">
         <div class="col-lg-8 col-xl-7 col-xxl-6">
           <div class="my-5 text-center text-xl-start">
-            <h1 class="display-5 fw-bolder text-primary mb-2">Welcome to YNPay</h1>
+            <h1 class="display-5 fw-bolder text-primary mb-2" style="color: #0097AA !important;">Welcome to YNPay</h1>
             <p class="lead fw-normal text-white-50 mb-4">Your all-in-one digital finance platform for <strong>fast, secure, and seamless transactions.</strong>
               Send and receive money instantly, own multiple wallets, and even trade stocks – all in one place.</p>
             <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
-              <a class="btn btn-primary btn-lg px-4 me-sm-3" th:if="${isLoggedIn!=null}" th:href="@{/ui/users/dashboard}" >Dashboard</a>
-              <a class="btn btn-primary btn-lg px-4 me-sm-3" th:if="${isLoggedIn==null}" th:href="@{/ui/auth/register}" >Sign up</a>
+              <a class="btn btn-primary btn-lg px-4 me-sm-3" style="background-color: #0097AA !important; border-color: #007A8A !important;" th:if="${isLoggedIn!=null}" th:href="@{/ui/users/dashboard}" >Dashboard</a>
+              <a class="btn btn-primary btn-lg px-4 me-sm-3" style="background-color: #0097AA !important; border-color: #007A8A !important;" th:if="${isLoggedIn==null}" th:href="@{/ui/auth/register}" >Sign up</a>
               <a class="btn btn-outline-light btn-lg px-4" th:if="${isLoggedIn==null}" th:href="@{/ui/auth/login}">Log in</a>
             </div>
           </div>
@@ -165,25 +165,25 @@
         <div class="col-lg-8">
           <div class="row gx-5 row-cols-1 row-cols-md-2">
             <div class="col mb-5 h-100">
-              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-wallet-fill"></i></div>
+              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3" style="background-color: #0097AA !important;"><i class="bi bi-wallet-fill"></i></div>
               <h2 class="h5">Own Multiple Virtual Wallets</h2>
               <p class="mb-0">Create and manage digital wallets in <strong>USD, EUR, and GBP</strong>.
                 Keep your finances organized with separate wallets for savings, investments, and daily transactions.</p>
             </div>
             <div class="col mb-5 h-100">
-              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-arrow-down-up"></i></div>
+              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3" style="background-color: #0097AA !important;"><i class="bi bi-arrow-down-up"></i></div>
               <h2 class="h5">Send & Receive Money Instantly</h2>
               <p class="mb-0">Transfer money to friends, family, or business partners in <strong>real-time</strong>,
                 with zero delays and no hidden fees.</p>
             </div>
             <div class="col mb-5 mb-md-0 h-100">
-              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-currency-exchange"></i></div>
+              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3 " style="background-color: #0097AA !important;" ><i class="bi bi-currency-exchange"></i></div>
               <h2 class="h5">Joint Wallets with Friends</h2>
               <p class="mb-0">Share finances with friends, family, or business partners by creating a <strong>joint wallet</strong>.
                 Perfect for managing group expenses, splitting bills, or shared investments.</p>
             </div>
             <div class="col h-100">
-              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-bank2"></i></div>
+              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3" style="background-color: #0097AA !important;"><i class="bi bi-bank2" ></i></div>
               <h2 class="h5">Trade Stocks from NYSE</h2>
               <p class="mb-0">Invest in the world's biggest companies! <strong>Buy and sell stocks</strong>
                 directly from the <strong>New York Stock Exchange</strong> with a few taps.</p>
