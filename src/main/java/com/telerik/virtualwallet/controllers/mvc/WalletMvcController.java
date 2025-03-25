@@ -172,6 +172,9 @@ public class WalletMvcController {
             bindingResult.rejectValue("usernameOrPhone", "card.number", e.getMessage());
 
             addAllUserWalletsToModel(authentication, model);
+            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
+            model.addAttribute("IBANInput", new TransactionMVCIBANCreateDTO());
+            model.addAttribute("userDoesNotExist", dto.getUsernameOrPhone());
 
             return "transfer-make";
         }
@@ -369,12 +372,12 @@ public class WalletMvcController {
     @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
     @GetMapping("/{walletId}/top-up/confirm")
     public String walletTopUpConfirmation(Model model, @PathVariable int walletId,
-                                           @RequestParam("senderWalletId") int senderWalletId,
-                                           Authentication authentication,
-                                           @ModelAttribute("usernameInput")
-                                           TransactionMVCUsernamePhoneCreateDTO dto,
-                                           BindingResult bindingResult,
-                                           HttpServletRequest request) {
+                                          @RequestParam("senderWalletId") int senderWalletId,
+                                          Authentication authentication,
+                                          @ModelAttribute("usernameInput")
+                                          TransactionMVCUsernamePhoneCreateDTO dto,
+                                          BindingResult bindingResult,
+                                          HttpServletRequest request) {
 
 
         if (bindingResult.hasErrors()) {
@@ -408,11 +411,11 @@ public class WalletMvcController {
 
     @PostMapping("/{walletId}/top-up/confirm")
     public String handleWalletTopUpConfirmation(Model model, @PathVariable int walletId,
-                                               Authentication authentication,
-                                               @Valid @ModelAttribute("confirmation")
-                                               TransactionConfirmationMVCCreateDTO confirmation,
-                                               BindingResult bindingResult,
-                                               RedirectAttributes redirectAttributes) {
+                                                Authentication authentication,
+                                                @Valid @ModelAttribute("confirmation")
+                                                TransactionConfirmationMVCCreateDTO confirmation,
+                                                BindingResult bindingResult,
+                                                RedirectAttributes redirectAttributes) {
 
         model.addAttribute("formSubmitted", true);
 

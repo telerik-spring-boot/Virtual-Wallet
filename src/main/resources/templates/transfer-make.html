@@ -377,6 +377,22 @@
         </ul>
     </div>
 </div>
+
+<!-- Success Toast Notification -->
+<div id="userDoesNotExist" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+     role="alert" aria-live="assertive" aria-atomic="true"
+     th:if="${userDoesNotExist != null and userDoesNotExist.trim() != ''}"  style="z-index: 1050;">
+    <div class="toast-header bg-danger rounded-2 text-white">
+        <strong class="text-end">Error</strong>
+        <button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+    </div>
+    <div class="toast-body mt-2 ps-0">
+        <ul class="mb-0">
+            <li th:text="'User with username or phone number ' + ${userDoesNotExist}+' was not found.'"> User added successfully.</li>
+        </ul>
+    </div>
+</div>
 <footer class="w-100 bg-body position-fixed bottom-0">
     <div class="container-fluid">
         <div class="d-flex align-items-center">
@@ -715,6 +731,12 @@
         let wrongIBAN = document.getElementById('wrongIBAN');
         if (wrongIBAN) {
             let toast = new bootstrap.Toast(wrongIBAN, {delay: 5000});
+            toast.show();
+        }
+
+        let userDoesNotExist = document.getElementById('userDoesNotExist');
+        if (userDoesNotExist) {
+            let toast = new bootstrap.Toast(userDoesNotExist, {delay: 5000});
             toast.show();
         }
 
