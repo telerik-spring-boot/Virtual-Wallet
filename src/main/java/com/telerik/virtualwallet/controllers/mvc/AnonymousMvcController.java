@@ -96,9 +96,11 @@ public class AnonymousMvcController {
 
     @GetMapping("/register")
     public String getRegister(Authentication authentication, Model model, @RequestParam(required = false) String token) {
+
         if (authentication != null) {
             return "redirect:/ui/users/dashboard";
         }
+
 
         String username = "";
         if (token != null) {
@@ -109,6 +111,7 @@ public class AnonymousMvcController {
             username = jwtService.extractSubject(token);
 
         }
+
         model.addAttribute("referrerUsername", username);
         model.addAttribute("register", new RegisterDTO());
         return "register";

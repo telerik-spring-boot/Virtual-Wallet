@@ -117,6 +117,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getReferredUsers(String username) {
+        User user = userRepository.getUserWithReferrals(username);
+
+        if (user == null) {
+            throw new EntityNotFoundException("User", "username", username);
+        }
+
+        return user.getReferredPeople().stream().map(Referral::getReferee).toList();
+    }
+
+    @Override
     public void processStockOrderMvc(StockOrderMvcDTO stockOrder, String username) {
 
         User user = userRepository.getUserWithStocksAndWalletsAndInvestments(username);

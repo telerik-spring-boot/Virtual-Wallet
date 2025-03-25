@@ -25,6 +25,8 @@ public interface UserService {
 
     List<Investment> getInvestmentsByUsername(String username);
 
+    List<User> getReferredUsers(String username);
+
     void processStockOrderMvc(StockOrderMvcDTO stockOrder, String username);
 
     void purchaseStocks(String username, int walletId, List<StockOrderDTO> orderList);

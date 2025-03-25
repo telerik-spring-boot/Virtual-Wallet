@@ -12,6 +12,7 @@ public interface UserRepository {
 
     List<User> getAllMvc();
 
+
     User getById(int id);
 
     User getByIdWithRoles(int id);
@@ -29,6 +30,8 @@ public interface UserRepository {
     User getUserWithStocksAndWalletsAndInvestments(String username);
 
     User getUserWithWallets(String username);
+
+    User getUserWithReferrals(String username);
 
     List<User> getByAnyUniqueField(String username, String email, String phone);
 

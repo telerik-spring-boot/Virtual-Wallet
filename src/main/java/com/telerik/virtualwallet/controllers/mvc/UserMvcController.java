@@ -18,6 +18,7 @@ import com.telerik.virtualwallet.models.dtos.transaction.InvestmentDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionsWrapper;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserReferDTO;
+import com.telerik.virtualwallet.models.dtos.user.UserReferralDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletMvcDisplayDTO;
 import com.telerik.virtualwallet.services.card.CardService;
@@ -111,6 +112,22 @@ public class UserMvcController {
     @GetMapping("/recipients")
     public String getRecipients() {
         return "recipients";
+    }
+
+    @GetMapping("/referral-program")
+    public String getReferralProgram(Model model, Authentication authentication){
+
+        List<User> referrals = userService.getReferredUsers(authentication.getName());
+        List<UserReferralDisplayDTO> users = referrals.stream().map(userMapper::userToUserReferralDTO).toList();
+
+        long verifiedCount = users.stream()
+                .filter(user -> user.getVerifiedAt() != null)
+                .count();
+
+        model.addAttribute("users", users);
+        model.addAttribute("verifiedCount", verifiedCount);
+
+        return "referral-program";
     }
 
     @GetMapping("/settings")

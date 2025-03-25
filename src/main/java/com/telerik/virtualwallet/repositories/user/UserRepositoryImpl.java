@@ -1,5 +1,6 @@
 package com.telerik.virtualwallet.repositories.user;
 
+import com.telerik.virtualwallet.models.Referral;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.filters.FilterUserOptions;
 import org.hibernate.Hibernate;
@@ -91,6 +92,7 @@ public class UserRepositoryImpl implements UserRepository{
 
         }
     }
+
 
     @Override
     public User getById(int id) {
@@ -193,6 +195,18 @@ public class UserRepositoryImpl implements UserRepository{
         try(Session session = sessionFactory.openSession()){
 
             Query<User> query = session.createQuery("from User u LEFT JOIN FETCH u.wallets WHERE u.username = :username", User.class);
+
+            query.setParameter("username", username);
+
+            return query.uniqueResult();
+        }
+    }
+
+    @Override
+    public User getUserWithReferrals(String username) {
+        try(Session session = sessionFactory.openSession()){
+
+            Query<User> query = session.createQuery("from User u LEFT JOIN FETCH u.referredPeople WHERE u.username = :username", User.class);
 
             query.setParameter("username", username);
 
