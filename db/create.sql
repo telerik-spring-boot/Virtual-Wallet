@@ -100,7 +100,7 @@ CREATE TABLE virtual_wallet.stocks
     buyer_id     INT                                 NOT NULL,
     purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     stock_symbol VARCHAR(30)                         NOT NULL,
-    value        DECIMAL(15, 2)                      NOT NULL,
+    value        DECIMAL(15, 5)                      NOT NULL,
     amount       DECIMAL(15, 5)                      NOT NULL,
     FOREIGN KEY (buyer_id) REFERENCES virtual_wallet.users (user_id) ON DELETE CASCADE
 );

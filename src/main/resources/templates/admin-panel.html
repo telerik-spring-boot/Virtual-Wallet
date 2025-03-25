@@ -814,7 +814,7 @@
 											<h6 class="text-muted mb-0">Value</h6>
 										</div>
 										<div class="mb-4 px-3">
-											<h3 th:text="${investment.value} + ' USD'">500.00</h3>
+											<h3 th:text="${#numbers.formatDecimal(investment.value, 1, 2, 'POINT')} + ' USD'">500.00</h3>
 										</div>
 										<div class="mb-4 p-3 bg-light">
 											<h6 class="text-muted mb-0">To</h6>
