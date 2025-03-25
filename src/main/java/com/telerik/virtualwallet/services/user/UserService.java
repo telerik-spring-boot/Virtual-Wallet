@@ -35,6 +35,8 @@ public interface UserService {
 
     void create(User user);
 
+    void createWithReferral(User user, User referrer);
+
     void update(User user);
 
     void delete(String username);

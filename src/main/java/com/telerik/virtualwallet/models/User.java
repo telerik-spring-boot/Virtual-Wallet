@@ -66,8 +66,13 @@ public class User {
     @OneToMany(mappedBy = "user", cascade= CascadeType.ALL, orphanRemoval = true)
     private Set<Investment> investments;
 
+    @OneToMany(mappedBy = "referrer", cascade = CascadeType.MERGE)
+    private Set<Referral> referredPeople = new HashSet<>();
 
-    @OneToOne( cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "referee", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private Referral referredBy;
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="main_wallet_id", nullable=false)
     private Wallet mainWallet;
 
@@ -80,7 +85,9 @@ public class User {
     public User() {
     }
 
-    public User(int id, String fullName, String username, String email, String password, String phoneNumber, Set<Wallet> wallets, List<Role> roles, Verification verification, boolean isBlocked, LocalDateTime createdAt, LocalDateTime lastOnline) {
+    public User(int id, String fullName, String username, String email, String password, String phoneNumber, Set<Wallet> wallets,
+                List<Role> roles, Verification verification, boolean isBlocked, LocalDateTime createdAt, LocalDateTime lastOnline,
+                Set<Referral> referredPeople) {
         this.id = id;
         this.username = username;
         this.fullName=fullName;
@@ -93,6 +100,7 @@ public class User {
         this.isBlocked = isBlocked;
         this.createdAt  = createdAt;
         this.lastOnline = lastOnline;
+        this.referredPeople = referredPeople;
     }
 
     public int getId() {
@@ -233,5 +241,25 @@ public class User {
 
     public void setLastOnline(LocalDateTime lastOnline) {
         this.lastOnline = lastOnline;
+    }
+
+    public Set<Referral> getReferredPeople() {
+        return referredPeople;
+    }
+
+    public void setReferredPeople(Set<Referral> referredPeople) {
+        this.referredPeople = referredPeople;
+    }
+
+    public void addReferredPerson(Referral referral){
+        referredPeople.add(referral);
+    }
+
+    public Referral getReferredBy() {
+        return referredBy;
+    }
+
+    public void setReferredBy(Referral referredBy) {
+        this.referredBy = referredBy;
     }
 }

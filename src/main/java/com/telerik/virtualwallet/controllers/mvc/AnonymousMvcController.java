@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,7 +44,7 @@ public class AnonymousMvcController {
     private final JwtService jwtService;
 
     @Autowired
-    public AnonymousMvcController(UserService userService, UserMapper userMapper, EmailService emailService, JwtService jwtService){
+    public AnonymousMvcController(UserService userService, UserMapper userMapper, EmailService emailService, JwtService jwtService) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.emailService = emailService;
@@ -55,7 +54,7 @@ public class AnonymousMvcController {
 
     @GetMapping("/login")
     public String getLogin(Authentication authentication) {
-        if(authentication != null){
+        if (authentication != null) {
             return "redirect:/ui/users/dashboard";
         }
 
@@ -94,26 +93,40 @@ public class AnonymousMvcController {
     }
 
     @GetMapping("/register")
-    public String getRegister(Authentication authentication, Model model){
-        if(authentication != null){
+    public String getRegister(Authentication authentication, Model model, @RequestParam(required = false) String token) {
+        if (authentication != null) {
             return "redirect:/ui/users/dashboard";
         }
+
+        String email = "";
+        if (token != null) {
+            if (jwtService.isTokenExpired(token)) {
+                return "redirect:/ui/auth/login";
+            }
+
+            email = jwtService.extractSubject(token);
+
+        }
+        model.addAttribute("referrerEmail", email);
         model.addAttribute("register", new RegisterDTO());
         return "register";
     }
 
     @PostMapping("/register")
-    public String handleRegister(@Valid @ModelAttribute("register") RegisterDTO registerDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes,  HttpServletRequest request){
+    public String handleRegister(@Valid @ModelAttribute("register") RegisterDTO registerDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request, @ModelAttribute("referrerEmail") String email) {
         model.addAttribute("formSubmitted", true);
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "register";
         }
 
-        try{
+        try {
             User user = userMapper.dtoToUser(registerDTO);
 
-            userService.create(user);
+            if (!email.isEmpty()) {
+                userService.createWithReferral(user, userService.getByEmail(email));
+            } else
+                userService.create(user);
 
 
             // Do not uncomment before production!
@@ -133,12 +146,12 @@ public class AnonymousMvcController {
 
             return "redirect:/ui/auth/login";
 
-        }  catch (DuplicateEntityException e) {
-            if(e.getMessage().contains("username")){
+        } catch (DuplicateEntityException e) {
+            if (e.getMessage().contains("username")) {
                 bindingResult.rejectValue("username", "username.register", e.getMessage());
-            }else if(e.getMessage().contains("email")){
+            } else if (e.getMessage().contains("email")) {
                 bindingResult.rejectValue("emailAddress", "email.register", e.getMessage());
-            }else
+            } else
                 bindingResult.rejectValue("phoneNumber", "phone.register", e.getMessage());
 
             return "register";
@@ -191,10 +204,9 @@ public class AnonymousMvcController {
     }
 
 
-    //TODO
     @GetMapping("/request-password")
-    public String getRequestPassword(Authentication authentication, Model model){
-        if(authentication != null){
+    public String getRequestPassword(Authentication authentication, Model model) {
+        if (authentication != null) {
             return "redirect:/ui/users/dashboard";
         }
 
@@ -305,8 +317,6 @@ public class AnonymousMvcController {
     }
 
 
-
-
     @GetMapping("/verify-email")
     public String verifyEmail(@RequestParam String token, RedirectAttributes redirectAttributes) {
 
@@ -323,7 +333,7 @@ public class AnonymousMvcController {
 
             redirectAttributes.addFlashAttribute("emailSuccess", true);
             return "redirect:/ui/auth/login";
-        }catch(Exception e){
+        } catch (Exception e) {
             redirectAttributes.addFlashAttribute("emailFail", true);
             return "redirect:/ui/auth/login";
         }

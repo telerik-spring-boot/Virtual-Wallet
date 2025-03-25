@@ -1,6 +1,7 @@
 package com.telerik.virtualwallet.services.admin;
 
 import com.telerik.virtualwallet.exceptions.AdminRoleManagementException;
+import com.telerik.virtualwallet.exceptions.DuplicateEntityException;
 import com.telerik.virtualwallet.exceptions.EntityNotFoundException;
 import com.telerik.virtualwallet.exceptions.InvalidSortParameterException;
 import com.telerik.virtualwallet.models.Investment;
@@ -14,11 +15,13 @@ import com.telerik.virtualwallet.repositories.transaction.TransactionRepository;
 import com.telerik.virtualwallet.repositories.transaction.TransferRepository;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
 import com.telerik.virtualwallet.services.picture.PictureService;
+import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -102,8 +105,22 @@ public class AdminServiceImpl implements AdminService{
             throw new EntityNotFoundException("User", "username", username);
         }
 
+        if(userToBeVerified.getVerification().isPicturesVerified()){
+            throw new DuplicateEntityException("User with username " + username + "is already verified!");
+        }
+
+
         userToBeVerified.getVerification().setPicturesVerified(true);
         userToBeVerified.getVerification().setVerifiedAt(LocalDateTime.now());
+
+
+        if(userToBeVerified.getReferredBy() != null){
+
+            User referral = userToBeVerified.getReferredBy().getReferrer();
+            referral.getMainWallet().setBalance(referral.getMainWallet().getBalance().add(BigDecimal.valueOf(50)));
+            userToBeVerified.getMainWallet().setBalance(userToBeVerified.getMainWallet().getBalance().add(BigDecimal.valueOf(50)));
+
+        }
 
         userRepository.update(userToBeVerified);
     }
