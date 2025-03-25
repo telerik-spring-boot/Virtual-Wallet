@@ -20,6 +20,12 @@ public class GlobalMvcExceptionHandler {
         return "404";
     }
 
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleEntityNotFoundException() {
+        return "404";
+    }
+
     @ExceptionHandler(AuthorizationDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public String handleAuthorizationDeniedException() {
