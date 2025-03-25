@@ -304,7 +304,7 @@
                                 <div class="d-flex flex-column align-items-end text-end">
                                     <span>
                                         <small class="fw-medium" th:text="'$'">$4400</small>
-                                        <small class="fw-medium" th:text="${investment.value}">$4400</small>
+                                        <small class="fw-medium" th:text="${#numbers.formatDecimal(investment.value, 1, 2, 'POINT')}">$4400</small>
                                     </span>
                                     <small class="text-muted"
                                            th:text="${#temporals.format(investment.purchasedAt, 'dd/MM')}">08/27</small>
