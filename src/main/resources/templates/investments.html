@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/general-fragments :: head('YNPay :: Transactions')}"></head>
+<head th:replace="~{fragments/general-fragments :: head('YNPay :: Investments')}"></head>
 
 <body data-theme="theme-AppleGreen" class="svgstroke-a">
 <main class="container-fluid px-0">
@@ -8,13 +8,13 @@
     <div th:replace="~{fragments/general-fragments :: sidebar}"></div>
     <div class="content card">
         <!-- start: page header -->
-        <div th:replace="~{fragments/general-fragments :: main-header('Transaction')}"></div>
+        <div th:replace="~{fragments/general-fragments :: main-header('Investments')}"></div>
         <!-- start: page header area -->
         <div class="px-xl-5 px-lg-4 px-3 py-2 page-header flex-wrap">
             <ol class="breadcrumb mb-0 bg-transparent mb-3 mb-sm-0">
                 <li class="breadcrumb-item"><a class="text-muted" href="index.html" title="home"
-                                               th:href="@{/ui/users/dashboard}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page" title="Balance">Transactions</li>
+                                               th:href="@{/ui/home}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" title="Balance">Investments</li>
             </ol>
 
         </div>

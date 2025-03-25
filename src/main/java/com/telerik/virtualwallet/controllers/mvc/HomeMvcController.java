@@ -12,6 +12,7 @@ public class HomeMvcController {
 
     @GetMapping()
     public String getHome(Authentication authentication, Model model) {
+
         if(authentication != null){
             model.addAttribute("isLoggedIn", true);
         }
