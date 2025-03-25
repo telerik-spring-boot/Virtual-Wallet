@@ -101,7 +101,6 @@ public class WalletMvcController {
     public String addUserToWallet(@PathVariable int walletId, @RequestParam String username,
                                   RedirectAttributes redirectAttributes) {
 
-
         try {
             walletService.addUserToWallet(walletId, username);
 
@@ -133,25 +132,27 @@ public class WalletMvcController {
 
     @GetMapping("/transfer")
     public String createTransferForm(Authentication authentication, Model model) {
+
         model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
         model.addAttribute("IBANInput", new TransactionMVCIBANCreateDTO());
         addAllUserWalletsToModel(authentication, model);
         return "transfer-make";
     }
 
-    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
-    @GetMapping("/transfer/by_username/confirmation")
-    public String handleTransferByUsername(Model model, @RequestParam("walletId") int walletId,
-                                           Authentication authentication,
-                                           @Valid @ModelAttribute("usernameInput")
-                                           TransactionMVCUsernamePhoneCreateDTO dto,
-                                           BindingResult bindingResult,
-                                           HttpServletRequest request) {
-
+    @PostMapping("/transfer/by_username")
+    public String handleTransferFormByUsername(Model model, @RequestParam("walletId") int walletId,
+                                               Authentication authentication,
+                                               @Valid @ModelAttribute("usernameInput")
+                                               TransactionMVCUsernamePhoneCreateDTO dto,
+                                               BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("IBANInput", new TransactionMVCIBANCreateDTO());
+            addAllUserWalletsToModel(authentication, model);
+            model.addAttribute("userDoesNotExist", dto.getUsernameOrPhone());
             return "transfer-make";
         }
+
         try {
             User receiver = userService.getByUsernameOrEmailOrPhoneNumberMVC(dto.getUsernameOrPhone());
 
@@ -161,28 +162,96 @@ public class WalletMvcController {
             TransactionConfirmationMVCCreateDTO confirmation = transactionMapper
                     .handleConfirmationMVCDTOLogic(walletId, receiverWallet, receiver, dto.getAmount());
 
-            model.addAttribute("confirmation", confirmation);
-            model.addAttribute("transactionCategories", TransactionCategoryEnum.values());
-            model.addAttribute("requestURI", request.getRequestURI());
+            redirectAttributes.addFlashAttribute("walletId", walletId);
+            redirectAttributes.addFlashAttribute("confirmation", confirmation);
+            redirectAttributes.addFlashAttribute("transactionCategories", TransactionCategoryEnum.values());
 
-            return "transfer-confirmation";
+            return "redirect:/ui/wallets/transfer/confirmation";
 
         } catch (EntityNotFoundException e) {
 
             bindingResult.rejectValue("usernameOrPhone", "card.number", e.getMessage());
-
-            addAllUserWalletsToModel(authentication, model);
-            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
             model.addAttribute("IBANInput", new TransactionMVCIBANCreateDTO());
+            addAllUserWalletsToModel(authentication, model);
+
             model.addAttribute("userDoesNotExist", dto.getUsernameOrPhone());
 
             return "transfer-make";
         }
+    }
 
+    @PostMapping("/transfer/by_iban")
+    public String handleTransferFormByIban(Model model, @RequestParam("walletId") int walletId,
+                                           Authentication authentication,
+                                           @Valid @ModelAttribute("IBANInput")
+                                           TransactionMVCIBANCreateDTO dto,
+                                           BindingResult bindingResult,
+                                           RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
+            addAllUserWalletsToModel(authentication, model);
+
+            return "transfer-make";
+        }
+
+        if (!dto.getIBAN().toUpperCase().contains("IBAN33YNPAY68477732491843244")) {
+            bindingResult.rejectValue("IBAN", "card.number", IBAN_WAS_NOT_RECOGNISED);
+
+            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
+            addAllUserWalletsToModel(authentication, model);
+
+            model.addAttribute("wrongIBAN", dto.getIBAN());
+            model.addAttribute("showIbanTab", true);
+            return "transfer-make";
+        }
+        try {
+
+            String extractedId = dto.getIBAN().replaceFirst("IBAN33YNPAY68477732491843244", "");
+            int walletReceiverId = Integer.parseInt(extractedId);
+
+            Wallet receiverWallet = walletService.getWalletById(walletReceiverId);
+
+            TransactionConfirmationMVCCreateDTO confirmation = transactionMapper
+                    .handleConfirmationMVCDTOLogic(walletId, receiverWallet, receiverWallet.getCreator(), dto.getAmount());
+
+            redirectAttributes.addFlashAttribute("walletId", walletId);
+            redirectAttributes.addFlashAttribute("confirmation", confirmation);
+            redirectAttributes.addFlashAttribute("transactionCategories", TransactionCategoryEnum.values());
+
+            return "redirect:/ui/wallets/transfer/confirmation";
+
+        } catch (NumberFormatException e) {
+
+            bindingResult.rejectValue("IBAN", "card.number", IBAN_WAS_NOT_RECOGNISED);
+
+            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
+            addAllUserWalletsToModel(authentication, model);
+
+            model.addAttribute("wrongIBAN", dto.getIBAN());
+            model.addAttribute("showIbanTab", true);
+
+            return "transfer-make";
+        }
+    }
+
+    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    @GetMapping("/transfer/confirmation")
+    public String handleTransferByUsername(Model model, @ModelAttribute("walletId") int walletId,
+                                           @ModelAttribute("confirmation")
+                                           TransactionConfirmationMVCCreateDTO dto,
+                                           @ModelAttribute("transactionCategories")
+                                           TransactionCategoryEnum[] categories,
+                                           HttpServletRequest request) {
+
+        model.addAttribute("requestURI", request.getRequestURI());
+
+        return "transfer-confirmation";
 
     }
 
-    @PostMapping("/transfer/by_username/confirmation")
+    @PostMapping("/transfer/confirmation")
     public String handleTransferByUsernamePost(Model model,
                                                Authentication authentication,
                                                @Valid @ModelAttribute("confirmation")
@@ -202,94 +271,7 @@ public class WalletMvcController {
 
             transactionService.makeTransactionMVC(transaction, confirmation.getReceivedAmount());
 
-            return "redirect:/ui/users/dashboard";
-
-        } catch (InsufficientFundsException e) {
-            bindingResult.rejectValue("sentAmount", "card.number", e.getMessage());
-
-            redirectAttributes.addFlashAttribute("insufficientFunds", true);
-            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
-            addAllUserWalletsToModel(authentication, model);
-
-            return "transfer-confirmation";
-        }
-
-    }
-
-    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
-    @GetMapping("/transfer/by_IBAN/confirmation")
-    public String handleTransferByIBAN(Model model, @RequestParam("walletId") int walletId,
-                                       Authentication authentication,
-                                       @Valid @ModelAttribute("IBANInput")
-                                       TransactionMVCIBANCreateDTO dto,
-                                       BindingResult bindingResult,
-                                       HttpServletRequest request) {
-
-
-        if (bindingResult.hasErrors()) {
-
-            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
-            addAllUserWalletsToModel(authentication, model);
-
-            return "transfer-make";
-        }
-
-        if (!dto.getIBAN().toUpperCase().contains("IBAN33YNPAY68477732491843244")) {
-            bindingResult.rejectValue("IBAN", "card.number", IBAN_WAS_NOT_RECOGNISED);
-
-            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
-            addAllUserWalletsToModel(authentication, model);
-
-            model.addAttribute("wrongIBAN", true);
-            return "transfer-make";
-        }
-        try {
-
-            String extractedId = dto.getIBAN().replaceFirst("IBAN33YNPAY68477732491843244", "");
-            int walletReceiverId = Integer.parseInt(extractedId);
-
-            Wallet receiverWallet = walletService.getWalletById(walletReceiverId);
-
-            TransactionConfirmationMVCCreateDTO confirmation = transactionMapper
-                    .handleConfirmationMVCDTOLogic(walletId, receiverWallet, receiverWallet.getCreator(), dto.getAmount());
-
-            model.addAttribute("confirmation", confirmation);
-            model.addAttribute("transactionCategories", TransactionCategoryEnum.values());
-            model.addAttribute("requestURI", request.getRequestURI());
-
-            return "transfer-confirmation";
-
-        } catch (NumberFormatException e) {
-
-            bindingResult.rejectValue("IBAN", "card.number", "Incorrect IBAN");
-
-            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
-            addAllUserWalletsToModel(authentication, model);
-
-            return "transfer-make";
-        }
-
-    }
-
-    @PostMapping("/transfer/by_IBAN/confirmation")
-    public String handleTransferByIBANPost(Model model,
-                                           Authentication authentication,
-                                           @Valid @ModelAttribute("confirmation")
-                                           TransactionConfirmationMVCCreateDTO confirmation,
-                                           BindingResult bindingResult,
-                                           RedirectAttributes redirectAttributes) {
-
-        model.addAttribute("formSubmitted", true);
-
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("transactionCategories", TransactionCategoryEnum.values());
-            return "transfer-confirmation";
-        }
-        try {
-
-            Transaction transaction = transactionMapper.mvcDtoToTransaction(confirmation, authentication.getName());
-
-            transactionService.makeTransactionMVC(transaction, confirmation.getReceivedAmount());
+            redirectAttributes.addFlashAttribute("transferSuccess", true);
 
             return "redirect:/ui/users/dashboard";
 
