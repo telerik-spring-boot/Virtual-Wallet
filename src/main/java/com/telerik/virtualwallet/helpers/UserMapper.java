@@ -129,6 +129,26 @@ public class UserMapper {
         return dto;
     }
 
+    public UserReferralDisplayDTO userToUserReferralDTO(User user){
+        UserReferralDisplayDTO dto = new UserReferralDisplayDTO();
+
+        dto.setId(user.getId());
+
+        dto.setFullName(user.getFullName());
+
+        dto.setCreatedAt(user.getCreatedAt());
+
+        dto.setEmailAddress(user.getEmail());
+
+        dto.setUsername(user.getUsername());
+
+        dto.setVerifiedAt(user.getVerification().getVerifiedAt());
+
+        dto.setPhoneNumber(user.getPhoneNumber());
+
+        return dto;
+    }
+
     public UserDisplayForWalletDTO userToUserDisplayForWalletDTO(User user){
 
         UserDisplayForWalletDTO dto = new UserDisplayForWalletDTO();

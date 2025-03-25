@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/general-fragments :: head('YNPay :: Referral Program')}"></head>
+
+<body class="svgstroke-a" data-theme="theme-AppleGreen">
+<main class="container-fluid px-0">
+	<!-- start: page menu link -->
+	<div th:replace="~{fragments/general-fragments :: sidebar}"></div>
+	<div class="content">
+		<!-- start: page header -->
+		<div th:replace="~{fragments/general-fragments :: main-header('Referral Program')}"></div>
+		<!-- start: page header area -->
+		<div class="px-xl-5 px-lg-4 px-3 py-2 page-header flex-wrap">
+			<ol class="breadcrumb mb-0 bg-transparent mb-3 mb-sm-0">
+				<li class="breadcrumb-item">
+					<a class="text-muted" href="index.html" title="home" th:href="@{/ui/home}">Home</a>
+				</li>
+				<li
+						aria-current="page"
+						class="breadcrumb-item active"
+						title="Balance"
+				>
+					Referral  Program
+				</li>
+			</ol>
+			<ul class="list-unstyled action d-flex align-items-center mb-0">
+				<li>
+					<a th:href="@{/ui/auth/refer}" class="btn btn-dark">
+						Refer a Friend
+					</a>
+				</li>
+			</ul>
+		</div>
+		<!-- start: page body area -->
+		<div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="card mb-3">
+						<div class="card-header">
+							<h6 class="card-title mb-0">Referrals Overview</h6>
+							<h6 class="card-title ms-auto">Total Referral Earnings: <span th:text="${verifiedCount * 50} + '$'"></span></h6>
+						</div>
+						<div class="card-body">
+							<div id="apex-chart-line-column" style="height: 280px"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="border p-4 rounded-2 rounded-4 card">
+						<div
+								class="calendar-tab pb-4"
+								style="--dynamic-color: var(--primary-color)">
+
+							<ul
+									class="nav nav-pills text-muted text-uppercase"
+									role="tablist"
+							>
+								<li class="nav-item">
+									Sun
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_1"
+											type="button"
+											role="tab"
+									>
+										01
+									</button>
+								</li>
+								<li class="nav-item">
+									Mon
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_2"
+											type="button"
+											role="tab"
+									>
+										02
+									</button>
+								</li>
+								<li class="nav-item">
+									Tue
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_3"
+											type="button"
+											role="tab"
+									>
+										03
+									</button>
+								</li>
+								<li class="nav-item">
+									Wed
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_4"
+											type="button"
+											role="tab"
+									>
+										04
+									</button>
+								</li>
+								<li class="nav-item">
+									Thu
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_5"
+											type="button"
+											role="tab"
+									>
+										05
+									</button>
+								</li>
+								<li class="nav-item">
+									Fri
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_6"
+											type="button"
+											role="tab"
+									>
+										06
+									</button>
+								</li>
+								<li class="nav-item">
+									Sat
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_7"
+											type="button"
+											role="tab"
+									>
+										07
+									</button>
+								</li>
+								<li class="nav-item">
+									Sun
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_8"
+											type="button"
+											role="tab"
+									>
+										08
+									</button>
+								</li>
+								<li class="nav-item">
+									Mon
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_9"
+											type="button"
+											role="tab"
+									>
+										09
+									</button>
+								</li>
+								<li class="nav-item">
+									Tue
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_10"
+											type="button"
+											role="tab"
+									>
+										10
+									</button>
+								</li>
+								<li class="nav-item">
+									Wed
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_11"
+											type="button"
+											role="tab"
+									>
+										11
+									</button>
+								</li>
+								<li class="nav-item">
+									Thu
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_12"
+											type="button"
+											role="tab"
+									>
+										12
+									</button>
+								</li>
+								<li class="nav-item">
+									Fri
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_13"
+											type="button"
+											role="tab"
+									>
+										13
+									</button>
+								</li>
+								<li class="nav-item">
+									Sat
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_14"
+											type="button"
+											role="tab"
+									>
+										14
+									</button>
+								</li>
+								<li class="nav-item">
+									Sun
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_15"
+											type="button"
+											role="tab"
+									>
+										15
+									</button>
+								</li>
+								<li class="nav-item">
+									Sun
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_16"
+											type="button"
+											role="tab"
+									>
+										16
+									</button>
+								</li>
+								<li class="nav-item">
+									Mon
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_17"
+											type="button"
+											role="tab"
+									>
+										17
+									</button>
+								</li>
+								<li class="nav-item">
+									Tue
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_18"
+											type="button"
+											role="tab"
+									>
+										18
+									</button>
+								</li>
+								<li class="nav-item">
+									Wed
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_19"
+											type="button"
+											role="tab"
+									>
+										19
+									</button>
+								</li>
+								<li class="nav-item">
+									Thu
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_20"
+											type="button"
+											role="tab"
+									>
+										20
+									</button>
+								</li>
+								<li class="nav-item">
+									Fri
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_21"
+											type="button"
+											role="tab"
+									>
+										21
+									</button>
+								</li>
+								<li class="nav-item">
+									Sat
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_22"
+											type="button"
+											role="tab"
+									>
+										22
+									</button>
+								</li>
+								<li class="nav-item">
+									Sun
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_23"
+											type="button"
+											role="tab"
+									>
+										23
+									</button>
+								</li>
+								<li class="nav-item">
+									Mon
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_24"
+											type="button"
+											role="tab"
+									>
+										24
+									</button>
+								</li>
+								<li class="nav-item">
+									Tue
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_25"
+											type="button"
+											role="tab"
+									>
+										25
+									</button>
+								</li>
+								<li class="nav-item">
+									Wed
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_26"
+											type="button"
+											role="tab"
+									>
+										26
+									</button>
+								</li>
+								<li class="nav-item">
+									Thu
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_27"
+											type="button"
+											role="tab"
+									>
+										27
+									</button>
+								</li>
+								<li class="nav-item">
+									Fri
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_28"
+											type="button"
+											role="tab"
+									>
+										28
+									</button>
+								</li>
+								<li class="nav-item">
+									Sat
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_29"
+											type="button"
+											role="tab"
+									>
+										29
+									</button>
+								</li>
+								<li class="nav-item">
+									Sun
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_30"
+											type="button"
+											role="tab"
+									>
+										30
+									</button>
+								</li>
+
+								<li class="nav-item">
+									Mon
+									<button
+											class="nav-link disabled"
+											data-bs-toggle="pill"
+											data-bs-target="#c_date_31"
+											type="button"
+											role="tab"
+									>
+										31
+									</button>
+								</li>
+							</ul>
+						</div>
+						<table id="usersTable"
+						       class="table align-middle table-hover dataTable table-body table-responsive w-100 border rounded-4">
+
+							<thead>
+							<tr class="small text-muted text-uppercase">
+
+								<th class="border-end">Full Name</th>
+								<th class="border-end">Username</th>
+								<th class="border-end">Email</th>
+								<th class="border-end">Phone Number</th>
+								<th class="border-end">Status</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr class="row-selectable" th:each="user : ${users}">
+
+								<td class="border-end border-top">
+                                                       <span class="d-flex align-items-center">
+
+	                                                       <img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
+	                                                            class="avatar rounded-circle d-none d-sm-inline-block"
+	                                                            onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
+	                                                            th:if="@{/ui/uploads/picture{username}3.jpg(username=${user.username})}"
+	                                                            th:src="@{/ui/uploads/picture{username}3.jpg(username=${user.username})}"/>
+                                                            <span class="flex-fill ms-2">
+                                                                 <span class="h6 mb-0" th:text="${user.fullName}">Jony Doe</span>
+                                                            </span>
+                                                       </span>
+								</td>
+								<td class="border-end border-top" th:text="${user.username}">johny devito</td>
+								<td class="border-end border-top" th:text="${user.emailAddress}"> johny@gmail.com</td>
+								<td class="border-end border-top" th:text="${user.phoneNumber}">+234234234</td>
+								<td class="border-end border-top" th:text="${user.verifiedAt != null ? 'Completed' : 'Pending Verification'}"></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+
+
+<div th:replace="~{fragments/general-fragments :: exchange-rate}"></div>
+
+<th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+
+<script src="../static/bundles/dataTables.bundle.js" th:src="@{/bundles/dataTables.bundle.js}"></script>
+
+<link href="../static/vendor/dataTables.css" rel="stylesheet" th:href="@{/vendor/dataTables.css}"/>
+
+<script th:inline="javascript">
+
+
+    const today = new Date().getDate();
+
+    let allDates = document.querySelectorAll('.nav-link');
+
+
+    allDates.forEach(date => {
+        let dateNumber = parseInt(date.textContent);
+
+        if (dateNumber === today) {
+            date.classList.add('active');
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Scroll handling for .calendar-tab .nav
+        const scrollContainer = document.querySelector(".calendar-tab .nav");
+        if (scrollContainer) {
+            scrollContainer.addEventListener("wheel", (evt) => {
+                evt.preventDefault();
+                scrollContainer.scrollLeft += evt.deltaY;
+            });
+        }
+    });
+
+    $(document).ready(function () {
+        // Initialize DataTable
+        let usersTable = $('#usersTable').DataTable({
+            responsive: true,
+        });
+
+    });
+
+    $(document).ready(function () {
+
+        var users = /*[[${users}]]*/ [];
+
+        var monthLabels = [];
+        var createdCounts = Array(12).fill(0);
+        var verifiedCounts = Array(12).fill(0);
+
+        var now = new Date();
+        var currentYear = now.getFullYear();
+        var currentMonth = now.getMonth();
+
+
+        for (let i = 0; i < 12; i++) {
+            let month = new Date(currentYear, currentMonth - i, 1);
+            monthLabels.unshift(month);
+        }
+
+
+
+        users.forEach(user => {
+            let createdAt = new Date(user.createdAt);
+            let verifiedAt = user.verifiedAt ? new Date(user.verifiedAt) : null;
+
+            for (let i = 0; i < 12; i++) {
+                let month = new Date(currentYear, currentMonth - i, 1);
+
+                if (
+                    createdAt.getFullYear() === month.getFullYear() &&
+                    createdAt.getMonth() === month.getMonth()
+                ) {
+                    createdCounts[11-i]++;
+                }
+
+                if (
+                    verifiedAt &&
+                    verifiedAt.getFullYear() === month.getFullYear() &&
+                    verifiedAt.getMonth() === month.getMonth()
+                ) {
+                    verifiedCounts[11-i]++;
+                }
+            }
+        });
+
+
+        let formattedLabels = monthLabels.map(dateStr => {
+            let date = new Date(dateStr);
+            return date.toLocaleString("en-US", { month: "short" }).slice(0, 3);
+        });
+
+
+        // Create the chart
+        var options = {
+            chart: {
+                height: 500,
+                type: "line",
+                toolbar: {
+                    show: false,
+                },
+            },
+            colors: ["var(--theme-color2)", "var(--theme-color4)"],
+            series: [
+                {
+                    name: "Registered Referrals",
+                    type: "column",
+                    data: createdCounts,
+                },
+                {
+                    name: "Verified Referrals",
+                    type: "line",
+                    data: verifiedCounts,
+                },
+            ],
+            stroke: {
+                width: [0, 4],
+            },
+            labels: formattedLabels,
+            xaxis: {
+                type: "category",
+            },
+            yaxis: [
+                {
+                    title: {
+                        text: "Registered Referrals",
+                    },
+                },
+                {
+                    opposite: true,
+                    title: {
+                        text: "Verified Referrals",
+                    },
+                },
+            ],
+            tooltip: {
+                theme: "dark",
+            },
+        };
+
+        var chart = new ApexCharts(
+            document.querySelector("#apex-chart-line-column"),
+            options
+        );
+        chart.render();
+    });
+
+</script>
+
+
+</body>
+</html>

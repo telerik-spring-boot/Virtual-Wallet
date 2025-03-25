@@ -17,6 +17,8 @@ import com.telerik.virtualwallet.models.dtos.stock.StockOrderMvcDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.InvestmentDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionsWrapper;
 import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
+import com.telerik.virtualwallet.models.dtos.user.UserReferDTO;
+import com.telerik.virtualwallet.models.dtos.user.UserReferralDisplayDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserUpdateMvcDTO;
 import com.telerik.virtualwallet.models.dtos.wallet.WalletMvcDisplayDTO;
 import com.telerik.virtualwallet.services.card.CardService;
@@ -42,10 +44,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -113,6 +112,22 @@ public class UserMvcController {
     @GetMapping("/recipients")
     public String getRecipients() {
         return "recipients";
+    }
+
+    @GetMapping("/referral-program")
+    public String getReferralProgram(Model model, Authentication authentication){
+
+        List<User> referrals = userService.getReferredUsers(authentication.getName());
+        List<UserReferralDisplayDTO> users = referrals.stream().map(userMapper::userToUserReferralDTO).toList();
+
+        long verifiedCount = users.stream()
+                .filter(user -> user.getVerifiedAt() != null)
+                .count();
+
+        model.addAttribute("users", users);
+        model.addAttribute("verifiedCount", verifiedCount);
+
+        return "referral-program";
     }
 
     @GetMapping("/settings")
