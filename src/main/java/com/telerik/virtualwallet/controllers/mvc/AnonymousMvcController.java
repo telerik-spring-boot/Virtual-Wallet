@@ -7,6 +7,7 @@ import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.dtos.ContactDTO;
 import com.telerik.virtualwallet.models.dtos.RegisterDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserPasswordUpdateDTO;
+import com.telerik.virtualwallet.models.dtos.user.UserReferDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserRetrieveDTO;
 import com.telerik.virtualwallet.services.email.EmailService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -98,22 +100,22 @@ public class AnonymousMvcController {
             return "redirect:/ui/users/dashboard";
         }
 
-        String email = "";
+        String username = "";
         if (token != null) {
             if (jwtService.isTokenExpired(token)) {
                 return "redirect:/ui/auth/login";
             }
 
-            email = jwtService.extractSubject(token);
+            username = jwtService.extractSubject(token);
 
         }
-        model.addAttribute("referrerEmail", email);
+        model.addAttribute("referrerUsername", username);
         model.addAttribute("register", new RegisterDTO());
         return "register";
     }
 
     @PostMapping("/register")
-    public String handleRegister(@Valid @ModelAttribute("register") RegisterDTO registerDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request, @ModelAttribute("referrerEmail") String email) {
+    public String handleRegister(@Valid @ModelAttribute("register") RegisterDTO registerDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request, @ModelAttribute("referrerUsername") String username) {
         model.addAttribute("formSubmitted", true);
 
         if (bindingResult.hasErrors()) {
@@ -123,8 +125,8 @@ public class AnonymousMvcController {
         try {
             User user = userMapper.dtoToUser(registerDTO);
 
-            if (!email.isEmpty()) {
-                userService.createWithReferral(user, userService.getByEmail(email));
+            if (!username.isEmpty()) {
+                userService.createWithReferral(user, userService.getByUsername(username));
             } else
                 userService.create(user);
 
@@ -336,6 +338,53 @@ public class AnonymousMvcController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("emailFail", true);
             return "redirect:/ui/auth/login";
+        }
+
+    }
+
+    @GetMapping("/refer")
+    public String getReferralView(Model model) {
+
+        model.addAttribute("user", new UserReferDTO());
+        return "refer";
+    }
+
+    @PostMapping("/refer")
+    public String handleReferral(@Valid @ModelAttribute("user") UserReferDTO userReferDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+
+        model.addAttribute("formSubmitted", true);
+
+        if (bindingResult.hasErrors()) {
+            return "refer";
+        }
+
+        try {
+
+//            // Do not uncomment before production!
+//
+//            String referrerUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+//
+//            String token = jwtService.generateUsernameReferralToken(referrerUsername);
+//            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/ui/auth/register?token=" + token;
+//
+//
+//            String emailContent = "<p>Hello " + userReferDTO.getEmailAddress() + ",</p>"
+//                    + "<p>You're being referred by " + referrerUsername + " to join our platform. We're excited to have you on board!</p>"
+//                    + "<p>To get started, please click the link below to complete your registration:</p>"
+//                    + "<a href='" + verificationUrl + "'>Register</a>"
+//                    + "<p>If you did not intend to sign up or received this message by mistake, please ignore this email.</p>"
+//                    + "<p>Thank you,</p>"
+//                    + "<p>The YNPay Team</p>";
+//
+//            emailService.send(userReferDTO.getEmailAddress(), "Referral", emailContent);
+
+
+            redirectAttributes.addFlashAttribute("userReferralSent", true);
+
+            return "redirect:/ui/users/dashboard";
+        } catch (EntityNotFoundException e) {
+            bindingResult.rejectValue("emailAddress", "error.retrieve", e.getMessage());
+            return "refer";
         }
 
     }
