@@ -18,15 +18,12 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.telerik.virtualwallet.controllers.mvc.UserMvcController.populateIsAdminAttribute;
@@ -194,7 +191,7 @@ public class CardMvcController {
     @PostMapping("/deposit")
     public String handleDeposit(Model model, @RequestParam("chosenCardId") int cardId, Authentication authentication,
                                 @Valid @ModelAttribute("cardTransfer") CardTransferCreateDTO cardTransferCreateDTO,
-                                BindingResult bindingResult) {
+                                BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         model.addAttribute("formSubmitted", true);
 
@@ -206,6 +203,8 @@ public class CardMvcController {
 
         try {
             walletService.addFundsToWallet(user.getMainWallet().getId(), cardId, cardTransferCreateDTO.getAmount());
+
+            redirectAttributes.addFlashAttribute("successfulDeposit", true);
 
             return "redirect:/ui/users/dashboard";
 
