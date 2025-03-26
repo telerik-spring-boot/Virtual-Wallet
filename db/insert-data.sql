@@ -16,14 +16,7 @@ VALUES (500.00, 'USD'),
        (34.00, 'USD'),
        (25.00, 'USD'),
        (26.75, 'USD'),
-       (632.50, 'USD'),
-       (345.30, 'USD'),
-       (256.00, 'USD'),
-       (34.00, 'USD'),
-       (55.45, 'USD'),
-       (32.80, 'USD'),
-       (44.99, 'USD'),
-       (0.00, 'USD');;
+       (632.50, 'USD');
 
 
 -- Insert Users
@@ -57,21 +50,7 @@ VALUES ('Alice Johnson', 'alice', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIU
        ('Nina Rose', 'nina444', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa', 'nina@example.com',
         '+1934567812', 16, '2024-04-07 11:30:43'),
        ('Oscar Wilde', 'oscar555', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa', 'oscar@example.com',
-        '+1934567813', 17, '2024-05-22 11:30:43'),
-       ('Paulina Snow', 'paulina666', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa',
-        'paulina@example.com', '+1934567814', 18, '2024-06-17 11:30:43'),
-       ('Quincy Adams', 'quincy777', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa',
-        'quincy@example.com', '+1294567815', 19, '2024-07-04 11:30:43'),
-       ('Rachel Green', 'rachel888', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa',
-        'rachel@example.com', '+1294567816', 20, '2024-08-14 11:30:43'),
-       ('Sammy Clark', 'sammy999', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa', 'sammy@example.com',
-        '+1294597817', 21, '2024-09-29 11:30:43'),
-       ('Tina Turner', 'tina000', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa', 'tina@example.com',
-        '+1294567818', 22, '2024-10-13 11:30:43'),
-       ('Victor Hugo', 'victor111', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa',
-        'victor@example.com', '+1294567819', 23, '2024-11-28 11:30:43'),
-       ('Hugh Grant', 'hughG', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa',
-        'hugh@example.com', '+1294557819', 24, '2024-11-28 11:30:43');
+        '+1934567813', 17, '2024-05-22 11:30:43')       ;
 
 -- Insert Wallet Creators
 INSERT INTO virtual_wallet.wallet_creators (wallet_id, creator_id)
@@ -91,14 +70,7 @@ VALUES (1, 1),
        (14, 11),
        (15, 12),
        (16, 13),
-       (17, 14),
-       (18, 15),
-       (19, 16),
-       (20, 17),
-       (21, 18),
-       (22, 19),
-       (23, 20),
-       (24, 21);
+       (17, 14);
 
 
 -- Insert Admins (Making first two users admins)
@@ -134,14 +106,7 @@ VALUES (1, 1),
        (14, 11),
        (15, 12),
        (16, 13),
-       (17, 14),
-       (18, 15),
-       (19, 16),
-       (20, 17),
-       (21, 18),
-       (22, 19),
-       (23, 20),
-       (24, 21);
+       (17, 14);
 
 -- Insert Cards
 INSERT INTO virtual_wallet.cards (card_number, card_holder, expiry_month, expiry_year, card_cvv, user_id)
@@ -168,13 +133,13 @@ VALUES (1, 2),
        (2, 12),
        (2, 13),
        (2, 14),
-       (2, 15),
-       (1, 16),
-       (2, 17),
-       (1, 18),
-       (5, 19),
-       (3, 20),
-       (3, 21);
+       (2, 10),
+       (1, 9),
+       (2, 8),
+       (1, 7),
+       (5, 6),
+       (3, 5),
+       (3, 4);
 
 -- Insert Stocks
 INSERT INTO virtual_wallet.stocks (buyer_id, stock_symbol, value, amount)
@@ -198,42 +163,35 @@ VALUES (1, '2025-01-01 12:00:00', 'AAPL,TSLA', '1,1', '100,1000', '1100', 'BUY')
        (2, '2025-01-01 12:00:00', 'AAPL,GOOGL', '3,2', '180,2800', '6140', 'BUY'),
        (2, '2025-02-01 14:00:00', 'AAPL,GOOGL', '2,1', '200,3000', '3400', 'SELL'),
        (3, '2025-01-01 12:00:00', 'META,TSLA', '3,0.2', '350,850', '1220', 'BUY'),
-       (4, '2025-01-01 12:00:00', 'AMZN,NFLX', '1,3', '3500,650', '5450', 'BUY'),
-       (5, '2025-01-01 12:00:00', 'AMZN,TSLA', '1,0.1', '3500,900', '3590', 'BUY'),
-       (5, '2025-02-01 14:00:00', 'TSLA', '0.05', '900', '45', 'SELL'),
+       (4, '2024-06-01 12:00:00', 'AMZN,NFLX', '1,3', '3500,650', '5450', 'BUY'),
+       (5, '2024-07-01 12:00:00', 'AMZN,TSLA', '1,0.1', '3500,900', '3590', 'BUY'),
+       (5, '2024-08-01 14:00:00', 'TSLA', '0.05', '900', '45', 'SELL'),
 
-       (1, '2025-03-05 12:30:00', 'AAPL,TSLA', '2,1', '200,850', '1050', 'BUY'),
-       (2, '2025-03-10 14:45:00', 'AAPL,TSLA', '1,1', '180,900', '1080', 'BUY'),
-       (3, '2025-03-15 11:00:00', 'AAPL,TSLA', '1,0.5', '220,900', '710', 'SELL'),
-       (4, '2025-02-20 13:10:00', 'AAPL,TSLA', '3,0.7', '200,850', '1510', 'BUY'),
-       (5, '2025-03-20 15:30:00', 'AAPL,TSLA', '1,0.3', '220,900', '570', 'SELL');
+       (1, '2024-09-05 12:30:00', 'AAPL,TSLA', '2,1', '200,850', '1050', 'BUY'),
+       (2, '2024-10-10 14:45:00', 'AAPL,TSLA', '1,1', '180,900', '1080', 'BUY'),
+       (3, '2024-11-15 11:00:00', 'AAPL,TSLA', '1,0.5', '220,900', '710', 'SELL'),
+       (4, '2024-12-20 13:10:00', 'AAPL,TSLA', '3,0.7', '200,850', '1510', 'BUY'),
+       (5, '2024-08-20 15:30:00', 'AAPL,TSLA', '1,0.3', '220,900', '570', 'SELL');
 
 -- Insert Verifications
 INSERT INTO virtual_wallet.verifications (user_id, pictures_verified, email_verified, verified_at)
-VALUES (1, TRUE, TRUE, '2024-04-01 11:30:43'),
-       (2, TRUE, TRUE, '2024-05-15 11:30:43'),
-       (3, TRUE, TRUE, '2024-06-20 11:30:43'),
-       (4, TRUE, TRUE, '2024-07-25 11:30:43'),
+VALUES (1, TRUE, TRUE, '2024-04-12 11:30:43'),
+       (2, TRUE, TRUE, '2024-05-24 11:30:43'),
+       (3, TRUE, TRUE, '2024-07-01 11:30:43'),
+       (4, TRUE, TRUE, '2024-08-03 11:30:43'),
        (5, TRUE, TRUE, '2024-08-10 11:30:43'),
-       (6, TRUE, TRUE, '2024-09-15 11:30:43'),
-       (7, TRUE, TRUE, '2024-10-05 11:30:43'),
-       (8, TRUE, TRUE, '2024-11-18 11:30:43'),
-       (9, TRUE, TRUE, '2024-12-03 11:30:43'),
-       (10, TRUE, TRUE, '2025-01-08 11:30:43'),
+       (6, TRUE, TRUE, '2024-10-04 11:30:43'),
+       (7, TRUE, TRUE, '2024-11-06 11:30:43'),
+       (8, TRUE, TRUE, '2024-02-18 11:30:43'),
+       (9, TRUE, TRUE, '2024-03-03 11:30:43');
 
-       (11, TRUE, TRUE, '2024-02-10 11:30:43'),
-       (12, TRUE, TRUE, '2024-03-01 11:30:43'),
-       (13, TRUE, TRUE, '2024-04-07 11:30:43'),
-       (14, TRUE, TRUE, '2024-05-22 11:30:43'),
-       (15, TRUE, TRUE, '2024-06-17 11:30:43'),
-       (16, TRUE, TRUE, '2024-07-04 11:30:43');
 INSERT
 INTO virtual_wallet.verifications (user_id, pictures_verified, email_verified)
-VALUES (17, FALSE, TRUE),
-       (18, FALSE, TRUE),
-       (19, FALSE, TRUE),
-       (20, FALSE, TRUE),
-       (21, FALSE, TRUE);
+VALUES (10, FALSE, TRUE),
+       (11, FALSE, TRUE),
+       (12, FALSE, TRUE),
+       (13, FALSE, TRUE),
+       (14, FALSE, TRUE);
 
 -- Insert Transaction Categories
 INSERT INTO virtual_wallet.transaction_categories (name)
