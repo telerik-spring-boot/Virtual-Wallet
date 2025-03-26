@@ -25,6 +25,14 @@
                <div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
                     <div class="row g-3 mb-3">
 
+                         <span th:if="${cards.size()==0}">
+                                       <small class="fw-medium fst-italic d-block text-center mt-xxl-5"
+                                              th:text="'You have not added any cards yet.'">
+                                            $4400
+                                        </small>
+
+                            </span>
+
                          <div th:each="card : ${cards}" class="col-md-6 col-xl-4 col-lg-6">
                               <div class="card">
 

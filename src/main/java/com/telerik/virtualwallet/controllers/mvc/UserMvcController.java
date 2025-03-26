@@ -345,7 +345,7 @@ public class UserMvcController {
 
         Card cardOr = cardService.getFirstCardCreatedByUsername(authentication.getName());
 
-        CardDisplayDTO card = new CardDisplayDTO();
+        CardDisplayDTO card = new CardDisplayDTO(-1);
         card.setId(-1);
 
         if(cardOr != null){

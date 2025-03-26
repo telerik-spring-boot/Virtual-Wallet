@@ -26,6 +26,15 @@ public class CardDisplayDTO {
     public CardDisplayDTO() {
     }
 
+    public CardDisplayDTO(int id) {
+        this.id = id;
+        this.cardNumber = "**** **** **** ****";
+        this.cardHolder = "";
+        this.expiryMonth = "**";
+        this.expiryYear = "**";
+        this.type = "Visa";
+    }
+
     public CardDisplayDTO(int id, String cardNumber, String cardNumberFull, String cardHolder, String expiryMonth, String expiryYear, String type) {
         this.id = id;
         this.cardNumber = cardNumber;
