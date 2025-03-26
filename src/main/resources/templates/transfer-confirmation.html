@@ -129,8 +129,7 @@
                 </div>
               </div>
               <div class="mt-3 text-center mb-3">
-                <h4 th:if="${confirmation.isTopUp==0}" class="text-capitalize text-center fw-bold">Make a transfer to another wallet</h4>
-                <h4 th:if="${confirmation.isTopUp==1}" class="text-capitalize text-center fw-bold">Top-up your wallet</h4>
+                <h4  class="text-capitalize text-center fw-bold">Make a transfer to another wallet</h4>
                 <span class="text-muted text-capitalize text-center"
                       style="text-transform:none!important;">Please confirm the transfer details below</span>
               </div>
@@ -139,7 +138,7 @@
               <!-- Wallet ID-->
               <div class="mt-3 w-100" id="walletsForm">
                 <form class="form-horizontal" id="validateForm" action="#" method="post"
-                      th:action="@{__${requestURI}__}">
+                      th:action="@{/ui/wallets/transfer/confirmation}">
                   <fieldset>
 
                     <div class="mb-3 d-flex justify-content-between">
@@ -148,7 +147,7 @@
                       class="text-muted"></span>
                     </div>
 
-                    <div th:if="${confirmation.isTopUp==1}" class="mb-3 d-flex justify-content-between">
+                    <div class="mb-3 d-flex justify-content-between">
                       <span th:text="'Send to'"></span>
                       <span th:text="'IBAN33YNPAY68477732491843244' + ${confirmation.walletReceiverId}"
                             class="text-muted"></span>

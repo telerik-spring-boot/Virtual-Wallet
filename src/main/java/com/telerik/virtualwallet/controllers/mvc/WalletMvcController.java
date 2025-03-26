@@ -370,14 +370,14 @@ public class WalletMvcController {
             Wallet receiverWallet = walletService.getWalletById(walletId);
 
             TransactionConfirmationMVCCreateDTO confirmation = transactionMapper
-                    .handleConfirmationMVCDTOLogicTopUp(senderWalletId, receiverWallet, receiverUser, dto.getAmount());
+                    .handleConfirmationMVCDTOLogic(senderWalletId, receiverWallet, receiverUser, dto.getAmount());
 
 
             redirectAttributes.addFlashAttribute("walletId", walletId);
             redirectAttributes.addFlashAttribute("confirmation", confirmation);
             redirectAttributes.addFlashAttribute("transactionCategories", TransactionCategoryEnum.values());
 
-            return "redirect:/ui/wallets/transfer/confirmation";
+            return "redirect:/ui/wallets/top-up/confirmation";
 
         } catch (EntityNotFoundException e) {
 
@@ -387,6 +387,57 @@ public class WalletMvcController {
 
             return "transfer-make-internal";
         }
+    }
+
+    @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
+    @GetMapping("/top-up/confirmation")
+    public String handleTopUp(Model model, @ModelAttribute("walletId") int walletId,
+                                           @ModelAttribute("confirmation")
+                                           TransactionConfirmationMVCCreateDTO dto,
+                                           @ModelAttribute("transactionCategories")
+                                           TransactionCategoryEnum[] categories,
+                                           HttpServletRequest request) {
+
+        model.addAttribute("requestURI", request.getRequestURI());
+
+        return "transfer-confirmation-internal";
+
+    }
+
+    @PostMapping("/top-up/confirmation")
+    public String handleTopUpConfirmation(Model model,
+                                               Authentication authentication,
+                                               @Valid @ModelAttribute("confirmation")
+                                               TransactionConfirmationMVCCreateDTO confirmation,
+                                               BindingResult bindingResult,
+                                               RedirectAttributes redirectAttributes) {
+
+        model.addAttribute("formSubmitted", true);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("transactionCategories", TransactionCategoryEnum.values());
+            return "transfer-confirmation-internal";
+        }
+        try {
+
+            Transaction transaction = transactionMapper.mvcDtoToTransaction(confirmation, authentication.getName());
+
+            transactionService.makeTransactionMVC(transaction, confirmation.getReceivedAmount());
+
+            redirectAttributes.addFlashAttribute("transferSuccess", true);
+
+            return "redirect:/ui/wallets";
+
+        } catch (InsufficientFundsException e) {
+            bindingResult.rejectValue("sentAmount", "card.number", e.getMessage());
+
+            redirectAttributes.addFlashAttribute("insufficientFunds", true);
+            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
+            addAllUserWalletsToModel(authentication, model);
+
+            return "transfer-confirmation-internal";
+        }
+
     }
 
     private void addAllUserWalletsToModel(Authentication authentication, Model model) {

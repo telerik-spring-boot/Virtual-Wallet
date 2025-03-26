@@ -320,6 +320,22 @@
     </div>
 </div>
 
+<!-- Success Toast Notification -->
+<div id="transferSuccess" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+     role="alert" aria-live="assertive" aria-atomic="true"
+     th:if="${transferSuccess}" style="z-index: 1050;">
+    <div class="toast-header bg-success rounded-2 text-white">
+        <strong class="text-end">Success</strong>
+        <button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+    </div>
+    <div class="toast-body mt-2 ps-0">
+        <ul class="mb-0">
+            <li> Your top-up was completed successfully.</li>
+        </ul>
+    </div>
+</div>
+
 
 <!-- start: exchange rate -->
 <div th:replace="~{fragments/general-fragments :: exchange-rate}"></div>
@@ -452,6 +468,13 @@
             let toast = new bootstrap.Toast(removalErrors, {delay: 5000});
             toast.show();
         }
+
+        let transferSuccess = document.getElementById('transferSuccess');
+        if (transferSuccess) {
+            let toast = new bootstrap.Toast(transferSuccess, {delay: 5000});
+            toast.show();
+        }
+
     });
 
 
