@@ -1,711 +1,223 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/general-fragments :: head('YNPay :: Dashboard')}"></head>
+<html lang="en">
+<head
+  th:fragment="head(title)">
+  <title th:text="'YNPay :: Home'"> Title </title>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+  <meta name="description" content="financial dashboard"/>
+  <meta
+          name="keyword"
+          content="financial dashboard, financial reporting, admin panel, finance management"
+  />
+  <!--[ Favicon]-->
+  <link rel="icon" type="image/x-icon" href="../../static/images/favicon.ico" th:href="@{/images/favicon.ico}"/>
+  <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="../../static/images/favicon-16x16.png"
+          th:href="@{/images/favicon-16x16.png}"
+  />
+  <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="../../static/images/favicon-32x32.png"
+          th:href="@{/images/favicon-32x32.png}"
+  />
+  <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="../../static/images/apple-touch-icon.png"
+          th:href="@{/images/apple-touch-icon.png}"
+  />
 
-<body data-theme="theme-AppleGreen" class="svgstroke-a add-tooltip">
-<main class="container-fluid px-0">
-    <!-- start: page menu link -->
-    <div th:replace="~{fragments/general-fragments :: sidebar}"></div>
-    <div class="content">
-        <!-- start: page header -->
-        <div th:replace="~{fragments/general-fragments :: main-header('Dashboard')}"></div>
-        <!-- start: page header area -->
-        <div class="px-xl-5 px-lg-4 px-3 py-2">
-            <div class="row g-2 align-items-center">
-                <div class="col-sm-6">
-                    <ol class="breadcrumb mb-0 bg-transparent">
-                        <li class="breadcrumb-item">
-                            <a class="text-muted" href="index.html" title="home"
-                               th:href="@{/ui/home}">Home</a>
-                        </li>
-                        <li
-                                class="breadcrumb-item active"
-                                aria-current="page"
-                                title="Dashboard"
-                        >
-                            Dashboard
-                        </li>
-                    </ol>
-                </div>
-                <div
-                        class="col-sm-6 d-flex justify-content-center align-items-center"
-                >
-
-                </div>
-            </div>
-        </div>
-        <!-- start: page body area -->
-        <div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
-            <div class="row g-3 mb-3 row-deck">
-                <div class="col-md-6 col-lg-6 col-xl-4">
-                    <div class="card d-flex flex-column">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0" th:text="'IBAN33YNPAY68477732491843244' + ${wallet.id}">My
-                                Wallet</h6>
-                            <div class="card-action">
-                                <div>
-                                    <a
-                                            href="#"
-                                            class="card-fullscreen"
-                                            data-bs-toggle="tooltip"
-                                            aria-label="Card Full Screen"
-                                            data-bs-original-title="Card Full Screen"
-                                    >
-                                        <svg
-                                                class="svg-stroke"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="20"
-                                                height="20"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                        >
-                                            <path
-                                                    stroke="none"
-                                                    d="M0 0h24v24H0z"
-                                                    fill="none"
-                                            ></path>
-                                            <path
-                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
-                                            ></path>
-                                            <path d="M7 20l10 0"></path>
-                                            <path d="M9 16l0 4"></path>
-                                            <path d="M15 16l0 4"></path>
-                                            <path d="M17 4h4v4"></path>
-                                            <path d="M16 9l5 -5"></path>
-                                        </svg>
-                                    </a>
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="me-2">
-                                        <img
-                                                src="../static/images/flags/1x1/um.svg"
-                                                th:src="@{/images/flags/1x1/um.svg}"
-                                                alt="um"
-                                                class="img-fluid rounded-circle avatar sm"
-                                        />
-                                    </div>
-                                    <h6 class="card-title mb-0 me-auto">US Dollar</h6>
-                                </div>
-                                <div class="card-body">
-                                    <h2 th:text="'$ '+${wallet.balance}">$65894</h2>
-                                    <span th:if="${positiveBalanceChange}" class="badge bg-primary"
-                                          th:text="'+' + ${percentageBalanceChange} +'%'">+15%</span>
-                                    <span th:if="${!positiveBalanceChange}" class="badge bg-danger"
-                                          th:text="${percentageBalanceChange} +'%'">+15%</span>
-                                    <span class="text-muted">
-                        For this month
-                        <i th:if="${positiveBalanceChange}" class="fa fa-level-up text-success"></i>
-                                        <i th:if="${!positiveBalanceChange}" class="fa fa-level-down text-danger"></i>
-                      </span>
-                                    <!-- Success Alert -->
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-3">
-                            <div class="d-flex gap-2 w-80">
-
-                                <a
-                                        th:href="@{/ui/cards/deposit}" href="deposit.html"
-                                        class="btn btn-grey-outline flex-fill"
-                                >
-                                    <i class="fa fa-long-arrow-down fa-lg px-3"></i>
-                                    Deposit
-                                </a>
-
-                                <a
-                                        th:href="@{/ui/wallets/transfer}"
-                                        class="btn btn-dark flex-fill"
-                                >
-                                    <i class="fa fa-long-arrow-up fa-lg px-3"></i>
-                                    Send
-                                </a>
-                            </div>
-                            <a
-                                    th:href="@{/ui/wallets}"
-                                    href="transaction.html"
-                                    class="mt-3 btn btn-grey-outline w-100 fw-medium"
-                            >Show All</a>
-
-
-                        </div>
-
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-4">
-                    <div class="card ">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">Saved Cards</h6>
-                            <div class="card-action">
-                                <div>
-                                    <!--============== full srcen  =============-->
-                                    <a
-                                            href="#"
-                                            class="card-fullscreen"
-                                            data-bs-toggle="tooltip"
-                                            aria-label="Card Full Screen"
-                                            data-bs-original-title="Card Full Screen"
-                                    >
-                                        <svg
-                                                class="svg-stroke"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="20"
-                                                height="20"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                        >
-                                            <path
-                                                    stroke="none"
-                                                    d="M0 0h24v24H0z"
-                                                    fill="none"
-                                            ></path>
-                                            <path
-                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
-                                            ></path>
-                                            <path d="M7 20l10 0"></path>
-                                            <path d="M9 16l0 4"></path>
-                                            <path d="M15 16l0 4"></path>
-                                            <path d="M17 4h4v4"></path>
-                                            <path d="M16 9l5 -5"></path>
-                                        </svg>
-                                    </a>
-                                    <!--============== dropdown =============-->
-
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                                class="card-body d-flex justify-content-center flex-column"
-                        >
-                            <div class="card-wrapper align-self-center" >
-                                <div class="cc visa">
-                                    <div class="card-data">
-                                        <div th:if="${card.expiryMonth.substring(0,1) != '1'}" class="type">Debit</div>
-                                        <div th:if="${card.expiryMonth.substring(0,1) == '1'}" class="type">Credit</div>
-                                        <div class="circuit">
-                                            <i th:if="${card.getType()=='Visa'}" class="fa fa-cc-visa fa-2x"></i>
-                                            <i th:if="${card.getType()=='Mastercard'}"
-                                               class="fa fa-cc-mastercard fa-2x"></i>
-                                            <i th:if="${card.getType()=='Amex'}" class="fa fa-cc-amex fa-2x"></i>
-                                        </div>
-                                    </div>
-                                    <div class="holder">
-                                        <span class="name" th:text="${card.cardHolder}">Holder Name</span>
-                                        <span class="number"
-                                              th:text="${card.cardNumber}">1234 - 5678 - 9012 - 3456</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                <div class="d-flex justify-content-between mb-3">
-                                    <span>Deposited last month</span>
-                                    <span th:text="'$'+${depositsFromMainCard}">2190.56</span>
-                                </div>
-                                <div
-                                        class="progress"
-                                        role="progressbar"
-                                        aria-label="Example 1px high"
-                                        aria-valuenow="0.25"
-                                        aria-valuemin="0"
-                                        aria-valuemax="1"
-                                        style="height: 2px;"
-
-                                >
-                                    <div class="progress-bar"
-                                         th:style="'width: ' + ${depositedFromMainPercentage} + '%'"></div>
-                                </div>
-                                <a th:if="${card.id!=-1}"
-                                        th:href="@{/ui/cards}"
-                                        href="transaction.html"
-                                        class="mt-3 btn btn-grey-outline w-100 fw-medium"
-                                >Show All</a>
-                                <a th:if="${card.id==-1}"
-                                   th:href="@{/ui/cards/new}"
-                                   href="transaction.html"
-                                   class="mt-3 btn btn-grey-outline w-100 fw-medium"
-                                >Add new card</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">Recent Investments</h6>
-                            <div class="card-action">
-                                <div>
-                                    <a
-                                            href="#"
-                                            class="card-fullscreen"
-                                            data-bs-toggle="tooltip"
-                                            title="Card Full Screen"
-                                    >
-                                        <svg
-                                                class="svg-stroke"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="20"
-                                                height="20"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                        >
-                                            <path
-                                                    stroke="none"
-                                                    d="M0 0h24v24H0z"
-                                                    fill="none"
-                                            ></path>
-                                            <path
-                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
-                                            ></path>
-                                            <path d="M7 20l10 0"></path>
-                                            <path d="M9 16l0 4"></path>
-                                            <path d="M15 16l0 4"></path>
-                                            <path d="M17 4h4v4"></path>
-                                            <path d="M16 9l5 -5"></path>
-                                        </svg>
-                                    </a>
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-
-                            <span th:if="${investments.size()==0}">
-                                       <p class="fw-medium d-block text-center mt-xxl-5"
-                                              th:text="'You have not made any investments yet!'">
-                                            $4400
-                                        </p>
-
-
-                            </span>
-
-                            <div th:each="investment : ${investments}" class="d-flex align-items-center mb-3">
-
-
-
-                                <img
-                                        class="rounded-circle d-none d-sm-inline-block"
-                                        src="../static/images/stock-icons/AAPL.png"
-                                        th:src="@{/images/stock-icons/{symbol}.png(symbol=${investment.symbol})}"
-                                        alt=""
-                                        width="25px"
-                                        height="30px"
-                                />
-
-                                <div class="flex-fill ms-3">
-
-
-                                    <div class="h6 mb-0" th:text="${investment.symbol}">BookMyShow Monthly</div>
-                                    <small class="text-muted" th:text="${investment.type}">
-                                        Internal Transfer</small
-                                    >
-
-                                </div>
-                                <div class="d-flex flex-column align-items-end text-end">
-                                    <span>
-                                        <small class="fw-medium" th:text="'$'">$4400</small>
-                                        <small class="fw-medium" th:text="${#numbers.formatDecimal(investment.value, 1, 2, 'POINT')}">$4400</small>
-                                    </span>
-                                    <small class="text-muted"
-                                           th:text="${#temporals.format(investment.purchasedAt, 'dd/MM')}">08/27</small>
-                                </div>
-                            </div>
-
-
-                            <a th:if="${investments.size()!=0}"
-                                    href="transaction.html"
-                                    th:href="@{/ui/users/investments}"
-                                    class="mt-auto btn btn-grey-outline w-100 fw-medium"
-                            >Show All</a
-                            >
-
-                            <a th:if="${investments.size()==0}"
-                                    href="transaction.html"
-                                    th:href="@{/ui/users/stocks}"
-                                    class="mt-auto btn btn-grey-outline w-100 fw-medium"
-                            >Start investing</a
-                            >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row g-3 mb-3 row-deck">
-                <div class="col-md-6 col-lg-12 col-xl-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">Budget Overview</h6>
-                            <div class="card-action">
-                                <div>
-                                    <a
-                                            href="#"
-                                            class="card-fullscreen"
-                                            data-bs-toggle="tooltip"
-                                            title="Card Full Screen"
-                                    >
-                                        <svg
-                                                class="svg-stroke"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="20"
-                                                height="20"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                        >
-                                            <path
-                                                    stroke="none"
-                                                    d="M0 0h24v24H0z"
-                                                    fill="none"
-                                            ></path>
-                                            <path
-                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
-                                            ></path>
-                                            <path d="M7 20l10 0"></path>
-                                            <path d="M9 16l0 4"></path>
-                                            <path d="M15 16l0 4"></path>
-                                            <path d="M17 4h4v4"></path>
-                                            <path d="M16 9l5 -5"></path>
-                                        </svg>
-                                    </a>
-                                    <a
-                                            href="#"
-                                            class="dropdown-toggle after-none"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                            title="More Action"
-                                    >
-
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body row bg-light g-0">
-                            <div class="col-6">
-                                <div class="d-flex align-items-center border-end">
-                                    <div class="avatar rounded-circle no-thumbnail">
-                                        <i class="fa fa-long-arrow-down fa-lg text-success"></i>
-                                    </div>
-                                    <div class="flex-fill ms-3 text-truncate">
-                                        <div>Income</div>
-                                        <div><span class="fw-medium" th:text="'$ '+${incomeSum}">$17,358</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-center ms-3">
-                                    <div class="avatar rounded-circle no-thumbnail">
-                                        <i class="fa fa-long-arrow-up fa-lg text-danger"></i>
-                                    </div>
-                                    <div class="flex-fill ms-3 text-truncate">
-                                        <div>Expenses</div>
-                                        <div><span class="fw-medium" th:text="'$ '+${expenseSum}">$14,998</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div id="apex-basic-column"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-12 col-xl-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">Recent Transaction</h6>
-                            <div class="card-action">
-                                <div>
-                                    <a
-                                            href="#"
-                                            class="card-fullscreen"
-                                            data-bs-toggle="tooltip"
-                                            title="Card Full Screen"
-                                    >
-                                        <svg
-                                                class="svg-stroke"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="20"
-                                                height="20"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                        >
-                                            <path
-                                                    stroke="none"
-                                                    d="M0 0h24v24H0z"
-                                                    fill="none"
-                                            ></path>
-                                            <path
-                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
-                                            ></path>
-                                            <path d="M7 20l10 0"></path>
-                                            <path d="M9 16l0 4"></path>
-                                            <path d="M15 16l0 4"></path>
-                                            <path d="M17 4h4v4"></path>
-                                            <path d="M16 9l5 -5"></path>
-                                        </svg>
-                                    </a>
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-
-                            <span th:if="${transactions.size()==0}">
-                                       <p class="fw-medium d-block text-center mt-xxl-5"
-                                              th:text="'You have not made any transactions yet!'">
-                                            $4400
-                                        </p>
-
-
-                            </span>
-
-
-                            <div th:each="transaction : ${transactions}" class="d-flex align-items-center mb-3">
-                                <span>
-		                                                       <img alt="Profile Picture"
-                                                                    src="../static/images/xs/avatar1.jpg"
-                                                                    class="avatar rounded-circle d-none d-sm-inline-block"
-                                                                    onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
-                                                                    th:if="@{/ui/uploads/picture{username}3.jpg(username=${transaction.mainReceiver})}"
-                                                                    th:src="@{/ui/uploads/picture{username}3.jpg(username=${transaction.mainReceiver})}"/>
-	                                                       </span>
-                                <div class="flex-fill ms-3">
-                                    <div class="h6 mb-0" th:text="${transaction.mainReceiver}">BookMyShow Monthly</div>
-                                    <small class="text-muted" th:if="${transaction.transactionType !=  'Deposit'}">
-                                        Internal Transfer</small
-                                    >
-                                    <small class="text-muted" th:if="${transaction.transactionType ==  'Deposit'}">
-                                        Deposit</small
-                                    >
-                                </div>
-                                <div class="d-flex flex-column align-items-end text-end">
-                                    <span>
-                                        <small class="fw-medium" th:if="${transaction.currency=='USD'}" th:text="'$'">$4400</small>
-                                        <small class="fw-medium" th:if="${transaction.currency=='EUR'}" th:text="'€'">$4400</small>
-                                        <small class="fw-medium" th:if="${transaction.currency=='GBP'}" th:text="'£'">$4400</small>
-                                        <small class="fw-medium" th:text="${transaction.amount}">$4400</small>
-                                    </span>
-                                    <small class="text-muted"
-                                           th:text="${#temporals.format(transaction.transactionTime, 'dd/MM')}">08/27</small>
-                                </div>
-                            </div>
-
-
-                            <a
-                                    href="transaction.html"
-                                    th:href="@{/ui/users/transactions}"
-                                    class="mt-auto btn btn-grey-outline w-100 fw-medium"
-                            >Show All</a
-                            >
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Success Toast Notification -->
-    <div id="successToast" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
-         role="alert" aria-live="assertive" aria-atomic="true"
-         th:if="${transferSuccess}" style="z-index: 1050;">
-        <div class="toast-header bg-success rounded-2 text-white">
-            <strong class="text-end">Success</strong>
-            <button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-        </div>
-        <div class="toast-body mt-2 ps-0">
-            <ul class="mb-0">
-                <li> Your transfer was completed successfully.</li>
+  <!-- Bootstrap icons-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link th:href="@{/css/styles2.css}" rel="stylesheet" />
+</head>
+<body data-theme="theme-AppleGreen" class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-md position-fixed top-0 w-100 body-color ">
+    <div class="container-fluid">
+      <a class="navbar-brand" th:href="@{/ui/home}">
+        <img src="../static/images/favicon.ico" th:src="@{/images/favicon.ico}" alt="Logo" width="80" height="80"/>
+      </a>
+      <div class="d-none d-sm-block">
+        <ul class="list-unstyled d-none">
+          <li class="nav-item dropdown px-md-1">
+            <a class="dropdown-toggle gray-6" href="#" id="bd-theme-one" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"
+                   class="theme-icon-active">
+                <use href="#sun-fill"></use>
+              </svg>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end p-2 p-xl-3 shadow rounded-4"
+                aria-labelledby="bd-theme-one">
+              <li class="mb-1">
+                <a class="dropdown-item rounded-pill" href="#" data-bs-theme-value="light">
+                  <svg class="avatar xs me-2 opacity-50 theme-icon" fill="currentColor">
+                    <use href="#sun-fill"></use>
+                  </svg>
+                  Light
+                </a>
+              </li>
+              <li class="mb-1">
+                <a class="dropdown-item rounded-pill active" href="#"
+                   data-bs-theme-value="dark">
+                  <svg class="avatar xs me-2 opacity-50 theme-icon" fill="currentColor">
+                    <use href="#moon-stars-fill"></use>
+                  </svg>
+                  Dark
+                </a>
+              </li>
+              <li class="mb-1">
+                <a class="dropdown-item rounded-pill" href="#" data-bs-theme-value="auto">
+                  <svg class="avatar xs me-2 opacity-50 theme-icon" fill="currentColor">
+                    <use href="#circle-half"></use>
+                  </svg>
+                  Auto
+                </a>
+              </li>
             </ul>
-        </div>
-    </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                 viewBox="0 0 16 16" style="display: none;">
+              <symbol id="sun-fill" viewBox="0 0 16 16">
+                <path
+                        d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z">
+                </path>
+              </symbol>
+              <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+                <path
+                        d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z">
+                </path>
+                <path
+                        d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z">
+                </path>
+              </symbol>
+              <symbol id="circle-half" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path>
+              </symbol>
+            </svg>
+          </li>
+          <li class="nav-item dropdown px-md-1">
+            <a class="dropdown-toggle gray-6" href="#offcanvas_setting" data-bs-toggle="offcanvas"
+               aria-expanded="false" title="template setting">
+              <svg class="svg-stroke" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                   viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round"
+                   stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path
+                        d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
+                </path>
+                <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+              </svg>
+            </a>
+          </li>
+        </ul>
 
-    <!-- Success Toast Notification -->
-    <div id="successfulDeposit" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
-         role="alert" aria-live="assertive" aria-atomic="true"
-         th:if="${successfulDeposit}" style="z-index: 1050;">
-        <div class="toast-header bg-success rounded-2 text-white">
-            <strong class="text-end">Success</strong>
-            <button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-        </div>
-        <div class="toast-body mt-2 ps-0">
-            <ul class="mb-0">
-                <li> Your deposit was completed successfully.</li>
-            </ul>
-        </div>
-    </div>
 
-    <div aria-hidden="true" aria-labelledby="successModalLabel" class="modal fade" id="successModal"
-         tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">Success</h5>
-                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-                </div>
-                <div class="modal-body">
-                    <span th:if="${userReferralSent}" th:text="#{referral.success}"  style="text-transform: none;"> </span>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
-                </div>
+
+
+      </div>
+    </div>
+  </nav>
+  <!-- Header-->
+  <header class="bg-dark py-5" style="background-color: #1b1a1e !important;">
+    <div class="container px-5">
+      <div class="row gx-5 align-items-center justify-content-center">
+        <div class="col-lg-8 col-xl-7 col-xxl-6">
+          <div class="my-5 text-center text-xl-start">
+            <h1 class="display-5 fw-bolder text-primary mb-2" style="color: #0097AA !important;">Welcome to YNPay</h1>
+            <p class="lead fw-normal text-white-50 mb-4">Your all-in-one digital finance platform for <strong>fast, secure, and seamless transactions.</strong>
+              Send and receive money instantly, own multiple wallets, and even trade stocks – all in one place.</p>
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+              <a class="btn btn-primary btn-lg px-4 me-sm-3" style="background-color: #0097AA !important; border-color: #007A8A !important;" th:if="${isLoggedIn!=null}" th:href="@{/ui/users/dashboard}" >Dashboard</a>
+              <a class="btn btn-primary btn-lg px-4 me-sm-3" style="background-color: #0097AA !important; border-color: #007A8A !important;" th:if="${isLoggedIn==null}" th:href="@{/ui/auth/register}" >Sign up</a>
+              <a class="btn btn-outline-light btn-lg px-4" th:if="${isLoggedIn==null}" th:href="@{/ui/auth/login}">Log in</a>
             </div>
+
+          </div>
         </div>
+        <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center">
+          <img class="rounded-3 my-5"
+               th:src="@{/images/home-image.png}"
+               src="https://dummyimage.com/600x400/343a40/6c757d"
+               alt="..."
+               style="width: 80%; max-width: 800px; height: auto;" />
+        </div>
+      </div>
     </div>
+  </header>
+  <!-- Features section-->
+  <section class="py-5" id="features">
+    <div class="container px-5 my-5">
+      <div class="row gx-5">
+        <div class="col-lg-4 mb-5 mb-lg-0"><h2 class="fw-bolder mb-0">A better way to manage your finances.</h2></div>
+        <div class="col-lg-8">
+          <div class="row gx-5 row-cols-1 row-cols-md-2">
+            <div class="col mb-5 h-100">
+              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3" style="background-color: #0097AA !important;"><i class="bi bi-wallet-fill"></i></div>
+              <h2 class="h5">Own Multiple Virtual Wallets</h2>
+              <p class="mb-0">Create and manage digital wallets in <strong>USD, EUR, and GBP</strong>.
+                Keep your finances organized with separate wallets for savings, investments, and daily transactions.</p>
+            </div>
+            <div class="col mb-5 h-100">
+              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3" style="background-color: #0097AA !important;"><i class="bi bi-arrow-down-up"></i></div>
+              <h2 class="h5">Send & Receive Money Instantly</h2>
+              <p class="mb-0">Transfer money to friends, family, or business partners in <strong>real-time</strong>,
+                with zero delays and no hidden fees.</p>
+            </div>
+            <div class="col mb-5 mb-md-0 h-100">
+              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3 " style="background-color: #0097AA !important;" ><i class="bi bi-currency-exchange"></i></div>
+              <h2 class="h5">Joint Wallets with Friends</h2>
+              <p class="mb-0">Share finances with friends, family, or business partners by creating a <strong>joint wallet</strong>.
+                Perfect for managing group expenses, splitting bills, or shared investments.</p>
+            </div>
+            <div class="col h-100">
+              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3" style="background-color: #0097AA !important;"><i class="bi bi-bank2" ></i></div>
+              <h2 class="h5">Trade Stocks from NYSE</h2>
+              <p class="mb-0">Invest in the world's biggest companies! <strong>Buy and sell stocks</strong>
+                directly from the <strong>New York Stock Exchange</strong> with a few taps.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Testimonial section-->
+  <div class="py-5" style="background-color: #1b1a1e !important;">
+    <div class="container px-5 my-5">
+      <div class="row gx-5 justify-content-center">
+        <div class="col-lg-10 col-xl-7">
+          <div class="text-center">
+            <h2 class="h5 text-white">Get started in just a few minutes! Sign up, verify your identity,
+              and start managing your finances instantly!</h2>
+            <a class="btn btn-outline-light btn-lg px-4 mt-xxl-5"  th:href="@{/ui/auth/contact}">Contact us</a>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Blog preview section-->
+
 </main>
-<!-- start: exchange rate -->
-<div th:replace="~{fragments/general-fragments :: exchange-rate}"></div>
-<!-- start: template setting, and more. -->
+<!-- Footer-->
+<!-- Bootstrap core JS-->
 
-<!--============== active class js =============-->
-<th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+<!-- Core theme JS-->
 
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    var incomeData = /*[[${income}]]*/ [] ;
-    var expenseData = /*[[${expense}]]*/ [] ;
-
-    /*]]>*/
-</script>
-
-<script th:if="${userReferralSent}" type="text/javascript">
-    var modal = new bootstrap.Modal(document.getElementById('successModal'));
-    modal.show();
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-
-        let successToastUpdate = document.getElementById('successToast');
-        if (successToastUpdate) {
-            let toast = new bootstrap.Toast(successToastUpdate, {delay: 5000});
-            toast.show();
-        }
-
-        let successfulDeposit = document.getElementById('successfulDeposit');
-        if (successfulDeposit) {
-            let toast = new bootstrap.Toast(successfulDeposit, {delay: 5000});
-            toast.show();
-        }
-
-    });
-
-</script>
-
-<script>
-
-    const getLast12Months = () => {
-        const months = [];
-        const date = new Date();
-        const formatter = new Intl.DateTimeFormat('en', { month: 'short' }); // "Jan", "Feb", etc.
-
-        for (let i = 11; i >= 0; i--) {
-            const pastDate = new Date(date.getFullYear(), date.getMonth() - i, 1);
-            months.push(formatter.format(pastDate));
-        }
-
-        return months;
-    };
-    // Basic Column
-    $(document).ready(function () {
-
-
-
-        var options = {
-            chart: {
-                height: 280,
-                type: "bar",
-            },
-            colors: ["var(--theme-color6)", "var(--theme-color3)"],
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: "55%",
-                    endingShape: "rounded",
-                },
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ["transparent"],
-            },
-            series: [
-                {
-                    name: "Income",
-                    data: incomeData,
-                },
-                {
-                    name: "Expenses",
-                    data: expenseData,
-                },
-
-            ],
-            xaxis: {
-                categories: getLast12Months(),
-            },
-            yaxis: {
-                title: {
-                    text: "USD ($)",
-                },
-            },
-            fill: {
-                opacity: 1,
-            },
-            tooltip: {
-                theme: "dark",
-                y: {
-                    formatter: function (val) {
-                        return "$ " + val;
-                    },
-                },
-            },
-        };
-
-        var chart = new ApexCharts(
-            document.querySelector("#apex-basic-column"),
-            options
-        );
-        chart.render();
-    });
-
-
-
-    // Radio button behavior
-    const radios = document.querySelectorAll('input[name="chartOptions"]');
-    radios.forEach((radio) => {
-        radio.addEventListener("change", () => {
-            // Get the selected value
-            const value = radio.value;
-            // Update the chart series data with the selected value
-            currentValue = value;
-            options.series = [currentValue]; // Update the series to show only one value
-            chart.updateOptions(options); // Update the chart
-        });
-    });
-</script>
 </body>
 </html>

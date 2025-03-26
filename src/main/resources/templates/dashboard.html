@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/general-fragments :: head('YNPay :: Dashboard')}"></head>
+
+<body data-theme="theme-AppleGreen" class="svgstroke-a add-tooltip">
+<main class="container-fluid px-0">
+    <!-- start: page menu link -->
+    <div th:replace="~{fragments/general-fragments :: sidebar}"></div>
+    <div class="content">
+        <!-- start: page header -->
+        <div th:replace="~{fragments/general-fragments :: main-header('Dashboard')}"></div>
+        <!-- start: page header area -->
+        <div class="px-xl-5 px-lg-4 px-3 py-2">
+            <div class="row g-2 align-items-center">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb mb-0 bg-transparent">
+                        <li class="breadcrumb-item">
+                            <a class="text-muted" href="dashboard.html" title="home"
+                               th:href="@{/ui/home}">Home</a>
+                        </li>
+                        <li
+                                class="breadcrumb-item active"
+                                aria-current="page"
+                                title="Dashboard"
+                        >
+                            Dashboard
+                        </li>
+                    </ol>
+                </div>
+                <div
+                        class="col-sm-6 d-flex justify-content-center align-items-center"
+                >
+
+                </div>
+            </div>
+        </div>
+        <!-- start: page body area -->
+        <div class="px-xl-5 px-lg-4 px-3 py-3 page-body">
+            <div class="row g-3 mb-3 row-deck">
+                <div class="col-md-6 col-lg-6 col-xl-4">
+                    <div class="card d-flex flex-column">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0" th:text="'IBAN33YNPAY68477732491843244' + ${wallet.id}">My
+                                Wallet</h6>
+                            <div class="card-action">
+                                <div>
+                                    <a
+                                            href="#"
+                                            class="card-fullscreen"
+                                            data-bs-toggle="tooltip"
+                                            aria-label="Card Full Screen"
+                                            data-bs-original-title="Card Full Screen"
+                                    >
+                                        <svg
+                                                class="svg-stroke"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                        >
+                                            <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                            ></path>
+                                            <path
+                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
+                                            ></path>
+                                            <path d="M7 20l10 0"></path>
+                                            <path d="M9 16l0 4"></path>
+                                            <path d="M15 16l0 4"></path>
+                                            <path d="M17 4h4v4"></path>
+                                            <path d="M16 9l5 -5"></path>
+                                        </svg>
+                                    </a>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="me-2">
+                                        <img
+                                                src="../static/images/flags/1x1/um.svg"
+                                                th:src="@{/images/flags/1x1/um.svg}"
+                                                alt="um"
+                                                class="img-fluid rounded-circle avatar sm"
+                                        />
+                                    </div>
+                                    <h6 class="card-title mb-0 me-auto">US Dollar</h6>
+                                </div>
+                                <div class="card-body">
+                                    <h2 th:text="'$ '+${wallet.balance}">$65894</h2>
+                                    <span th:if="${positiveBalanceChange}" class="badge bg-primary"
+                                          th:text="'+' + ${percentageBalanceChange} +'%'">+15%</span>
+                                    <span th:if="${!positiveBalanceChange}" class="badge bg-danger"
+                                          th:text="${percentageBalanceChange} +'%'">+15%</span>
+                                    <span class="text-muted">
+                        For this month
+                        <i th:if="${positiveBalanceChange}" class="fa fa-level-up text-success"></i>
+                                        <i th:if="${!positiveBalanceChange}" class="fa fa-level-down text-danger"></i>
+                      </span>
+                                    <!-- Success Alert -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-3">
+                            <div class="d-flex gap-2 w-80">
+
+                                <a
+                                        th:href="@{/ui/cards/deposit}" href="deposit.html"
+                                        class="btn btn-grey-outline flex-fill"
+                                >
+                                    <i class="fa fa-long-arrow-down fa-lg px-3"></i>
+                                    Deposit
+                                </a>
+
+                                <a
+                                        th:href="@{/ui/wallets/transfer}"
+                                        class="btn btn-dark flex-fill"
+                                >
+                                    <i class="fa fa-long-arrow-up fa-lg px-3"></i>
+                                    Send
+                                </a>
+                            </div>
+                            <a
+                                    th:href="@{/ui/wallets}"
+                                    href="transaction.html"
+                                    class="mt-3 btn btn-grey-outline w-100 fw-medium"
+                            >Show All</a>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-4">
+                    <div class="card ">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">Saved Cards</h6>
+                            <div class="card-action">
+                                <div>
+                                    <!--============== full srcen  =============-->
+                                    <a
+                                            href="#"
+                                            class="card-fullscreen"
+                                            data-bs-toggle="tooltip"
+                                            aria-label="Card Full Screen"
+                                            data-bs-original-title="Card Full Screen"
+                                    >
+                                        <svg
+                                                class="svg-stroke"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                        >
+                                            <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                            ></path>
+                                            <path
+                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
+                                            ></path>
+                                            <path d="M7 20l10 0"></path>
+                                            <path d="M9 16l0 4"></path>
+                                            <path d="M15 16l0 4"></path>
+                                            <path d="M17 4h4v4"></path>
+                                            <path d="M16 9l5 -5"></path>
+                                        </svg>
+                                    </a>
+                                    <!--============== dropdown =============-->
+
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                                class="card-body d-flex justify-content-center flex-column"
+                        >
+                            <div class="card-wrapper align-self-center" >
+                                <div class="cc visa">
+                                    <div class="card-data">
+                                        <div th:if="${card.expiryMonth.substring(0,1) != '1'}" class="type">Debit</div>
+                                        <div th:if="${card.expiryMonth.substring(0,1) == '1'}" class="type">Credit</div>
+                                        <div class="circuit">
+                                            <i th:if="${card.getType()=='Visa'}" class="fa fa-cc-visa fa-2x"></i>
+                                            <i th:if="${card.getType()=='Mastercard'}"
+                                               class="fa fa-cc-mastercard fa-2x"></i>
+                                            <i th:if="${card.getType()=='Amex'}" class="fa fa-cc-amex fa-2x"></i>
+                                        </div>
+                                    </div>
+                                    <div class="holder">
+                                        <span class="name" th:text="${card.cardHolder}">Holder Name</span>
+                                        <span class="number"
+                                              th:text="${card.cardNumber}">1234 - 5678 - 9012 - 3456</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span>Deposited last month</span>
+                                    <span th:text="'$'+${depositsFromMainCard}">2190.56</span>
+                                </div>
+                                <div
+                                        class="progress"
+                                        role="progressbar"
+                                        aria-label="Example 1px high"
+                                        aria-valuenow="0.25"
+                                        aria-valuemin="0"
+                                        aria-valuemax="1"
+                                        style="height: 2px;"
+
+                                >
+                                    <div class="progress-bar"
+                                         th:style="'width: ' + ${depositedFromMainPercentage} + '%'"></div>
+                                </div>
+                                <a th:if="${card.id!=-1}"
+                                        th:href="@{/ui/cards}"
+                                        href="transaction.html"
+                                        class="mt-3 btn btn-grey-outline w-100 fw-medium"
+                                >Show All</a>
+                                <a th:if="${card.id==-1}"
+                                   th:href="@{/ui/cards/new}"
+                                   href="transaction.html"
+                                   class="mt-3 btn btn-grey-outline w-100 fw-medium"
+                                >Add new card</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">Recent Investments</h6>
+                            <div class="card-action">
+                                <div>
+                                    <a
+                                            href="#"
+                                            class="card-fullscreen"
+                                            data-bs-toggle="tooltip"
+                                            title="Card Full Screen"
+                                    >
+                                        <svg
+                                                class="svg-stroke"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                        >
+                                            <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                            ></path>
+                                            <path
+                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
+                                            ></path>
+                                            <path d="M7 20l10 0"></path>
+                                            <path d="M9 16l0 4"></path>
+                                            <path d="M15 16l0 4"></path>
+                                            <path d="M17 4h4v4"></path>
+                                            <path d="M16 9l5 -5"></path>
+                                        </svg>
+                                    </a>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+
+                            <span th:if="${investments.size()==0}">
+                                       <p class="fw-medium d-block text-center mt-xxl-5"
+                                              th:text="'You have not made any investments yet!'">
+                                            $4400
+                                        </p>
+
+
+                            </span>
+
+                            <div th:each="investment : ${investments}" class="d-flex align-items-center mb-3">
+
+
+
+                                <img
+                                        class="rounded-circle d-none d-sm-inline-block"
+                                        src="../static/images/stock-icons/AAPL.png"
+                                        th:src="@{/images/stock-icons/{symbol}.png(symbol=${investment.symbol})}"
+                                        alt=""
+                                        width="25px"
+                                        height="30px"
+                                />
+
+                                <div class="flex-fill ms-3">
+
+
+                                    <div class="h6 mb-0" th:text="${investment.symbol}">BookMyShow Monthly</div>
+                                    <small class="text-muted" th:text="${investment.type}">
+                                        Internal Transfer</small
+                                    >
+
+                                </div>
+                                <div class="d-flex flex-column align-items-end text-end">
+                                    <span>
+                                        <small class="fw-medium" th:text="'$'">$4400</small>
+                                        <small class="fw-medium" th:text="${#numbers.formatDecimal(investment.value, 1, 2, 'POINT')}">$4400</small>
+                                    </span>
+                                    <small class="text-muted"
+                                           th:text="${#temporals.format(investment.purchasedAt, 'dd/MM')}">08/27</small>
+                                </div>
+                            </div>
+
+
+                            <a th:if="${investments.size()!=0}"
+                                    href="transaction.html"
+                                    th:href="@{/ui/users/investments}"
+                                    class="mt-auto btn btn-grey-outline w-100 fw-medium"
+                            >Show All</a
+                            >
+
+                            <a th:if="${investments.size()==0}"
+                                    href="transaction.html"
+                                    th:href="@{/ui/users/stocks}"
+                                    class="mt-auto btn btn-grey-outline w-100 fw-medium"
+                            >Start investing</a
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-3 mb-3 row-deck">
+                <div class="col-md-6 col-lg-12 col-xl-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">Budget Overview</h6>
+                            <div class="card-action">
+                                <div>
+                                    <a
+                                            href="#"
+                                            class="card-fullscreen"
+                                            data-bs-toggle="tooltip"
+                                            title="Card Full Screen"
+                                    >
+                                        <svg
+                                                class="svg-stroke"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                        >
+                                            <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                            ></path>
+                                            <path
+                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
+                                            ></path>
+                                            <path d="M7 20l10 0"></path>
+                                            <path d="M9 16l0 4"></path>
+                                            <path d="M15 16l0 4"></path>
+                                            <path d="M17 4h4v4"></path>
+                                            <path d="M16 9l5 -5"></path>
+                                        </svg>
+                                    </a>
+                                    <a
+                                            href="#"
+                                            class="dropdown-toggle after-none"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false"
+                                            title="More Action"
+                                    >
+
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body row bg-light g-0">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center border-end">
+                                    <div class="avatar rounded-circle no-thumbnail">
+                                        <i class="fa fa-long-arrow-down fa-lg text-success"></i>
+                                    </div>
+                                    <div class="flex-fill ms-3 text-truncate">
+                                        <div>Income</div>
+                                        <div><span class="fw-medium" th:text="'$ '+${incomeSum}">$17,358</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center ms-3">
+                                    <div class="avatar rounded-circle no-thumbnail">
+                                        <i class="fa fa-long-arrow-up fa-lg text-danger"></i>
+                                    </div>
+                                    <div class="flex-fill ms-3 text-truncate">
+                                        <div>Expenses</div>
+                                        <div><span class="fw-medium" th:text="'$ '+${expenseSum}">$14,998</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="apex-basic-column"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-12 col-xl-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">Recent Transaction</h6>
+                            <div class="card-action">
+                                <div>
+                                    <a
+                                            href="#"
+                                            class="card-fullscreen"
+                                            data-bs-toggle="tooltip"
+                                            title="Card Full Screen"
+                                    >
+                                        <svg
+                                                class="svg-stroke"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                        >
+                                            <path
+                                                    stroke="none"
+                                                    d="M0 0h24v24H0z"
+                                                    fill="none"
+                                            ></path>
+                                            <path
+                                                    d="M21 12v3a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h9"
+                                            ></path>
+                                            <path d="M7 20l10 0"></path>
+                                            <path d="M9 16l0 4"></path>
+                                            <path d="M15 16l0 4"></path>
+                                            <path d="M17 4h4v4"></path>
+                                            <path d="M16 9l5 -5"></path>
+                                        </svg>
+                                    </a>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+
+                            <span th:if="${transactions.size()==0}">
+                                       <p class="fw-medium d-block text-center mt-xxl-5"
+                                              th:text="'You have not made any transactions yet!'">
+                                            $4400
+                                        </p>
+
+
+                            </span>
+
+
+                            <div th:each="transaction : ${transactions}" class="d-flex align-items-center mb-3">
+                                <span>
+		                                                       <img alt="Profile Picture"
+                                                                    src="../static/images/xs/avatar1.jpg"
+                                                                    class="avatar rounded-circle d-none d-sm-inline-block"
+                                                                    onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
+                                                                    th:if="@{/ui/uploads/picture{username}3.jpg(username=${transaction.mainReceiver})}"
+                                                                    th:src="@{/ui/uploads/picture{username}3.jpg(username=${transaction.mainReceiver})}"/>
+	                                                       </span>
+                                <div class="flex-fill ms-3">
+                                    <div class="h6 mb-0" th:text="${transaction.mainReceiver}">BookMyShow Monthly</div>
+                                    <small class="text-muted" th:if="${transaction.transactionType !=  'Deposit'}">
+                                        Internal Transfer</small
+                                    >
+                                    <small class="text-muted" th:if="${transaction.transactionType ==  'Deposit'}">
+                                        Deposit</small
+                                    >
+                                </div>
+                                <div class="d-flex flex-column align-items-end text-end">
+                                    <span>
+                                        <small class="fw-medium" th:if="${transaction.currency=='USD'}" th:text="'$'">$4400</small>
+                                        <small class="fw-medium" th:if="${transaction.currency=='EUR'}" th:text="'€'">$4400</small>
+                                        <small class="fw-medium" th:if="${transaction.currency=='GBP'}" th:text="'£'">$4400</small>
+                                        <small class="fw-medium" th:text="${transaction.amount}">$4400</small>
+                                    </span>
+                                    <small class="text-muted"
+                                           th:text="${#temporals.format(transaction.transactionTime, 'dd/MM')}">08/27</small>
+                                </div>
+                            </div>
+
+
+                            <a
+                                    href="transaction.html"
+                                    th:href="@{/ui/users/transactions}"
+                                    class="mt-auto btn btn-grey-outline w-100 fw-medium"
+                            >Show All</a
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast Notification -->
+    <div id="successToast" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+         role="alert" aria-live="assertive" aria-atomic="true"
+         th:if="${transferSuccess}" style="z-index: 1050;">
+        <div class="toast-header bg-success rounded-2 text-white">
+            <strong class="text-end">Success</strong>
+            <button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+        <div class="toast-body mt-2 ps-0">
+            <ul class="mb-0">
+                <li> Your transfer was completed successfully.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Success Toast Notification -->
+    <div id="successfulDeposit" class="toast position-fixed top-0 start-50 translate-middle-x p-3 mt-3"
+         role="alert" aria-live="assertive" aria-atomic="true"
+         th:if="${successfulDeposit}" style="z-index: 1050;">
+        <div class="toast-header bg-success rounded-2 text-white">
+            <strong class="text-end">Success</strong>
+            <button type="button" class="ms-auto btn-close btn-close-white" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+        <div class="toast-body mt-2 ps-0">
+            <ul class="mb-0">
+                <li> Your deposit was completed successfully.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div aria-hidden="true" aria-labelledby="successModalLabel" class="modal fade" id="successModal"
+         tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <div class="modal-body">
+                    <span th:if="${userReferralSent}" th:text="#{referral.success}"  style="text-transform: none;"> </span>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- start: exchange rate -->
+<div th:replace="~{fragments/general-fragments :: exchange-rate}"></div>
+<!-- start: template setting, and more. -->
+
+<!--============== active class js =============-->
+<th:block th:replace="~{fragments/general-fragments.html :: scripts}"></th:block>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var incomeData = /*[[${income}]]*/ [] ;
+    var expenseData = /*[[${expense}]]*/ [] ;
+
+    /*]]>*/
+</script>
+
+<script th:if="${userReferralSent}" type="text/javascript">
+    var modal = new bootstrap.Modal(document.getElementById('successModal'));
+    modal.show();
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+        let successToastUpdate = document.getElementById('successToast');
+        if (successToastUpdate) {
+            let toast = new bootstrap.Toast(successToastUpdate, {delay: 5000});
+            toast.show();
+        }
+
+        let successfulDeposit = document.getElementById('successfulDeposit');
+        if (successfulDeposit) {
+            let toast = new bootstrap.Toast(successfulDeposit, {delay: 5000});
+            toast.show();
+        }
+
+    });
+
+</script>
+
+<script>
+
+    const getLast12Months = () => {
+        const months = [];
+        const date = new Date();
+        const formatter = new Intl.DateTimeFormat('en', { month: 'short' }); // "Jan", "Feb", etc.
+
+        for (let i = 11; i >= 0; i--) {
+            const pastDate = new Date(date.getFullYear(), date.getMonth() - i, 1);
+            months.push(formatter.format(pastDate));
+        }
+
+        return months;
+    };
+    // Basic Column
+    $(document).ready(function () {
+
+
+
+        var options = {
+            chart: {
+                height: 280,
+                type: "bar",
+            },
+            colors: ["var(--theme-color6)", "var(--theme-color3)"],
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: "55%",
+                    endingShape: "rounded",
+                },
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ["transparent"],
+            },
+            series: [
+                {
+                    name: "Income",
+                    data: incomeData,
+                },
+                {
+                    name: "Expenses",
+                    data: expenseData,
+                },
+
+            ],
+            xaxis: {
+                categories: getLast12Months(),
+            },
+            yaxis: {
+                title: {
+                    text: "USD ($)",
+                },
+            },
+            fill: {
+                opacity: 1,
+            },
+            tooltip: {
+                theme: "dark",
+                y: {
+                    formatter: function (val) {
+                        return "$ " + val;
+                    },
+                },
+            },
+        };
+
+        var chart = new ApexCharts(
+            document.querySelector("#apex-basic-column"),
+            options
+        );
+        chart.render();
+    });
+
+
+
+    // Radio button behavior
+    const radios = document.querySelectorAll('input[name="chartOptions"]');
+    radios.forEach((radio) => {
+        radio.addEventListener("change", () => {
+            // Get the selected value
+            const value = radio.value;
+            // Update the chart series data with the selected value
+            currentValue = value;
+            options.series = [currentValue]; // Update the series to show only one value
+            chart.updateOptions(options); // Update the chart
+        });
+    });
+</script>
+</body>
+</html>

@@ -17,7 +17,7 @@ public class HomeMvcController {
             model.addAttribute("isLoggedIn", true);
         }
 
-        return "home";
+        return "index";
     }
 
 

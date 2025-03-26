@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const href = item.getAttribute("href");
     if (
       href === currentLocation ||
-      (href === "index.html" && currentLocation === "")
+      (href === "dashboard.html" && currentLocation === "")
     ) {
       item.classList.add("active");
     }
