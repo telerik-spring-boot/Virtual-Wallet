@@ -109,11 +109,6 @@ public class UserMvcController {
         return "index";
     }
 
-    @GetMapping("/recipients")
-    public String getRecipients() {
-        return "recipients";
-    }
-
     @GetMapping("/referral-program")
     public String getReferralProgram(Model model, Authentication authentication){
 
