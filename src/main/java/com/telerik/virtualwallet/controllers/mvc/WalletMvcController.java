@@ -180,7 +180,7 @@ public class WalletMvcController {
         }
     }
 
-    @PostMapping("/transfer/wallet")
+    @PostMapping("/transfer/wallets")
     public String handleTransferFormByIban(Model model, @RequestParam("walletId") int walletId,
                                            Authentication authentication,
                                            @Valid @ModelAttribute("IBANInput")
