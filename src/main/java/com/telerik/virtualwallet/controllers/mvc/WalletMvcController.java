@@ -352,15 +352,14 @@ public class WalletMvcController {
     }
 
     @PreAuthorize("@walletSecurityService.isUserWalletHolder(#walletId, authentication.name)")
-    @GetMapping("/{walletId}/top-up/confirm")
-    public String walletTopUpConfirmation(Model model, @PathVariable int walletId,
-                                          @RequestParam("senderWalletId") int senderWalletId,
-                                          Authentication authentication,
-                                          @ModelAttribute("usernameInput")
-                                          TransactionMVCUsernamePhoneCreateDTO dto,
-                                          BindingResult bindingResult,
-                                          HttpServletRequest request) {
-
+    @PostMapping("/{walletId}/top-up")
+    public String handleTopUpWalletFromAnotherWallet(Model model, @PathVariable int walletId,
+                                                     @RequestParam("senderWalletId") int senderWalletId,
+                                                     Authentication authentication,
+                                                     @ModelAttribute("usernameInput")
+                                                     TransactionMVCUsernamePhoneCreateDTO dto,
+                                                     BindingResult bindingResult,
+                                                     RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return "transfer-make-internal";
@@ -371,13 +370,14 @@ public class WalletMvcController {
             Wallet receiverWallet = walletService.getWalletById(walletId);
 
             TransactionConfirmationMVCCreateDTO confirmation = transactionMapper
-                    .handleConfirmationMVCDTOLogic(senderWalletId, receiverWallet, receiverUser, dto.getAmount());
+                    .handleConfirmationMVCDTOLogicTopUp(senderWalletId, receiverWallet, receiverUser, dto.getAmount());
 
-            model.addAttribute("confirmation", confirmation);
-            model.addAttribute("transactionCategories", TransactionCategoryEnum.values());
-            model.addAttribute("requestURI", request.getRequestURI());
 
-            return "transfer-confirmation-internal";
+            redirectAttributes.addFlashAttribute("walletId", walletId);
+            redirectAttributes.addFlashAttribute("confirmation", confirmation);
+            redirectAttributes.addFlashAttribute("transactionCategories", TransactionCategoryEnum.values());
+
+            return "redirect:/ui/wallets/transfer/confirmation";
 
         } catch (EntityNotFoundException e) {
 
@@ -387,42 +387,6 @@ public class WalletMvcController {
 
             return "transfer-make-internal";
         }
-
-
-    }
-
-    @PostMapping("/{walletId}/top-up/confirm")
-    public String handleWalletTopUpConfirmation(Model model, @PathVariable int walletId,
-                                                Authentication authentication,
-                                                @Valid @ModelAttribute("confirmation")
-                                                TransactionConfirmationMVCCreateDTO confirmation,
-                                                BindingResult bindingResult,
-                                                RedirectAttributes redirectAttributes) {
-
-        model.addAttribute("formSubmitted", true);
-
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("transactionCategories", TransactionCategoryEnum.values());
-            return "transfer-confirmation-internal";
-        }
-        try {
-
-            Transaction transaction = transactionMapper.mvcDtoToTransaction(confirmation, authentication.getName());
-
-            transactionService.makeTransactionMVC(transaction, confirmation.getReceivedAmount());
-
-            return "redirect:/ui/wallets";
-
-        } catch (InsufficientFundsException e) {
-            bindingResult.rejectValue("sentAmount", "card.number", e.getMessage());
-
-            redirectAttributes.addFlashAttribute("insufficientFunds", true);
-            model.addAttribute("usernameInput", new TransactionMVCUsernamePhoneCreateDTO());
-            addAllUserWalletsToModel(authentication, model);
-
-            return "transfer-confirmation-internal";
-        }
-
     }
 
     private void addAllUserWalletsToModel(Authentication authentication, Model model) {

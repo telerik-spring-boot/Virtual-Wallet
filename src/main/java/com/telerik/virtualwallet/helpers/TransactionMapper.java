@@ -209,6 +209,8 @@ public class TransactionMapper {
 
         TransactionConfirmationMVCCreateDTO dto = new TransactionConfirmationMVCCreateDTO();
 
+        dto.setIsTopUp(0);
+
         Wallet senderWallet = walletService.getWalletById(senderWalletId);
 
         dto.setWalletSenderId(senderWalletId);
@@ -270,5 +272,16 @@ public class TransactionMapper {
         return dto;
 
 
+    }
+
+    public TransactionConfirmationMVCCreateDTO handleConfirmationMVCDTOLogicTopUp(int senderWalletId, Wallet receiverWallet,
+                                                                             User receiverUser, BigDecimal sendingAmount){
+
+        TransactionConfirmationMVCCreateDTO dto = handleConfirmationMVCDTOLogic
+                (senderWalletId,receiverWallet,receiverUser,sendingAmount);
+
+        dto.setIsTopUp(1);
+
+        return dto;
     }
 }

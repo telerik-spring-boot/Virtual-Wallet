@@ -36,10 +36,12 @@ public class TransactionConfirmationMVCCreateDTO {
     @Size(min = 2, max = 50, message = "Message must be between 2 and 50 characters")
     private String message;
 
+    private int isTopUp;
+
     public TransactionConfirmationMVCCreateDTO() {
     }
 
-    public TransactionConfirmationMVCCreateDTO(int walletReceiverId, int walletSenderId, String receiverFullName, BigDecimal sentAmount, BigDecimal receivedAmount, String senderCurrency, String receiverCurrency, String transactionCategory, String message) {
+    public TransactionConfirmationMVCCreateDTO(int walletReceiverId, int walletSenderId, String receiverFullName, BigDecimal sentAmount, BigDecimal receivedAmount, String senderCurrency, String receiverCurrency, String transactionCategory, String message, int isTopUp) {
         this.walletReceiverId = walletReceiverId;
         this.walletSenderId = walletSenderId;
         this.receiverFullName = receiverFullName;
@@ -49,6 +51,7 @@ public class TransactionConfirmationMVCCreateDTO {
         this.receiverCurrency = receiverCurrency;
         this.transactionCategory = transactionCategory;
         this.message = message;
+        this.isTopUp = isTopUp;
     }
 
     public BigDecimal getSentAmount() {
@@ -121,5 +124,13 @@ public class TransactionConfirmationMVCCreateDTO {
 
     public void setReceiverFullName(String receiverFullName) {
         this.receiverFullName = receiverFullName;
+    }
+
+    public int getIsTopUp() {
+        return isTopUp;
+    }
+
+    public void setIsTopUp(int isTopUp) {
+        this.isTopUp = isTopUp;
     }
 }
