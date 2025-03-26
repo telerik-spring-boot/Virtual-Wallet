@@ -64,7 +64,7 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade= CascadeType.ALL, orphanRemoval = true)
-    private Set<Investment> investments;
+    private Set<Investment> investments = new HashSet<>();
 
     @OneToMany(mappedBy = "referrer", cascade = CascadeType.MERGE)
     private Set<Referral> referredPeople = new HashSet<>();

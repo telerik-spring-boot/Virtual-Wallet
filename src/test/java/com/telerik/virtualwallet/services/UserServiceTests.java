@@ -10,10 +10,12 @@ import com.telerik.virtualwallet.models.Verification;
 import com.telerik.virtualwallet.models.Wallet;
 import com.telerik.virtualwallet.models.dtos.stock.StockOrderDTO;
 import com.telerik.virtualwallet.models.enums.Currency;
+import com.telerik.virtualwallet.repositories.transaction.InvestmentRepository;
 import com.telerik.virtualwallet.repositories.user.UserRepository;
 import com.telerik.virtualwallet.services.picture.PictureService;
 import com.telerik.virtualwallet.services.stock.StockService;
 import com.telerik.virtualwallet.services.user.UserServiceImpl;
+import com.telerik.virtualwallet.services.wallet.WalletService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +44,12 @@ public class UserServiceTests {
 
     @Mock
     private  PictureService mockPictureRepository;
+
+    @Mock
+    private InvestmentRepository mockInvestmentRepository;
+
+    @Mock
+    private WalletService mockWalletService;
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -149,7 +157,7 @@ public class UserServiceTests {
         User user = createMockUser();
 
 
-        Mockito.when(mockUserRepository.getByUsername(Mockito.anyString()))
+        Mockito.when(mockUserRepository.getByUsernameWithRoles(Mockito.anyString()))
                 .thenReturn(user);
 
         // Act
@@ -158,20 +166,20 @@ public class UserServiceTests {
         // Assert
         Assertions.assertEquals(user, returnedUser);
         Mockito.verify(mockUserRepository, Mockito.times(1))
-                .getByUsername(Mockito.anyString());
+                .getByUsernameWithRoles(Mockito.anyString());
     }
 
 
     @Test
     public void getByUsername_Should_ThrowError_When_UserUsernameInvalid() {
         // Arrange
-        Mockito.when(mockUserRepository.getByUsername(Mockito.anyString()))
+        Mockito.when(mockUserRepository.getByUsernameWithRoles(Mockito.anyString()))
                 .thenReturn(null);
 
         // Assert
         Assertions.assertThrows(EntityNotFoundException.class, () -> userService.getByUsername("asdasd"));
         Mockito.verify(mockUserRepository, Mockito.times(1))
-                .getByUsername(Mockito.anyString());
+                .getByUsernameWithRoles(Mockito.anyString());
     }
 
 
