@@ -48,7 +48,7 @@
   <!-- Navigation-->
   <nav class="navbar navbar-expand-md position-fixed top-0 w-100 body-color ">
     <div class="container-fluid">
-      <a class="navbar-brand" th:href="@{/ui/users/dashboard}">
+      <a class="navbar-brand" th:href="@{/ui/home}">
         <img src="../static/images/favicon.ico" th:src="@{/images/favicon.ico}" alt="Logo" width="80" height="80"/>
       </a>
       <div class="d-none d-sm-block">
@@ -145,6 +145,7 @@
               <a class="btn btn-primary btn-lg px-4 me-sm-3" style="background-color: #0097AA !important; border-color: #007A8A !important;" th:if="${isLoggedIn==null}" th:href="@{/ui/auth/register}" >Sign up</a>
               <a class="btn btn-outline-light btn-lg px-4" th:if="${isLoggedIn==null}" th:href="@{/ui/auth/login}">Log in</a>
             </div>
+
           </div>
         </div>
         <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center">
@@ -201,9 +202,12 @@
           <div class="text-center">
             <h2 class="h5 text-white">Get started in just a few minutes! Sign up, verify your identity,
               and start managing your finances instantly!</h2>
+            <a class="btn btn-outline-light btn-lg px-4 mt-xxl-5"  th:href="@{/ui/auth/contact}">Contact us</a>
 
           </div>
+
         </div>
+
       </div>
     </div>
   </div>
