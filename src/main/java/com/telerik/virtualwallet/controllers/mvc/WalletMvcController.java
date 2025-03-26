@@ -139,7 +139,7 @@ public class WalletMvcController {
         return "transfer-make";
     }
 
-    @PostMapping("/transfer/by_username")
+    @PostMapping("/transfer/users")
     public String handleTransferFormByUsername(Model model, @RequestParam("walletId") int walletId,
                                                Authentication authentication,
                                                @Valid @ModelAttribute("usernameInput")
@@ -180,7 +180,7 @@ public class WalletMvcController {
         }
     }
 
-    @PostMapping("/transfer/by_iban")
+    @PostMapping("/transfer/wallet")
     public String handleTransferFormByIban(Model model, @RequestParam("walletId") int walletId,
                                            Authentication authentication,
                                            @Valid @ModelAttribute("IBANInput")
