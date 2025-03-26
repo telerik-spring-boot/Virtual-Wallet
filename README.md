@@ -5,7 +5,7 @@
 We have deployed our project using **AWS**. Also, we provide **Swagger API Documentation** to facilitate testing and exploration of the REST API’s endpoints.
 
 - **App URL**: [`http://ynpay.webredirect.org/ui/home/`](http://ynpay.webredirect.org/ui/home)
-- **Swagger URL**: [``]()
+- **Swagger URL**: [`http://ynpay.webredirect.org/swagger-ui/index.html`]()
 
 ## Overview
 
