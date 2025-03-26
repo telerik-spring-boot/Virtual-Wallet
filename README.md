@@ -67,7 +67,7 @@ This web application provides a comprehensive financial management platform, int
 - **Finnhub API news updates**
 - **Starter Mail for Email Verification**
 - **FormSpree for contact forms**
-- **AWS MARIADB RDB for database hosting**
+- **AWS for database hosting**
 
 ---
 
