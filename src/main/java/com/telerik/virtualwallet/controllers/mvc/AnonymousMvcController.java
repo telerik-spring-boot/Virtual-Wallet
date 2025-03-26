@@ -140,18 +140,17 @@ public class AnonymousMvcController {
                 userService.create(user);
 
 
-//             Do not uncomment before production!
 
-//            String token = jwtService.generateEmailVerificationToken(user.getEmail());
-//            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/ui/auth/verify-email?token=" + token;
-//
-//
-//            String emailContent = "<p>Hello " + user.getUsername() + ",</p>"
-//                    + "<p>Please click the link below to verify your email:</p>"
-//                    + "<a href='" + verificationUrl + "'>Verify Email</a>"
-//                    + "<p>If you did not sign up, you can ignore this email.</p>";
-//
-//            emailService.send(user.getEmail(), "Verify Your Email", emailContent);
+            String token = jwtService.generateEmailVerificationToken(user.getEmail());
+            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/ui/auth/verify-email?token=" + token;
+
+
+            String emailContent = "<p>Hello " + user.getUsername() + ",</p>"
+                    + "<p>Please click the link below to verify your email:</p>"
+                    + "<a href='" + verificationUrl + "'>Verify Email</a>"
+                    + "<p>If you did not sign up, you can ignore this email.</p>";
+
+            emailService.send(user.getEmail(), "Verify Your Email", emailContent);
 
             redirectAttributes.addFlashAttribute("registerSuccess", true);
 
@@ -237,8 +236,6 @@ public class AnonymousMvcController {
         try {
             User user = userService.getByUsername(userRetrieveDTO.getUsername());
 
-
-            // Do not uncomment before production!
 
             String token = jwtService.generateEmailVerificationToken(user.getEmail());
             String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/ui/auth/reset-password?token=" + token;
@@ -369,8 +366,6 @@ public class AnonymousMvcController {
 
         try {
 
-//            // Do not uncomment before production!
-//
             String referrerUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
             String token = jwtService.generateUsernameReferralToken(referrerUsername);
