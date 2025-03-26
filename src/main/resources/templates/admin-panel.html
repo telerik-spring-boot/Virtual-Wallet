@@ -439,11 +439,15 @@
 							</ul>
 						</div>
 						<div class="d-flex justify-content-center">
-							<button id="usersTab" class="btn btn-outline-primary rounded-pill me-2"> Users </button>
+							<button id="usersTab" class="btn btn-outline-primary rounded-pill me-2"> Users</button>
 
-							<button id="transfersTab" class="btn btn-outline-info rounded-pill ms-2 info-btn"> Transfers </button>
+							<button id="transfersTab" class="btn btn-outline-info rounded-pill ms-2 info-btn">
+								Transfers
+							</button>
 
-							<button id="investmentsTab" class="btn btn-outline-warning rounded-pill ms-2 inv-btn"> Investments </button>
+							<button id="investmentsTab" class="btn btn-outline-warning rounded-pill ms-2 inv-btn">
+								Investments
+							</button>
 						</div>
 						<table id="usersTable"
 						       class="table align-middle table-hover dataTable table-body table-responsive w-100 border rounded-4">
@@ -465,7 +469,8 @@
 								<td class="border-end border-top">
                                                        <span class="d-flex align-items-center">
 
-	                                                       <img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
+	                                                       <img alt="Profile Picture"
+	                                                            src="../static/images/xs/avatar1.jpg"
 	                                                            class="avatar rounded-circle d-none d-sm-inline-block"
 	                                                            onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
 	                                                            th:if="@{/ui/uploads/picture{username}3.jpg(username=${user.username})}"
@@ -493,10 +498,12 @@
 
 									</a>
 								</td>
-								<div aria-labelledby="offcanvas_trdetails" class="offcanvas offcanvas-end" th:id="'offcanvas_userDetails' + ${user.id}" tabindex="-1">
+								<div aria-labelledby="offcanvas_trdetails" class="offcanvas offcanvas-end"
+								     th:id="'offcanvas_userDetails' + ${user.id}" tabindex="-1">
 									<div class="offcanvas-header">
 										<h5 class="offcanvas-title">User Details</h5>
-										<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+										<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas"
+										        type="button"></button>
 									</div>
 									<div class="offcanvas-body px-0">
 
@@ -511,86 +518,122 @@
 
 												<div class="flex-fill ms-3">
 													<div class="h6 mb-1" th:text="${user.fullName}">Jony Doe</div>
-													<small class="text-muted" th:text="${#temporals.format(user.getLastOnline(), 'yyyy-MM-dd HH:mm:ss')}">Last seen 12.03.2025</small>
+													<small class="text-muted"
+													       th:text="${#temporals.format(user.getLastOnline(), 'yyyy-MM-dd HH:mm:ss')}">Last
+														seen 12.03.2025</small>
 												</div>
 											</div>
 											<div class="border-bottom py-3">
-												<small class="text-muted mb-3" >Username</small>
+												<small class="text-muted mb-3">Username</small>
 												<div class="h6 mb-0 pt-3" th:text="${user.username}">jonidevito</div>
 											</div>
 
 											<div class="border-bottom py-3">
 												<small class="text-muted mb-3">Email Address</small>
-												<div class="h6 mb-0 pt-3" th:text="${user.emailAddress}">jonny@gmail.com</div>
+												<div class="h6 mb-0 pt-3" th:text="${user.emailAddress}">
+													jonny@gmail.com
+												</div>
 											</div>
 											<div class="border-bottom py-3">
 												<small class="text-muted mb-3">Phone Number</small>
-												<div class="h6 mb-0 pt-3" th:text="${user.phoneNumber}">+343423423423</div>
+												<div class="h6 mb-0 pt-3" th:text="${user.phoneNumber}">+343423423423
+												</div>
 											</div>
 											<div class="border-bottom py-3">
 												<small class="text-muted mb-1">Verification</small>
 												<div class="d-flex">
-													<div class="h6 align-self-end" th:if="${user.getVerifiedAt() == null}"> Not Verified </div>
-													<div class="h6 mb-0 pt-3" th:if="${user.getVerifiedAt() != null}"> Verified </div>
-													<button class="ms-auto btn btn-outline-primary"  th:if="${user.getVerifiedAt() == null}" data-bs-toggle="modal" th:data-bs-target="'#verifyModal' + ${user.id}"> Verify </button>
+													<div class="h6 align-self-end"
+													     th:if="${user.getVerifiedAt() == null}"> Not Verified
+													</div>
+													<div class="h6 mb-0 pt-3" th:if="${user.getVerifiedAt() != null}">
+														Verified
+													</div>
+													<button class="ms-auto btn btn-outline-primary"
+													        th:if="${user.getVerifiedAt() == null}"
+													        data-bs-toggle="modal"
+													        th:data-bs-target="'#verifyModal' + ${user.id}"> Verify
+													</button>
 												</div>
 											</div>
 
 											<div class="border-bottom py-3">
 												<small class="text-muted mb-1">Status</small>
 												<div class="d-flex">
-													<div class="h6 align-self-end" th:text="${user.blocked ? 'Blocked' : 'Active'}"> </div>
-													<form th:action="@{/ui/admin/users/{userId}/unblock(userId=${user.id})}" method="post">
+													<div class="h6 align-self-end"
+													     th:text="${user.blocked ? 'Blocked' : 'Active'}"></div>
+													<form th:action="@{/ui/admin/users/{userId}/unblock(userId=${user.id})}"
+													      method="post">
 														<input type="hidden" name="_method" value="PUT"/>
-														<button type="submit" class="ms-auto btn btn-outline-primary" th:if="${user.isBlocked()}"> Unblock </button>
+														<button type="submit" class="ms-auto btn btn-outline-primary"
+														        th:if="${user.isBlocked()}"> Unblock
+														</button>
 													</form>
 
-													<form th:action="@{/ui/admin/users/{userId}/block(userId=${user.id})}" method="post">
+													<form th:action="@{/ui/admin/users/{userId}/block(userId=${user.id})}"
+													      method="post">
 														<input type="hidden" name="_method" value="PUT"/>
-														<button type="submit" class="ms-auto btn btn-outline-danger" th:if="${!user.isBlocked()}" > Block </button>
+														<button type="submit" class="ms-auto btn btn-outline-danger"
+														        th:if="${!user.isBlocked()}"> Block
+														</button>
 													</form>
 												</div>
 											</div>
 											<div class="border-bottom py-3">
 												<small class="text-muted mb-1 align-self-start">Role</small>
 												<div class="d-flex">
-													<div class="h6 align-self-end " th:if="${user.isAdmin()}"> Admin </div>
-													<div class="h6 align-self-end" th:if="${!user.isAdmin()}"> User </div>
+													<div class="h6 align-self-end " th:if="${user.isAdmin()}"> Admin
+													</div>
+													<div class="h6 align-self-end" th:if="${!user.isAdmin()}"> User
+													</div>
 
-													<form th:action="@{/ui/admin/users/{userId}/grant(userId=${user.id})}" method="post">
+													<form th:action="@{/ui/admin/users/{userId}/grant(userId=${user.id})}"
+													      method="post">
 														<input type="hidden" name="_method" value="PUT"/>
-														<button type="submit" class="ms-auto btn btn-outline-primary" th:if="${!user.isAdmin()}"> Promote </button>
+														<button type="submit" class="ms-auto btn btn-outline-primary"
+														        th:if="${!user.isAdmin()}"> Promote
+														</button>
 													</form>
 
-													<form th:action="@{/ui/admin/users/{userId}/revoke(userId=${user.id})}" method="post">
+													<form th:action="@{/ui/admin/users/{userId}/revoke(userId=${user.id})}"
+													      method="post">
 														<input type="hidden" name="_method" value="PUT"/>
-														<button type="submit" class="ms-auto btn btn-outline-danger" th:if="${user.isAdmin()}" > Demote </button>
+														<button type="submit" class="ms-auto btn btn-outline-danger"
+														        th:if="${user.isAdmin()}"> Demote
+														</button>
 													</form>
 												</div>
 											</div>
 											<div class="border-bottom py-3">
-												<small class="text-muted mb-3" >Registration Date</small>
+												<small class="text-muted mb-3">Registration Date</small>
 												<div class="d-flex">
-													<div class="h6 align-self-end pt-3" th:text="${#temporals.format(user.getCreatedAt(), 'yyyy-MM-dd HH:mm:ss')}"> Feb 05, 2024 At 18:20 </div>
+													<div class="h6 align-self-end pt-3"
+													     th:text="${#temporals.format(user.getCreatedAt(), 'yyyy-MM-dd HH:mm:ss')}">
+														Feb 05, 2024 At 18:20
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 								<!-- Verify Modal -->
-								<div class="modal fade" th:id="'verifyModal' + ${user.id}" tabindex="-1" th:aria-labelledby="'verifyModalLabel' + ${user.id}" aria-hidden="true">
+								<div class="modal fade" th:id="'verifyModal' + ${user.id}" tabindex="-1"
+								     th:aria-labelledby="'verifyModalLabel' + ${user.id}" aria-hidden="true">
 									<div class="modal-dialog modal-lg">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h5 class="modal-title" th:id="'verifyModalLabel' + ${user.id}">Verify Identity</h5>
-												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												<h5 class="modal-title" th:id="'verifyModalLabel' + ${user.id}">Verify
+													Identity</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal"
+												        aria-label="Close"></button>
 											</div>
 											<div class="modal-body">
-												<form class="text-center d-flex flex-column gap-3" enctype="multipart/form-data" method="post">
+												<form class="text-center d-flex flex-column gap-3"
+												      enctype="multipart/form-data" method="post">
 													<div class="row">
 														<div class="col-6 d-flex flex-column justify-content-between align-items-center">
 															<div>
-																<img alt="preview1" src="../static/images/gallery/no-image.png"
+																<img alt="preview1"
+																     src="../static/images/gallery/no-image.png"
 																     class="img-thumbnail mb-3"
 																     onerror="this.onerror=null; this.src='/images/gallery/no-image.png'"
 																     th:if="@{/ui/uploads/picture{username}1.jpg(username=${user.username})}"
@@ -603,7 +646,8 @@
 														</div>
 														<div class="col-6 d-flex flex-column justify-content-between align-items-center">
 															<div>
-																<img alt="preview2" src="../static/images/gallery/no-image.png"
+																<img alt="preview2"
+																     src="../static/images/gallery/no-image.png"
 																     class="img-thumbnail mb-3"
 																     onerror="this.onerror=null; this.src='/images/gallery/no-image.png'"
 																     onclick="showFullScreen(this)"
@@ -618,14 +662,16 @@
 												</form>
 											</div>
 											<div class="modal-footer">
-												<form th:action="@{/ui/admin/users/{username}/approve-verification(username=${user.username})}" method="post">
+												<form th:action="@{/ui/admin/users/{username}/approve-verification(username=${user.username})}"
+												      method="post">
 													<input type="hidden" name="_method" value="PUT"/>
-													<button type="submit"  class="btn btn-primary  ">Approve</button>
+													<button type="submit" class="btn btn-primary  ">Approve</button>
 												</form>
 
-												<form th:action="@{/ui/admin/users/{username}/reject-verification(username=${user.username})}" method="post">
+												<form th:action="@{/ui/admin/users/{username}/reject-verification(username=${user.username})}"
+												      method="post">
 													<input type="hidden" name="_method" value="PUT"/>
-													<button type="submit" class="btn btn-danger" >Reject</button>
+													<button type="submit" class="btn btn-danger">Reject</button>
 												</form>
 											</div>
 										</div>
@@ -655,7 +701,8 @@
 								<td class="border-end border-top">
                                                        <span class="d-flex align-items-center">
 	                                                       <span th:if="${transaction.transactionType !=  'Deposit'}">
-		                                                       <img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
+		                                                       <img alt="Profile Picture"
+		                                                            src="../static/images/xs/avatar1.jpg"
 		                                                            class="avatar rounded-circle d-none d-sm-inline-block"
 		                                                            onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
 		                                                            th:if="@{/ui/uploads/picture{username}3.jpg(username=${transaction.sender})}"
@@ -672,9 +719,16 @@
                                                             </span>
                                                        </span>
 								</td>
-								<td class="border-end border-top" th:text="${transaction.amount} + ' ' + ${transaction.currency}">$500.00</td>
-								<td class="border-end border-top" th:text="${transaction.transactionCategory}">Checking</td>
-								<td class="border-end border-top" th:text="${#temporals.format(transaction.transactionTime, 'yyyy-MM-dd HH:mm:ss')}">Feb 05, 2024</td>
+								<td class="border-end border-top"
+								    th:text="${transaction.amount} + ' ' + ${transaction.currency}">$500.00
+								</td>
+								<td class="border-end border-top" th:text="${transaction.transactionCategory}">
+									Checking
+								</td>
+								<td class="border-end border-top"
+								    th:text="${#temporals.format(transaction.transactionTime, 'yyyy-MM-dd HH:mm:ss')}">
+									Feb 05, 2024
+								</td>
 								<td class="border-end border-top" th:text="${transaction.transactionType}">Deposit</td>
 								<td class="border-top">
 									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
@@ -692,17 +746,20 @@
 									</a>
 								</td>
 								<!-- start: Transection details rate -->
-								<div aria-labelledby="offcanvas_trdetails" class="offcanvas offcanvas-end" th:id="'offcanvas_trdetails_' + ${iterStat.index}"  tabindex="-1">
+								<div aria-labelledby="offcanvas_trdetails" class="offcanvas offcanvas-end"
+								     th:id="'offcanvas_trdetails_' + ${iterStat.index}" tabindex="-1">
 									<div class="offcanvas-header">
 										<h5 class="offcanvas-title">Transaction Details</h5>
-										<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+										<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas"
+										        type="button"></button>
 									</div>
 									<div class="offcanvas-body px-0">
 										<div class="mb-4 p-3 bg-light">
 											<h6 class="text-muted mb-0">Amount</h6>
 										</div>
 										<div class="mb-4 px-3">
-											<h3 th:text="${transaction.getAmount()}+ ' ' +${transaction.currency}">500.00</h3>
+											<h3 th:text="${transaction.getAmount()}+ ' ' +${transaction.currency}">
+												500.00</h3>
 										</div>
 										<div class="mb-4 p-3 bg-light">
 											<h6 class="text-muted mb-0">To</h6>
@@ -716,8 +773,12 @@
 												     th:src="@{/images/gallery/wallet-2.jpg}">
 
 												<div class="flex-fill ms-3">
-													<div class="h6 mb-0"    th:text="${transaction.receivers}" > John Jones </div>
-													<small class="text-muted" th:text="'IBAN33YNPAY68477732491843244' + ${transaction.receiverWalletId}">**** ****2498 DBS Bank</small>
+													<div class="h6 mb-0" th:text="${transaction.receivers}"> John
+														Jones
+													</div>
+													<small class="text-muted"
+													       th:text="'IBAN33YNPAY68477732491843244' + ${transaction.receiverWalletId}">****
+														****2498 DBS Bank</small>
 												</div>
 											</div>
 										</div>
@@ -735,15 +796,21 @@
 											</div>
 											<div class="border-bottom py-3">
 												<small class="text-muted">Transaction Id</small>
-												<div class="h6 mb-0 pt-3" th:text="'NVF253688' + ${transaction.transactionId}">NVF25680222</div>
+												<div class="h6 mb-0 pt-3"
+												     th:text="'NVF253688' + ${transaction.transactionId}">NVF25680222
+												</div>
 											</div>
 											<div class="border-bottom py-3">
 												<small class="text-muted">Date &amp; Time</small>
-												<div class="h6 mb-0 pt-3" th:text="${#temporals.format(transaction.transactionTime, 'yyyy-MM-dd HH:mm:ss')}">Feb 05, 2024 At 18:20</div>
+												<div class="h6 mb-0 pt-3"
+												     th:text="${#temporals.format(transaction.transactionTime, 'yyyy-MM-dd HH:mm:ss')}">
+													Feb 05, 2024 At 18:20
+												</div>
 											</div>
 											<div class="border-bottom py-3">
 												<small class="text-muted">Message</small>
-												<div class="h6 mb-0 pt-3" th:text="${transaction.getMessage()}">#4433</div>
+												<div class="h6 mb-0 pt-3" th:text="${transaction.getMessage()}">#4433
+												</div>
 											</div>
 										</div>
 									</div>
@@ -773,7 +840,8 @@
 								<td class="border-end border-top">
                                                        <span class="d-flex align-items-center">
 
-	                                                       <img alt="Profile Picture" src="../static/images/xs/avatar1.jpg"
+	                                                       <img alt="Profile Picture"
+	                                                            src="../static/images/xs/avatar1.jpg"
 	                                                            class="avatar rounded-circle d-none d-sm-inline-block"
 	                                                            onerror="this.onerror=null; this.src='/images/xs/avatar1.jpg';"
 	                                                            th:if="@{/ui/uploads/picture{username}3.jpg(username=${investment.username})}"
@@ -783,11 +851,13 @@
                                                             </span>
                                                        </span>
 								</td>
-								<td class="border-end border-top" th:text="${investment.symbol}"> Symbol </td>
+								<td class="border-end border-top" th:text="${investment.symbol}"> Symbol</td>
 								<td class="border-end border-top" th:text="${investment.quantity}">Quantity</td>
 								<td class="border-end border-top" th:text="${investment.value} + ' USD'">Price</td>
 								<td class="border-end border-top" th:text="${investment.type}">Direction</td>
-								<td class="border-end border-top" th:text="${#temporals.format(investment.purchasedAt, 'yyyy-MM-dd HH:mm:ss')}"> Date </td>
+								<td class="border-end border-top"
+								    th:text="${#temporals.format(investment.purchasedAt, 'yyyy-MM-dd HH:mm:ss')}"> Date
+								</td>
 								<td class="border-top">
 									<a aria-expanded="false" class="btn btn-outline-secondary w-100"
 									   data-bs-toggle="offcanvas"
@@ -804,17 +874,20 @@
 									</a>
 								</td>
 								<!-- start: Transection details rate -->
-								<div aria-labelledby="offcanvas_invstdetails_" class="offcanvas offcanvas-end" th:id="'offcanvas_invstdetails_' + ${investment.id}"  tabindex="-1">
+								<div aria-labelledby="offcanvas_invstdetails_" class="offcanvas offcanvas-end"
+								     th:id="'offcanvas_invstdetails_' + ${investment.id}" tabindex="-1">
 									<div class="offcanvas-header">
 										<h5 class="offcanvas-title">Investment Details</h5>
-										<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+										<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas"
+										        type="button"></button>
 									</div>
 									<div class="offcanvas-body px-0">
 										<div class="mb-4 p-3 bg-light">
 											<h6 class="text-muted mb-0">Value</h6>
 										</div>
 										<div class="mb-4 px-3">
-											<h3 th:text="${#numbers.formatDecimal(investment.value, 1, 2, 'POINT')} + ' USD'">500.00</h3>
+											<h3 th:text="${#numbers.formatDecimal(investment.value, 1, 2, 'POINT')} + ' USD'">
+												500.00</h3>
 										</div>
 										<div class="mb-4 p-3 bg-light">
 											<h6 class="text-muted mb-0">To</h6>
@@ -828,7 +901,7 @@
 												     th:src="@{/images/stock-icons/nyse.png}">
 
 												<div class="flex-fill ms-3">
-													<div class="h6 mb-0"  > New York Stock Exchange </div>
+													<div class="h6 mb-0"> New York Stock Exchange</div>
 												</div>
 											</div>
 										</div>
@@ -842,7 +915,8 @@
 											</div>
 											<div class="border-bottom py-3">
 												<small class="text-muted">Order Total Value</small>
-												<div class="h6 mb-0 pt-3" th:text="${investment.getTotalOrderValue()} + ' USD'"></div>
+												<div class="h6 mb-0 pt-3"
+												     th:text="${investment.getTotalOrderValue()} + ' USD'"></div>
 											</div>
 											<div class="border-bottom py-3">
 												<small class="text-muted">Status</small>
@@ -850,11 +924,16 @@
 											</div>
 											<div class="border-bottom py-3">
 												<small class="text-muted">Transaction Id</small>
-												<div class="h6 mb-0 pt-3" th:text="'NVF253688' + ${investment.id}">NVF25680222</div>
+												<div class="h6 mb-0 pt-3" th:text="'NVF253688' + ${investment.id}">
+													NVF25680222
+												</div>
 											</div>
 											<div class="border-bottom py-3">
 												<small class="text-muted">Date &amp; Time</small>
-												<div class="h6 mb-0 pt-3" th:text="${#temporals.format(investment.purchasedAt, 'yyyy-MM-dd HH:mm:ss')}">Feb 05, 2024 At 18:20</div>
+												<div class="h6 mb-0 pt-3"
+												     th:text="${#temporals.format(investment.purchasedAt, 'yyyy-MM-dd HH:mm:ss')}">
+													Feb 05, 2024 At 18:20
+												</div>
 											</div>
 										</div>
 									</div>
@@ -1012,7 +1091,6 @@
         }
 
 
-
         users.forEach(user => {
             let createdAt = new Date(user.createdAt);
             let verifiedAt = user.verifiedAt ? new Date(user.verifiedAt) : null;
@@ -1103,8 +1181,6 @@
         var transactions = /*[[${transactions}]]*/[];
 
         var investments = /*[[${investments}]]*/[];
-
-
 
 
         let depositCounts = Array(12).fill(0);
@@ -1263,6 +1339,137 @@
         document.body.appendChild(fullScreenDiv);
     }
 </script>
+
+<!--<script th:inline="javascript">-->
+<!--    document.addEventListener("DOMContentLoaded", function () {-->
+<!--        const conversionRates = { EUR: 1.09, GBP: 1.30, USD: 1 };-->
+<!--        const today = new Date().getDate();-->
+<!--        const allDates = document.querySelectorAll('.nav-link');-->
+<!--        const scrollContainer = document.querySelector(".calendar-tab .nav");-->
+<!--        const usersTable = $('#usersTable').DataTable({ responsive: true });-->
+<!--        const investmentsTable = $('#investmentsTable').DataTable({-->
+<!--            responsive: true,-->
+<!--            "columnDefs": [{-->
+<!--                "targets": 3,-->
+<!--                "render": (data, type) => type === 'display' ? data : parseFloat((data.match(/[-+]?[0-9]*\.?[0-9]+/))?.[0] || data),-->
+<!--                "orderDataType": "numeric"-->
+<!--            }]-->
+<!--        });-->
+<!--        const transfersTable = $('#transfersTable').DataTable({-->
+<!--            responsive: true,-->
+<!--            "columnDefs": [{-->
+<!--                "targets": 1,-->
+<!--                "render": (data, type) => type === 'display' ? data : parseFloat((data.match(/[-+]?[0-9]*\.?[0-9]+/))?.[0] || data) * conversionRates[data.slice(-3)],-->
+<!--                "orderDataType": "numeric"-->
+<!--            }]-->
+<!--        });-->
+
+<!--        $('#transfersTable_wrapper').hide();-->
+<!--        $('#investmentsTable_wrapper').hide();-->
+
+<!--        const toggleTab = (tab, table) => {-->
+<!--            $(tab).addClass('active').siblings().removeClass('active');-->
+<!--            $(table).show().siblings().hide();-->
+<!--            table.columns.adjust().responsive.recalc();-->
+<!--        };-->
+
+<!--        $('#usersTab').on('click', () => toggleTab('#usersTab', $('#usersTable_wrapper')));-->
+<!--        $('#investmentsTab').on('click', () => toggleTab('#investmentsTab', $('#investmentsTable_wrapper')));-->
+<!--        $('#transfersTab').on('click', () => toggleTab('#transfersTab', $('#transfersTable_wrapper')));-->
+
+<!--        allDates.forEach(date => {-->
+<!--            if (parseInt(date.textContent) === today) date.classList.add('active');-->
+<!--        });-->
+
+<!--        if (scrollContainer) {-->
+<!--            scrollContainer.addEventListener("wheel", (evt) => {-->
+<!--                evt.preventDefault();-->
+<!--                scrollContainer.scrollLeft += evt.deltaY;-->
+<!--            });-->
+<!--        }-->
+
+<!--        const users = /*[[${users}]]*/[];-->
+<!--        const monthLabels = [];-->
+<!--        const createdCounts = Array(12).fill(0);-->
+<!--        const verifiedCounts = Array(12).fill(0);-->
+<!--        const now = new Date();-->
+<!--        const currentYear = now.getFullYear();-->
+<!--        const currentMonth = now.getMonth();-->
+
+<!--        // Prepare month labels and counts-->
+<!--        for (let i = 0; i < 12; i++) {-->
+<!--            const month = new Date(currentYear, currentMonth - i, 1);-->
+<!--            monthLabels.unshift(month.toLocaleString("en-US", { month: "short" }).slice(0, 3));-->
+
+<!--            users.forEach(user => {-->
+<!--                const createdAt = new Date(user.createdAt);-->
+<!--                const verifiedAt = user.verifiedAt ? new Date(user.verifiedAt) : null;-->
+
+<!--                if (createdAt.getFullYear() === month.getFullYear() && createdAt.getMonth() === month.getMonth()) {-->
+<!--                    createdCounts[11 - i]++;-->
+<!--                }-->
+<!--                if (verifiedAt && verifiedAt.getFullYear() === month.getFullYear() && verifiedAt.getMonth() === month.getMonth()) {-->
+<!--                    verifiedCounts[11 - i]++;-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+
+<!--        const chartOptions = {-->
+<!--            chart: { height: 500, type: "line", toolbar: { show: false } },-->
+<!--            colors: ["var(&#45;&#45;theme-color2)", "var(&#45;&#45;theme-color4)"],-->
+<!--            series: [{ name: "Created Users", type: "column", data: createdCounts }, { name: "Verified Users", type: "line", data: verifiedCounts }],-->
+<!--            stroke: { width: [0, 4] },-->
+<!--            labels: monthLabels,-->
+<!--            xaxis: { type: "category" },-->
+<!--            yaxis: [-->
+<!--                { title: { text: "Registered Users" } },-->
+<!--                { opposite: true, title: { text: "Verified Users" } }-->
+<!--            ],-->
+<!--            tooltip: { theme: "dark" }-->
+<!--        };-->
+<!--        new ApexCharts(document.querySelector("#apex-chart-line-column"), chartOptions).render();-->
+
+<!--        // Monthly financial stats-->
+<!--        const transactions = /*[[${transactions}]]*/[];-->
+<!--        const investments = /*[[${investments}]]*/[];-->
+<!--        const depositCounts = Array(12).fill(0);-->
+<!--        const transferCounts = Array(12).fill(0);-->
+<!--        const investmentCounts = Array(12).fill(0);-->
+
+<!--        investments.forEach(investment => {-->
+<!--            const purchaseDate = new Date(investment.purchasedAt);-->
+<!--            const monthDiff = currentMonth - purchaseDate.getMonth() + (currentYear - purchaseDate.getFullYear()) * 12;-->
+<!--            if (monthDiff >= 0 && monthDiff < 12) investmentCounts[11 - monthDiff] += investment.totalOrderValue;-->
+<!--        });-->
+
+<!--        transactions.forEach(transaction => {-->
+<!--            const transactionDate = new Date(transaction.transactionTime);-->
+<!--            const monthDiff = currentMonth - transactionDate.getMonth() + (currentYear - transactionDate.getFullYear()) * 12;-->
+<!--            if (monthDiff >= 0 && monthDiff < 12) {-->
+<!--                const amountInUSD = transaction.amount * conversionRates[transaction.currency];-->
+<!--                if (transaction.transactionType === "Deposit") depositCounts[11 - monthDiff] += amountInUSD;-->
+<!--                if (transaction.transactionType === "Internal Transfer") transferCounts[11 - monthDiff] += amountInUSD;-->
+<!--            }-->
+<!--        });-->
+
+<!--        const financialChartOptions = {-->
+<!--            chart: { height: 500, type: "bar" },-->
+<!--            colors: ["var(&#45;&#45;theme-color2)", "var(&#45;&#45;theme-color3)", "var(&#45;&#45;theme-color4)"],-->
+<!--            plotOptions: { bar: { horizontal: false, columnWidth: "55%", endingShape: "rounded" } },-->
+<!--            series: [{ name: "Deposits", data: depositCounts }, { name: "Internal Transfers", data: transferCounts }, { name: "Investments", data: investmentCounts }],-->
+<!--            xaxis: { categories: monthLabels },-->
+<!--            yaxis: {-->
+<!--                labels: { formatter: val => "$ " + val.toFixed(2) }-->
+<!--            },-->
+<!--            fill: { opacity: 1 },-->
+<!--            tooltip: {-->
+<!--                theme: "dark",-->
+<!--                y: { formatter: val => "$ " + val.toFixed(2) }-->
+<!--            }-->
+<!--        };-->
+<!--        new ApexCharts(document.querySelector("#apex-basic-column"), financialChartOptions).render();-->
+<!--    });-->
+<!--</script>-->
 
 
 </body>

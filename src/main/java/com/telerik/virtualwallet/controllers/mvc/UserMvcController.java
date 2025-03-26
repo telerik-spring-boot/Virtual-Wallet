@@ -9,6 +9,7 @@ import com.telerik.virtualwallet.helpers.CardMapper;
 import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.helpers.WalletMapper;
+import com.telerik.virtualwallet.models.Card;
 import com.telerik.virtualwallet.models.Stock;
 import com.telerik.virtualwallet.models.User;
 import com.telerik.virtualwallet.models.api.StockResponse;
@@ -308,7 +309,7 @@ public class UserMvcController {
         BigDecimal balanceChange = allDeposits.add(transactionService
                 .getBalanceChangeForTheCurrentMonthByWalletId(wallet.getId()));
 
-        BigDecimal percentageBalanceChange = BigDecimal.valueOf(100).multiply(balanceChange
+        BigDecimal percentageBalanceChange = wallet.getBalance().subtract(balanceChange).compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO : BigDecimal.valueOf(100).multiply(balanceChange
                         .divide(wallet.getBalance().subtract(balanceChange), 4, RoundingMode.HALF_UP))
                 .setScale(2, RoundingMode.HALF_UP);
 
@@ -341,13 +342,25 @@ public class UserMvcController {
     }
 
     private void loadDashboardCardInfo(Model model, Authentication authentication, WalletMvcDisplayDTO wallet, BigDecimal allDeposits) {
-        CardDisplayDTO card = cardMapper.cardToCardDisplayDTO
-                (cardService.getFirstCardCreatedByUsername(authentication.getName()));
 
-        BigDecimal depositsFromMainCard = transferService
-                .getBalanceChangeForTheCurrentMonthByWalletAndCardId(wallet.getId(), card.getId());
+        Card cardOr = cardService.getFirstCardCreatedByUsername(authentication.getName());
 
-        BigDecimal depositedFromMainPercentage = BigDecimal.valueOf(100)
+        CardDisplayDTO card = new CardDisplayDTO();
+        card.setId(-1);
+
+        if(cardOr != null){
+            card = cardMapper.cardToCardDisplayDTO(cardOr);
+        }
+
+
+        BigDecimal depositsFromMainCard =  BigDecimal.ZERO;
+
+        if(card.getId() != -1){
+            depositsFromMainCard = transferService
+                    .getBalanceChangeForTheCurrentMonthByWalletAndCardId(wallet.getId(), card.getId());
+        }
+
+        BigDecimal depositedFromMainPercentage = allDeposits.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO : BigDecimal.valueOf(100)
                 .multiply(depositsFromMainCard.divide(allDeposits, 2, RoundingMode.HALF_UP));
 
 

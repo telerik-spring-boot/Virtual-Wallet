@@ -4,7 +4,10 @@ package com.telerik.virtualwallet.controllers.mvc;
 import com.telerik.virtualwallet.helpers.TransactionMapper;
 import com.telerik.virtualwallet.helpers.UserMapper;
 import com.telerik.virtualwallet.models.User;
+import com.telerik.virtualwallet.models.dtos.transaction.InvestmentDTO;
 import com.telerik.virtualwallet.models.dtos.transaction.TransactionsWrapper;
+import com.telerik.virtualwallet.models.dtos.user.UserDisplayDTO;
+import com.telerik.virtualwallet.models.dtos.user.UserDisplayMvcDTO;
 import com.telerik.virtualwallet.services.admin.AdminService;
 import com.telerik.virtualwallet.services.user.UserService;
 import org.springframework.stereotype.Controller;
@@ -34,7 +37,8 @@ public class AdminMvcController {
     @GetMapping
     public String getAdminPanel(Model model) {
 
-        model.addAttribute("users", adminService.getAllUsersMvc().stream().map(userMapper::userToUserDisplayMvcDTO).toList());
+        List<UserDisplayMvcDTO> users = adminService.getAllUsersMvc().stream().map(userMapper::userToUserDisplayMvcDTO).toList();
+        model.addAttribute("users", users);
 
         model.addAttribute("investments", adminService.getAllInvestments().stream()
                 .flatMap(investment -> transactionMapper.investmentToInvestmentDTO(investment).stream())
@@ -46,6 +50,7 @@ public class AdminMvcController {
         transactions.addAll(adminService.getAllTransfers().stream().map(transactionMapper::transferToTransactionWrapper).toList());
 
         model.addAttribute("transactions", transactions);
+
 
         return "admin-panel";
     }

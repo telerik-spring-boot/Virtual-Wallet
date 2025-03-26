@@ -38,7 +38,6 @@ public class Verification {
     public Verification() {
     }
 
-    ;
 
     public int getId() {
         return id;

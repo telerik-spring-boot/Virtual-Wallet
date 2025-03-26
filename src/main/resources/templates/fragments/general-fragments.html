@@ -840,13 +840,14 @@
 
 <th:block th:fragment="scripts">
 
+
 	<!--============== active class js =============-->
 	<script src="../../static/js/active-class.js" th:src="@{/js/active-class.js}"></script>
 	<!--[ FintechWeb template vender js ]-->
 	<script src="../../static/bundles/libscripts.bundle.js" th:src="@{/bundles/libscripts.bundle.js}"></script>
 	<script src="../../static/bundles/dynamicselect.js" th:src="@{/bundles/dynamicselect.js}"></script>
 	<!-- Template page js -->
-	<script src="../../static/js/main.js" th:src="@{/js/main.js}" defer></script>
+	<script src="../../static/js/main.js" th:src="@{/js/main.js}"></script>
 
 	<script th:inline="javascript" th:if="${#authorization.expression('isAuthenticated()')}">
         let exchangeRatesData = /*[[${exchangeRates}]]*/ {};

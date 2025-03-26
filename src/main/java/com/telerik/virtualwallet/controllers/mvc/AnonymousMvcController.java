@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -124,7 +123,7 @@ public class AnonymousMvcController {
     }
 
     @PostMapping("/register")
-    public String handleRegister( @Valid @ModelAttribute("register") RegisterDTO registerDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request, @ModelAttribute("referrerUsername") String username) {
+    public String handleRegister(@Valid @ModelAttribute("register") RegisterDTO registerDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request, @ModelAttribute("referrerUsername") String username) {
         model.addAttribute("formSubmitted", true);
 
         if (bindingResult.hasErrors()) {
@@ -141,18 +140,18 @@ public class AnonymousMvcController {
                 userService.create(user);
 
 
-            // Do not uncomment before production!
+//             Do not uncomment before production!
 
-//                    String token = jwtService.generateEmailVerificationToken(user.getEmail());
-//        String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/ui/auth/verify-email?token=" + token;
+//            String token = jwtService.generateEmailVerificationToken(user.getEmail());
+//            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/ui/auth/verify-email?token=" + token;
 //
 //
-//        String emailContent = "<p>Hello " + user.getUsername() + ",</p>"
-//                + "<p>Please click the link below to verify your email:</p>"
-//                + "<a href='" + verificationUrl + "'>Verify Email</a>"
-//                + "<p>If you did not sign up, you can ignore this email.</p>";
+//            String emailContent = "<p>Hello " + user.getUsername() + ",</p>"
+//                    + "<p>Please click the link below to verify your email:</p>"
+//                    + "<a href='" + verificationUrl + "'>Verify Email</a>"
+//                    + "<p>If you did not sign up, you can ignore this email.</p>";
 //
-//        emailService.send(user.getEmail(), "Verify Your Email", emailContent);
+//            emailService.send(user.getEmail(), "Verify Your Email", emailContent);
 
             redirectAttributes.addFlashAttribute("registerSuccess", true);
 
@@ -241,16 +240,16 @@ public class AnonymousMvcController {
 
             // Do not uncomment before production!
 
-//            String token = jwtService.generateEmailVerificationToken(user.getEmail());
-//            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/ui/auth/reset-password?token=" + token;
-//
-//
-//            String emailContent = "<p>Hello " + user.getUsername() + ",</p>"
-//                    + "<p>Please click the link below to reset your password:</p>"
-//                    + "<a href='" + verificationUrl + "'>Reset Password</a>"
-//                    + "<p>If you did not request password reset, you can ignore this email.</p>";
-//
-//            emailService.send(user.getEmail(), "Reset Your Password", emailContent);
+            String token = jwtService.generateEmailVerificationToken(user.getEmail());
+            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/ui/auth/reset-password?token=" + token;
+
+
+            String emailContent = "<p>Hello " + user.getUsername() + ",</p>"
+                    + "<p>Please click the link below to reset your password:</p>"
+                    + "<a href='" + verificationUrl + "'>Reset Password</a>"
+                    + "<p>If you did not request password reset, you can ignore this email.</p>";
+
+            emailService.send(user.getEmail(), "Reset Your Password", emailContent);
 
 
             redirectAttributes.addFlashAttribute("requestPasswordSuccess", true);
@@ -372,21 +371,21 @@ public class AnonymousMvcController {
 
 //            // Do not uncomment before production!
 //
-//            String referrerUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-//
-//            String token = jwtService.generateUsernameReferralToken(referrerUsername);
-//            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/ui/auth/register?token=" + token;
-//
-//
-//            String emailContent = "<p>Hello " + userReferDTO.getEmailAddress() + ",</p>"
-//                    + "<p>You're being referred by " + referrerUsername + " to join our platform. We're excited to have you on board!</p>"
-//                    + "<p>To get started, please click the link below to complete your registration:</p>"
-//                    + "<a href='" + verificationUrl + "'>Register</a>"
-//                    + "<p>If you did not intend to sign up or received this message by mistake, please ignore this email.</p>"
-//                    + "<p>Thank you,</p>"
-//                    + "<p>The YNPay Team</p>";
-//
-//            emailService.send(userReferDTO.getEmailAddress(), "Referral", emailContent);
+            String referrerUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+            String token = jwtService.generateUsernameReferralToken(referrerUsername);
+            String verificationUrl = request.getScheme() + "://" + request.getServerName() + "/ui/auth/register?token=" + token;
+
+
+            String emailContent = "<p>Hello " + userReferDTO.getEmailAddress() + ",</p>"
+                    + "<p>You're being referred by " + referrerUsername + " to join our platform. We're excited to have you on board!</p>"
+                    + "<p>To get started, please click the link below to complete your registration:</p>"
+                    + "<a href='" + verificationUrl + "'>Register</a>"
+                    + "<p>If you did not intend to sign up or received this message by mistake, please ignore this email.</p>"
+                    + "<p>Thank you,</p>"
+                    + "<p>The YNPay Team</p>";
+
+            emailService.send(userReferDTO.getEmailAddress(), "Referral", emailContent);
 
 
             redirectAttributes.addFlashAttribute("userReferralSent", true);
