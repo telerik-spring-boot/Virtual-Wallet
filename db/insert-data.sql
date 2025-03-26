@@ -29,49 +29,49 @@ VALUES (500.00, 'USD'),
 -- Insert Users
 INSERT INTO virtual_wallet.users (full_name, username, password, email, phone_number, main_wallet_id, created_at)
 VALUES ('Alice Johnson', 'alice', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa', 'alice@example.com',
-        '+1234567890', 1,'2024-04-01 11:30:43'),
+        '+1234567890', 1, '2024-04-01 11:30:43'),
        ('Bob Bober', 'bobcho', '$2a$12$eU62Y9k/7vV8hjpbQUfIz.Jca6hqR4ZRcp1hu9GgqxWglBScuIf3e', 'bob@example.com',
-        '+1234567891', 2,'2024-05-15 11:30:43'),
+        '+1234567891', 2, '2024-05-15 11:30:43'),
        ('Charlie Sheen', 'charlie', '$2a$12$N4fImZBaMeBxKgqJXlIkfeRVsiX4WxwpYRiMb3kkpAdS1DBwR6d7m',
         'charlie@example.com',
-        '+1234567892', 3,'2024-06-20 11:30:43'),
+        '+1234567892', 3, '2024-06-20 11:30:43'),
        ('David Rodriguez', 'david321', '$2a$12$.k28sG4V5tFxjxe7VHB4Lu.LuH6V2/h1NCNbWyNqE.pibDZTfwp7i',
-        'david@example.com', '+1234567893', 4,'2024-07-25 11:30:43'),
+        'david@example.com', '+1234567893', 4, '2024-07-25 11:30:43'),
        ('Eve Eve', 'eve654', '$2a$12$iOq2o6h6kUA30QhJJuFS9OXZcwxMaIRK7eGP5j3NbVC8Mph.BqDae', 'eve@example.com',
-        '+1234567894', 5,'2024-08-10 11:30:43'),
+        '+1234567894', 5, '2024-08-10 11:30:43'),
        ('Frank Sinatra', 'frank987', '$2a$12$4fLXwiC37ynhXgF70YgXHO4wlitKIxobC.mDmYNi9v0CZl43WI/vS',
-        'frank@example.com', '+1234567895', 6,'2024-09-15 11:30:43'),
+        'frank@example.com', '+1234567895', 6, '2024-09-15 11:30:43'),
        ('Your Grace', 'grace111', '$2a$12$6bwtx42oUJ5RgWRFeS0gD.qfioQFcwRTgTW4hfzOdoxhacSAZp1Ei', 'grace@example.com',
-        '+1234567896', 7,'2024-10-05 11:30:43'),
+        '+1234567896', 7, '2024-10-05 11:30:43'),
        ('Hannah Montana', 'hannah222', '$2a$12$VnYEfX33l25JLk42GCOjj..IXCT2TLQm4FhUOKh0F47DXA1re7bwa',
         'hannah@example.com',
-        '+1234567897', 8,'2024-11-18 11:30:43'),
+        '+1234567897', 8, '2024-11-18 11:30:43'),
        ('Ian Wolf', 'ian333', '$2a$12$g/iw1XfDYeQ25gzoRmCBze0iZK/liH4QDK7/SlhzLmyz3B.8EFhrS', 'ian@example.com',
-        '+1234567898', 9,'2024-12-03 11:30:43'),
+        '+1234567898', 9, '2024-12-03 11:30:43'),
        ('Jack Russel', 'jack444', '$2a$12$id0a4ReIhm/E4VTspyGDuu/3VEcPVZJOBkOirknGWaDhCfjvdjBvu', 'jack@example.com',
-        '+1234567899', 10,'2025-01-08 11:30:43'),
+        '+1234567899', 10, '2025-01-08 11:30:43'),
        ('Lily Allen', 'lily222', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa', 'lily@example.com',
-        '+1934567810', 14,'2024-02-10 11:30:43'),
+        '+1934567810', 14, '2024-02-10 11:30:43'),
        ('Mason Lee', 'mason333', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa', 'mason@example.com',
-        '+1934567811', 15,'2024-03-01 11:30:43'),
+        '+1934567811', 15, '2024-03-01 11:30:43'),
        ('Nina Rose', 'nina444', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa', 'nina@example.com',
-        '+1934567812', 16,'2024-04-07 11:30:43'),
+        '+1934567812', 16, '2024-04-07 11:30:43'),
        ('Oscar Wilde', 'oscar555', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa', 'oscar@example.com',
-        '+1934567813', 17,'2024-05-22 11:30:43'),
+        '+1934567813', 17, '2024-05-22 11:30:43'),
        ('Paulina Snow', 'paulina666', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa',
-        'paulina@example.com', '+1934567814', 18,'2024-06-17 11:30:43'),
+        'paulina@example.com', '+1934567814', 18, '2024-06-17 11:30:43'),
        ('Quincy Adams', 'quincy777', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa',
-        'quincy@example.com', '+1294567815', 19,'2024-07-04 11:30:43'),
+        'quincy@example.com', '+1294567815', 19, '2024-07-04 11:30:43'),
        ('Rachel Green', 'rachel888', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa',
-        'rachel@example.com', '+1294567816', 20,'2024-08-14 11:30:43'),
+        'rachel@example.com', '+1294567816', 20, '2024-08-14 11:30:43'),
        ('Sammy Clark', 'sammy999', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa', 'sammy@example.com',
-        '+1294597817', 21,'2024-09-29 11:30:43'),
+        '+1294597817', 21, '2024-09-29 11:30:43'),
        ('Tina Turner', 'tina000', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa', 'tina@example.com',
         '+1294567818', 22, '2024-10-13 11:30:43'),
        ('Victor Hugo', 'victor111', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa',
-        'victor@example.com', '+1294567819', 23,'2024-11-28 11:30:43'),
-('Hugh Grant', 'hughG', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa',
-    'hugh@example.com', '+1294557819', 24,'2024-11-28 11:30:43');
+        'victor@example.com', '+1294567819', 23, '2024-11-28 11:30:43'),
+       ('Hugh Grant', 'hughG', '$2a$12$ZeD0iIW6ODU1s.pGjuXL.u7cJSddHBRiaupNIUXo160abY45Zpvsa',
+        'hugh@example.com', '+1294557819', 24, '2024-11-28 11:30:43');
 
 -- Insert Wallet Creators
 INSERT INTO virtual_wallet.wallet_creators (wallet_id, creator_id)
@@ -226,14 +226,14 @@ VALUES (1, TRUE, TRUE, '2024-04-01 11:30:43'),
        (13, TRUE, TRUE, '2024-04-07 11:30:43'),
        (14, TRUE, TRUE, '2024-05-22 11:30:43'),
        (15, TRUE, TRUE, '2024-06-17 11:30:43'),
-       (16, TRUE, TRUE, '2024-07-04 11:30:43'),
-       (17, TRUE, TRUE, '2024-08-14 11:30:43'),
-       (18, TRUE, TRUE, '2024-09-29 11:30:43'),
-       (19, TRUE, TRUE, '2024-10-13 11:30:43'),
-       (20, TRUE, TRUE, '2024-11-28 11:30:43');
-
-INSERT INTO virtual_wallet.verifications (user_id, pictures_verified, email_verified)
-VALUES (21, FALSE, TRUE);
+       (16, TRUE, TRUE, '2024-07-04 11:30:43');
+INSERT
+INTO virtual_wallet.verifications (user_id, pictures_verified, email_verified)
+VALUES (17, FALSE, TRUE),
+       (18, FALSE, TRUE),
+       (19, FALSE, TRUE),
+       (20, FALSE, TRUE),
+       (21, FALSE, TRUE);
 
 -- Insert Transaction Categories
 INSERT INTO virtual_wallet.transaction_categories (name)
@@ -258,20 +258,11 @@ VALUES (50.00, 1, 1, 2, 1, 'Lunch split', '2025-03-19 14:23:45'),
        (22.30, 3, 3, 5, 1, 'Gym membership', '2025-01-20 07:55:35'),
        (110.00, 9, 9, 1, 4, 'Concert tickets', '2025-01-12 22:15:40'),
 
-       (55.00, 1, 1, 4, 2, 'Cab fare split', '2025-03-01 09:20:12'),
-       (175.25, 2, 2, 5, 3, 'Utility bill', '2025-02-12 14:30:45'),
-       (27.50, 3, 3, 6, 1, 'Office snacks', '2025-01-05 18:10:30'),
-       (290.00, 8, 8, 1, 4, 'Investment return', '2025-02-25 08:55:33'),
-       (65.50, 9, 9, 2, 5, 'Donation', '2025-01-09 17:30:10'),
-       (40.25, 10, 10, 3, 1, 'Weekend outing', '2025-03-21 22:45:25'),
-
        -- New Transactions for user_sender_id 1
        (35.00, 1, 1, 5, 3, 'Breakfast share', '2024-04-10 08:30:15'),
        (80.00, 1, 1, 6, 2, 'Cinema tickets', '2024-05-12 19:45:30'),
        (95.25, 1, 1, 7, 4, 'Restaurant bill', '2024-06-18 21:30:45'),
        (40.50, 1, 1, 8, 5, 'Transport fee', '2024-07-25 10:15:20'),
-       (25.75, 1, 1, 9, 1, 'Coffee break', '2024-08-05 14:10:35'),
-       (60.00, 1, 1, 10, 2, 'Concert contribution', '2024-09-09 22:05:50'),
        (30.00, 1, 1, 2, 3, 'Shopping cost', '2024-10-16 12:45:25'),
        (110.50, 1, 1, 3, 4, 'Home supplies', '2024-11-22 15:30:40'),
        (85.50, 1, 1, 6, 2, 'Gas refill', '2025-02-07 09:30:15'),
@@ -285,8 +276,6 @@ VALUES (50.00, 1, 1, 2, 1, 'Lunch split', '2025-03-19 14:23:45'),
        (35.25, 2, 2, 9, 1, 'Coffee meetup', '2024-08-23 14:40:20'),
        (110.00, 2, 2, 10, 2, 'Furniture payment', '2024-09-11 21:05:10'),
        (310.00, 2, 2, 4, 5, 'Health insurance', '2024-12-08 17:55:50'),
-       (175.00, 2, 2, 5, 1, 'Car service', '2025-01-27 10:05:25'),
-       (140.25, 2, 2, 6, 2, 'Online course', '2025-02-18 12:30:45'),
        (95.75, 2, 2, 7, 3, 'Team dinner', '2025-03-07 15:10:50'),
 
 
@@ -294,13 +283,11 @@ VALUES (50.00, 1, 1, 2, 1, 'Lunch split', '2025-03-19 14:23:45'),
        (72.00, 1, 11, 1, 1, 'Grocery split', '2025-02-10 09:25:10'),
        (40.00, 2, 11, 2, 2, 'Shared lunch', '2025-03-03 18:40:25'),
        (98.50, 1, 11, 3, 3, 'Movie ticket share', '2025-01-25 14:15:35'),
-       (105.00, 2, 11, 4, 4, 'Event ticket', '2025-02-08 19:50:20'),
        (65.75, 1, 11, 5, 5, 'Concert expenses', '2025-03-18 17:00:05'),
 
        -- Wallet sender ID 12 (user_sender_id: 1, 2, 3, 4, or 5)
        (58.25, 1, 12, 6, 1, 'Gym subscription', '2024-04-10 10:30:15'),
        (122.00, 2, 12, 7, 2, 'Business expense', '2024-06-17 15:45:30'),
-       (89.75, 3, 12, 8, 3, 'Dinner with friends', '2024-09-22 20:55:10'),
        (45.50, 4, 12, 9, 4, 'Coffee date', '2024-12-02 11:20:40'),
        (210.00, 5, 12, 10, 5, 'Weekend getaway', '2025-02-19 22:10:55'),
 
@@ -308,22 +295,18 @@ VALUES (50.00, 1, 1, 2, 1, 'Lunch split', '2025-03-19 14:23:45'),
        (80.00, 2, 13, 1, 1, 'Shared dinner', '2024-05-14 18:35:25'),
        (140.50, 7, 13, 2, 2, 'Project payment', '2024-08-03 13:20:50'),
        (65.20, 2, 13, 3, 3, 'Food delivery', '2024-10-18 21:05:15'),
-       (77.85, 7, 13, 4, 4, 'Trip expenses', '2025-01-09 16:25:40'),
        (92.00, 2, 13, 5, 5, 'Birthday present', '2025-03-06 08:40:30'),
 
 -- Wallet receiver ID 11 (wallet sender id between 1 and 10)
        (50.00, 1, 1, 11, 1, 'Lunch split', '2025-03-23 14:25:10'),
-       (120.00, 2, 2, 11, 2, 'Taxi fare split', '2025-03-16 18:40:45'),
        (88.75, 3, 3, 11, 3, 'Shared gift expense', '2025-03-10 11:35:30'),
 
 -- Wallet receiver ID 12 (wallet sender id between 1 and 10)
        (64.50, 2, 2, 12, 1, 'Shared lunch cost', '2025-03-21 20:10:25'),
-       (99.00, 3, 3, 12, 2, 'Team dinner', '2025-03-05 19:45:50'),
        (55.25, 6, 6, 12, 3, 'Concert expenses', '2025-02-28 17:55:40'),
 
 -- Wallet receiver ID 13 (wallet sender id between 1 and 10)
        (70.00, 7, 7, 13, 1, 'Event ticket purchase', '2025-03-08 09:30:15'),
-       (140.00, 8, 8, 13, 2, 'Freelance payment', '2025-02-24 12:20:40'),
        (90.00, 2, 2, 13, 3, 'Food delivery cost', '2025-02-10 14:10:25');
 
 
@@ -334,21 +317,13 @@ VALUES (50.00, 1, 1, '2025-03-10 14:20:33'),
        (30.00, 3, 3, '2025-01-18 18:40:25'),
        (500.00, 4, 4, '2025-03-07 22:05:30'),
        (15.75, 5, 5, '2025-02-12 20:35:12'),
-       (90.00, 6, 6, '2025-01-24 11:55:50'),
-       (120.50, 7, 7, '2025-03-05 15:45:20'),
-       (300.00, 8, 8, '2025-02-16 08:30:10'),
-       (75.25, 9, 9, '2025-01-05 16:20:50'),
-       (25.00, 10, 10, '2025-03-14 21:50:42'),
 
        (65.00, 11, 1, '2025-03-02 10:30:12'),
-       (125.50, 11, 1, '2025-02-18 14:45:33'),
        (200.00, 11, 1, '2025-01-09 19:20:05'),
        (75.00, 12, 2, '2025-03-22 11:10:50'),
-       (140.25, 12, 2, '2025-02-14 15:30:27'),
        (220.00, 12, 2, '2025-01-05 20:55:40'),
        (80.00, 13, 3, '2025-03-18 09:25:18'),
        (155.75, 13, 3, '2025-02-25 13:40:55'),
-       (250.00, 13, 3, '2025-01-10 18:15:22'),
 
        -- New Transfers for card_sender_id 1 (Randomized Amounts)
        (47.80, 1, 1, '2024-04-12 08:15:25'),
