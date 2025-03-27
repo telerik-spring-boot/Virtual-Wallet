@@ -9,7 +9,9 @@ import com.telerik.virtualwallet.models.dtos.RegisterDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserPasswordUpdateDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserReferDTO;
 import com.telerik.virtualwallet.models.dtos.user.UserRetrieveDTO;
+import com.telerik.virtualwallet.services.article.ArticleService;
 import com.telerik.virtualwallet.services.email.EmailService;
+import com.telerik.virtualwallet.services.exchangeRate.ExchangeRateService;
 import com.telerik.virtualwallet.services.jwt.JwtService;
 import com.telerik.virtualwallet.services.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,13 +45,20 @@ public class AnonymousMvcController {
     private final UserMapper userMapper;
     private final EmailService emailService;
     private final JwtService jwtService;
+    private final ArticleService articleService;
+    private final ExchangeRateService exchangeRateService;
+
 
     @Autowired
-    public AnonymousMvcController(UserService userService, UserMapper userMapper, EmailService emailService, JwtService jwtService) {
+    public AnonymousMvcController(UserService userService, UserMapper userMapper
+            , EmailService emailService, JwtService jwtService,
+                                  ArticleService articleService, ExchangeRateService exchangeRateService) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.emailService = emailService;
         this.jwtService = jwtService;
+        this.articleService = articleService;
+        this.exchangeRateService = exchangeRateService;
     }
 
 
@@ -87,8 +96,12 @@ public class AnonymousMvcController {
             return "redirect:/ui/auth/login?error=block";
         }
 
+        articleService.updateArticles();
+        exchangeRateService.updateExchangeRates();
+
         user.setLastOnline(LocalDateTime.now());
         userService.update(user);
+
 
         return "redirect:/ui/users/dashboard";
     }
