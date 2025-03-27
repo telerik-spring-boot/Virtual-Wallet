@@ -45,20 +45,15 @@ public class AnonymousMvcController {
     private final UserMapper userMapper;
     private final EmailService emailService;
     private final JwtService jwtService;
-    private final ArticleService articleService;
-    private final ExchangeRateService exchangeRateService;
 
 
     @Autowired
     public AnonymousMvcController(UserService userService, UserMapper userMapper
-            , EmailService emailService, JwtService jwtService,
-                                  ArticleService articleService, ExchangeRateService exchangeRateService) {
+            , EmailService emailService, JwtService jwtService) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.emailService = emailService;
         this.jwtService = jwtService;
-        this.articleService = articleService;
-        this.exchangeRateService = exchangeRateService;
     }
 
 
@@ -96,8 +91,6 @@ public class AnonymousMvcController {
             return "redirect:/ui/auth/login?error=block";
         }
 
-        articleService.updateArticles();
-        exchangeRateService.updateExchangeRates();
 
         user.setLastOnline(LocalDateTime.now());
         userService.update(user);
