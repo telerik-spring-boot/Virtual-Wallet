@@ -15,7 +15,7 @@ public class DummyCardTransferService {
 
     private final RestTemplate restTemplate;
 
-    @Value("${ynpay.webredirect.org}")
+    @Value("${dummy.bank.url}")
     private String dummyBankUrl;
 
     public DummyCardTransferService(RestTemplate restTemplate) {
