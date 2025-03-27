@@ -283,7 +283,7 @@ public class UserMvcController {
 
             redirectAttributes.addFlashAttribute("orderSuccess", true);
 
-        } catch (InsufficientFundsException | EntityNotFoundException e) {
+        } catch (InsufficientFundsException | EntityNotFoundException  | UnauthorizedOperationException e) {
             redirectAttributes.addFlashAttribute("orderFail", e.getMessage());
         }
 
